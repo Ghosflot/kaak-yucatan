@@ -1,6 +1,8 @@
 # Guion del pitch (tarea 23)
 
-**Presenta Nico; Leo es el suplente** (decisión de Guille, 14 nov, #8).
+**Presentan Leo y Nico, en español** (acordado con Guille, #8). Cada uno es suplente del otro, así
+que los dos se aprenden el pitch completo y lo practican. Si faltan los dos, cubren Gadiel y
+Melany.
 
 Falta: cronometrar con el demo real y que Nico revise las cifras (cada una sale de docs/01).
 
