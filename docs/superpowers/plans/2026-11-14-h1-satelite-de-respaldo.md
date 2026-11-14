@@ -12,7 +12,7 @@ nada cambia el domingo.
 
 ## El problema
 
-La serie usa un satélite por día (Terra, Aqua, S-NPP y NOAA-20, docs/06). Si ese satélite no
+La serie usa un satélite por día (Terra, Aqua, S-NPP y NOAA-20, docs/02). Si ese satélite no
 mandó datos, el día contaba como cero fuego aunque otro satélite lo viera. La regla de días
 hueco (`armonizar.dias_hueco`) solo se usaba al calcular los factores. Ejemplo: S-NPP vio 0
 del 28 al 30 abr 2026, en el pico de la temporada, mientras NOAA-20 veía 407, 348 y 682.

@@ -11,7 +11,7 @@ test('abre en la zona 2: la misma cifra que la portada y sus 42 días permitidos
   await expect(page.locator('.fz-dia')).toHaveCount(181);
   await expect(page.locator('.fz-dia.permitido')).toHaveCount(42);
   await expect(page.locator('#zSeder')).toContainText('del 20 de abril al 31 de mayo');
-  await expect(page.locator('#zSeder')).toContainText('228 focos antes de esas fechas');
+  await expect(page.locator('#zSeder')).toContainText('240 focos antes de esas fechas');
   await expect(page.locator('#zInferidos')).toContainText('Baca');
 });
 

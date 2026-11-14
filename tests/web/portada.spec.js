@@ -368,7 +368,7 @@ test.describe('funciones escondidas', () => {
     await page.waitForTimeout(650);
     await page.mouse.up();
     await expect(page.locator('#tarjeta .historia rect')).toHaveCount(26);
-    await expect(page.locator('#tarjeta .historia')).toHaveAttribute('aria-label', /Valladolid.*Lo normal es 251; en 2026 hubo 84/);
+    await expect(page.locator('#tarjeta .historia')).toHaveAttribute('aria-label', /Valladolid.*Lo normal es 251; en 2026 hubo 96/);
     // Una vez usada, la pista ya no sale.
     await page.locator('#tarjeta .cerrar').click();
     await page.mouse.move(v.x + v.width / 2 + 2, v.y + v.height / 2);
