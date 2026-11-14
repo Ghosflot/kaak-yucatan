@@ -415,19 +415,24 @@ Comentario de Misa en el grupo, por confirmar con Leo: los incendios se conocen 
 ### Cifras de la página
 Salen de `web/datos/`, que escribe `pipeline/exportar_web.py` a partir de la serie armonizada
 (`salidas/serie_armonizada.csv`); `python pipeline/exportar_web.py` las vuelve a calcular.
+Desde el 14 nov, los días sin datos de S-NPP se cuentan con NOAA-20 (ver «Días sin datos del
+satélite» abajo).
 
 - **Qué cuenta la página.** Un «foco de calor» de la página es un cuadrito-día: una celda de
   ≈1.1 km con al menos un foco ese día (`pipeline/rejilla.py`). Varios focos del mismo cuadrito
-  el mismo día cuentan una vez, y se usa un satélite por periodo. Por eso 2026 da 2,883 y no los
-  3,789 focos de S-NPP de la tabla de arriba, que cuenta cada foco. Las dos cifras dicen lo
-  mismo: 2026 es la temporada más baja desde 2001.
-- **Portada, Yucatán de marzo a mayo:** 2,883 focos en 2026 contra 6,712 de un año normal
-  (la mediana de 2001 a 2025). 96 de los 106 municipios tuvieron menos fuego que lo normal y
-  ninguno tuvo más. El día con más fuego en la península fue el 1 de mayo, con 653.
-- **El año con más fuego fue 2003:** 16,518 focos, y 80 de los 106 municipios tuvieron más
+  el mismo día cuentan una vez, y se usa un satélite por día. Por eso 2026 da 3,320 y no los
+  3,789 focos de S-NPP de la tabla de arriba, que cuenta cada foco (y no tiene los días en que
+  S-NPP no mandó datos). Las dos cifras dicen lo mismo: 2026 es la temporada más baja desde
+  2001.
+- **Portada, Yucatán de marzo a mayo:** 3,320 focos en 2026 contra 6,712 de un año normal
+  (la mediana de 2001 a 2025): menos de la mitad. 93 de los 106 municipios tuvieron menos
+  fuego que lo normal y ninguno tuvo más. El día con más fuego en la península fue el 30 de
+  abril, con 682 (los vio NOAA-20: ese día S-NPP no mandó datos).
+- **El año con más fuego fue 2003:** 16,850 focos, y 83 de los 106 municipios tuvieron más
   fuego que lo normal (se ve al tocar 2003 en las barras de la portada).
-- **Tekax:** 191 focos en 2026 contra 390 de un año normal. En un año normal, 8 de cada 10
-  focos (79 %) aparecen después del 3 de abril, cuando cierra la ventana de su zona.
+- **Tekax:** 213 focos en 2026 contra 390 de un año normal (un poco más de la mitad). En un
+  año normal, 8 de cada 10 focos (79 %) aparecen después del 3 de abril, cuando cierra la
+  ventana de su zona.
 - **Un año normal, día por día** (`pipeline/datos_web.py`, `normal_diario`): es la forma
   promedio de la temporada de 2001 a 2025, escalada para que sume la mediana de los totales.
   Hasta el 14 de noviembre se restaba día a día la mediana del acumulado; como el año que queda
@@ -450,7 +455,7 @@ Salen de `web/datos/`, que escribe `pipeline/exportar_web.py` a partir de la ser
   | Zona | Fechas permitidas | Fuera de fecha |
   |---|---|---|
   | 1 | 1 mar–15 abr | 9 de cada 10 (91 %) |
-  | 2 | 20 abr–31 may | 4 de cada 10 (43 %) |
+  | 2 | 20 abr–31 may | 4 de cada 10 (40 %) |
   | 3 | 10 mar–3 abr | 9 de cada 10 (91 %) |
   | 4 | 10 mar–3 abr | 96 % |
 
@@ -465,6 +470,34 @@ Salen de `web/datos/`, que escribe `pipeline/exportar_web.py` a partir de la ser
 - **127 municipios en el mapa, no 130:** los límites de geoBoundaries no traen Dzitbalché,
   Seybaplaya ni Puerto Morelos, que son municipios recientes; sus focos caen en los municipios
   de los que se separaron. Yucatán sí tiene sus 106.
+
+### Días sin datos del satélite (verificado el 14 nov)
+La serie usa un satélite por día. Si ese satélite no mandó datos, antes el día contaba como
+cero fuego aunque otro satélite lo viera. Ahora (docs/02, «Método») se cuenta con su respaldo:
+NOAA-20 por S-NPP y Terra por Aqua. Lista completa en `salidas/dias_sin_datos.csv`.
+
+- **Días rellenados (12):** S-NPP vio 0 en toda la península y NOAA-20 vio 50 o más el 30 may –
+  3 jun 2024 (de 380 a 898 por día), el 10–12 mar 2026 (56 a 116) y el 28–30 abr 2026 (347 a
+  682, en el pico de la temporada). Aqua vio 0 y Terra 174 el 12 may 2003.
+- **Efecto en la página:** Yucatán de marzo a mayo de 2026 pasa de 2,883 a 3,320 focos
+  (+15 %); sigue siendo la temporada más baja desde 2001. En 2024, +2.5 %. Lo normal (6,712) y
+  el salto de 2012 no cambian. La frase anterior «el día con más fuego fue el 1 de mayo, con
+  653» era falsa: S-NPP no mandó datos el 30 de abril, cuando NOAA-20 vio 682.
+- **Caída de S-NPP de 2022, a propósito sin rellenar:** S-NPP entró en modo seguro y NASA da
+  por perdidos sus datos del 26 jul al 20 ago 2022 (VIIRS volvió el 10 ago). En la península
+  S-NPP vio 0 del 27 jul al 10 ago y el 18 y 19 ago; NOAA-20 vio unos 90 cuadritos en esos
+  días. No se rellena: es fuera de temporada y la regla del umbral (50 o más) está hecha para
+  no confundir «sin fuego» con «sin datos». Queda en `dias_sin_datos.csv` para explicarlo.
+- **Terra en 2001, sin respaldo:** MODIS de Terra estuvo apagado por una falla de su fuente
+  de poder del 15 jun al 2 jul 2001 (NASA MCST). Antes de julio de 2002 no hay otro satélite,
+  así que esos 18 días cuentan como cero. Es junio, fuera de temporada, y 2001 es uno de los 25
+  años de lo normal. Se reporta y no se toca.
+- **Lo que no se detecta:** días en que el satélite mandó datos a medias (S-NPP del 11 al 17
+  ago 2022), días fuera de temporada en que el respaldo vio menos de 50 (12 días de junio a
+  agosto) y del 19 al 28 mar 2002, cuando Terra no vio ni un foco en plena temporada (causa sin
+  verificar: no se dice como caída).
+- **El mismo método que otros:** GFED5NRT (Chen et al., *ESSD* 18:7535, 2026) usa el VIIRS disponible
+  cuando falta el otro. Es la misma familia de método, no la copiamos de ahí.
 
 ## Pendiente de verificar
 
@@ -499,6 +532,13 @@ Salen de `web/datos/`, que escribe `pipeline/exportar_web.py` a partir de la ser
 - FIRMS, focos de los últimos 7 días (comprobación en vivo): <https://firms.modaps.eosdis.nasa.gov/data/active_fire/>
 - Guía de usuario VIIRS VNP14: <https://lpdaac.usgs.gov/documents/427/VNP14_User_Guide_V1.pdf>
 - NOM-015-SEMARNAT-AGRICULTURA-2023 (catálogo de la Secretaría de Economía): <https://platiica.economia.gob.mx/normalizacion/?p=248501>
+- NASA Earthdata, S-NPP en modo seguro (datos del 26 jul al 20 ago 2022 no recuperables):
+  <https://www.earthdata.nasa.gov/data/alerts-outages/suomi-npp-recovers-from-safe-mode>
+- NSIDC, VIIRS de S-NPP de vuelta el 10 ago 2022:
+  <https://nsidc.org/data/user-resources/data-announcements/update-snppviirs-safe-mode>
+- NASA MCST, operaciones de MODIS de Terra en 2001: apagado el 15 jun
+  (<https://mcst.gsfc.nasa.gov/iot/am1weekly2001-1672001-173>) y de vuelta el 2 jul a las
+  22:48 UTC (<https://mcst.gsfc.nasa.gov/iot/am1weekly2001-1812001-187>).
 - Posta, calendario de quemas en Yucatán (3 abr 2024): <https://www.posta.com.mx/mexico/durante-marzo-se-controlaron-434-reportes-de-incendios/vl1559689>
 - Diario de Yucatán, calidad del aire (14 may 2024): <https://www.yucatan.com.mx/merida/2024/05/14/aire-en-merida-entre-los-mas-contaminados-de-mexico-hoy.html>
 - Diario de Yucatán, incendio del basurero de Yaxkukul (10 nov 2026): <https://www.yucatan.com.mx/yucatan/2026/11/10/controlan-el-incendio-registrado-en-el-basurero-municipal-de-yaxkukul-el-humo-afecto-a-merida.html>
