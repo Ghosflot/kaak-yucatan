@@ -34,10 +34,10 @@ calibrar, parece que el fuego se triplicó en 2012. No se triplicó: cambió el 
 solo hay 13 años. Calibrados juntos, son 25.
 
 **[1:45–2:15] Demo**
-Esto es K'áak', fuego en maya. Elegimos Tekax, el municipio con más superficie quemada de
-Yucatán entre 2015 y 2024. *[Mostrar el calendario de 25 años y la frase de cómo va la
-temporada. Decir lo que la pantalla muestre ese día.]* Y la ficha cabe en un WhatsApp: el
-comisario la reenvía al pueblo.
+Esto es K'áak', fuego en maya. Elegimos Umán. En un año normal tiene 42 focos de marzo a mayo.
+En 2025, el segundo año más tranquilo del estado, tuvo 63: una vez y media lo normal. *[Tocar
+2025 en sus barras. Decir lo que la pantalla muestre ese día.]* Y la ficha cabe en un WhatsApp:
+el comisario la reenvía al pueblo.
 
 **[2:15–2:40] Pruebas**
 ¿Cómo sabemos que funciona? De los incendios que CONAFOR registró en la península, el satélite
@@ -57,8 +57,8 @@ lo damos a todo el estado.
 ## Versión de 5 minutos
 
 Parte de la de 3 minutos y agrega el humo de Yaxkukul y Mérida, la variación de un año a otro,
-la urgencia de los satélites y un ejemplo concreto de Tekax. Son unas 700 palabras, cerca de
-4:50 a ritmo de pitch sin contar el demo. Hay que cronometrarla.
+la urgencia de los satélites y el ejemplo de Umán con lo que registró CONAFOR. Son unas 720
+palabras, cerca de 4:55 a ritmo de pitch sin contar el demo. Hay que cronometrarla.
 
 **[0:00–0:40] El abuelo**
 Él es mi abuelo Jesús. Tiene más de 50 años sembrando su parcela en Muna, Yucatán. Si le
@@ -103,11 +103,12 @@ Y es urgente: MODIS se está retirando y S-NPP dejó de enviar datos el 2 de nov
 años quedan repartidos entre cinco satélites.
 
 **[3:00–3:40] Demo**
-Esto es K'áak', fuego en maya. Elegimos Tekax, el municipio con más superficie quemada de
-Yucatán entre 2015 y 2024: 89 incendios y 17,845 hectáreas. En abril de 2024, los días con más
-focos fueron del 16 al 21, con 332 el día 21, y coinciden con incendios registrados en Tekax.
-*[Mostrar el calendario de 25 años y la frase de cómo va la temporada. Decir lo que la pantalla
-muestre ese día.]* Y la ficha cabe en un WhatsApp: el comisario la reenvía al pueblo.
+Esto es K'áak', fuego en maya. Elegimos Umán. En un año normal tiene 42 focos de marzo a mayo.
+En 2025, el segundo año más tranquilo del estado, tuvo 63: una vez y media lo normal. Y no lo
+dice solo el satélite: según cifras preliminares de la CONAFOR, ese año se quemaron 264
+hectáreas de selva en Umán, y en marzo un incendio llegó junto a dos fraccionamientos. *[Tocar
+2025 en sus barras. Decir lo que la pantalla muestre ese día.]* Y la ficha cabe en un WhatsApp:
+el comisario la reenvía al pueblo.
 
 **[3:40–4:25] Pruebas**
 ¿Cómo sabemos que funciona? De los incendios que CONAFOR registró en la península, el satélite
@@ -137,13 +138,13 @@ lo damos a todo el estado.
 | 89 % entre marzo y mayo; pico en abril | «Lo que ve el satélite (FIRMS)» (unos 4,100 focos en abril) |
 | CONABIO no compara contra lo normal | «Lo que ya existe» |
 | VIIRS ve unas 3 veces más que MODIS; 13 años con VIIRS; 25 con los dos | «El problema técnico del reto, con números» |
-| Tekax, el municipio con más superficie quemada | «¿Hay muchos incendios…?», 2015–2024 (17,845 ha) |
+| Umán: 42 focos en un año normal y 63 en 2025; 2025, segundo año más tranquilo | «Cifras de la página» (Umán) y «Las temporadas 2025 y 2026 fueron las más tranquilas del registro» |
 | Más de la mitad y 84 % de los de más de 100 ha; azar menos del 10 % | «Validación con CONAFOR» |
 | 19 % dentro de la ventana de su zona (2025) | «Hallazgo: la mayor parte del fuego cae fuera de la ventana» |
 | *(5 min)* 765 ha en 2023, 20,334 en 2024 y 2,215 en 2025 | «¿Hay muchos incendios en Yucatán?» (CONAFOR) |
 | *(5 min)* Mérida entre las cinco ciudades más contaminadas, mayo de 2024 | «El humo llega a Mérida» |
 | *(5 min)* MODIS en retiro, S-NPP sin datos desde el 2 de nov, cinco satélites | «Contexto» y «S-NPP deja de entregar datos» |
-| *(5 min)* Tekax: 89 incendios y 17,845 ha; 16 a 21 de abril de 2024, 332 focos el día 21 | «¿Hay muchos incendios…?» y «Lo que ve el satélite (FIRMS)» |
+| *(5 min)* Umán: 264 ha de selva en 2025 y el incendio junto a dos fraccionamientos (marzo de 2025) | «Casos» y «Cifras de la página» (Umán) |
 | *(5 min)* Incendio del basurero de Yaxkukul (9–10 nov 2026), humo en Mérida | «El humo llega a Mérida» (basurero de Yaxkukul). Notas: [Diario de Yucatán, 10 nov](https://www.yucatan.com.mx/yucatan/2026/11/10/controlan-el-incendio-registrado-en-el-basurero-municipal-de-yaxkukul-el-humo-afecto-a-merida.html), [Diario de Yucatán, 9 nov](https://www.yucatan.com.mx/merida/2026/11/09/densa-humareda-sorprende-a-colonias-de-merida-huele-a-quemado-reportan.html) y [Por Esto, 10 nov](https://www.poresto.com/yucatan/merida/2026/11/10/humo-merida-noche-lunes-noviembre-ssp-explica-origen.html) |
 
 ## Preguntas probables del jurado
