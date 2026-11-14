@@ -444,7 +444,8 @@ satélite» abajo).
   el satélite no ve todos los incendios (ver «Validación con CONAFOR»). Reemplaza a Tekax como
   ejemplo porque muestra un año malo (2025) cuando el resto del estado estuvo tranquilo. Con los
   datos actuales Tekax 2024 también sale «arriba» (617 contra 390), no «dentro de lo normal».
-  No va en el pitch: solo es el ejemplo de la página.
+  Desde el 14 de noviembre también es el ejemplo del demo en el guion (docs/03), para que el
+  pitch muestre lo mismo que el botón «Por ejemplo» de la página.
 - **Focos fuera de las fechas permitidas, de enero a junio de 2026** (`web/datos/zonas.json`):
 
   | Zona | Fechas permitidas | Fuera de fecha |

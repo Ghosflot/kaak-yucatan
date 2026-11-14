@@ -1,7 +1,8 @@
 # Guion del pitch (tarea 23)
 
-Falta: reparto de partes y suplentes, cronometrar con el demo
-real y que Nico revise las cifras (cada una sale de docs/01).
+**Presenta Nico; Leo es el suplente** (decisión de Guille, 14 nov, #8).
+
+Falta: cronometrar con el demo real y que Nico revise las cifras (cada una sale de docs/01).
 
 ## Versión de 30 segundos (video del demo)
 
@@ -34,7 +35,7 @@ Si no cabe, lo primero que se quita es «para sembrar la milpa».
 
 ## Versión de 3 minutos
 
-Son unas 410 palabras; a ritmo de pitch (140–150 por minuto) dan cerca de 2:50. Hay que
+Son unas 425 palabras; a ritmo de pitch (140–150 por minuto) dan cerca de 2:55. Hay que
 cronometrarla con el demo real.
 
 **[0:00–0:35] El abuelo**
@@ -63,10 +64,10 @@ calibrar, parece que el fuego se triplicó en 2012. No se triplicó: cambió el 
 solo hay 13 años. Calibrados juntos, son 25.
 
 **[1:45–2:15] Demo**
-Esto es K'áak', fuego en maya. Elegimos Tekax, el municipio con más superficie quemada de
-Yucatán entre 2015 y 2024. *[Mostrar el calendario de 25 años y la frase de cómo va la
-temporada. Decir lo que la pantalla muestre ese día.]* Y la ficha cabe en un WhatsApp: el
-comisario la reenvía al pueblo.
+Esto es K'áak', fuego en maya. Elegimos Umán. En un año normal tiene 42 focos de marzo a mayo.
+En 2025, el segundo año más tranquilo del estado, tuvo 63: una vez y media lo normal. *[Tocar
+2025 en sus barras. Decir lo que la pantalla muestre ese día.]* Y la ficha cabe en un WhatsApp:
+el comisario la reenvía al pueblo.
 
 **[2:15–2:40] Pruebas**
 ¿Cómo sabemos que funciona? De los incendios que CONAFOR registró en la península, el satélite
@@ -86,8 +87,8 @@ lo damos a todo el estado.
 ## Versión de 5 minutos
 
 Parte de la de 3 minutos y agrega el humo de Yaxkukul y Mérida, la variación de un año a otro,
-la urgencia de los satélites y un ejemplo concreto de Tekax. Son unas 700 palabras, cerca de
-4:50 a ritmo de pitch sin contar el demo. Hay que cronometrarla.
+la urgencia de los satélites y el ejemplo de Umán con lo que registró CONAFOR. Son unas 720
+palabras, cerca de 4:55 a ritmo de pitch sin contar el demo. Hay que cronometrarla.
 
 **[0:00–0:40] El abuelo**
 Él es mi abuelo Jesús. Tiene más de 50 años sembrando su parcela en Muna, Yucatán. Si le
@@ -132,11 +133,12 @@ Y es urgente: MODIS se está retirando y S-NPP dejó de enviar datos el 2 de nov
 años quedan repartidos entre cuatro satélites.
 
 **[3:00–3:40] Demo**
-Esto es K'áak', fuego en maya. Elegimos Tekax, el municipio con más superficie quemada de
-Yucatán entre 2015 y 2024: 89 incendios y 17,845 hectáreas. En abril de 2024, los días con más
-focos fueron del 16 al 21, con 332 el día 21, y coinciden con incendios registrados en Tekax.
-*[Mostrar el calendario de 25 años y la frase de cómo va la temporada. Decir lo que la pantalla
-muestre ese día.]* Y la ficha cabe en un WhatsApp: el comisario la reenvía al pueblo.
+Esto es K'áak', fuego en maya. Elegimos Umán. En un año normal tiene 42 focos de marzo a mayo.
+En 2025, el segundo año más tranquilo del estado, tuvo 63: una vez y media lo normal. Y no lo
+dice solo el satélite: según cifras preliminares de la CONAFOR, ese año se quemaron 264
+hectáreas de selva en Umán, y en marzo un incendio llegó junto a dos fraccionamientos. *[Tocar
+2025 en sus barras. Decir lo que la pantalla muestre ese día.]* Y la ficha cabe en un WhatsApp:
+el comisario la reenvía al pueblo.
 
 **[3:40–4:25] Pruebas**
 ¿Cómo sabemos que funciona? De los incendios que CONAFOR registró en la península, el satélite
@@ -166,13 +168,13 @@ lo damos a todo el estado.
 | 89 % entre marzo y mayo; pico en abril | «Lo que ve el satélite (FIRMS)» (unos 4,100 focos en abril) |
 | CONABIO no compara contra lo normal | «Lo que ya existe» |
 | VIIRS ve entre 3 y 5 veces más que MODIS; 13 años con VIIRS; 25 con los dos | «El problema técnico del reto, con números» |
-| Tekax, el municipio con más superficie quemada | «¿Hay muchos incendios…?», 2015–2024 (17,845 ha) |
+| Umán: 42 focos en un año normal y 63 en 2025; 2025, segundo año más tranquilo | «Cifras de la página» (Umán) y «Las temporadas 2025 y 2026 fueron las más tranquilas del registro» |
 | Más de la mitad y 84 % de los de más de 100 ha; azar menos del 10 % | «Validación con CONAFOR» |
 | 19 % dentro de la ventana de su zona (2025) | «Hallazgo: la mayor parte del fuego cae fuera de la ventana» |
 | *(5 min)* 765 ha en 2023, 20,334 en 2024 y 2,215 en 2025 | «¿Hay muchos incendios en Yucatán?» (CONAFOR) |
 | *(5 min)* Mérida entre las cinco ciudades más contaminadas, mayo de 2024 | «El humo llega a Mérida» |
 | *(5 min)* MODIS en retiro, S-NPP sin datos desde el 2 de nov, cuatro satélites | «Contexto» y «S-NPP deja de entregar datos» |
-| *(5 min)* Tekax: 89 incendios y 17,845 ha; 16 a 21 de abril de 2024, 332 focos el día 21 | «¿Hay muchos incendios…?» y «Lo que ve el satélite (FIRMS)» |
+| *(5 min)* Umán: 264 ha de selva en 2025 y el incendio junto a dos fraccionamientos (marzo de 2025) | «Casos» y «Cifras de la página» (Umán) |
 | *(30 s)* Se quema para sembrar; cada comunidad conoce su temporada | «¿Hay muchos incendios…?» (causa: «quema para preparación de siembra») y «Lo que dice la gente del campo» |
 | *(30 s)* Unos satélites ven entre tres y cinco veces más fuego que otros | `salidas/factores.csv` (Aqua: de 2.8 a 5.3 según zona y época), lo acordado en #26 (docs/01, «El problema técnico del reto, con números») |
 | *(30 s)* Se actualiza 4 veces al día | docs/02, tarea 18 |
@@ -202,6 +204,16 @@ Respuestas cortas, con su fuente en docs/01.
   más barato: «Usar mi ubicación» ya hace esa cuenta.
   Fuente: la página. Municipio («Descargar los datos de … (tabla CSV)» y la tira de años),
   Fechas («Descargar la tabla (CSV)») y Método (`serie_armonizada.csv`).
+
+- **«¿Por qué el calendario va día por día y no por semana o por mes?»**
+  «Porque la SEDER da los permisos de quema por fecha: en la zona 2, del 20 de abril al 31 de
+  mayo. Por semana o por mes, ese límite caería a la mitad de un bloque y ya no podríamos
+  decirle al comisario cuántos focos aparecen después de la fecha. El año normal no es ruidoso:
+  es la forma promedio de 25 temporadas. Y si quieres ver el patrón grueso, el almanaque va por
+  mes y la serie que se descarga va por semana.»
+  Fuente: la página (Municipio, Fechas y Método) y docs/01, «Un año normal, día por día».
+  Decisión de la #40, tomada tras la respuesta de la autora del reto en el foro oficial
+  (https://github.com/nasa/spaceapps/discussions/1879).
 
 ## Lo que no se dice
 
