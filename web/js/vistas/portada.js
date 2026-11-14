@@ -393,7 +393,7 @@ export function montar(raiz) {
 
   /* ---------- Momentos: foto, repaso y cierre ---------- */
   function descripcion() {
-    $('capaDesc').textContent = modo === 'foto' ? t('descFoto', { f: D ? fechaDiaAnio(D.diaMax.fecha) : '' }) : t(modo === 'repaso' ? 'descRepaso' : 'descFinal', { a: anio });
+    $('capaDesc').textContent = modo === 'foto' ? t('descFoto', { f: D ? fechaDiaAnio(D.diaMax.fecha) : '' }) : (modo === 'repaso' ? t('descRepaso') : t('descFinal', { a: anio }) + ' ' + t('mapaTeclado'));
   }
   function ponerModo(m) {
     const cambiaEncuadre = (m === 'final') !== (modo === 'final');
@@ -402,6 +402,8 @@ export function montar(raiz) {
     $('bloqueFoto').hidden = m !== 'foto';
     $('bloqueFinal').hidden = m !== 'final';
     $('instrumento').hidden = m === 'foto';
+    // En el cierre, el mapa se recorre con las flechas: es una parada de Tab.
+    if (m === 'final') $('capa').setAttribute('tabindex', '0'); else $('capa').removeAttribute('tabindex');
     descripcion();
     iconoControl();
     if (m !== 'final') quitarSeleccion(false, true); // la entrada la escribe quien cambió el momento
@@ -726,7 +728,7 @@ export function montar(raiz) {
     y = Math.max(12, Math.min(er.height - h - 12, y));
     tj.style.left = x + 'px'; tj.style.top = y + 'px';
   }
-  function seleccionar(id, desdeBuscador) {
+  function seleccionar(id, desdeBuscador, nueva = true) {
     if (!munPorId.has(id)) return;
     if (modo !== 'final') { pausar(); t0 = ULTIMO; actualizarTiempo(); ponerModo('final'); }
     seleccion = id;
@@ -743,7 +745,7 @@ export function montar(raiz) {
     tj.hidden = false;
     ubicarTarjeta(id);
     verMapa();
-    guardar(true);
+    guardar(nueva);
     if (!desdeBuscador) tj.querySelector('.cerrar').focus({ preventScroll: true });
     // Desde el buscador el foco se queda en el campo: la tarjeta se lee en voz alta.
     else anunciar([...tj.querySelectorAll('.nombre, .edo, .fila, .veredicto')].map((e) => [...e.childNodes].map((n) => n.textContent).join(' ')).join('. '));
@@ -760,6 +762,37 @@ export function montar(raiz) {
       if (i) i.focus();
     }
   }
+
+  /* ---------- El mapa con el teclado: las flechas pasan al municipio de al lado ---------- */
+  function vecino(dx, dy) {
+    const yuc = D.mun.filter((m) => m.e === 'Yucatán');
+    const de = seleccion && munPorId.get(seleccion);
+    if (!de) return munPorId.get(EJEMPLO) || yuc[0];
+    let mejor = null, puntos = Infinity;
+    for (const m of yuc) {
+      if (m.id === de.id) continue;
+      const vx = m.cx - de.cx, vy = m.cy - de.cy;
+      const adelante = vx * dx + vy * dy;
+      if (adelante <= 0) continue;
+      // Gana el más cercano en esa dirección; desviarse de lado cuenta más que avanzar.
+      const p = adelante + 2.5 * Math.abs(vx * dy - vy * dx);
+      if (p < puntos) { puntos = p; mejor = m; }
+    }
+    return mejor;
+  }
+  $('capa').addEventListener('keydown', (e) => {
+    if (modo !== 'final' || !D) return;
+    const dir = { ArrowRight: [1, 0], ArrowLeft: [-1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] }[e.key];
+    if (dir) {
+      e.preventDefault();
+      const m = vecino(...dir);
+      // Recorrer el mapa no llena el historial: solo la primera elección deja una entrada.
+      if (m) seleccionar(m.id, true, !seleccion);
+    } else if (e.key === 'Enter' && seleccion) {
+      e.preventDefault();
+      location.hash = '#/municipio/' + encodeURIComponent(seleccion);
+    }
+  });
 
   /* ---------- Panel ---------- */
   // Las barras de cada año: tocar una pinta ese año en el mapa.
@@ -835,6 +868,8 @@ export function montar(raiz) {
   mapa.addEventListener('click', () => { if (modo === 'foto' && D) { jugar(0); $('control').focus({ preventScroll: true }); } });
   $('volver').addEventListener('click', () => { volverA2026(); descripcion(); guardar(true); $('resultado').focus({ preventScroll: true }); });
   $('control').addEventListener('click', () => {
+    // Con «reducir movimiento», «Repetir» lleva al primer día sin animar: se avanza con la línea de tiempo.
+    if (modo === 'final' && reducirMovimiento()) { irADia(0); guardar(true); return; }
     if (modo === 'final') { jugar(0); return; }
     if (jugando) pausar(); else jugar();
   });

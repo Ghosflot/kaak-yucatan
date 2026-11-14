@@ -127,3 +127,56 @@ test('#/fechas en el teléfono: el nombre y la zona de cada renglón se tocan co
   expect(zona.height).toBeGreaterThanOrEqual(44);
   expect(zona.width).toBeGreaterThanOrEqual(44);
 });
+
+// Teclado en el mapa, la tira y el calendario, y «Repetir» sin animación.
+test.describe('con el teclado', () => {
+  test('en el cierre, las flechas recorren el mapa y Enter abre el municipio', async ({ page }) => {
+    await abrir(page, '#/', { reducir: true });
+    await page.locator('#capa').focus();
+    await page.keyboard.press('ArrowRight');
+    await expect(page.locator('#tarjeta .nombre')).toHaveText('Tekax'); // la primera flecha empieza en el ejemplo
+    await page.keyboard.press('ArrowUp');
+    const otro = await page.locator('#tarjeta .nombre').textContent();
+    expect(otro).not.toBe('Tekax');
+    expect(await enfocado(page)).toBe('capa'); // el foco se queda en el mapa
+    await expect(page.locator('#anuncio')).toContainText(otro);
+    await page.keyboard.press('Enter');
+    await expect(page).toHaveURL(/#\/municipio\//);
+    await expect(page.locator('h1')).toContainText(otro);
+  });
+
+  test('la tira de días se recorre con las flechas y lleva el repaso a cada día', async ({ page }) => {
+    await abrir(page, '#/', { reducir: true });
+    await expect(page.locator('#tira')).toHaveAttribute('role', 'slider');
+    await page.locator('#tira').focus();
+    await page.keyboard.press('ArrowRight');
+    await expect(page.locator('#escenario')).toHaveAttribute('data-modo', 'repaso');
+    await expect(page.locator('#fecha')).toHaveText('1 de marzo');
+    await page.keyboard.press('PageUp');
+    await expect(page.locator('#fecha')).toHaveText('8 de marzo');
+    await expect(page.locator('#tira')).toHaveAttribute('aria-valuetext', /8 mar/);
+  });
+
+  test('#/fechas: los días del calendario son una parada de Tab y se recorren con las flechas', async ({ page }) => {
+    await abrir(page, '#/fechas');
+    await expect(page.locator('#zMeses [tabindex="0"]')).toHaveCount(1);
+    await page.locator('#zMeses [tabindex="0"]').focus();
+    const antes = await page.locator('#zLectura').textContent();
+    await page.keyboard.press('ArrowDown');
+    const despues = await page.locator('#zLectura').textContent();
+    expect(despues).not.toBe(antes);
+    await page.keyboard.press('Enter');
+    await expect(page.locator('#zMeses [aria-pressed="true"]')).toHaveCount(1);
+    await page.keyboard.press('Tab'); // al salir, la lectura se queda en el día fijado
+    await expect(page.locator('#zLectura')).toHaveText(despues);
+  });
+
+  test('con «reducir movimiento», «Repetir» lleva al primer día sin animar', async ({ page }) => {
+    await abrir(page, '#/', { reducir: true });
+    await page.locator('#control').click();
+    await expect(page.locator('#escenario')).toHaveAttribute('data-modo', 'repaso');
+    await page.waitForTimeout(400);
+    await expect(page.locator('#tiempo')).toHaveAttribute('aria-valuenow', '0');
+    await expect(page.locator('#control')).toHaveAttribute('aria-label', 'Seguir');
+  });
+});

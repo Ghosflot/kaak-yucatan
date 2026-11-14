@@ -118,6 +118,7 @@
   "descFoto": "Mosaico satelital de la península de Yucatán con los focos de calor del {f}.",
   "descRepaso": "La temporada de 2026 día por día sobre el mapa de la península.",
   "descFinal": "Mapa de los municipios de Yucatán coloreados según su fuego de {a} contra lo normal.",
+  "mapaTeclado": "Con el teclado, las flechas pasan de un municipio al de al lado y Enter abre su página.",
   "barrasAria": "Focos de marzo a mayo en Yucatán por año, de 2001 a 2026. Lo normal son {n}; en 2026 hubo {a}.",
   "anioEnMapa": "El mapa muestra {a}. Toca su barra otra vez para volver a 2026.",
   "tocaAnioMapa": "Toca un año para verlo en el mapa.",

@@ -28,12 +28,13 @@ export function barrasAnios(svg, { anios, normal, destacado = 2026, alto = 96, a
   const pat = el('pattern', { id, width: 4, height: 4, patternUnits: 'userSpaceOnUse', patternTransform: 'rotate(45)' }, defs);
   el('rect', { width: 4, height: 4, fill: GRIS }, pat);
   el('rect', { width: 1.6, height: 4, fill: '#FFFFFF', 'fill-opacity': 0.55 }, pat);
-  anios.forEach((a, i) => {
+  const barras = anios.map((a, i) => {
     const x = i * paso;
     const relleno = a.y === destacado ? ROJO : a.y <= convertidoHasta ? 'url(#' + id + ')' : GRIS;
-    const b = el('rect', { x: x.toFixed(1), y: Y(a.total).toFixed(1), width: bw.toFixed(1), height: (base - Y(a.total)).toFixed(1), fill: relleno }, svg);
+    const b = el('rect', { x: x.toFixed(1), y: Y(a.total).toFixed(1), width: bw.toFixed(1), height: (base - Y(a.total)).toFixed(1), fill: relleno, class: 'b-anio' + (a.y === destacado ? ' destacada' : '') }, svg);
     if (a.y === seleccionado) { b.setAttribute('stroke', TINTA); b.setAttribute('stroke-width', 1.5); }
-    el('title', {}, b).textContent = a.y + ': ' + fmt(a.total);
+    if (!alTocar) el('title', {}, b).textContent = a.y + ': ' + fmt(a.total);
+    return b;
   });
   el('line', { x1: 0, x2: ancho, y1: base + 0.5, y2: base + 0.5, stroke: TINTA, 'stroke-width': 1 }, svg);
   const yn = Y(normal);
@@ -53,7 +54,7 @@ export function barrasAnios(svg, { anios, normal, destacado = 2026, alto = 96, a
   for (const [i, an] of marcas) {
     if (i < 0) continue;
     const dest = anios[i].y === destacado;
-    el('text', { x: (i * paso + (an === 'start' ? 0 : bw / 2)).toFixed(1), y: ty, 'font-size': 11, fill: dest ? ROJO : TINTA_2, 'font-weight': dest ? 700 : 400, 'text-anchor': an }, svg).textContent = String(anios[i].y);
+    el('text', { x: (i * paso + (an === 'start' ? 0 : bw / 2)).toFixed(1), y: ty, 'font-size': 11, fill: dest ? ROJO : TINTA_2, 'font-weight': dest ? 700 : 400, 'text-anchor': an, class: 'eje-anio' }, svg).textContent = String(anios[i].y);
   }
   // Leyenda de las barras rayadas: esos años los midió otro satélite y se ajustaron para poder compararlos.
   if (iCambio > 0) {
@@ -62,12 +63,30 @@ export function barrasAnios(svg, { anios, normal, destacado = 2026, alto = 96, a
     el('text', { x: 16, y: yl, 'font-size': 12, fill: TINTA_2, class: 'ley-conv' }, svg).textContent = t('convertido', { a: anios[0].y, b: anios[iCambio - 1].y });
   }
   if (alTocar) {
+    // Lo que se puede tocar lo parece: al pasar o al enfocar, la barra se oscurece y dice su año y su cifra.
+    // La lectura va en el renglón de los años, que se esconde mientras tanto: arriba chocaría con lo normal.
+    const lectura = el('text', { class: 'lectura-anio', y: ty, visibility: 'hidden' }, svg);
+    const fijos = [...svg.querySelectorAll('text.eje-anio')];
+    const marcar = (i) => {
+      barras.forEach((b, k) => b.classList.toggle('activa', k === i));
+      fijos.forEach((f) => f.setAttribute('visibility', i === null ? 'visible' : 'hidden'));
+      if (i === null) { lectura.setAttribute('visibility', 'hidden'); return; }
+      const cx = i * paso + bw / 2;
+      lectura.textContent = anios[i].y + ': ' + fmt(anios[i].total);
+      lectura.setAttribute('x', cx.toFixed(1));
+      lectura.setAttribute('text-anchor', cx < 40 ? 'start' : cx > ancho - 40 ? 'end' : 'middle');
+      lectura.setAttribute('visibility', 'visible');
+    };
     // Una sola parada de Tab (el año elegido, o el destacado) y las flechas recorren los años.
     const enTab = anios.some((a) => a.y === seleccionado) ? seleccionado : destacado;
     const toques = anios.map((a) => {
       const i = anios.indexOf(a);
       const r = el('rect', { x: (i * paso).toFixed(1), y: 0, width: paso.toFixed(1), height: base, fill: 'transparent', class: 'toque', tabindex: a.y === enTab ? 0 : -1, role: 'button', 'data-y': a.y, 'aria-label': a.y + ': ' + fmt(a.total), 'aria-pressed': String(a.y === seleccionado) }, svg);
       r.addEventListener('click', () => alTocar(a.y));
+      r.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') marcar(i); });
+      r.addEventListener('pointerleave', () => marcar(null));
+      r.addEventListener('focus', () => { if (r.matches(':focus-visible')) marcar(i); });
+      r.addEventListener('blur', () => marcar(null));
       return r;
     });
     const mover = (de, a) => { toques[de].setAttribute('tabindex', '-1'); toques[a].setAttribute('tabindex', '0'); toques[a].focus(); };
@@ -137,6 +156,35 @@ export function tiraDias(svg, { dias, ini, fin, anio = 2026, alTocar = null, toc
     permitido.setAttribute('visibility', 'visible');
   });
   if (alTocar) zona.addEventListener('click', (ev) => { const i = dia(ev); if (tocable(i)) alTocar(i); });
-  svg.setAttribute('role', 'img');
   svg.setAttribute('aria-label', aria);
+  if (!alTocar) { svg.setAttribute('role', 'img'); return; }
+  // Con el teclado, la tira es un deslizador: las flechas recorren los días que se pueden tocar.
+  const [desde, hasta] = tocables || [0, N - 1];
+  let cursor = null;
+  const leer = (i) => t('tiraDia', { f: fechaCorta(fecha(i)), n: fmt(dias[i]) });
+  const mostrar = (i) => {
+    const x = i * w + w / 2;
+    guia.setAttribute('x1', x); guia.setAttribute('x2', x); guia.setAttribute('visibility', 'visible');
+    rotulo.textContent = leer(i);
+    const izq = x > ancho / 2;
+    rotulo.setAttribute('x', izq ? x - 4 : x + 4);
+    rotulo.setAttribute('text-anchor', izq ? 'end' : 'start');
+    rotulo.setAttribute('visibility', 'visible');
+    permitido.setAttribute('visibility', 'hidden');
+  };
+  Object.entries({ role: 'slider', tabindex: 0, 'aria-valuemin': desde, 'aria-valuemax': hasta, 'aria-valuenow': desde, 'aria-valuetext': leer(desde) })
+    .forEach(([k, v]) => svg.setAttribute(k, v));
+  svg.onfocus = () => { if (svg.matches(':focus-visible')) mostrar(cursor ?? desde); };
+  svg.onblur = () => { guia.setAttribute('visibility', 'hidden'); rotulo.setAttribute('visibility', 'hidden'); permitido.setAttribute('visibility', 'visible'); };
+  svg.onkeydown = (e) => {
+    const de = cursor ?? desde - 1;
+    const a = { ArrowRight: de + 1, ArrowUp: de + 1, ArrowLeft: de - 1, ArrowDown: de - 1, PageUp: de + 7, PageDown: de - 7, Home: desde, End: hasta }[e.key];
+    if (a === undefined) return;
+    e.preventDefault();
+    cursor = Math.max(desde, Math.min(hasta, a));
+    svg.setAttribute('aria-valuenow', cursor);
+    svg.setAttribute('aria-valuetext', leer(cursor));
+    mostrar(cursor);
+    alTocar(cursor);
+  };
 }

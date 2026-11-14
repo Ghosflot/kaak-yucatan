@@ -151,7 +151,13 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 /* Las notas del mapa hablan de 2026: con otro año en el mapa se esconden. */
 .otro-anio .nota-mapa:not(.enlace) { display: none; }
 #barras .toque { cursor: pointer; outline: none; }
-#barras .toque:hover, #barras .toque:focus-visible { fill: rgba(18, 18, 18, 0.07); stroke: var(--tinta); stroke-width: 1; }
+#barras .toque:hover, #barras .toque:focus-visible { fill: rgba(18, 18, 18, 0.05); }
+#barras .toque:focus-visible { stroke: var(--tinta); stroke-width: 1; }
+/* La barra bajo el puntero se oscurece y dice su año: así se ve que se puede tocar. */
+.b-anio { transition: fill 0.12s ease; }
+.b-anio.activa { fill: var(--tinta-2); }
+.b-anio.destacada.activa { fill: #A51C15; }
+.lectura-anio { font-size: 12px; font-weight: 700; fill: var(--tinta); pointer-events: none; }
 .escala-color { display: flex; flex-direction: column; gap: 6px; }
 .escala-color .tiras { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; height: 14px; }
 .escala-color .rotulos-escala { display: flex; justify-content: space-between; font-size: 13px; color: var(--sobre); }
@@ -235,7 +241,9 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .separa { border: 0; border-top: 1px solid var(--linea); margin: 0; }
 .ir { font-weight: 800; text-underline-offset: 4px; text-decoration-thickness: 2px; }
 .pie { margin-top: auto; font-size: 11.5px !important; line-height: 1.45; color: var(--tinta-2); }
-.tira-pista { font-size: 12.5px !important; color: var(--tinta-2); }
+/* Las pistas de lo que se puede tocar llevan un ícono de toque y van en tinta, no en gris chico. */
+.tira-pista { display: flex; align-items: flex-start; gap: 8px; font-size: 13.5px !important; font-weight: 700; color: var(--tinta); }
+.tira-pista::before { content: ""; flex-shrink: 0; width: 16px; height: 16px; margin-top: 2px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='3.2' fill='%23D7261E'/%3E%3Ccircle cx='8' cy='8' r='6.4' fill='none' stroke='%23D7261E' stroke-width='1.4'/%3E%3C/svg%3E") no-repeat center / contain; }
 #tira .toque { cursor: pointer; }
 #tira .guia-dia { stroke: var(--tinta); stroke-width: 1; pointer-events: none; }
 #tira .rotulo-dia { font-size: 11px; font-weight: 700; fill: var(--tinta); pointer-events: none; }
@@ -535,3 +543,5 @@ h1, h2, h3 { scroll-margin-top: calc(var(--barra-alto) + 12px); }
   .m-cifra b { font-size: 40px; }
   .m-descargar { height: auto; min-height: 48px; }
 }
+/* El mapa del cierre se recorre con las flechas: el contorno del foco va por dentro del recuadro. */
+#capa:focus-visible { outline: 3px solid #F5A04C; outline-offset: -3px; }
