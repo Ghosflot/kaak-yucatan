@@ -196,12 +196,59 @@ def test_metodo_satelites_factores_y_conafor(salida):
     assert m["periodos"][3]["hasta"] is None
     f = m["factores"]
     assert 2 < f["aqua"][0] < f["aqua"][1] < 5  # Aqua en temporada, zonas de Yucatán
-    # El factor es S-NPP / NOAA-20 (pipeline/armonizar.py); la página dice cuántos focos ve
-    # NOAA-20 por cada uno de S-NPP, así que usa el inverso.
-    fac = pd.read_csv(ew.FACTORES)
-    noaa = fac[(fac["satelite"] == "NOAA-20") & (fac["epoca"] == "temporada")]["factor"].iloc[0]
-    assert f["noaa20"] == round(1 / noaa, 2)
+    assert "noaa20" not in f  # lo cuenta la prueba «viirs» de la validación
     # Las cifras de docs/01, «Validación con CONAFOR».
     c = m["conafor"]
     assert (c["incendios"], c["desde"], c["hasta"]) == (1222, 2015, 2024)
-    assert (c["vistos"], c["grandes"], c["nGrandes"], c["azar"]) == (53, 84, 395, 9)
+    assert (c["vistos"], c["grandes"], c["nGrandes"]) == (53, 84, 395)
+    assert "azar" not in c  # sale de la validación (azarSnpp), no de una cifra fija
+
+
+def test_validacion_para_la_pagina(salida):
+    """«¿Se puede confiar?» lee el caso, los números y los datos de cada gráfica de la validación."""
+    v = _json(salida, "validacion.json")
+    original = json.loads(ew.VALIDACION.read_text(encoding="utf-8"))
+    assert [p["id"] for p in v["pruebas"]] == [p["id"] for p in original["pruebas"]]
+    for p, o in zip(v["pruebas"], original["pruebas"]):
+        assert set(p) == {"id", "estado", "caso", "clave", "valores", "grafica"}
+        assert (p["caso"], p["clave"], p["valores"]) == (o["caso"], o["clave"], o["valores"])
+    g = {p["id"]: p["grafica"] for p in v["pruebas"]}
+    # Las gráficas dicen lo mismo que los números de la frase.
+    vals = {p["id"]: p["valores"] for p in v["pruebas"]}
+    assert f"{g['salto_2012']['razonCruda']:.2f}" == vals["salto_2012"]["razonCruda"]
+    assert [t["y"] for t in g["salto_2012"]["totales"]] == list(range(2009, 2016))
+    assert [a["y"] for a in g["aqua_fuera_muestra"]["anios"]] == list(range(2021, 2026))
+    assert g["conafor"]["real"] == vals["conafor"]["realSnpp"] and g["conafor"]["azar"] == vals["conafor"]["azarSnpp"]
+    assert g["conafor"]["tamanos"][-1]["pct"] == vals["conafor"]["grandesSnpp"]
+    completos = [a["razon"] for a in g["viirs"]["noaa20"] if a["completo"]]
+    assert f"{min(completos):.2f}" == vals["viirs"]["razonMinNoaa20"]
+    assert not (salida / "validacion").exists()  # ya no van las PNG
+    # Cada caso tiene su frase en los dos idiomas.
+    for idioma in ("es", "en"):
+        textos = json.loads((ew.RAIZ / "web" / "textos" / f"{idioma}.json").read_text(encoding="utf-8"))
+        for p in v["pruebas"]:
+            assert textos.get(p["clave"]), f"{idioma}:{p['clave']}"
+
+
+def test_satelites_contra_la_serie(salida):
+    """El selector (#32): cada satélite solo, contado como la serie de la página."""
+    sats = {x["sat"]: x for x in _json(salida, "satelites.json")["satelites"]}
+    assert list(sats) == ["Terra", "Aqua", "S-NPP", "NOAA-20"]
+    serie = {a["y"]: a["armonizado"] for a in _json(salida, "metodo.json")["anios"]}
+    # En los años en que la serie usa un satélite (sin días de respaldo), coinciden.
+    for s, anios in (("Terra", [2001, 2002]), ("S-NPP", [2013, 2015, 2020])):
+        cal = {a["y"]: a["cal"] for a in sats[s]["anios"]}
+        for y in anios:
+            assert cal[y] == pytest.approx(serie[y], rel=0.01), (s, y)
+    assert sats["Terra"]["serie"] == [2001, 2002]
+    assert sats["Aqua"]["serie"] == list(range(2003, 2012))
+    assert sats["NOAA-20"]["serie"] == []
+    assert sats["S-NPP"]["calibracion"] is None
+    assert sats["Aqua"]["calibracion"] == [2013, 2020]
+    assert sats["Terra"]["calibracion"] == [2013, 2020]
+    assert sats["NOAA-20"]["calibracion"] == [2018, 2026]  # armonizar.PERIODO_NOAA20
+    # S-NPP es la escala: calibrado y sin calibrar son lo mismo.
+    assert all(a["cal"] == a["crudo"] for a in sats["S-NPP"]["anios"])
+    # MODIS sin calibrar ve menos de la mitad que la serie; NOAA-20 en 2018 empieza en abril.
+    assert all(a["crudo"] < 0.5 * serie[a["y"]] for a in sats["Aqua"]["anios"])
+    assert sats["NOAA-20"]["incompletos"] == [2018]
