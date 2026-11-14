@@ -139,6 +139,7 @@ export function montar(raiz) {
 
   function pintar() {
     traducir(raiz);
+    document.title = t('metodoPagina') + " — K'áak'";
     $('mPeriodos').replaceChildren(...M.periodos.map((p) => {
       const li = document.createElement('li');
       texto(li, p.hasta
