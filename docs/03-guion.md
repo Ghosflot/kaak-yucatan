@@ -172,6 +172,16 @@ Respuestas cortas, con su fuente en docs/01.
   Fuente: la página. Municipio («Descargar los datos de … (tabla CSV)» y la tira de años),
   Fechas («Descargar la tabla (CSV)») y Método (`serie_armonizada.csv`).
 
+- **«¿Por qué el calendario va día por día y no por semana o por mes?»**
+  «Porque la SEDER da los permisos de quema por fecha: en la zona 2, del 20 de abril al 31 de
+  mayo. Por semana o por mes, ese límite caería a la mitad de un bloque y ya no podríamos
+  decirle al comisario cuántos focos aparecen después de la fecha. El año normal no es ruidoso:
+  es la forma promedio de 25 temporadas. Y si quieres ver el patrón grueso, el almanaque va por
+  mes y la serie que se descarga va por semana.»
+  Fuente: la página (Municipio, Fechas y Método) y docs/01, «Un año normal, día por día».
+  Decisión de la #40, tomada tras la respuesta de la autora del reto en el foro oficial
+  (https://github.com/nasa/spaceapps/discussions/1879).
+
 ## Lo que no se dice
 
 - Que el fuego va en aumento: 2025 y 2026 fueron las temporadas más bajas del registro.
