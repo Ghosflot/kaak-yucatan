@@ -347,5 +347,7 @@
   "mDescargaTitulo": "Descarga la serie",
   "mDescarga1": "La serie armonizada completa, con cada semana de 2001 a 2026 en {n} municipios de la península y lo normal de cada semana. Los límites que usamos todavía no traen los tres municipios más nuevos (Dzitbalché, Seybaplaya y Puerto Morelos), así que su fuego cuenta en el municipio del que se separaron. Es una tabla CSV que abre Excel; los nombres de las columnas vienen en la primera fila.",
   "mDescargar": "Descargar la serie (CSV, {mb} MB)",
-  "mPie": "Datos: FIRMS (NASA), de {a} a {b}, e incendios forestales de la CONAFOR, de {d} a {h}. Actualizado el {f}."
+  "mPie": "Datos: FIRMS (NASA), de {a} a {b}, e incendios forestales de la CONAFOR, de {d} a {h}. Actualizado el {f}.",
+  "mIA": "Hicimos este proyecto con ayuda de inteligencia artificial (Claude, de Anthropic) para investigar, programar y redactar. El equipo decidió el método y revisó cada cifra contra su fuente.",
+  "mIAEnlace": "Qué hizo la IA y qué no"
 }

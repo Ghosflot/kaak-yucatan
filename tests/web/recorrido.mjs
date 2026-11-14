@@ -1,5 +1,5 @@
 // Graba el recorrido de la página para el PR, con subtítulos dentro de la página (?subtitulos=1).
-// Uso: node tests/web/recorrido.mjs <nombre> [portada|temporada|fechas|pulido|revision|repaso]
+// Uso: node tests/web/recorrido.mjs <nombre> [portada|temporada|fechas|pulido|revision|repaso|ia]
 //   →   videos/<nombre>-escritorio.mp4 y videos/<nombre>-telefono.mp4
 //
 // Cada cuadro sale de Chrome en JPEG de alta calidad (el teléfono, a doble resolución) y ffmpeg lo
@@ -269,6 +269,26 @@ async function fechas() {
   });
 }
 
+// PR de la declaración de IA: al pie de «Cómo lo medimos», una línea dice cómo se usó la IA y
+// enlaza a la declaración completa del repositorio.
+async function ia() {
+  const pasos = (telefono) => async ({ page, espera, sub }) => {
+    // La franja de subtítulos tapa el final de la página: solo en la grabación se deja espacio abajo.
+    await page.addStyleTag({ content: '.metodo { padding-bottom: 140px; }' });
+    await sub('«Cómo lo medimos», tal como estaba.', 2500);
+    await page.evaluate(() => document.querySelector('.metodo > .pie:last-of-type').scrollIntoView({ behavior: 'smooth', block: 'center' }));
+    await sub('Al pie, debajo de las fuentes de datos, una línea nueva dice cómo se usó la IA.', 5500);
+    await sub('El enlace lleva a la declaración completa: qué hizo la IA, qué no y quién la usó.', 5000);
+    await page[telefono ? 'tap' : 'click']('[data-idioma="en"]');
+    await page.evaluate(() => document.querySelector('.metodo > .pie:last-of-type').scrollIntoView({ block: 'center' }));
+    await sub('En inglés también, que es lo que leen los jueces.', 5000);
+    await page[telefono ? 'tap' : 'click']('[data-idioma="es"]');
+    await espera(600);
+  };
+  await grabar('escritorio', ESCRITORIO, '#/metodo', '#pie', pasos(false));
+  await grabar('telefono', TELEFONO, '#/metodo', '#pie', pasos(true));
+}
+
 // PR del pulido: el repaso nuevo, tocar un año, interrumpir la animación, «Cómo lo medimos»,
 // el menú del teléfono y «Usar mi ubicación».
 async function pulido() {
@@ -495,6 +515,6 @@ async function repaso() {
   });
 }
 
-await ({ portada, temporada, fechas, pulido, revision, repaso })[RECORRIDO]();
+await ({ portada, temporada, fechas, pulido, revision, repaso, ia })[RECORRIDO]();
 await navegador.close();
 process.exit(0);

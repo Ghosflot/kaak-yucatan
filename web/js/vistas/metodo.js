@@ -50,6 +50,7 @@ const PLANTILLA = `
     <a class="b-borde m-descargar" id="serie" href="/datos/serie_armonizada.csv" download="kaak-serie-armonizada.csv"></a>
   </section>
   <p class="pie" id="pie"></p>
+  <p class="pie"><span data-t="mIA"></span> <a href="https://github.com/Ghosflot/kaak-yucatan/blob/main/entrega/uso-de-ia.md" data-t="mIAEnlace"></a></p>
 </article>`;
 
 // «3.0» o «1.01»: decimales fijos con el formato del idioma.
