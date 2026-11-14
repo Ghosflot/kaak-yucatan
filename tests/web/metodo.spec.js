@@ -71,7 +71,10 @@ test('¿Se puede confiar?: una tarjeta por prueba, con la frase de su caso', asy
     // La frase del caso que salió, con sus números (como t() en web/js/textos.js).
     const frase = ES[p.clave].replace(/\{(\w+)\}/g, (m, k) => String(p.valores[k]));
     await expect(tj.locator('p').first()).toHaveText(frase);
-    await expect(tj.locator('img')).toHaveAttribute('src', '/datos/' + p.grafica.es);
+    // La gráfica se dibuja en la página (ya no es una imagen).
+    await expect(tj.locator('img')).toHaveCount(0);
+    await expect(tj.locator('.m-prueba-graf svg')).toHaveAttribute('role', 'img');
+    expect(await tj.locator('.m-prueba-graf svg > *').count()).toBeGreaterThan(5);
     await expect(tj.locator('.m-pendiente')).toHaveCount(0);
   }
   // Ya no dice que los satélites coinciden sin la prueba, ni una cifra de azar fija.
@@ -106,11 +109,11 @@ test('cada satélite contra la serie: se elige el satélite y la escala', async 
   await expect(caja.locator('#mSatLectura')).toContainText('En 2018 le falta el principio');
 });
 
-test('¿Se puede confiar? en inglés usa la gráfica en inglés', async ({ page }) => {
+test('¿Se puede confiar? en inglés: las gráficas también', async ({ page }) => {
   await abrir(page, '#/metodo', { query: '?lang=en' });
   await expect(page.locator('#mConfiar h2')).toHaveText('Can it be trusted?');
-  const p = V.pruebas[0];
-  await expect(page.locator(`.m-prueba[data-prueba="${p.id}"] img`)).toHaveAttribute('src', '/datos/' + p.grafica.en);
+  await expect(page.locator('.m-prueba[data-prueba="viirs"] .m-sat-ley')).toContainText('NOAA-20 with its factor');
+  await expect(page.locator('.m-prueba[data-prueba="salto_2012"] svg')).toContainText('calibrated ×0.90');
 });
 
 test('el pie dice el periodo de cada fuente', async ({ page }) => {

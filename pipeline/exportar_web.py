@@ -14,9 +14,9 @@ Escribe:
 - web/datos/metodo.json: lo que usa «Cómo lo medimos»: Yucatán en temporada, cada año sin
   calibrar y calibrado (el salto de 2012), los satélites de cada periodo, los factores y el
   cruce con CONAFOR.
-- web/datos/validacion.json y web/datos/validacion/*.png: el resultado de cada prueba de la
-  validación (tarea 7, salidas/validacion.json) y sus gráficas, para «¿Se puede confiar?». Solo
-  van el caso y los números: la frase de cada caso está en web/textos (claves val…).
+- web/datos/validacion.json: el resultado de cada prueba de la validación (tarea 7,
+  salidas/validacion.json) y los datos de su gráfica, que la página dibuja (las mismas que las
+  PNG de salidas/graficas/). La frase de cada caso está en web/textos (claves val…).
 - web/datos/satelites.json: cada satélite por su cuenta (Yucatán en temporada, sin calibrar y
   calibrado) contra la serie unida, para el selector de «¿Se puede confiar?» (#32).
 - web/datos/serie_armonizada.csv: copia de salidas/serie_armonizada.csv, para descargarla.
@@ -332,25 +332,47 @@ def metodo(elegidos: pd.DataFrame) -> dict:
     }
 
 
-def validacion(salida: Path) -> dict:
-    """«¿Se puede confiar?»: el caso y los números de cada prueba, y sus gráficas en salida/validacion/.
+# Tamaños de incendio de la CONAFOR, en orden, con su rótulo corto para la gráfica.
+TAMANOS_CONAFOR = [("0 a 5 Hectáreas", "0–5"), ("6 a 10 Hectáreas", "6–10"), ("11 a 20 Hectáreas", "11–20"),
+                   ("21 a 50 Hectáreas", "21–50"), ("51 a 100 Hectáreas", "51–100"), ("Mayor a 100 Hectáreas", ">100")]
+
+
+def grafica_validacion(p: dict) -> dict:
+    """Lo que dibuja la página para cada prueba: lo mismo que su PNG en salidas/graficas/."""
+    m = p["metricas"]
+    if p["id"] == "salto_2012":
+        pen = m["peninsula"]
+        return {"totales": [{"y": t["anio"], "crudo": round(t["crudo"]), "cal": round(t["armonizado"]),
+                             "transicion": t["transicion"]} for t in pen["totales"]],
+                "razonCruda": round(pen["razon_cruda"], 2), "razonCal": round(pen["razon_armonizada"], 2),
+                "natural": [round(pen["rango_natural"]["min"], 2), round(pen["rango_natural"]["max"], 2)],
+                "meta": [p["umbral"]["razon_min"], p["umbral"]["razon_max"]]}
+    if p["id"] == "aqua_fuera_muestra":
+        return {"anios": [{"y": a["anio"], "snpp": round(a["observado"]), "zonaEpoca": round(a["predicho_zona_epoca"]),
+                           "unico": round(a["predicho_unico"])} for a in m["por_anio"]],
+                "modelo": m["modelo"]}
+    if p["id"] == "conafor":
+        s = m["por_satelite"]["S-NPP"]
+        return {"real": round(s["real"]), "azar": round(s["azar_mayor"]),
+                "tamanos": [{"t": corto, "n": m["por_tamano"][largo]["incendios"],
+                             "pct": round(m["por_tamano"][largo]["snpp"])} for largo, corto in TAMANOS_CONAFOR],
+                "metaGrandes": round(p["umbral"]["grandes_min"])}
+    if p["id"] == "viirs":
+        return {sat.replace("-", "").lower(): [{"y": a["anio"], "razon": round(a["razon"], 3), "completo": a["completo"]}
+                                              for a in m[sat]["por_anio"]] for sat in ("NOAA-20", "NOAA-21")} | {
+                "meta": [p["umbral"]["razon_min"], p["umbral"]["razon_max"]]}
+    raise ValueError(f"prueba sin gráfica: {p['id']}")
+
+
+def validacion() -> dict:
+    """«¿Se puede confiar?»: el caso, los números y los datos de la gráfica de cada prueba.
 
     La página arma cada frase con t(clave, valores), igual que pipeline/validar.py; aquí no se
-    escribe ningún texto. Las métricas completas se quedan en salidas/validacion.json.
+    escribe ningún texto.
     """
     v = json.loads(VALIDACION.read_text(encoding="utf-8"))
-    pruebas = []
-    for p in v["pruebas"]:
-        graficas = {}
-        for idioma, ruta in p["grafica"].items():
-            origen = VALIDACION.parent / ruta
-            destino = salida / "validacion" / origen.name
-            destino.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copyfile(origen, destino)
-            graficas[idioma] = f"validacion/{origen.name}"
-        pruebas.append({"id": p["id"], "estado": p["estado"], "caso": p["caso"], "clave": p["clave"],
-                        "valores": p["valores"], "grafica": graficas})
-    return {"pruebas": pruebas}
+    return {"pruebas": [{"id": p["id"], "estado": p["estado"], "caso": p["caso"], "clave": p["clave"],
+                         "valores": p["valores"], "grafica": grafica_validacion(p)} for p in v["pruebas"]]}
 
 
 SATELITES = {"Terra": "MODIS", "Aqua": "MODIS", "S-NPP": "VIIRS", "NOAA-20": "VIIRS"}
@@ -488,7 +510,7 @@ def exportar(salida: Path = SALIDA, elegidos: pd.DataFrame | None = None) -> dic
     escribir(salida / "portada.json", portada)
     escribir(salida / "zonas.json", zonas_yucatan(elegidos, mun))
     escribir(salida / "metodo.json", metodo(elegidos))
-    escribir(salida / "validacion.json", validacion(salida))
+    escribir(salida / "validacion.json", validacion())
     import serie
     escribir(salida / "satelites.json", satelites(cargar_cuadritos(), serie.leer_factores()))
     shutil.copyfile(SERIE, salida / "serie_armonizada.csv")

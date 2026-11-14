@@ -205,16 +205,24 @@ def test_metodo_satelites_factores_y_conafor(salida):
 
 
 def test_validacion_para_la_pagina(salida):
-    """«¿Se puede confiar?» lee el caso y los números de salidas/validacion.json, sin textos."""
+    """«¿Se puede confiar?» lee el caso, los números y los datos de cada gráfica de la validación."""
     v = _json(salida, "validacion.json")
     original = json.loads(ew.VALIDACION.read_text(encoding="utf-8"))
     assert [p["id"] for p in v["pruebas"]] == [p["id"] for p in original["pruebas"]]
     for p, o in zip(v["pruebas"], original["pruebas"]):
         assert set(p) == {"id", "estado", "caso", "clave", "valores", "grafica"}
         assert (p["caso"], p["clave"], p["valores"]) == (o["caso"], o["clave"], o["valores"])
-        for idioma in ("es", "en"):
-            copia = salida / p["grafica"][idioma]
-            assert copia.read_bytes() == (ew.VALIDACION.parent / o["grafica"][idioma]).read_bytes()
+    g = {p["id"]: p["grafica"] for p in v["pruebas"]}
+    # Las gráficas dicen lo mismo que los números de la frase.
+    vals = {p["id"]: p["valores"] for p in v["pruebas"]}
+    assert f"{g['salto_2012']['razonCruda']:.2f}" == vals["salto_2012"]["razonCruda"]
+    assert [t["y"] for t in g["salto_2012"]["totales"]] == list(range(2009, 2016))
+    assert [a["y"] for a in g["aqua_fuera_muestra"]["anios"]] == list(range(2021, 2026))
+    assert g["conafor"]["real"] == vals["conafor"]["realSnpp"] and g["conafor"]["azar"] == vals["conafor"]["azarSnpp"]
+    assert g["conafor"]["tamanos"][-1]["pct"] == vals["conafor"]["grandesSnpp"]
+    completos = [a["razon"] for a in g["viirs"]["noaa20"] if a["completo"]]
+    assert f"{min(completos):.2f}" == vals["viirs"]["razonMinNoaa20"]
+    assert not (salida / "validacion").exists()  # ya no van las PNG
     # Cada caso tiene su frase en los dos idiomas.
     for idioma in ("es", "en"):
         textos = json.loads((ew.RAIZ / "web" / "textos" / f"{idioma}.json").read_text(encoding="utf-8"))

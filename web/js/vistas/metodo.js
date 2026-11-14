@@ -5,6 +5,7 @@
 // debajo, cada satélite contra la serie (satelites.json, #32).
 import { t, traducir, idioma } from '../textos.js';
 import { fmt, fechaDiaAnio, el, datos, reducirMovimiento } from '../comun.js';
+import { dibujarPrueba } from '../graficas-validacion.js';
 
 const SENSOR = { Terra: 'MODIS', Aqua: 'MODIS', 'S-NPP': 'VIIRS', 'NOAA-20': 'VIIRS' };
 const GRIS = '#8F877D'; // el mismo gris de las barras de la portada
@@ -115,27 +116,23 @@ function tarjeta(p) {
   const f = rellenar(p.clave, p.valores);
   if (f === p.clave) { frase.className = 'm-pendiente'; frase.textContent = t('mValPendiente'); } else texto(frase, f);
   art.append(h3, cifra, frase);
-  // La gráfica y las limitaciones van plegadas: las cuatro tarjetas miden casi lo mismo.
-  const det = document.createElement('details');
-  const sum = document.createElement('summary');
-  sum.textContent = t('mValVer');
-  det.append(sum);
-  const ruta = p.grafica[idioma()] || p.grafica.es;
-  if (ruta) {
-    const img = document.createElement('img');
-    img.src = '/datos/' + ruta;
-    img.alt = t('mValGrafica', { n: nombre });
-    img.loading = 'lazy';
-    img.decoding = 'async';
-    det.append(img);
-  }
+  // La gráfica se dibuja aquí con los datos de la prueba (dibujarGraficas, ya con el ancho real).
+  const graf = document.createElement('figure');
+  graf.className = 'm-prueba-graf';
+  graf.dataset.nombre = nombre;
+  graf.append(document.createElementNS('http://www.w3.org/2000/svg', 'svg'));
+  art.append(graf);
+  // Las limitaciones van plegadas: las cuatro tarjetas miden casi lo mismo.
   const lim = rellenar(base + 'Limitaciones', p.valores);
   if (Array.isArray(lim) && lim.length) {
+    const det = document.createElement('details');
+    const sum = document.createElement('summary');
+    sum.textContent = t('mValVer');
     const ul = document.createElement('ul');
     ul.append(...lim.map((s) => { const li = document.createElement('li'); texto(li, s); return li; }));
-    det.append(ul);
+    det.append(sum, ul);
+    art.append(det);
   }
-  art.append(det);
   return art;
 }
 
@@ -285,7 +282,7 @@ function armarSalto(svg, M) {
 
 export function montar(raiz) {
   let M = null, P = null, V = null, SAT = null, nMun = 0, vivo = true;
-  let sat = 'Aqua', escala = 'cal', anchoSat = 0;
+  let sat = 'Aqua', escala = 'cal', anchoSat = 0, anchoPruebas = 0;
   // Se abre sin calibrar; al llegar a la gráfica, se calibra sola una vez (si nadie la tocó antes).
   let vista = reducirMovimiento() ? 'armonizado' : 'crudo', tocado = false, verSalto = null, espera = 0, observador = null, medida = null, anchoCaja = 0;
   const $ = (s) => raiz.querySelector('#' + s);
@@ -305,6 +302,7 @@ export function montar(raiz) {
 
     // Si la validación no carga, la sección se queda con su título y su introducción.
     $('mPruebas').replaceChildren(...(V ? V.pruebas.map(tarjeta) : []));
+    dibujarGraficas();
     $('mSat').hidden = !SAT;
     if (SAT) {
       $('mSatChips').replaceChildren(...SAT.satelites.map((x) => {
@@ -322,6 +320,38 @@ export function montar(raiz) {
     $('mDescarga1').textContent = t('mDescarga1', { n: nMun });
     $('serie').textContent = t('mDescargar', { mb: M.serieMB });
     $('pie').textContent = t('mPie', { a: M.anios[0].y, b: M.anios[M.anios.length - 1].y, d: c.desde, h: c.hasta, f: fechaDiaAnio(P.actualizado) });
+  }
+
+  // Título, leyenda y dibujo de la gráfica de cada prueba, al ancho de su tarjeta.
+  function dibujarGraficas() {
+    if (!V) return;
+    anchoPruebas = $('mPruebas').clientWidth;
+    raiz.querySelectorAll('.m-prueba').forEach((art, i) => {
+      const fig = art.querySelector('.m-prueba-graf');
+      const svg = fig.querySelector('svg');
+      const [titulo, ley] = dibujarPrueba(svg, V.pruebas[i], fig.dataset.nombre);
+      fig.querySelectorAll('.m-graf-t, .m-sat-ley').forEach((n) => n.remove());
+      if (titulo) {
+        const c = document.createElement('figcaption');
+        c.className = 'm-graf-t';
+        c.textContent = titulo;
+        fig.prepend(c);
+      }
+      if (ley.length) {
+        const ul = document.createElement('ul');
+        ul.className = 'm-sat-ley';
+        ul.setAttribute('aria-hidden', 'true');
+        ul.append(...ley.map(([forma, color, txt]) => {
+          const li = document.createElement('li');
+          const i2 = document.createElement('i');
+          i2.className = 'm-ley-' + forma;
+          i2.style.setProperty('--c', color);
+          li.append(i2, document.createTextNode(txt));
+          return li;
+        }));
+        svg.before(ul);
+      }
+    });
   }
 
   function pintarSat() {
@@ -396,7 +426,9 @@ export function montar(raiz) {
     medida = new ResizeObserver(() => {
       if ($('salto') && $('salto').parentNode.clientWidth !== anchoCaja) dibujarSalto();
       if (SAT && $('mSatSvg') && $('mSatSvg').parentNode.clientWidth !== anchoSat) pintarSat();
+      if (V && $('mPruebas') && $('mPruebas').clientWidth !== anchoPruebas) dibujarGraficas();
     });
+    medida.observe(raiz.querySelector('#mPruebas'));
     medida.observe(raiz.querySelector('.m-salto-caja'));
     medida.observe(raiz.querySelector('.m-sat-caja'));
     if (vista !== 'crudo' || !('IntersectionObserver' in window)) return;
