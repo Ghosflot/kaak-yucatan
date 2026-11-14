@@ -63,9 +63,21 @@ def temporada(dias: pd.Series, anio: int) -> np.ndarray:
     return dias.reindex(fechas, fill_value=0.0).to_numpy(dtype=float)
 
 
+def normal_diario(por_anio: dict[int, np.ndarray], anios) -> np.ndarray:
+    """Un año normal, día por día: la forma promedio de la temporada, escalada para que sume la
+    mediana de los totales. Restar día a día la mediana del acumulado no sirve: el año que queda en
+    medio cambia de un día al siguiente, y eso inventa días en cero seguidos de saltos."""
+    diarios = np.vstack([por_anio[a] for a in anios])
+    forma = diarios.mean(axis=0)
+    suma = float(forma.sum())
+    if suma <= 0:
+        return np.zeros_like(forma)
+    return forma * (float(np.median(diarios.sum(axis=1))) / suma)
+
+
 def normal_acumulado(por_anio: dict[int, np.ndarray], anios) -> np.ndarray:
-    acumulados = np.vstack([np.cumsum(por_anio[a]) for a in anios])
-    return np.median(acumulados, axis=0)
+    """El acumulado del año normal: termina en la mediana de los totales."""
+    return np.cumsum(normal_diario(por_anio, anios))
 
 
 def fraccion_despues(diaria: np.ndarray, fin: int) -> float | None:

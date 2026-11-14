@@ -2,7 +2,7 @@
   "tituloPagina": "K'áak': ¿se quema más de lo normal en tu municipio?",
   "descripcionPagina": "Focos de calor de 25 años en la península de Yucatán, vistos por satélite, para saber qué es normal en cada municipio.",
   "saltar": "Ir al contenido",
-  "marcaAria": "K'áak', inicio",
+  "marcaAria": "K'áak', fuego en maya. Inicio",
   "navAria": "Secciones",
   "navTemporada": "Temporada",
   "navFechas": "Fechas de quema",
@@ -118,6 +118,53 @@
   "descFoto": "Mosaico satelital de la península de Yucatán con los focos de calor del {f}.",
   "descRepaso": "La temporada de 2026 día por día sobre el mapa de la península.",
   "descFinal": "Mapa de los municipios de Yucatán coloreados según su fuego de {a} contra lo normal.",
+  "mapaTeclado": "Con el teclado, las flechas pasan de un municipio al de al lado y Enter abre su página.",
+  "historiaTitulo": "Sus 26 años",
+  "loNormalCorto": "lo normal",
+  "historiaAria": "Focos de calor de {m} de marzo a mayo, cada año de 2001 a 2026. Lo normal es {n}; en {a} hubo {v}.",
+  "pistaHistoria": "Mantén presionado para ver sus 26 años.",
+  "pistaHistoriaDedo": "Mantén presionado un municipio para ver sus 26 años.",
+  "marcaDice": "fuego, en maya",
+  "atajosBoton": "Atajos de teclado",
+  "atajosTitulo": "Atajos de teclado",
+  "atajos": [
+    [
+      "[Espacio]",
+      "Empezar o pausar la temporada"
+    ],
+    [
+      "[←] [→]",
+      "Un día atrás o adelante"
+    ],
+    [
+      "[/]",
+      "Buscar un municipio"
+    ],
+    [
+      "[↑] [↓] [←] [→]",
+      "En el mapa del final, pasar al municipio de al lado"
+    ],
+    [
+      "[Enter]",
+      "En el mapa, abrir la página del municipio"
+    ],
+    [
+      "[Espacio]",
+      "En el mapa, ver los 26 años del municipio"
+    ],
+    [
+      "Arrastrar",
+      "Sobre las barras de los años, recorrerlos en el mapa"
+    ],
+    [
+      "Mantener",
+      "Sobre un municipio, ver sus 26 años"
+    ],
+    [
+      "[Esc]",
+      "Cerrar la tarjeta o esta lista"
+    ]
+  ],
   "barrasAria": "Focos de marzo a mayo en Yucatán por año, de 2001 a 2026. Lo normal son {n}; en 2026 hubo {a}.",
   "anioEnMapa": "El mapa muestra {a}. Toca su barra otra vez para volver a 2026.",
   "tocaAnioMapa": "Toca un año para verlo en el mapa.",
@@ -129,13 +176,13 @@
   "rutaAria": "Ruta",
   "peninsula": "Península",
   "frase": [
-    "Hubo menos de la mitad del fuego de un año normal.",
-    "Hubo la mitad del fuego de un año normal.",
+    "Hubo menos de la mitad del fuego que en un año normal.",
+    "Hubo la mitad del fuego que en un año normal.",
     "Hubo menos fuego que en un año normal.",
     "Hubo casi el mismo fuego que en un año normal.",
     "Hubo más fuego que en un año normal.",
-    "Hubo el doble del fuego de un año normal.",
-    "Hubo más del doble del fuego de un año normal.",
+    "Hubo el doble del fuego que en un año normal.",
+    "Hubo más del doble del fuego que en un año normal.",
     "Casi nunca hay quemas, así que no hay con qué comparar."
   ],
   "munCifras2": "{a} focos de calor de marzo a mayo de 2026; en un año normal, {b}.",
@@ -242,7 +289,9 @@
   ],
   "almConteo": "Se ven {n} de {t} municipios.",
   "almVacio": "Ningún municipio se llama así.",
-  "almCsv": "Descargar lo que se ve (tabla CSV)",
+  "almMas": "Ver los {n} municipios restantes",
+  "almMenos": "Ver menos municipios",
+  "almCsv": "Descargar la tabla (CSV)",
   "almMunicipio": "Municipio",
   "almRango": ", del {r}",
   "almSinZona": "{e}, sin calendario",
@@ -280,11 +329,13 @@
   "mPeriodoDesde": "{s} ({i}), desde el {d}",
   "mUnir2": "Los satélites de ahora (VIIRS) ven fuegos más chicos que los de antes (MODIS). En temporada, por cada cuadrito con fuego que veía Aqua en Yucatán, los de ahora ven entre {a} y {b}, según la zona. Con los años en que volaron juntos calculamos un factor para cada zona y época del año, y con él pasamos los años de MODIS a la escala de hoy.",
   "mGrafTitulo": "Focos de calor en Yucatán, del 1 de marzo al 31 de mayo de cada año",
-  "mCrudo": "Uniendo los satélites tal cual",
-  "mArmonizado": "Con la calibración",
   "mCambio": "2012: cambia el satélite",
   "mRayas": "Rayadas: años de MODIS pasados a la escala de VIIRS.",
-  "mSalto": "Sin calibrar, parece que de {a1}–{a2} a {d1}–{d2} el fuego se multiplicó por {c}. Calibrado, se multiplicó por {r}: el salto era del satélite, no del fuego.",
+  "mVerAria": "Cómo se ven los años de MODIS",
+  "mVerCrudo": "Sin calibrar",
+  "mVerArmonizado": "Calibrado",
+  "mSaltoCrudo": "Sin calibrar, parece que de {a1}–{a2} a {d1}–{d2} el fuego se multiplicó por {c}.",
+  "mSaltoArmonizado": "Calibrado, se multiplicó por {r}: el salto era del satélite, no del fuego.",
   "mCrudoAria": "Sin calibrar: de 2001 a 2011 las barras quedan muy abajo y el fuego parece saltar en 2012.",
   "mArmonizadoAria": "Con la calibración: los años de 2001 a 2011 quedan a la altura de los de ahora y el salto desaparece.",
   "mConfiarTitulo": "¿Se puede confiar?",

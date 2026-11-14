@@ -12,6 +12,7 @@ const INICIO_MES = DIAS_MES.reduce((a, d) => [...a, a[a.length - 1] + d], [0]); 
 const YUC = { x: 297, y: 26, width: 416, height: 309 }; // Yucatán sin el arrecife Alacranes
 const CORTES = [5, 20, 100, 400]; // clases del almanaque: 0, menos de 5, 5 a 19, 20 a 99, 100 a 399, 400 o más
 const ESTADOS = ['Yucatán', 'Campeche', 'Quintana Roo'];
+const TOPE = 12; // renglones del almanaque antes de «Ver los demás»; al buscar se ven todos
 
 const diaDelAnio = (md) => INICIO_MES[Number(md.slice(0, 2)) - 1] + Number(md.slice(3)) - 1;
 const fechaDe = (i) => new Date(2026, 0, 1 + i, 12);
@@ -58,13 +59,14 @@ const PLANTILLA = `
       <tbody id="almCuerpo"></tbody>
     </table>
     <p class="alm-vacio" id="almVacio" data-t="almVacio" hidden></p>
+    <button type="button" class="b-borde alm-mas" id="almMas" aria-controls="almanaque" hidden></button>
   </section>
   <p class="pie" id="pie"></p>
 </article>`;
 
 export function montar(raiz, params) {
   let Z = null, lista = null, F = null, P = null, vivo = true;
-  const estado = { zona: params.zona || '2', q: '', e: '', anio: 'normal', fijo: null, mio: null };
+  const estado = { zona: params.zona || '2', q: '', e: '', anio: 'normal', fijo: null, mio: null, todos: false };
   const $ = (s) => raiz.querySelector('#' + s);
 
   const zonaDe = (n) => Z.zonas.find((z) => z.n === n);
@@ -124,6 +126,7 @@ export function montar(raiz, params) {
     const meses = $('zMeses');
     meses.textContent = '';
     const nombres = t('meses');
+    const enTab = estado.fijo ?? (z.ini <= Z.ultimo ? z.ini : 0);
     for (let m = 0; m < MESES_CAL; m++) {
       const caja = document.createElement('div');
       caja.className = 'fz-mes';
@@ -144,14 +147,21 @@ export function montar(raiz, params) {
         const s = document.createElement('span');
         s.className = 'fz-dia' + (i >= z.ini && i <= z.fin ? ' permitido' : '') + (i > Z.ultimo ? ' futuro' : '') + (estado.fijo === i ? ' activo' : '');
         s.dataset.i = i;
-        const b = document.createElement('b'); b.textContent = d;
+        // Cada día que ya pasó se alcanza con el teclado; una sola parada de Tab para todo el calendario.
+        if (i <= Z.ultimo) {
+          s.setAttribute('role', 'button');
+          s.setAttribute('tabindex', i === enTab ? '0' : '-1');
+          s.setAttribute('aria-pressed', String(estado.fijo === i));
+          s.setAttribute('aria-label', lectura(z, i));
+        }
+        const b = document.createElement('b'); b.textContent = d; b.setAttribute('aria-hidden', 'true');
         s.appendChild(b);
         const v = i > Z.ultimo ? 0 : z.dias[i];
         if (v > 0) { const p = document.createElement('i'); p.style.width = p.style.height = diametro(v, tope) + 'px'; s.appendChild(p); }
         dias.appendChild(s);
       }
       const cuadro = document.createElement('div');
-      cuadro.setAttribute('role', 'img');
+      cuadro.setAttribute('role', 'group');
       cuadro.setAttribute('aria-label', t('zMesAria', { m: mayuscula(nombres[m]), n: fmt(total) }));
       cuadro.append(sem, dias);
       caja.append(cab, cuadro);
@@ -161,15 +171,17 @@ export function montar(raiz, params) {
     leer(estado.fijo);
   }
 
-  function leer(i) {
-    const lectura = $('zLectura');
-    if (i === null || i === undefined) { lectura.textContent = t('zPista'); lectura.classList.add('pista'); return; }
-    const z = zonaDe(estado.zona);
+  function lectura(z, i) {
     const f = fechaDia(fechaDe(i));
     const v = Math.round(z.dias[i]);
     const cuanto = v === 0 ? t('zDiaCero', { f }) : v === 1 ? t('zDiaUno', { f }) : t('zDia', { f, n: fmt(v) });
-    lectura.textContent = cuanto + ' ' + (i >= z.ini && i <= z.fin ? t('zDentro') : t('zFuera'));
-    lectura.classList.remove('pista');
+    return cuanto + ' ' + (i >= z.ini && i <= z.fin ? t('zDentro') : t('zFuera'));
+  }
+  function leer(i) {
+    const caja = $('zLectura');
+    if (i === null || i === undefined) { caja.textContent = t('zPista'); caja.classList.add('pista'); return; }
+    caja.textContent = lectura(zonaDe(estado.zona), i);
+    caja.classList.remove('pista');
   }
 
   function cabeza() {
@@ -355,11 +367,18 @@ export function montar(raiz, params) {
 
   const visibles = () => F.filter((r) => (!estado.e || r.e === estado.e) && (!estado.q || sinAcentos(r.n).includes(estado.q)));
 
+  // De entrada se ven los primeros renglones; al buscar, todos los que coinciden.
   function filtrar() {
-    const ver = new Set(visibles().map((r) => r.id));
+    const coinciden = visibles();
+    const corta = !estado.q && !estado.todos;
+    const ver = new Set((corta ? coinciden.slice(0, TOPE) : coinciden).map((r) => r.id));
     $('almCuerpo').querySelectorAll('tr').forEach((tr) => { tr.hidden = !ver.has(tr.dataset.id); });
     $('almVacio').hidden = ver.size > 0;
     $('almConteo').textContent = t('almConteo', { n: ver.size, t: F.length });
+    const mas = $('almMas');
+    mas.hidden = !!estado.q || coinciden.length <= TOPE;
+    mas.textContent = estado.todos ? t('almMenos') : t('almMas', { n: coinciden.length - TOPE });
+    mas.setAttribute('aria-expanded', String(estado.todos));
   }
 
   function csv() {
@@ -401,9 +420,26 @@ export function montar(raiz, params) {
       if (!d) return;
       const i = Number(d.dataset.i);
       estado.fijo = estado.fijo === i ? null : i;
-      meses.querySelectorAll('.fz-dia.activo').forEach((x) => x.classList.remove('activo'));
-      if (estado.fijo !== null) d.classList.add('activo');
+      meses.querySelectorAll('.fz-dia.activo').forEach((x) => { x.classList.remove('activo'); x.setAttribute('aria-pressed', 'false'); });
+      if (estado.fijo !== null) { d.classList.add('activo'); d.setAttribute('aria-pressed', 'true'); }
       leer(estado.fijo ?? i);
+    });
+    // Teclado: las flechas recorren los días (arriba y abajo, por semana) y Enter fija uno.
+    meses.addEventListener('focusin', (e) => { const d = e.target.closest('.fz-dia'); if (d) leer(Number(d.dataset.i)); });
+    meses.addEventListener('focusout', (e) => { if (!meses.contains(e.relatedTarget)) leer(estado.fijo); });
+    meses.addEventListener('keydown', (e) => {
+      const d = e.target.closest('.fz-dia[tabindex]');
+      if (!d) return;
+      const i = Number(d.dataset.i);
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); d.click(); return; }
+      const a = { ArrowRight: i + 1, ArrowLeft: i - 1, ArrowDown: i + 7, ArrowUp: i - 7, Home: 0, End: Z.ultimo }[e.key];
+      if (a === undefined) return;
+      e.preventDefault();
+      const destino = meses.querySelector('.fz-dia[data-i="' + Math.max(0, Math.min(Z.ultimo, a)) + '"]');
+      if (!destino) return;
+      d.setAttribute('tabindex', '-1');
+      destino.setAttribute('tabindex', '0');
+      destino.focus();
     });
     $('zMapa').addEventListener('click', (e) => {
       const p = e.target.closest('path[data-zona]');
@@ -421,6 +457,12 @@ export function montar(raiz, params) {
       if (b) elegirZona(b.dataset.zona, { mover: true });
     });
     $('almCsv').addEventListener('click', () => descargar(csv(), 'fechas.csv'));
+    $('almMas').addEventListener('click', () => {
+      estado.todos = !estado.todos;
+      filtrar();
+      // Al cerrar, la tabla se encoge: el botón se trae de vuelta a la vista.
+      if (!estado.todos) $('almMas').scrollIntoView({ block: 'nearest', behavior: reducirMovimiento() ? 'auto' : 'smooth' });
+    });
   }
 
   async function arrancar() {

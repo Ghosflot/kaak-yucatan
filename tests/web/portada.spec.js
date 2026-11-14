@@ -284,3 +284,124 @@ test('el año normal de la línea de tiempo no es gris sólido como «casi nunca
   expect(normal).not.toBe(poco);
   expect(normal).toBe('rgba(246, 244, 240, 0.85)'); // una línea blanca, como la silueta
 });
+
+// La dirección sigue el estado: se puede compartir lo que se ve y «Atrás» deshace cada paso.
+test.describe('la dirección', () => {
+  test('guarda el municipio y el año, y «Atrás» los deshace uno por uno', async ({ page }) => {
+    await abrir(page, '#/', { reducir: true });
+    await page.locator('#barras .toque[data-y="2003"]').click();
+    await expect(page).toHaveURL(/#\/\?modo=final&anio=2003$/);
+    await page.locator('#buscador2 input').fill('Tekax');
+    await page.keyboard.press('Enter');
+    await expect(page).toHaveURL(/#\/\?modo=final&anio=2003&sel=tekax$/);
+    await page.goBack();
+    await expect(page.locator('#tarjeta')).toBeHidden();
+    await expect(page.locator('#filaAnio')).toHaveText('2003');
+    await page.goBack();
+    await expect(page.locator('#filaAnio')).toHaveText('2026');
+    await page.goForward();
+    await page.goForward();
+    await expect(page.locator('#tarjeta .nombre')).toHaveText('Tekax');
+    await expect(page.locator('#filaAnio')).toHaveText('2003');
+  });
+
+  test('al recargar, abre lo mismo que se veía', async ({ page }) => {
+    await abrir(page, '#/', { query: '' });
+    await page.goto('/#/?modo=final&anio=2009&sel=tekax');
+    await page.reload();
+    await page.waitForSelector('#tarjeta:not([hidden])');
+    await expect(page.locator('#tarjeta .nombre')).toHaveText('Tekax');
+    await expect(page.locator('#filaAnio')).toHaveText('2009');
+  });
+
+  test('el día del repaso se reescribe sin llenar el historial', async ({ page }) => {
+    await abrir(page, '#/');
+    await page.locator('#verTemporada').click();
+    await expect(page).toHaveURL(/#\/\?modo=repaso$/);
+    const largo = await page.evaluate(() => history.length);
+    await page.locator('#control').click(); // pausa
+    await page.locator('#tiempo').focus();
+    await page.keyboard.press('Home');
+    for (let i = 0; i < 5; i++) await page.keyboard.press('ArrowRight');
+    await expect(page).toHaveURL(/#\/\?modo=repaso&t=5$/);
+    expect(await page.evaluate(() => history.length)).toBe(largo);
+    // «Atrás» regresa a la foto.
+    await page.goBack();
+    await expect(page.locator('#escenario')).toHaveAttribute('data-modo', 'foto');
+  });
+
+  test('las direcciones viejas, con ?modo antes del ancla, se siguen abriendo', async ({ page }) => {
+    await abrir(page, '#/', { query: '?modo=final&sel=tekax' });
+    await expect(page.locator('#tarjeta .nombre')).toHaveText('Tekax');
+  });
+});
+
+// Funciones escondidas: nunca hacen falta, pero están al alcance (y también con el teclado).
+test.describe('funciones escondidas', () => {
+  test('arrastrar sobre las barras recorre los años y deja una sola entrada en el historial', async ({ page }) => {
+    await abrir(page, '#/', { reducir: true });
+    const largo = await page.evaluate(() => history.length);
+    const b = await page.locator('#barras .toque[data-y="2001"]').boundingBox();
+    const fin = await page.locator('#barras .toque[data-y="2010"]').boundingBox();
+    const y = b.y + b.height - 6;
+    await page.mouse.move(b.x + 2, y);
+    await page.mouse.down();
+    await page.mouse.move(b.x + 40, y, { steps: 4 });
+    const pasando = await page.locator('#filaAnio').textContent();
+    expect(['2001', '2002', '2003', '2004']).toContain(pasando);
+    await page.mouse.move(fin.x + fin.width / 2, y, { steps: 10 });
+    await page.mouse.up();
+    // El clic de soltar no vuelve a 2026.
+    await expect(page.locator('#filaAnio')).toHaveText('2010');
+    await expect(page).toHaveURL(/anio=2010/);
+    expect(await page.evaluate(() => history.length)).toBe(largo + 1);
+  });
+
+  test('mantener presionado un municipio abre sus 26 años; con el teclado, Espacio en el mapa', async ({ page }) => {
+    await abrir(page, '#/', { reducir: true });
+    const v = await page.locator('.rellenos path[data-id="valladolid"]').boundingBox();
+    await page.mouse.move(v.x + v.width / 2, v.y + v.height / 2);
+    await expect(page.locator('#tarjeta .pista-historia')).toHaveText('Mantén presionado para ver sus 26 años.');
+    await page.mouse.down();
+    await page.waitForTimeout(650);
+    await page.mouse.up();
+    await expect(page.locator('#tarjeta .historia rect')).toHaveCount(26);
+    await expect(page.locator('#tarjeta .historia')).toHaveAttribute('aria-label', /Valladolid.*Lo normal es 251; en 2026 hubo 84/);
+    // Una vez usada, la pista ya no sale.
+    await page.locator('#tarjeta .cerrar').click();
+    await page.mouse.move(v.x + v.width / 2 + 2, v.y + v.height / 2);
+    await expect(page.locator('#tarjeta .pista-historia')).toHaveCount(0);
+    await page.locator('#capa').focus();
+    await page.keyboard.press('ArrowRight');
+    await page.keyboard.press(' ');
+    await expect(page.locator('#tarjeta .historia')).toBeVisible();
+    await page.keyboard.press(' ');
+    await expect(page.locator('#tarjeta .historia')).toHaveCount(0);
+  });
+
+  test('«?» muestra los atajos, «/» lleva al buscador y Espacio empieza la temporada', async ({ page }) => {
+    await abrir(page, '#/');
+    await page.locator('body').click({ position: { x: 1300, y: 880 } });
+    await page.keyboard.press('?');
+    await expect(page.locator('#atajos')).toBeVisible();
+    await expect(page.locator('#atajos dd').first()).toHaveText('Empezar o pausar la temporada');
+    await page.keyboard.press('Escape');
+    await expect(page.locator('#atajos')).toBeHidden();
+    await page.keyboard.press('/');
+    expect(await page.evaluate(() => document.activeElement.closest('#buscador1') !== null)).toBe(true);
+    await page.keyboard.type('?'); // en el buscador, «?» se escribe
+    await expect(page.locator('#atajos')).toBeHidden();
+    await page.keyboard.press('Escape');
+    await page.locator('#respuesta').click();
+    await page.keyboard.press(' ');
+    await expect(page.locator('#escenario')).toHaveAttribute('data-modo', 'repaso');
+  });
+
+  test('K\'ÁAK\' dice «fuego, en maya» al pasar el mouse', async ({ page }) => {
+    await abrir(page, '#/');
+    await page.locator('.marca').hover();
+    await expect(page.locator('.marca-dice')).toHaveText('fuego, en maya');
+    await expect(page.locator('.marca-dice')).toHaveCSS('opacity', '1');
+    await expect(page.locator('.marca')).toHaveAttribute('aria-label', "K'áak', fuego en maya. Inicio");
+  });
+});

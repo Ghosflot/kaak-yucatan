@@ -12,7 +12,7 @@ const EN = leer('en');
 function soloEspanol() {
   const pedazos = new Set();
   for (const [clave, valor] of Object.entries(ES)) {
-    const lista = Array.isArray(valor) ? valor : [valor];
+    const lista = (Array.isArray(valor) ? valor : [valor]).flat(); // los atajos son pares [teclas, qué hacen]
     const ingles = JSON.stringify(EN[clave] ?? '');
     for (const v of lista) {
       for (const p of v.split(/\{\w+\}/)) {

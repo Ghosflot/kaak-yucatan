@@ -38,7 +38,7 @@ function indiceVeredicto(v26, normal, clase) {
 export const cifras = (clave, m) => t(Math.round(m.v26) === 1 ? clave + 'Uno' : clave, { a: fmt(m.v26), b: fmt(m.normal) });
 // Corta, para la tarjeta del mapa: «La mitad de lo normal».
 export const veredicto = (v26, normal, clase) => t('veredicto')[indiceVeredicto(v26, normal, clase)];
-// Completa, para la página y la ficha de un municipio: «Hubo la mitad del fuego de un año normal.»
+// Completa, para la página y la ficha de un municipio: «Hubo la mitad del fuego que en un año normal.»
 export const frase = (m) => t('frase')[indiceVeredicto(m.v26, m.normal, m.clase)];
 
 const SVGNS = 'http://www.w3.org/2000/svg';

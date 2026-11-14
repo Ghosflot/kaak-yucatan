@@ -186,3 +186,132 @@ export async function compartir(blob, nombre, texto) {
   window.open('https://wa.me/?text=' + encodeURIComponent(texto), '_blank', 'noopener');
   return 'whatsapp';
 }
+
+/* ---------- Tarjetas para la vista previa de un enlace (WhatsApp, Facebook, X): 1200 × 630 ---------- */
+export const TARJETA = { ancho: 1200, alto: 630 };
+
+/** La tarjeta de un municipio: nombre, veredicto, sus barras y la franja de fechas. La escribe pipeline/tarjetas.mjs. */
+export async function dibujarTarjeta(canvas, m) {
+  await fuentes();
+  const { ancho: W, alto: H } = TARJETA;
+  canvas.width = W; canvas.height = H;
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = PAPEL;
+  ctx.fillRect(0, 0, W, H);
+  const F = 150; // alto de la franja negra
+  const izq = 60, col = 590; // columna de texto
+  const gx = izq + col + 40, gw = W - 60 - gx; // gráfica
+
+  ctx.fillStyle = TINTA;
+  ctx.textAlign = 'left';
+  ctx.font = `400 34px ${DISPLAY}`;
+  ctx.fillText("K'ÁAK'", izq, 78);
+  ctx.font = `700 26px ${TEXTO}`;
+  ctx.textAlign = 'right';
+  ctx.fillText(t('fTemporada'), W - 60, 76);
+  ctx.textAlign = 'left';
+
+  // Nombre: se achica hasta caber en un renglón de la columna.
+  let tam = 96;
+  ctx.font = `400 ${tam}px ${DISPLAY}`;
+  const w = ctx.measureText(m.nombre).width;
+  if (w > col) { tam = Math.max(46, Math.floor(tam * col / w)); ctx.font = `400 ${tam}px ${DISPLAY}`; }
+  let y = 112 + tam * 0.86;
+  ctx.fillText(m.nombre, izq, y);
+
+  ctx.font = `800 38px ${TEXTO}`;
+  y += 12;
+  for (const l of renglones(ctx, frase(m), col).slice(0, 3)) { y += 46; ctx.fillText(l, izq, y); }
+  ctx.font = `400 25px ${TEXTO}`;
+  y += 10;
+  ctx.fillStyle = '#3A3733';
+  for (const l of renglones(ctx, cifras('fCifras', m), col).slice(0, 2)) { y += 36; ctx.fillText(l, izq, y); }
+
+  // Barras de cada año, con lo normal punteado.
+  const arriba = 128, base = H - F - 64, alto = base - arriba;
+  const anios = m.anios;
+  const tope = Math.max(...anios.map((a) => a.total), m.normal, 1);
+  const hueco = 5, bw = (gw - hueco * (anios.length - 1)) / anios.length;
+  anios.forEach((a, i) => {
+    const h = Math.max(3, (a.total / tope) * alto);
+    ctx.fillStyle = a.y === 2026 ? ROJO : GRIS;
+    ctx.fillRect(gx + i * (bw + hueco), base - h, bw, h);
+  });
+  ctx.fillStyle = TINTA;
+  ctx.fillRect(gx, base, gw, 3);
+  const yn = base - (m.normal / tope) * alto;
+  ctx.strokeStyle = TINTA;
+  ctx.lineWidth = 3;
+  ctx.setLineDash([10, 6]);
+  ctx.beginPath(); ctx.moveTo(gx, yn); ctx.lineTo(gx + gw, yn); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.font = `700 24px ${MONO}`;
+  ctx.fillText(t('loNormal', { n: fmt(m.normal) }), gx, Math.max(arriba - 14, 100));
+  ctx.font = `400 24px ${MONO}`;
+  ctx.fillText(String(anios[0].y), gx, base + 34);
+  ctx.font = `700 24px ${MONO}`;
+  ctx.fillStyle = ROJO;
+  ctx.textAlign = 'right';
+  ctx.fillText('2026: ' + fmt(m.v26), gx + gw, base + 34);
+  ctx.textAlign = 'left';
+
+  // Franja de abajo: las fechas de su zona y la dirección.
+  const f = fechasDeLaFicha(m);
+  ctx.fillStyle = TINTA;
+  ctx.fillRect(0, H - F, W, F);
+  ctx.fillStyle = PAPEL;
+  ctx.font = `700 26px ${TEXTO}`;
+  ctx.fillText(renglones(ctx, f.titulo, W - 120)[0], izq, H - F + 50);
+  let tv = 48;
+  ctx.font = `400 ${tv}px ${DISPLAY}`;
+  const direccion = SITIO + '/' + m.id;
+  const anchoDir = (() => { ctx.save(); ctx.font = `800 26px ${TEXTO}`; const a = ctx.measureText(direccion).width; ctx.restore(); return a; })();
+  const libre = W - 120 - anchoDir - 40;
+  const wv = ctx.measureText(f.valor).width;
+  if (wv > libre) { tv = Math.max(28, Math.floor(tv * libre / wv)); ctx.font = `400 ${tv}px ${DISPLAY}`; }
+  ctx.fillText(f.valor, izq, H - 38);
+  ctx.font = `800 26px ${TEXTO}`;
+  ctx.fillStyle = '#FFFFFF';
+  ctx.textAlign = 'right';
+  ctx.fillText(direccion, W - 60, H - 40);
+  ctx.textAlign = 'left';
+}
+
+/** La tarjeta de la página: la foto de satélite con los focos del día con más fuego y la pregunta. */
+export async function dibujarTarjetaInicio(canvas, { foto, puntos, lienzo, titulo }) {
+  await fuentes();
+  const { ancho: W, alto: H } = TARJETA;
+  canvas.width = W; canvas.height = H;
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = '#0A0E14';
+  ctx.fillRect(0, 0, W, H);
+  // La foto ocupa la mitad derecha, recortada a la península; las coordenadas de los puntos son las del lienzo de la portada.
+  const { x0, y0, w0, h0, recorte } = lienzo;
+  const k = H / recorte.h;
+  const ox = W - recorte.w * k;
+  const X = (x) => ox + (x - recorte.x) * k, Y = (y) => (y - recorte.y) * k;
+  ctx.drawImage(foto, X(x0), Y(y0), w0 * k, h0 * k);
+  // La foto se funde con el fondo desde su borde izquierdo: no queda un corte recto.
+  const borde = Math.max(0, X(x0));
+  const g = ctx.createLinearGradient(borde, 0, borde + 340, 0);
+  g.addColorStop(0, 'rgba(10,14,20,1)'); g.addColorStop(1, 'rgba(10,14,20,0)');
+  ctx.fillStyle = g;
+  ctx.fillRect(0, 0, borde + 341, H);
+  ctx.fillStyle = 'rgba(10,14,20,0.25)';
+  ctx.fillRect(borde, 0, W - borde, H);
+  ctx.fillStyle = '#FFC94D';
+  ctx.globalAlpha = 0.92;
+  for (const [x, y] of puntos) { ctx.beginPath(); ctx.arc(X(x), Y(y), 3.6, 0, Math.PI * 2); ctx.fill(); }
+  ctx.globalAlpha = 1;
+
+  ctx.fillStyle = '#FFFFFF';
+  ctx.textAlign = 'left';
+  ctx.font = `400 38px ${DISPLAY}`;
+  ctx.fillText("K'ÁAK'", 64, 92);
+  ctx.font = `400 62px ${DISPLAY}`;
+  let y = 170;
+  for (const l of renglones(ctx, titulo, 560)) { y += 70; ctx.fillText(l, 64, y); }
+  ctx.font = `800 26px ${TEXTO}`;
+  ctx.fillStyle = '#FFFFFF';
+  ctx.fillText(SITIO, 64, H - 52);
+}

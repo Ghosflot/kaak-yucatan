@@ -87,6 +87,20 @@ async function arrancar() {
   document.querySelector('.saltar').addEventListener('click', (e) => { e.preventDefault(); raiz.focus(); });
   window.addEventListener('hashchange', mostrar);
   await mostrar();
+  insinuarMarca();
+}
+
+// Función escondida: K'ÁAK' dice qué significa al pasar por la marca. En la primera visita lo insinúa una vez.
+function insinuarMarca() {
+  try {
+    if (localStorage.getItem('kaak-marca') === '1') return;
+    localStorage.setItem('kaak-marca', '1');
+  } catch { return; }
+  const marca = document.querySelector('.marca');
+  setTimeout(() => {
+    marca.classList.add('insinua');
+    setTimeout(() => marca.classList.remove('insinua'), 2600);
+  }, 1500);
 }
 
 arrancar();

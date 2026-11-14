@@ -3,6 +3,7 @@ import { t, traducir } from '../textos.js';
 import { $, fmt, fechaDia, fechaDiaAnio, fechaCorta, deMesDia, COLOR, ESCALA, veredicto, el, reducirMovimiento, datos, anunciar } from '../comun.js';
 import { barrasAnios, tiraDias } from '../graficas.js';
 import { armarBuscador, EJEMPLO } from '../buscador.js';
+import { ruta } from '../app.js';
 
 const W0 = 825, H0 = 681, Y0 = -90;
 const YUC = { x0: 302, x1: 708, y0: 31, y1: 330 }; // Yucatán en el lienzo, sin el arrecife Alacranes
@@ -111,13 +112,18 @@ const PLANTILLA = `
   <p id="fechasNota"></p>
   <a class="ir" href="#/fechas" data-t="verCalendario"></a>
   <p class="pie" id="pie"></p>
-</aside>`;
+  <button type="button" class="atajos-boton" id="verAtajos" aria-haspopup="dialog"></button>
+</aside>
+<dialog class="atajos" id="atajos" aria-labelledby="atajosTitulo">
+  <h2 id="atajosTitulo" data-t="atajosTitulo"></h2>
+  <dl id="atajosLista"></dl>
+  <button type="button" class="cerrar" id="atajosCerrar" data-t-aria="cerrar">×</button>
+</dialog>`;
 
 export function montar(raiz) {
   raiz.innerHTML = PLANTILLA;
   traducir(raiz);
   const escenario = $('escenario'), mapa = $('mapa'), lienzo = $('fuego'), ctx = lienzo.getContext('2d');
-  const params = new URLSearchParams(location.search);
   let D = null;
   let modo = 'foto', t0 = 0, jugando = false, ultimoCuadro = 0, seleccion = null;
   // El año que pintan el mapa del cierre, la tarjeta y la línea de tiempo; el repaso es siempre de 2026.
@@ -339,9 +345,61 @@ export function montar(raiz) {
     poner('fantasmaTexto', t(dia26[i] === 1 ? 'diaFocosUno' : 'diaFocos', { f: fechaCorta(diaDeTemporada(i)), n: fmt(dia26[i]) }));
   }
 
+  /* ---------- La dirección sigue el estado: #/?modo=final&anio=2003&sel=<id> ---------- */
+  // Cada acción de la persona (empezar, elegir un municipio o un año) deja una entrada que «Atrás»
+  // deshace; el día del repaso solo se reescribe, para no llenar el historial al arrastrar.
+  let aplicando = false, esperaURL = 0;
+  const CLAVES = ['modo', 't', 'sel', 'anio'];
+  function leerEstado() {
+    const i = location.hash.indexOf('?');
+    // Las direcciones viejas (?modo=final, antes del ancla) se siguen leyendo.
+    const q = new URLSearchParams(i >= 0 ? location.hash.slice(i + 1) : location.search);
+    return { modo: q.get('modo'), t: q.has('t') ? Number(q.get('t')) : null, sel: q.get('sel'), anio: Number(q.get('anio')) || ANIO };
+  }
+  function direccion() {
+    const q = new URLSearchParams();
+    if (modo !== 'foto') q.set('modo', modo);
+    if (modo === 'repaso' && !jugando) q.set('t', String(Math.round(t0)));
+    if (anio !== ANIO) q.set('anio', String(anio));
+    if (seleccion) q.set('sel', seleccion);
+    const busqueda = new URLSearchParams(location.search);
+    CLAVES.forEach((k) => busqueda.delete(k));
+    const b = busqueda.toString(), e = q.toString();
+    return location.pathname + (b ? '?' + b : '') + '#/' + (e ? '?' + e : '');
+  }
+  function guardar(nueva) {
+    if (aplicando || !D) return;
+    clearTimeout(esperaURL);
+    const escribir = () => {
+      const url = direccion();
+      if (url === location.pathname + location.search + location.hash) return;
+      if (nueva) history.pushState(null, '', url); else history.replaceState(null, '', url);
+    };
+    // Safari limita cuántas veces por segundo se puede reescribir la dirección.
+    if (nueva) escribir(); else esperaURL = setTimeout(escribir, 250);
+  }
+  function aplicar(e) {
+    aplicando = true;
+    try {
+      const a = D.porAnio.anios.includes(e.anio) ? e.anio : ANIO;
+      if (e.modo === 'repaso') irADia(Number.isFinite(e.t) ? e.t : 45);
+      else if (e.modo === 'final' || e.sel || a !== ANIO || reducirMovimiento()) {
+        if (modo !== 'final') { pausar(); irFinal(); }
+        if (a !== anio) ponerAnio(a);
+        if (e.sel && munPorId.has(e.sel)) { if (e.sel !== seleccion) seleccionar(e.sel, true); }
+        else if (seleccion) quitarSeleccion();
+      } else {
+        pausar();
+        volverA2026();
+        t0 = 0;
+        ponerModo('foto');
+      }
+    } finally { aplicando = false; }
+  }
+
   /* ---------- Momentos: foto, repaso y cierre ---------- */
   function descripcion() {
-    $('capaDesc').textContent = modo === 'foto' ? t('descFoto', { f: D ? fechaDiaAnio(D.diaMax.fecha) : '' }) : t(modo === 'repaso' ? 'descRepaso' : 'descFinal', { a: anio });
+    $('capaDesc').textContent = modo === 'foto' ? t('descFoto', { f: D ? fechaDiaAnio(D.diaMax.fecha) : '' }) : (modo === 'repaso' ? t('descRepaso') : t('descFinal', { a: anio }) + ' ' + t('mapaTeclado'));
   }
   function ponerModo(m) {
     const cambiaEncuadre = (m === 'final') !== (modo === 'final');
@@ -350,9 +408,12 @@ export function montar(raiz) {
     $('bloqueFoto').hidden = m !== 'foto';
     $('bloqueFinal').hidden = m !== 'final';
     $('instrumento').hidden = m === 'foto';
+    // En el cierre, el mapa se recorre con las flechas: es una parada de Tab.
+    if (m === 'final') $('capa').setAttribute('tabindex', '0'); else $('capa').removeAttribute('tabindex');
     descripcion();
     iconoControl();
-    if (m !== 'final') quitarSeleccion();
+    if (m !== 'final') quitarSeleccion(false, true); // la entrada la escribe quien cambió el momento
+    if (!seleccion) { $('tarjeta').hidden = true; $('encima').textContent = ''; }
     despejarRotulos(telefono());
     if (cambiaEncuadre) {
       const antes = caja && !telefono() ? { ...caja } : null;
@@ -386,6 +447,7 @@ export function montar(raiz) {
   const telefono = () => matchMedia('(max-width: 860px)').matches;
   const verMapa = () => { if (telefono()) mapa.scrollIntoView({ block: 'start', behavior: reducirMovimiento() ? 'auto' : 'smooth' }); };
   function jugar(desde) {
+    const empieza = modo !== 'repaso';
     volverA2026();
     if (desde !== undefined) t0 = desde;
     if (t0 >= ULTIMO) t0 = 0;
@@ -393,6 +455,7 @@ export function montar(raiz) {
     verMapa();
     jugando = true;
     iconoControl();
+    guardar(empieza);
     ultimoCuadro = performance.now();
     cancelAnimationFrame(cuadroId);
     cuadroId = requestAnimationFrame(cuadro);
@@ -404,6 +467,7 @@ export function montar(raiz) {
     iconoControl();
     // En pausa el repaso queda en un día entero: la cifra dice lo mismo que la fecha y el lector de pantalla.
     if (estaba && D && t0 % 1) { t0 = Math.floor(t0); dibujar(); actualizarTiempo(); }
+    if (estaba && modo === 'repaso') guardar(false);
   }
   function cuadro(ahora) {
     if (!jugando) return;
@@ -425,6 +489,7 @@ export function montar(raiz) {
     t0 = ULTIMO;
     actualizarTiempo();
     ponerModo('final');
+    guardar(false);
   }
   function irADia(i) {
     pausar();
@@ -433,6 +498,7 @@ export function montar(raiz) {
     if (modo !== 'repaso') ponerModo('repaso');
     dibujar();
     actualizarTiempo();
+    guardar(false);
   }
 
   /* ---------- Otro año en el mapa: tocar una barra del panel ---------- */
@@ -447,17 +513,26 @@ export function montar(raiz) {
     const i = posicion.get(id);
     return [i === undefined ? 0 : D.porAnio.v[i][D.porAnio.anios.indexOf(a)], normal];
   }
-  function elegirAnio(a) {
-    // Tocar otra vez el año elegido vuelve a 2026.
-    anio = a === anio ? ANIO : a;
+  function ponerAnio(a) {
+    anio = a;
     if (modo !== 'final') { pausar(); t0 = ULTIMO; }
     armarTiempo();
     actualizarTiempo();
     if (modo !== 'final') ponerModo('final'); else descripcion();
     pintarAnio();
+  }
+  function elegirAnio(a) {
+    // Tocar otra vez el año elegido vuelve a 2026.
+    ponerAnio(a === anio ? ANIO : a);
+    guardar(true);
     verMapa();
     // El foco se queda en la barra: se avisa lo que cambió en el mapa.
     anunciar($('resultado').textContent + ' ' + $('pistaAnio').textContent);
+  }
+  // Arrastrar sobre las barras pasa por los años; al soltar queda una sola entrada en el historial.
+  function barrerAnio(a) {
+    if (a === null) { guardar(true); anunciar($('resultado').textContent + ' ' + $('pistaAnio').textContent); return; }
+    if (a !== anio) ponerAnio(a);
   }
   function volverA2026() {
     if (anio === ANIO) return;
@@ -511,7 +586,8 @@ export function montar(raiz) {
     }
     for (const e of D.estados) el('path', { d: e.d, class: e.n === 'Yucatán' ? 'yucatan' : '' }, est);
     rel.addEventListener('pointermove', (ev) => {
-      if (seleccion || jugando || ev.pointerType === 'touch') return;
+      // En la foto los municipios todavía no se ven: no hay tarjeta al pasar.
+      if (seleccion || jugando || modo === 'foto' || ev.pointerType === 'touch') return;
       const id = ev.target.getAttribute('data-id');
       if (id) mostrarTarjeta(id, ev);
     });
@@ -519,7 +595,23 @@ export function montar(raiz) {
       $('encima').textContent = '';
       if (!seleccion) $('tarjeta').hidden = true;
     });
+    let presion = 0, tragarClic = false;
+    rel.addEventListener('pointerdown', (ev) => {
+      const id = ev.target.getAttribute('data-id');
+      if (modo !== 'final' || !id) return;
+      const x0 = ev.clientX, y0 = ev.clientY;
+      const fin = () => { clearTimeout(presion); rel.removeEventListener('pointermove', mover); window.removeEventListener('pointerup', fin); window.removeEventListener('pointercancel', fin); };
+      const mover = (e) => { if (Math.hypot(e.clientX - x0, e.clientY - y0) > 8) fin(); };
+      clearTimeout(presion);
+      presion = setTimeout(() => { fin(); tragarClic = true; abrirHistoria(id); }, 450);
+      rel.addEventListener('pointermove', mover);
+      window.addEventListener('pointerup', fin);
+      window.addEventListener('pointercancel', fin);
+    });
+    // Mantener presionado con el dedo no debe abrir el menú del navegador.
+    rel.addEventListener('contextmenu', (ev) => { if (modo === 'final') ev.preventDefault(); });
     rel.addEventListener('click', (ev) => {
+      if (tragarClic) { tragarClic = false; return; }
       // Tocar un municipio a media animación la interrumpe y abre su tarjeta. En la foto el mapa
       // de municipios no se ve: un toque ahí no debe saltar al cierre.
       if (modo === 'foto') return;
@@ -604,6 +696,37 @@ export function montar(raiz) {
   }
 
   /* ---------- Tarjeta de un municipio ---------- */
+  // Función escondida: mantener presionado un municipio (o Espacio en el mapa) abre sus 26 años en la tarjeta.
+  let historia = false;
+  const yaVioHistoria = () => { try { return localStorage.getItem('kaak-historia') === '1'; } catch { return false; } };
+  function graficaHistoria(id) {
+    const i = posicion.get(id);
+    const [, normal] = D.valores[id] || [0, 0];
+    const anios = D.porAnio.anios.map((a, k) => ({ y: a, v: i === undefined ? 0 : D.porAnio.v[i][k] }));
+    const W = 218, H = 58, base = H - 14;
+    const max = Math.max(...anios.map((a) => a.v), normal, 1);
+    const paso = W / anios.length;
+    const svg = el('svg', { viewBox: `0 0 ${W} ${H}`, class: 'historia', role: 'img' });
+    svg.setAttribute('aria-label', t('historiaAria', { m: munPorId.get(id).n, n: fmt(normal), a: anio, v: fmt(valoresDe(id)[0]) }));
+    anios.forEach((a, k) => {
+      const h = Math.max(a.v > 0 ? 1 : 0, (a.v / max) * (base - 4));
+      el('rect', { x: (k * paso + 0.5).toFixed(1), y: (base - h).toFixed(1), width: (paso - 1.5).toFixed(1), height: h.toFixed(1), class: a.y === anio ? 'este' : '' }, svg);
+    });
+    const yn = (base - (normal / max) * (base - 4)).toFixed(1);
+    el('line', { x1: 0, x2: W, y1: yn, y2: yn, class: 'normal' }, svg);
+    el('line', { x1: 0, x2: W, y1: base + 0.5, y2: base + 0.5, class: 'eje' }, svg);
+    el('text', { x: 0, y: H - 1 }, svg).textContent = String(anios[0].y);
+    el('text', { x: W, y: H - 1, 'text-anchor': 'end' }, svg).textContent = String(anios[anios.length - 1].y);
+    return svg;
+  }
+  function abrirHistoria(id) {
+    if (seleccion !== id) seleccionar(id, false);
+    historia = !historia || seleccion !== id;
+    try { localStorage.setItem('kaak-historia', '1'); } catch { /* sin almacenamiento: la pista vuelve a salir */ }
+    contenidoTarjeta(id, true);
+    ubicarTarjeta(id);
+    if (historia) anunciar($('tarjeta').querySelector('.historia').getAttribute('aria-label'));
+  }
   function contenidoTarjeta(id, fija) {
     const m = munPorId.get(id);
     const [v26, normal] = valoresDe(id);
@@ -622,6 +745,17 @@ export function montar(raiz) {
     const ver = span('veredicto');
     const i = document.createElement('i'); i.style.background = COLOR[c];
     ver.append(i, document.createTextNode(veredicto(v26, normal, c)));
+    if (fija && historia) {
+      const h = span('historia-titulo');
+      const ley = document.createElement('span');
+      const raya = document.createElement('i'); raya.setAttribute('aria-hidden', 'true');
+      ley.append(raya, t('loNormalCorto'));
+      h.append(t('historiaTitulo'), ley);
+      tj.appendChild(graficaHistoria(id));
+    } else if (!yaVioHistoria() && matchMedia('(hover: hover)').matches === !fija) {
+      // La pista sale hasta que se usa una vez: en la tarjeta al pasar con el mouse, o en la fija con el dedo.
+      span('pista-historia', t(fija ? 'pistaHistoriaDedo' : 'pistaHistoria'));
+    }
     if (fija) {
       const a = document.createElement('a');
       a.href = '#/municipio/' + encodeURIComponent(id);
@@ -663,8 +797,9 @@ export function montar(raiz) {
     y = Math.max(12, Math.min(er.height - h - 12, y));
     tj.style.left = x + 'px'; tj.style.top = y + 'px';
   }
-  function seleccionar(id, desdeBuscador) {
+  function seleccionar(id, desdeBuscador, nueva = true) {
     if (!munPorId.has(id)) return;
+    if (id !== seleccion) historia = false;
     if (modo !== 'final') { pausar(); t0 = ULTIMO; actualizarTiempo(); ponerModo('final'); }
     seleccion = id;
     const m = munPorId.get(id);
@@ -680,12 +815,15 @@ export function montar(raiz) {
     tj.hidden = false;
     ubicarTarjeta(id);
     verMapa();
+    guardar(nueva);
     if (!desdeBuscador) tj.querySelector('.cerrar').focus({ preventScroll: true });
     // Desde el buscador el foco se queda en el campo: la tarjeta se lee en voz alta.
     else anunciar([...tj.querySelectorAll('.nombre, .edo, .fila, .veredicto')].map((e) => [...e.childNodes].map((n) => n.textContent).join(' ')).join('. '));
   }
-  function quitarSeleccion(enfocar) {
+  function quitarSeleccion(enfocar, callado) {
+    if (!seleccion) return;
     seleccion = null;
+    if (!callado) guardar(true);
     escenario.classList.remove('con-tarjeta');
     $('seleccion').textContent = '';
     $('tarjeta').hidden = true;
@@ -695,13 +833,47 @@ export function montar(raiz) {
     }
   }
 
+  /* ---------- El mapa con el teclado: las flechas pasan al municipio de al lado ---------- */
+  function vecino(dx, dy) {
+    const yuc = D.mun.filter((m) => m.e === 'Yucatán');
+    const de = seleccion && munPorId.get(seleccion);
+    if (!de) return munPorId.get(EJEMPLO) || yuc[0];
+    let mejor = null, puntos = Infinity;
+    for (const m of yuc) {
+      if (m.id === de.id) continue;
+      const vx = m.cx - de.cx, vy = m.cy - de.cy;
+      const adelante = vx * dx + vy * dy;
+      if (adelante <= 0) continue;
+      // Gana el más cercano en esa dirección; desviarse de lado cuenta más que avanzar.
+      const p = adelante + 2.5 * Math.abs(vx * dy - vy * dx);
+      if (p < puntos) { puntos = p; mejor = m; }
+    }
+    return mejor;
+  }
+  $('capa').addEventListener('keydown', (e) => {
+    if (modo !== 'final' || !D) return;
+    const dir = { ArrowRight: [1, 0], ArrowLeft: [-1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] }[e.key];
+    if (dir) {
+      e.preventDefault();
+      const m = vecino(...dir);
+      // Recorrer el mapa no llena el historial: solo la primera elección deja una entrada.
+      if (m) seleccionar(m.id, true, !seleccion);
+    } else if (e.key === 'Enter' && seleccion) {
+      e.preventDefault();
+      location.hash = '#/municipio/' + encodeURIComponent(seleccion);
+    } else if (e.key === ' ' && seleccion) {
+      e.preventDefault();
+      abrirHistoria(seleccion);
+    }
+  });
+
   /* ---------- Panel ---------- */
   // Las barras de cada año: tocar una pinta ese año en el mapa.
   function barrasPanel() {
     const y = D.yuc;
     const anios = Object.keys(y.anios).map(Number).sort((a, b) => a - b).map((a) => ({ y: a, total: y.anios[a] }));
     barrasAnios($('barras'), {
-      anios, normal: y.normal, alTocar: elegirAnio, seleccionado: anio === ANIO ? null : anio,
+      anios, normal: y.normal, alTocar: elegirAnio, alBarrer: barrerAnio, seleccionado: anio === ANIO ? null : anio,
       aria: t('barrasAria', { n: fmt(y.normal), a: fmt(y.anios[ANIO]) }),
     });
   }
@@ -757,16 +929,65 @@ export function montar(raiz) {
     despejarRotulos(telefono());
     armarEscala();
     armarPanel();
+    armarAtajos();
     actualizarTiempo();
     descripcion();
     if (seleccion) { contenidoTarjeta(seleccion, true); ubicarTarjeta(seleccion); }
   }
 
+  /* ---------- Atajos de teclado (función escondida): «?» muestra la lista ---------- */
+  function armarAtajos() {
+    const b = $('verAtajos');
+    b.textContent = '';
+    const k = document.createElement('kbd'); k.textContent = '?';
+    b.append(t('atajosBoton') + ' ', k);
+    const dl = $('atajosLista');
+    dl.textContent = '';
+    for (const [teclas, que] of t('atajos')) {
+      const dt = document.createElement('dt');
+      teclas.split(' ').forEach((tecla, i) => {
+        if (i) dt.append(' ');
+        if (/^\[.*\]$/.test(tecla)) { const kb = document.createElement('kbd'); kb.textContent = tecla.slice(1, -1); dt.appendChild(kb); } else dt.append(tecla);
+      });
+      const dd = document.createElement('dd'); dd.textContent = que;
+      dl.append(dt, dd);
+    }
+  }
+  const verAtajos = () => { if (!$('atajos').open) $('atajos').showModal(); };
+  $('verAtajos').addEventListener('click', verAtajos);
+  $('atajosCerrar').addEventListener('click', () => $('atajos').close());
+  $('atajos').addEventListener('click', (e) => { if (e.target === $('atajos')) $('atajos').close(); }); // tocar fuera la cierra
+  function atajo(e) {
+    if (e.ctrlKey || e.metaKey || e.altKey || !D || $('atajos').open) return;
+    if (e.target.closest('input, textarea, select, [contenteditable]')) return;
+    if (e.key === '?') { e.preventDefault(); verAtajos(); return; }
+    if (e.key === '/') {
+      e.preventDefault();
+      const i = raiz.querySelector('.bloque:not([hidden]) .buscador input');
+      if (i) i.focus();
+      return;
+    }
+    // Lo que ya usa esas teclas (botones, deslizadores, el mapa, las barras) se queda con ellas.
+    if (e.target.closest('button, a, [role="slider"], [role="button"], [role="toolbar"], #capa, dialog')) return;
+    if (e.key === ' ') {
+      e.preventDefault();
+      if (modo === 'foto') { jugar(0); $('control').focus({ preventScroll: true }); } else $('control').click();
+    } else if ((e.key === 'ArrowRight' || e.key === 'ArrowLeft') && modo !== 'foto') {
+      e.preventDefault();
+      irADia(Math.round(t0) + (e.key === 'ArrowRight' ? 1 : -1));
+    }
+  }
+  document.addEventListener('keydown', atajo);
+
   /* ---------- Eventos ---------- */
   // El botón que se tocó desaparece: el foco pasa a lo que lo reemplaza.
   $('verTemporada').addEventListener('click', () => { jugar(0); $('control').focus({ preventScroll: true }); });
-  $('volver').addEventListener('click', () => { volverA2026(); descripcion(); $('resultado').focus({ preventScroll: true }); });
+  // En la foto, tocar el mapa también empieza la temporada: es lo primero que se toca.
+  mapa.addEventListener('click', () => { if (modo === 'foto' && D) { jugar(0); $('control').focus({ preventScroll: true }); } });
+  $('volver').addEventListener('click', () => { volverA2026(); descripcion(); guardar(true); $('resultado').focus({ preventScroll: true }); });
   $('control').addEventListener('click', () => {
+    // Con «reducir movimiento», «Repetir» lleva al primer día sin animar: se avanza con la línea de tiempo.
+    if (modo === 'final' && reducirMovimiento()) { irADia(0); guardar(true); return; }
     if (modo === 'final') { jugar(0); return; }
     if (jugando) pausar(); else jugar();
   });
@@ -800,7 +1021,7 @@ export function montar(raiz) {
       tiempo.removeEventListener('pointermove', mover);
       tiempo.removeEventListener('pointerup', soltar);
       tiempo.removeEventListener('pointercancel', soltar);
-      if (t0 >= ULTIMO - 0.01) irFinal();
+      if (t0 >= ULTIMO - 0.01) irFinal(); else guardar(false);
     };
     tiempo.addEventListener('pointermove', mover);
     tiempo.addEventListener('pointerup', soltar);
@@ -828,7 +1049,7 @@ export function montar(raiz) {
       if (e.type !== 'pointerup') return; // el navegador se quedó con el gesto para desplazar la página
       pausar();
       irA(e);
-      if (t0 >= ULTIMO - 0.01) irFinal();
+      if (t0 >= ULTIMO - 0.01) irFinal(); else guardar(false);
     };
     tiempo.addEventListener('pointermove', mover);
     tiempo.addEventListener('pointerup', soltar);
@@ -851,8 +1072,11 @@ export function montar(raiz) {
       e.preventDefault();
     }
   });
-  const alEscape = (e) => { if (e.key === 'Escape' && seleccion) quitarSeleccion(true); };
+  const alEscape = (e) => { if (e.key === 'Escape' && seleccion && !$('atajos').open) quitarSeleccion(true); };
   document.addEventListener('keydown', alEscape);
+  // «Atrás» y «Adelante» dentro de la portada: el enrutador no la vuelve a montar.
+  const alAncla = () => { if (D && ruta().vista === 'portada') aplicar(leerEstado()); };
+  window.addEventListener('hashchange', alAncla);
   window.addEventListener('idioma', textos);
   const observador = new ResizeObserver(() => { cancelAnimationFrame(esperaMedir); esperaMedir = requestAnimationFrame(medir); });
   observador.observe(escenario);
@@ -873,12 +1097,7 @@ export function montar(raiz) {
     textos();
     medir();
     prepararDias();
-    const m = params.get('modo');
-    if (m === 'repaso') { t0 = Number(params.get('t') || 45); ponerModo('repaso'); actualizarTiempo(); dibujar(); }
-    else if (m === 'final' || reducirMovimiento()) { irFinal(); if (params.get('sel')) seleccionar(params.get('sel'), true); }
-    else dibujar();
-    const a = Number(params.get('anio'));
-    if (D.porAnio.anios.includes(a) && a !== ANIO) elegirAnio(a);
+    aplicar(leerEstado());
   }).catch(() => {
     if (!vivo) return;
     const aviso = document.createElement('p');
@@ -896,6 +1115,9 @@ export function montar(raiz) {
     clearTimeout(esperaFinal);
     observador.disconnect();
     document.removeEventListener('keydown', alEscape);
+    document.removeEventListener('keydown', atajo);
+    window.removeEventListener('hashchange', alAncla);
     window.removeEventListener('idioma', textos);
+    clearTimeout(esperaURL);
   };
 }

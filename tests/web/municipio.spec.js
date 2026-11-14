@@ -94,7 +94,7 @@ test('el enlace corto de la ficha (kaak.pages.dev/tekax) abre el municipio', asy
 
 test('en inglés, la página y la ficha cambian de idioma', async ({ page }) => {
   await abrir(page, '#/municipio/tekax', { query: '?lang=en' });
-  await expect(page.locator('#frase')).toHaveText('There was half the fire of a normal year.');
+  await expect(page.locator('#frase')).toHaveText('There was half as much fire as in a normal year.');
   await expect(page.locator('#llave')).toContainText('8 in 10 hot spots');
   await expect(page.locator('#ficha')).toHaveAttribute('aria-label', /Tekax’s card/);
 });

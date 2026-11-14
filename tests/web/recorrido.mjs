@@ -1,5 +1,5 @@
 // Graba el recorrido de la página para el PR, con subtítulos dentro de la página (?subtitulos=1).
-// Uso: node tests/web/recorrido.mjs <nombre> [portada|temporada|fechas|pulido|revision]
+// Uso: node tests/web/recorrido.mjs <nombre> [portada|temporada|fechas|pulido|revision|repaso]
 //   →   videos/<nombre>-escritorio.mp4 y videos/<nombre>-telefono.mp4
 //
 // Cada cuadro sale de Chrome en JPEG de alta calidad (el teléfono, a doble resolución) y ffmpeg lo
@@ -388,6 +388,113 @@ async function revision() {
   });
 }
 
-await ({ portada, temporada, fechas, pulido, revision })[RECORRIDO]();
+// Pulido antes del demo: tocar el mapa de la foto, lo tocable, la dirección y «Atrás», el teclado,
+// las funciones escondidas, el interruptor de la calibración, Fechas con 12 renglones y la vista previa.
+async function repaso() {
+  await grabar('escritorio', ESCRITORIO, '#/', '#rellenos path', async ({ page, espera, sub, centro }) => {
+    const dir = () => decodeURIComponent(new URL(page.url()).hash);
+    await sub('En la primera visita, K\'ÁAK\' dice una vez lo que significa: «fuego, en maya». Después sale al pasar el mouse.', 4000);
+    const [fx, fy] = await centro('#mapa');
+    await page.mouse.move(fx + 120, fy - 40, { steps: 12 });
+    await sub('En la foto, todo el mapa se puede tocar: el botón se ilumina al pasar por él.', 3000);
+    await page.mouse.click(fx + 120, fy - 40);
+    await sub('Tocar el mapa empieza la temporada.', 3500);
+    await page.waitForSelector('#escenario[data-modo="final"]', { timeout: 30000 });
+    await espera(800);
+    const b = await page.locator('#barras .toque[data-y="2016"]').boundingBox();
+    await page.mouse.move(b.x + b.width / 2, b.y + b.height - 6, { steps: 12 });
+    await sub('Lo que se toca lo parece: la barra se oscurece y dice su año y su cifra. Las pistas llevan un ícono de toque.', 4500);
+    const b1 = await page.locator('#barras .toque[data-y="2001"]').boundingBox();
+    const b2 = await page.locator('#barras .toque[data-y="2026"]').boundingBox();
+    const yb = b1.y + b1.height - 6;
+    await page.mouse.move(b1.x + 3, yb, { steps: 8 });
+    await page.mouse.down();
+    await sub('Escondido: arrastrar sobre las barras recorre los 26 años en el mapa.', 400);
+    await page.mouse.move(b2.x - 30, yb, { steps: 90 });
+    await page.mouse.up();
+    await sub('La dirección guarda lo que se ve: ' + dir(), 4000);
+    await page.goBack();
+    await sub('«Atrás» deshace el paso: vuelve 2026. ' + dir(), 3500);
+    const [vx, vy] = await centro('.rellenos path[data-id="valladolid"]');
+    await page.mouse.move(vx, vy, { steps: 12 });
+    await sub('La tarjeta avisa una sola vez de otra función escondida…', 3000);
+    await page.mouse.down();
+    await espera(700);
+    await page.mouse.up();
+    await sub('…mantener presionado un municipio abre sus 26 años contra lo normal.', 5000);
+    await page.keyboard.press('Escape');
+    await page.locator('#capa').focus();
+    await sub('Con el teclado, el mapa es una parada de Tab: las flechas pasan al municipio de al lado.', 1200);
+    for (const k of ['ArrowRight', 'ArrowUp', 'ArrowUp', 'ArrowRight', 'ArrowDown']) { await page.keyboard.press(k); await espera(700); }
+    await page.keyboard.press(' ');
+    await sub('Espacio abre sus 26 años y Enter, su página.', 3000);
+    await page.keyboard.press('Enter');
+    await page.waitForSelector('#ficha');
+    await espera(1800);
+    await page.goBack();
+    await page.waitForSelector('#tarjeta:not([hidden])');
+    await sub('Y «Atrás» regresa al mapa con el mismo municipio abierto.', 3500);
+    await page.keyboard.press('Escape');
+    await page.locator('#respuesta').click();
+    await page.keyboard.press('?');
+    await sub('«?» muestra todos los atajos; en la computadora también hay un botón al pie del panel.', 5000);
+    await page.keyboard.press('Escape');
+    await page.locator('#tira').focus();
+    await sub('La tira de días también se recorre con las flechas y lleva el mapa a cada día.', 800);
+    for (let i = 0; i < 6; i++) { await page.keyboard.press('PageUp'); await espera(450); }
+    await espera(1500);
+    await page.click('.nav a[data-vista="fechas"]');
+    await page.waitForSelector('#zMeses .fz-dia');
+    await page.locator('#zMeses [tabindex="0"]').focus();
+    await sub('En Fechas de quema, el calendario se recorre con el teclado, día por día y por semana.', 800);
+    for (const k of ['ArrowRight', 'ArrowRight', 'ArrowDown', 'ArrowDown', 'ArrowRight']) { await page.keyboard.press(k); await espera(550); }
+    await page.keyboard.press('Enter');
+    await espera(1500);
+    await page.evaluate(() => document.getElementById('almMas').scrollIntoView({ block: 'end' }));
+    await page.mouse.wheel(0, 60);
+    await sub('El almanaque abre con 12 municipios y «Ver los restantes».', 3500);
+    await page.click('.nav a[data-vista="metodo"]');
+    await page.waitForSelector('#salto');
+    await page.locator('#salto').scrollIntoViewIfNeeded();
+    await page.mouse.wheel(0, 120);
+    await sub('En «Cómo lo medimos», el salto de 2012 se ve con un interruptor: sin calibrar y calibrado.', 2000);
+    await page.click('[data-ver="crudo"]');
+    await espera(2200);
+    await page.click('[data-ver="armonizado"]');
+    await espera(2200);
+    // La tarjeta que entrega functions/_middleware.js, encima de la página (el servidor local no corre Functions).
+    await page.evaluate(() => new Promise((listo) => {
+      const fondo = Object.assign(document.createElement('div'), { style: 'position:fixed;inset:0;z-index:40;background:#E9E4DC;display:flex;align-items:center;justify-content:center' });
+      const img = Object.assign(document.createElement('img'), { src: '/og/uman.png', style: 'width:min(900px,90vw);box-shadow:0 12px 40px rgba(0,0,0,.35)' });
+      img.onload = listo;
+      fondo.appendChild(img);
+      document.body.appendChild(fondo);
+    }));
+    await sub('Al compartir kaak.pages.dev/uman, WhatsApp muestra esta tarjeta.', 4000);
+  });
+  await grabar('telefono', TELEFONO, '#/', '#rellenos path', async ({ page, espera, sub }) => {
+    const cdp = await page.context().newCDPSession(page);
+    const presionar = async (x, y, ms) => {
+      await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x, y }] });
+      await espera(ms);
+      await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+    };
+    await sub('En el teléfono, tocar la foto empieza la temporada.', 2500);
+    const m = await page.locator('#mapa').boundingBox();
+    await page.touchscreen.tap(m.x + m.width * 0.6, m.y + m.height * 0.4);
+    await page.waitForSelector('#escenario[data-modo="final"]', { timeout: 30000 });
+    await espera(1200);
+    const v = await page.locator('.rellenos path[data-id="valladolid"]').boundingBox();
+    await page.touchscreen.tap(v.x + v.width / 2, v.y + v.height / 2);
+    await sub('Un toque abre la tarjeta, que avisa una vez de la función escondida.', 4000);
+    await presionar(Math.round(v.x + v.width / 2), Math.round(v.y + v.height / 2), 700);
+    await sub('Mantener presionado abre sus 26 años, sin que salga el menú del navegador.', 5000);
+    await page.locator('#barras').scrollIntoViewIfNeeded();
+    await espera(400);
+    await sub('Las pistas del panel llevan un ícono de toque y van en tinta, no en gris chico.', 4000);
+  });
+}
+
+await ({ portada, temporada, fechas, pulido, revision, repaso })[RECORRIDO]();
 await navegador.close();
 process.exit(0);

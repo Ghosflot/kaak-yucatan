@@ -2,7 +2,7 @@
   "tituloPagina": "K'áak': is your municipality burning more than usual?",
   "descripcionPagina": "25 years of satellite hot spots on the Yucatán Peninsula, to know what is normal in each municipality.",
   "saltar": "Skip to content",
-  "marcaAria": "K'áak', home",
+  "marcaAria": "K'áak', fire in Maya. Home",
   "navAria": "Sections",
   "navTemporada": "Season",
   "navFechas": "Burning dates",
@@ -118,6 +118,53 @@
   "descFoto": "Satellite mosaic of the Yucatán Peninsula with the hot spots of {f}.",
   "descRepaso": "The 2026 season day by day on the map of the peninsula.",
   "descFinal": "Map of Yucatán’s municipalities colored by their {a} fire compared with normal.",
+  "mapaTeclado": "With the keyboard, the arrow keys move to the next municipality and Enter opens its page.",
+  "historiaTitulo": "Its 26 years",
+  "loNormalCorto": "normal",
+  "historiaAria": "Hot spots in {m} from March to May, each year from 2001 to 2026. Normal is {n}; {a} had {v}.",
+  "pistaHistoria": "Press and hold to see its 26 years.",
+  "pistaHistoriaDedo": "Press and hold a municipality to see its 26 years.",
+  "marcaDice": "fire, in Maya",
+  "atajosBoton": "Keyboard shortcuts",
+  "atajosTitulo": "Keyboard shortcuts",
+  "atajos": [
+    [
+      "[Space]",
+      "Start or pause the season"
+    ],
+    [
+      "[←] [→]",
+      "One day back or forward"
+    ],
+    [
+      "[/]",
+      "Search for a municipality"
+    ],
+    [
+      "[↑] [↓] [←] [→]",
+      "On the final map, move to the next municipality"
+    ],
+    [
+      "[Enter]",
+      "On the map, open the municipality’s page"
+    ],
+    [
+      "[Space]",
+      "On the map, see the municipality’s 26 years"
+    ],
+    [
+      "Drag",
+      "Across the year bars, go through them on the map"
+    ],
+    [
+      "Hold",
+      "On a municipality, see its 26 years"
+    ],
+    [
+      "[Esc]",
+      "Close the card or this list"
+    ]
+  ],
   "barrasAria": "Hot spots from March to May in Yucatán by year, 2001 to 2026. Normal is {n}; 2026 had {a}.",
   "anioEnMapa": "The map shows {a}. Tap its bar again to go back to 2026.",
   "tocaAnioMapa": "Tap a year to see it on the map.",
@@ -129,13 +176,13 @@
   "rutaAria": "Breadcrumb",
   "peninsula": "Peninsula",
   "frase": [
-    "There was less than half the fire of a normal year.",
-    "There was half the fire of a normal year.",
+    "There was less than half as much fire as in a normal year.",
+    "There was half as much fire as in a normal year.",
     "There was less fire than in a normal year.",
     "There was about as much fire as in a normal year.",
     "There was more fire than in a normal year.",
-    "There was double the fire of a normal year.",
-    "There was more than double the fire of a normal year.",
+    "There was twice as much fire as in a normal year.",
+    "There was more than twice as much fire as in a normal year.",
     "There is hardly ever any burning here, so there is nothing to compare."
   ],
   "munCifras2": "{a} hot spots from March to May 2026; in a normal year, {b}.",
@@ -242,7 +289,9 @@
   ],
   "almConteo": "Showing {n} of {t} municipalities.",
   "almVacio": "No municipality has that name.",
-  "almCsv": "Download what is shown (CSV table)",
+  "almMas": "Show the other {n} municipalities",
+  "almMenos": "Show fewer municipalities",
+  "almCsv": "Download the table (CSV)",
   "almMunicipio": "Municipality",
   "almRango": ", {r}",
   "almSinZona": "{e}, no calendar",
@@ -280,11 +329,13 @@
   "mPeriodoDesde": "{s} ({i}), since {d}",
   "mUnir2": "Today's satellites (VIIRS) see smaller fires than earlier ones (MODIS). In the season, for every square with fire that Aqua saw in Yucatán, today's satellites see between {a} and {b}, depending on the zone. Using the years they flew together, we calculated a factor for each zone and time of year, and with it we brought the MODIS years to today's scale.",
   "mGrafTitulo": "Hot spots in Yucatán, March 1 to May 31 of each year",
-  "mCrudo": "Joining the satellites as they are",
-  "mArmonizado": "With the calibration",
   "mCambio": "2012: the satellite changes",
   "mRayas": "Hatched: MODIS years brought to the VIIRS scale.",
-  "mSalto": "Without calibration, fire seems to have multiplied by {c} from {a1}–{a2} to {d1}–{d2}. Calibrated, it multiplied by {r}: the jump came from the satellite, not from the fire.",
+  "mVerAria": "How the MODIS years look",
+  "mVerCrudo": "Uncalibrated",
+  "mVerArmonizado": "Calibrated",
+  "mSaltoCrudo": "Without calibration, fire seems to have multiplied by {c} from {a1}–{a2} to {d1}–{d2}.",
+  "mSaltoArmonizado": "Calibrated, it multiplied by {r}: the jump came from the satellite, not from the fire.",
   "mCrudoAria": "Without calibration: from 2001 to 2011 the bars stay very low and fire seems to jump in 2012.",
   "mArmonizadoAria": "With the calibration: the years from 2001 to 2011 reach the level of today's and the jump disappears.",
   "mConfiarTitulo": "Can it be trusted?",
