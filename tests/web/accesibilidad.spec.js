@@ -51,11 +51,13 @@ test('la línea de tiempo dice de qué año es', async ({ page }) => {
   await expect(page.locator('#tiempo')).toHaveAttribute('aria-label', 'Día de la temporada 2003');
 });
 
-test('en la foto, tocar el mapa no salta al cierre', async ({ page }) => {
+test('en la foto, tocar el mapa empieza la temporada y no salta al cierre', async ({ page }) => {
   await abrir(page, '#/');
   await page.locator('.rellenos path[data-id="tekax"]').click({ force: true });
-  await page.waitForTimeout(300);
-  await expect(page.locator('#escenario')).toHaveAttribute('data-modo', 'foto');
+  await expect(page.locator('#escenario')).toHaveAttribute('data-modo', 'repaso');
+  await expect(page.locator('#tarjeta')).toBeHidden();
+  // El botón que se tocó desaparece: el foco pasa al control del repaso.
+  expect(await enfocado(page)).toBe('control');
 });
 
 test('«Tekax» en el mapa del cierre va en claro sobre el verde oscuro', async ({ page }) => {

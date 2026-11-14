@@ -139,6 +139,9 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .leyenda-punto i { width: 8px; height: 8px; margin-top: 6px; flex-shrink: 0; border-radius: 50%; background: #FFD56A; }
 .boton { align-self: flex-start; display: inline-flex; align-items: center; gap: 10px; height: 46px; padding: 0 18px 0 14px; border: 0; background: #FFFFFF; color: var(--tinta); font-size: 15px; font-weight: 800; white-space: nowrap; cursor: pointer; transition: transform 0.12s ease; }
 .boton:active { transform: scale(0.97); }
+/* En la foto, el mapa también empieza la temporada: al pasar por él, el botón lo dice. */
+[data-modo="foto"] .mapa { cursor: pointer; }
+.boton:hover, [data-modo="foto"] .mapa:hover ~ .cartel .boton { background: #FFE9C2; }
 .boton svg { flex-shrink: 0; }
 .resultado { margin: 0; font-family: var(--display); font-weight: 400; font-size: 25px; line-height: 1.12; color: var(--brillo); text-wrap: balance; }
 .resultado .cifra { color: inherit; }

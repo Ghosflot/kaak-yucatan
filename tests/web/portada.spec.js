@@ -284,3 +284,54 @@ test('el año normal de la línea de tiempo no es gris sólido como «casi nunca
   expect(normal).not.toBe(poco);
   expect(normal).toBe('rgba(246, 244, 240, 0.85)'); // una línea blanca, como la silueta
 });
+
+// La dirección sigue el estado: se puede compartir lo que se ve y «Atrás» deshace cada paso.
+test.describe('la dirección', () => {
+  test('guarda el municipio y el año, y «Atrás» los deshace uno por uno', async ({ page }) => {
+    await abrir(page, '#/', { reducir: true });
+    await page.locator('#barras .toque[data-y="2003"]').click();
+    await expect(page).toHaveURL(/#\/\?modo=final&anio=2003$/);
+    await page.locator('#buscador2 input').fill('Tekax');
+    await page.keyboard.press('Enter');
+    await expect(page).toHaveURL(/#\/\?modo=final&anio=2003&sel=tekax$/);
+    await page.goBack();
+    await expect(page.locator('#tarjeta')).toBeHidden();
+    await expect(page.locator('#filaAnio')).toHaveText('2003');
+    await page.goBack();
+    await expect(page.locator('#filaAnio')).toHaveText('2026');
+    await page.goForward();
+    await page.goForward();
+    await expect(page.locator('#tarjeta .nombre')).toHaveText('Tekax');
+    await expect(page.locator('#filaAnio')).toHaveText('2003');
+  });
+
+  test('al recargar, abre lo mismo que se veía', async ({ page }) => {
+    await abrir(page, '#/', { query: '' });
+    await page.goto('/#/?modo=final&anio=2009&sel=tekax');
+    await page.reload();
+    await page.waitForSelector('#tarjeta:not([hidden])');
+    await expect(page.locator('#tarjeta .nombre')).toHaveText('Tekax');
+    await expect(page.locator('#filaAnio')).toHaveText('2009');
+  });
+
+  test('el día del repaso se reescribe sin llenar el historial', async ({ page }) => {
+    await abrir(page, '#/');
+    await page.locator('#verTemporada').click();
+    await expect(page).toHaveURL(/#\/\?modo=repaso$/);
+    const largo = await page.evaluate(() => history.length);
+    await page.locator('#control').click(); // pausa
+    await page.locator('#tiempo').focus();
+    await page.keyboard.press('Home');
+    for (let i = 0; i < 5; i++) await page.keyboard.press('ArrowRight');
+    await expect(page).toHaveURL(/#\/\?modo=repaso&t=5$/);
+    expect(await page.evaluate(() => history.length)).toBe(largo);
+    // «Atrás» regresa a la foto.
+    await page.goBack();
+    await expect(page.locator('#escenario')).toHaveAttribute('data-modo', 'foto');
+  });
+
+  test('las direcciones viejas, con ?modo antes del ancla, se siguen abriendo', async ({ page }) => {
+    await abrir(page, '#/', { query: '?modo=final&sel=tekax' });
+    await expect(page.locator('#tarjeta .nombre')).toHaveText('Tekax');
+  });
+});
