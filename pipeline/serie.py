@@ -95,11 +95,15 @@ RESPALDO = {"S-NPP": "NOAA-20", "Aqua": "Terra"}
 # Caídas que NASA confirma. Se reportan en salidas/dias_sin_datos.csv pero NO se rellenan
 # (decisión del 14 nov): S-NPP 2022 cae fuera de temporada y la regla del umbral no la
 # detecta; se deja visible a propósito. Terra 2001 no tiene con qué rellenarse.
+# Fuentes (docs/01, «Días sin datos del satélite»):
+# - https://www.earthdata.nasa.gov/data/alerts-outages/suomi-npp-recovers-from-safe-mode
+# - https://mcst.gsfc.nasa.gov/iot/am1weekly2001-1672001-173 (apagado el 15 jun 2001) y
+#   https://mcst.gsfc.nasa.gov/iot/am1weekly2001-1812001-187 (de vuelta el 2 jul, 22:48 UTC)
 CAIDAS_CONFIRMADAS = [
     ("S-NPP", date(2022, 7, 26), date(2022, 8, 20),
-     "S-NPP en modo seguro; NASA confirma pérdida de datos del 26 jul al 20 ago 2022"),
-    ("Terra", date(2001, 6, 15), date(2001, 7, 3),
-     "Falla de la fuente de poder de Terra (NASA/MCST), 15 jun – 3 jul 2001"),
+     "S-NPP en modo seguro: NASA Earthdata da por perdidos los datos del 26 jul al 20 ago 2022"),
+    ("Terra", date(2001, 6, 15), date(2001, 7, 2),
+     "MODIS de Terra apagado por una falla de su fuente de poder (NASA MCST): 15 jun – 2 jul 2001"),
 ]
 COLUMNAS_HUECOS = ["dia_local", "satelite_periodo", "respaldo", "cuadritos_respaldo",
                    "motivo", "rellenado", "nota"]

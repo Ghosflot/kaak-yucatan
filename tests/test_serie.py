@@ -512,7 +512,7 @@ def test_la_caida_de_snpp_de_2022_se_reporta_pero_no_se_rellena():
 def test_terra_2001_no_tiene_respaldo_y_se_reporta():
     _, _, res = armar()
     # El relleno pone Terra el 15 jun 2001: ese día sí tiene datos.
-    esperados = [d.date() for d in pd.date_range("2001-06-16", "2001-07-03")]
+    esperados = [d.date() for d in pd.date_range("2001-06-16", "2001-07-02")]
     assert res["sin_rellenar"]["Terra"] == esperados
     terra = res["huecos"][res["huecos"]["satelite_periodo"] == "Terra"]
     assert terra["respaldo"].isna().all() and not terra["rellenado"].any()
