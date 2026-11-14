@@ -131,7 +131,9 @@ test('tocar «Lo normal» explica qué es', async ({ page }) => {
 test('las cifras salen de web/datos y no están escritas en el código', async ({ page }) => {
   await abrir(page, '#/', { reducir: true });
   const texto = await page.evaluate(() => document.body.textContent);
-  for (const viejo of ['3,789', '8,905', 'Ucú', 'Prototipo', '×3.05', '30 de abril']) expect(texto).not.toContain(viejo);
+  // «30 de abril» era el día pico de la maqueta; desde H1 también es el día pico real
+  // (NOAA-20 cubre los días sin datos de S-NPP), así que ya no sirve para detectar la maqueta.
+  for (const viejo of ['3,789', '8,905', 'Ucú', 'Prototipo', '×3.05']) expect(texto).not.toContain(viejo);
   const fmt = (n) => Math.round(n).toLocaleString('es-MX');
   expect(texto).toContain(`${PORTADA.cuenta.menos} de ${PORTADA.cuenta.total} municipios`);
   expect(texto).toContain(fmt(PORTADA.acum26[91]));

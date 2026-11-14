@@ -122,7 +122,9 @@ def test_portada_cada_anio_contra_lo_normal(salida):
 def test_tekax_la_mitad_y_despues_de_la_ventana(salida):
     t = _json(salida, "municipio/tekax.json")
     assert 0.4 < t["v26"] / t["normal"] < 0.6
-    assert t["clase"] == "muyabajo"
+    # Con H1 (28–30 abr 2026 contados con NOAA-20) Tekax tiene 213 contra 390: el 55 %,
+    # «abajo». Antes, sin esos días, daba 191 (el 49 %, «muyabajo»).
+    assert t["clase"] == "abajo"
     assert round(t["despues"] * 10) == 8
     assert len(t["diaNormal"]) == 92 and len(t["porAnio"]) == 26
 
@@ -174,8 +176,11 @@ def test_metodo_salto_de_2012(salida):
     # Lo calibrado es la misma serie que la portada.
     p = _json(salida, "portada.json")
     assert {str(a["y"]): a["armonizado"] for a in m["anios"]} == p["yuc"]["anios"]
-    # Desde 2012 la temporada la ve S-NPP, sin factor: las dos coinciden.
-    assert all(a["crudo"] == a["armonizado"] for a in m["anios"] if a["y"] >= 2012)
+    # Desde 2012 la temporada la ve S-NPP, sin factor: las dos coinciden. Los días sin datos
+    # de S-NPP (H1) se cuentan con NOAA-20 × 1.0077, así que en 2024 y 2026 difieren un poco.
+    assert all(a["armonizado"] == pytest.approx(a["crudo"], rel=0.01)
+               for a in m["anios"] if a["y"] >= 2012)
+    assert sum(a["crudo"] != a["armonizado"] for a in m["anios"] if a["y"] >= 2012) <= 2
     # Antes, MODIS ve menos que la escala de VIIRS.
     assert all(0 < a["crudo"] < a["armonizado"] for a in m["anios"] if a["y"] < 2012)
     # El salto, con los periodos de la prueba 1 de la validación: 2009–2011 contra 2013–2015.
