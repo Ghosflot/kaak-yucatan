@@ -3,7 +3,7 @@ import { t } from './textos.js';
 import { sinAcentos } from './comun.js';
 import { ubicar, municipioEn } from './ubicacion.js';
 
-export const EJEMPLO = 'tekax';
+export const EJEMPLO = 'uman';
 
 // Ciudades, y municipios nuevos que los límites del mapa no traen, con el municipio que las contiene:
 // quien busque «Cancún» encuentra Benito Juárez.

@@ -13,7 +13,7 @@ const VISTAS = {
 const decodificar = (s) => { try { return decodeURIComponent(s); } catch { return s; } };
 
 export function ruta(hash = location.hash, camino = location.pathname) {
-  // El enlace corto de la ficha, kaak.pages.dev/tekax: Cloudflare Pages responde con index.html.
+  // El enlace corto de la ficha, kaak.pages.dev/uman: Cloudflare Pages responde con index.html.
   const corto = !hash && camino.match(/^\/([a-z0-9-]+)\/?$/);
   if (corto && corto[1] !== 'index') return { vista: 'municipio', params: { id: corto[1] } };
   const [nombre, id] = hash.replace(/^#\/?/, '').split('/');

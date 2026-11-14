@@ -556,7 +556,7 @@ export function montar(raiz) {
       nombre.textContent = c.t;
       d.append(punto, nombre);
     }
-    // Notas del cierre: Tekax siempre; un municipio con más fuego, solo si lo hay.
+    // Notas del cierre: el municipio de ejemplo (Umán) siempre; un municipio con más fuego, solo si lo hay.
     const tk = munPorId.get(EJEMPLO);
     if (tk) {
       const b = document.createElement('button');
