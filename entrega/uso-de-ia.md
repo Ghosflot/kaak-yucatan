@@ -34,7 +34,7 @@ editor, Perplexity…) and what for.
 | Member | Role | AI use |
 |---|---|---|
 | Guille (Ghosflot) | Coordination, the site and the submission | Claude, for research, analysis scripts, the site skeleton, the daily-update fix, mock-ups and document drafts |
-| Gadiel (uicabg1) | Harmonization: the 1 km fire grid, the MODIS→VIIRS and NOAA-20 factors and the 25-year series (`pipeline/rejilla.py`, `armonizar.py`, `serie.py`, `cargar.py`) | TODO(Gadiel) |
+| Gadiel (uicabg1) | Harmonization: the 1 km fire grid, the MODIS→VIIRS and NOAA-20 factors and the 25-year series (`pipeline/rejilla.py`, `armonizar.py`, `serie.py`, `cargar.py`) | Claude, to draft code and tests for the grid, the factors and the series, which he reviewed |
 | Nico (Nicomoguel) | Validation and the provisional calendar (`pipeline/calendario_provisional.py`, `validar.py`) | Claude, for parts of the validation code. TODO(Nico): the provisional calendar |
 | Leo (leosanlo30) | The site and the field data | Claude, for a redesign of the site and to write down the field notes |
 | Misa (David-Alcocer) | Quality and publication: automated tests, the daily update and the README | TODO(Misa) |
