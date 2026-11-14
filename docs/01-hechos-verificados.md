@@ -147,10 +147,10 @@ queda por verificar.
   - Umán (2025): incendio junto a dos fraccionamientos (Diario de Yucatán, 25 mar 2025). Ese
     año Umán perdió 264.29 ha de selva mediana y Yaxkukul 480.05 ha de selva baja (Diario de
     Yucatán, 12 ene 2026, con cifras preliminares de CONAFOR).
-- **El hueco:** el permiso de quema es gratuito, en papel, en el palacio municipal, y solo
-  permite quemar de 17:00 a 08:00 (Diario de Yucatán, 26 feb 2024). SEDER coordina cada año
-  el Comité Estatal del Programa de Prevención y Combate de Incendios Agrícolas y Forestales
-  (Por Esto, 26 feb 2026). Protección Civil se entera cuando ya hay fuego.
+- **El permiso de quema:** es gratuito, se pide en el palacio municipal y solo permite quemar
+  de 17:00 a 08:00 (Diario de Yucatán, 26 feb 2024). SEDER coordina cada año el Comité
+  Estatal del Programa de Prevención y Combate de Incendios Agrícolas y Forestales (Por Esto,
+  26 feb 2026).
 - **Iniciativa de ley (25 feb 2026, Dip. Ana Cristina Polanco Bautista; por verificar, falta
   la liga oficial):** obligaría a dar
   aviso previo a SEDER antes de quemar y a compartirlo con municipios y Protección Civil;
