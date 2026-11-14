@@ -27,6 +27,9 @@ test('al salir de un municipio, la pestaña vuelve al título de la página', as
   await expect(page).toHaveTitle(/^Tekax/);
   await page.evaluate(() => { location.hash = '#/metodo'; });
   await expect(page.locator('#vista')).toHaveClass(/vista-metodo/);
+  await expect(page).toHaveTitle("Cómo lo medimos — K'áak'");
+  await page.evaluate(() => { location.hash = '#/'; });
+  await expect(page.locator('#vista')).toHaveClass(/vista-portada/);
   await expect(page).toHaveTitle(TITULO);
 });
 
