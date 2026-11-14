@@ -347,5 +347,49 @@
   "mDescargaTitulo": "Download the series",
   "mDescarga1": "The complete harmonized series, with every week from 2001 to 2026 in {n} municipalities of the peninsula and the normal for each week. The boundaries we use do not yet include the three newest municipalities (Dzitbalché, Seybaplaya and Puerto Morelos), so their fire counts in the municipality they split from. It is a CSV table that Excel opens; the column names are in the first row.",
   "mDescargar": "Download the series (CSV, {mb} MB)",
-  "mPie": "Data: FIRMS (NASA), {a} to {b}, and CONAFOR wildfire records, {d} to {h}. Updated {f}."
+  "mPie": "Data: FIRMS (NASA), {a} to {b}, and CONAFOR wildfire records, {d} to {h}. Updated {f}.",
+  "valSalto2012Nombre": "The 2012 jump",
+  "valSalto2012Numero": "×{razonCruda} → ×{razonArmonizada}",
+  "valSalto2012PasaDentro": "Pass: the 2012 jump came from the satellite, not the fire. Uncalibrated, fire seems to multiply by {razonCruda}. Calibrated, it stays at ×{razonArmonizada} (1 = no change), within normal variation between years ({naturalMin} to {naturalMax}).",
+  "valSalto2012PasaFuera": "Pass: calibration removes {reduccionPct}% of the 2012 jump. But what remains, ×{razonArmonizada}, is outside normal variation between years ({naturalMin} to {naturalMax}). Part of the change may still come from the satellite.",
+  "valSalto2012NoPasaDentro": "Fail: the target was to remove at least half of the 2012 jump and land between 0.67 and 1.50. Calibration removes {reduccionPct}% and leaves ×{razonArmonizada}; normal years vary from {naturalMin} to {naturalMax}. We cannot say the calibration fixes the 2012 satellite change.",
+  "valSalto2012NoPasaFuera": "Fail: the target was to remove at least half of the 2012 jump and land between 0.67 and 1.50. Calibration removes {reduccionPct}% and leaves ×{razonArmonizada}, outside normal variation between years ({naturalMin} to {naturalMax}). Years before 2012 cannot yet be compared with later ones.",
+  "valSalto2012Limitaciones": [
+    "We only check the 2012 satellite change, with three-year averages, not each year from 2001 to 2011.",
+    "Normal comes from comparing S-NPP periods from 2013 to 2025. They are few and overlap: a reference, not a statistical test.",
+    "We measure the whole peninsula, all year. For Yucatán alone, the jump goes from ×{razonCrudaYucatan} to ×{razonArmonizadaYucatan}."
+  ],
+  "valAquaFueraMuestraNombre": "Blind test, {desde}–{hasta}",
+  "valAquaFueraMuestraNumero": "{wapeZonaEpocaPct}% vs. {wapeUnicoPct}% error",
+  "valAquaFueraMuestraPasaZonaEpoca": "Pass: we calibrated without looking at {desde}–{hasta}. In those years, Aqua converted by zone and season was off by {wapeZonaEpocaPct}% from what S-NPP saw. The limit we set was 25%; with a single factor for everything, the error rises to {wapeUnicoPct}%.",
+  "valAquaFueraMuestraPasaUnico": "Pass with a single factor: we calibrated without looking at {desde}–{hasta}. In those years, Aqua converted with one factor was off by {wapeUnicoPct}% from what S-NPP saw. The limit was 25%, and splitting by zone and season does not improve it enough ({wapeZonaEpocaPct}%): one factor is enough.",
+  "valAquaFueraMuestraNoPasaZonaEpoca": "Fail: the target was at most 25% error in years not used for calibration. In {desde}–{hasta}, Aqua converted by zone and season was off by {wapeZonaEpocaPct}% from S-NPP; with a single factor, by {wapeUnicoPct}%. Years before 2012 may be off by about that much.",
+  "valAquaFueraMuestraNoPasaUnico": "Fail: the target was at most 25% error in years not used for calibration. In {desde}–{hasta}, Aqua converted with a single factor was off by {wapeUnicoPct}% from S-NPP; by zone and season, {wapeZonaEpocaPct}%. Years before 2012 may be off by about that much.",
+  "valAquaFueraMuestraLimitaciones": [
+    "We compare against S-NPP, which also misses fires: this shows whether the satellites match each other, not how much fire there was.",
+    "The error changes from year to year; the chart shows each year.",
+    "In 2022 Aqua was off for 17 days after a failure reported by NASA, and we leave those days out. The rest of the year it saw less fire than usual; we do not know why yet.",
+    "We only test Aqua. Terra, which covers 2001 to mid-2002, has no test like this."
+  ],
+  "valConaforNombre": "Wildfires recorded by CONAFOR",
+  "valConaforNumero": "{realSnpp}% vs. {azarSnpp}%",
+  "valConaforCumple": "Met: of the {incendios} wildfires recorded by CONAFOR, {realSnpp}% had S-NPP hot spots nearby. By chance alone, {azarSnpp}% would match. For fires over 100 hectares, it was {grandesSnpp}%.",
+  "valConaforNoCumple": "Not met: we required at least three times chance and 75% of fires over 100 hectares. Of the {incendios} CONAFOR wildfires, {realSnpp}% had hot spots nearby; by chance, {azarSnpp}%. Of those over 100 hectares, {grandesSnpp}%.",
+  "valConaforLimitaciones": [
+    "This test is informative: it checks whether the satellite detects fires, not the conversion between satellites.",
+    "CONAFOR records the wildfires it attended from 2015 to 2024, not agricultural burns. This says nothing about burning dates.",
+    "We count any hot spot within 2 km, from a day before to a day after the fire. Since there is fire everywhere in the season, we also measure what would match by chance.",
+    "Small fires slip past more: of those of 5 hectares or less, fewer than 1 in 5 had hot spots nearby."
+  ],
+  "valViirsNombre": "The handover from S-NPP",
+  "valViirsNumero": "{razonMinNoaa20} to {razonMaxNoaa20}",
+  "valViirsPasaNoaa21Cumple": "Pass: for each S-NPP hot spot, NOAA-20 saw between {razonMinNoaa20} and {razonMaxNoaa20}, every year from {aniosDesde} to {aniosHasta}. The target was 0.90 to 1.10. So the series can continue with NOAA-20 without a jump like the one in 2012. NOAA-21 also meets the target ({razonMinNoaa21} to {razonMaxNoaa21}).",
+  "valViirsPasaNoaa21NoCumple": "Pass: for each S-NPP hot spot, NOAA-20 saw between {razonMinNoaa20} and {razonMaxNoaa20}, every year from {aniosDesde} to {aniosHasta}. The target was 0.90 to 1.10. So the series can continue with NOAA-20 without a jump like the one in 2012. NOAA-21, which is not part of the series, falls outside the target ({razonMinNoaa21} to {razonMaxNoaa21}).",
+  "valViirsNoPasaNoaa21Cumple": "Fail: the target was 0.90 to 1.10 every year and at most 5% total difference. For each S-NPP hot spot, NOAA-20 saw between {razonMinNoaa20} and {razonMaxNoaa20} depending on the year; the total difference was {diferenciaPctNoaa20}%. Continuing with NOAA-20, the series may have a jump. NOAA-21 does stay between 0.90 and 1.10 ({razonMinNoaa21} to {razonMaxNoaa21}).",
+  "valViirsNoPasaNoaa21NoCumple": "Fail: the target was 0.90 to 1.10 every year and at most 5% total difference. For each S-NPP hot spot, NOAA-20 saw between {razonMinNoaa20} and {razonMaxNoaa20} depending on the year; the total difference was {diferenciaPctNoaa20}%. Continuing with NOAA-20, the series may have a jump. NOAA-21 does not stay between 0.90 and 1.10 either ({razonMinNoaa21} to {razonMaxNoaa21}).",
+  "valViirsLimitaciones": [
+    "We calculated NOAA-20's factor from these same years, so the total difference ({diferenciaPctNoaa20}%) comes out near zero by construction. What matters is that each year stays close to 1.",
+    "VIIRS satellites agreeing means the series does not jump when it changes satellite, not that they count every fire.",
+    "NOAA-21 has been in FIRMS since March 2023: it has only two full years, no factor, and is not part of the series."
+  ]
 }
