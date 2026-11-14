@@ -180,9 +180,9 @@ async function temporada() {
     await page.waitForSelector('#ficha');
     await sub('La página de Umán: el veredicto en una frase, sus años y cuándo se quema.', 5000);
     await page.mouse.wheel(0, 260);
-    await sub('Hubo la mitad del fuego de un año normal; la barra roja es 2026.', 4000);
-    await page.click('#barrasMun .toque[aria-label^="2003"]');
-    await sub('Tocar un año muestra cómo se repartió su fuego contra un año normal.', 5000);
+    await sub('En 2026 hubo como un tercio del fuego de un año normal; la barra roja es 2026.', 4000);
+    await page.click('#barrasMun .toque[aria-label^="2025"]');
+    await sub('En 2025, la segunda temporada más tranquila del registro, Umán tuvo 1.5 veces su fuego normal.', 5000);
     await page.click('#barrasMun .toque[aria-label^="2026"]');
     await sub('En 2026 también: la llave dice qué parte cayó después de las fechas permitidas.', 5000);
     await page.click('#verNormal');

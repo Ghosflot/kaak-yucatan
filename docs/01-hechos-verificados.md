@@ -429,7 +429,7 @@ Salen de `web/datos/`, que escribe `pipeline/exportar_web.py` a partir de la ser
 - **Tekax:** 191 focos en 2026 contra 390 de un año normal. En un año normal, 8 de cada 10
   focos aparecen después del 3 de abril, cuando cierra la ventana de su zona.
 - **Umán, el municipio de ejemplo de la página** (`web/datos/municipio/uman.json`; issue #30):
-  42 focos en un año normal. En 2025, la temporada más tranquila de Yucatán, tuvo 63 (1.5 veces
+  42 focos en un año normal. En 2025, la segunda temporada más tranquila del registro, tuvo 63 (1.5 veces
   lo normal, «arriba»), y en 2024, 54 («arriba»); en 2026, 14. Se ve al tocar 2025 en sus
   barras. Lo respalda CONAFOR: 5 incendios forestales en 2015–2024, todos en selva y 4 de ellos
   por cazadores, con 890 ha (`datos_peninsula/incendios_conafor_2015_2024.csv`), y 264.29 ha de
