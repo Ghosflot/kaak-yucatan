@@ -120,12 +120,12 @@ para calibrar.
   henequenera de siempre). Todo indica que la zona 2 es la henequenera, así que no hace
   falta otro mapa. Leo lo confirma con gente del campo (tarea 21).
 
-### Lo que viven Protección Civil y SEDER (por verificar)
+### Lo que viven Protección Civil y SEDER
 Antecedentes para el storytelling y el pitch, reunidos por Leo de notas de prensa
 (`docs/campo-y-datos-pc-seder.pdf` trae la versión completa con referencias APA). Solo van
-aquí las cifras que no chocan con otras fuentes. Ya se revisaron las notas de Quadratín
-(24 mar 2023) y Diario de Yucatán (12 ene 2026); las demás están en «Pendiente de verificar».
-Cuando estén revisadas, se quita la marca del título.
+aquí las cifras que no chocan con otras fuentes. Todas las notas se abrieron el 14 nov 2026
+y cada dato aparece en su nota; los que no aparecían se quitaron. Solo la iniciativa de ley
+queda por verificar.
 
 - **Casi nadie avisa antes de quemar:** en los primeros 22 días de marzo de 2023, Protección
   Civil recibió 427 reportes de incidentes de todo tipo, 126 de ellos relacionados con fuego
@@ -134,15 +134,16 @@ Cuando estén revisadas, se quita la marca del título.
   26 feb 2024). Ese mismo año VIIRS detectó 8,757 focos en Yucatán («Lo que ve el satélite»).
   Focos no son quemas, pero la distancia muestra que muy pocas quemas se avisan. Los 427 son
   otro dato que los 434 reportes de marzo de 2024 (arriba): no mezclarlos.
-- Más del 90 % de los incendios en Yucatán los provoca el ser humano, según Protección Civil
-  (Posta).
-- Cuando no se respeta el calendario, los incendios se salen de control en varias zonas a la
-  vez y desbordan a las brigadas, según un funcionario estatal (Por Esto, 6 abr 2026).
+- Más del 90 % de los incendios forestales en Yucatán los provocan actividades humanas,
+  según Protección Civil de Yucatán (Posta, 3 abr 2025).
+- Estos siniestros han afectado parcelas, ranchos y sistemas de riego, y han destruido casas
+  de descanso e instalaciones rurales, según pobladores (Por Esto, 6 abr 2026).
 - **Casos:**
   - Sucopó, Tizimín (2021): un campesino quemó solo y sin precauciones; nadie avisó a
     Protección Civil. Se dañaron tres parcelas y más de 35 ha (Por Esto, 18 may 2021).
-  - Oxkutzcab (2022): 15 ha de limón persa en las unidades San Luis I y II, por efecto lupa y
-    quemas no programadas (Por Esto, 21 abr 2022).
+  - Oxkutzcab (2022): 15 ha de limón persa en las unidades San Luis I y II, por una quema de
+    maleza que se salió de control. El director de Protección Civil pidió a los vecinos hacer
+    bien las guardarrayas antes de quemar (Por Esto, 21 abr 2022).
   - Umán (2025): incendio junto a dos fraccionamientos (Diario de Yucatán, 25 mar 2025). Ese
     año Umán perdió 264.29 ha de selva mediana y Yaxkukul 480.05 ha de selva baja (Diario de
     Yucatán, 12 ene 2026, con cifras preliminares de CONAFOR).
@@ -150,14 +151,13 @@ Cuando estén revisadas, se quita la marca del título.
   permite quemar de 17:00 a 08:00 (Diario de Yucatán, 26 feb 2024). SEDER coordina cada año
   el Comité Estatal del Programa de Prevención y Combate de Incendios Agrícolas y Forestales
   (Por Esto, 26 feb 2026). Protección Civil se entera cuando ya hay fuego.
-- **Iniciativa de ley (25 feb 2026, Dip. Ana Cristina Polanco Bautista):** obligaría a dar
+- **Iniciativa de ley (25 feb 2026, Dip. Ana Cristina Polanco Bautista; por verificar, falta
+  la liga oficial):** obligaría a dar
   aviso previo a SEDER antes de quemar y a compartirlo con municipios y Protección Civil;
   SEDER tendría 90 días para implementarlo. Pide un atlas de riesgos estacionales con el
   historial de incendios como primera variable. Cita que el 34.7 % de los incendios forestales
   de 2024 en México vino de quemas agropecuarias no controladas. **Es iniciativa, no ley
   vigente.**
-- Se prevé que El Niño traiga menos lluvia y más calor hacia finales de 2026 (Por Esto,
-  6 abr 2026).
 
 ### El humo llega a Mérida
 - El 14 de mayo de 2024, Mérida estuvo entre las cinco ciudades más contaminadas de México,
@@ -503,9 +503,10 @@ NOAA-20 por S-NPP y Terra por Aqua. Lista completa en `salidas/dias_sin_datos.cs
 
 - Datos del campo que faltan (tarea 21): si la zona 2 es la henequenera, las zonas inferidas
   de Baca, Dzan y Tekit y el comentario de Misa.
-- Notas de prensa de «Lo que viven Protección Civil y SEDER» que falta abrir para confirmar
-  título, fecha y dato: Diario de Yucatán (26 feb 2024 y 25 mar 2025), Posta y las cuatro de
-  Por Esto.
+- Iniciativa de ley del 25 feb 2026 («Lo que viven Protección Civil y SEDER»): falta la liga
+  oficial del Congreso de Yucatán. Las notas de prensa de esa sección ya se revisaron; se
+  quitaron dos frases que no aparecían en su nota (El Niño a finales de 2026, e incendios en
+  varias zonas a la vez que desbordan a las brigadas).
 - Cifras que **no** van al pitch porque chocan entre fuentes: Yucatán 2023 (765 o 760 ha),
   2024 (20,334 o 20,333 ha) y 2026 (3 incendios y 335.83 ha, u otro reporte de más de 400 ha).
 
@@ -556,14 +557,14 @@ NOAA-20 por S-NPP y Terra por Aqua. Lista completa en `salidas/dias_sin_datos.cs
 - Protección Civil y SEDER (reunidas por Leo; referencias APA en `docs/campo-y-datos-pc-seder.pdf`):
   Quadratín, «Recibe Procivy 19 reportes diarios de incendios» (24 mar 2023): <https://yucatan.quadratin.com.mx/?p=271037>;
   Diario de Yucatán, «Península de Yucatán, con 98 incendios forestales» (Daniel Valdez Cetz, 12 ene 2026): <https://www.yucatan.com.mx/mexico/2026/01/12/peninsula-de-yucatan-con-98-incendios-forestales.html>;
-  Diario de Yucatán, temporada de quemas 2024: <https://www.yucatan.com.mx/merida/2024/02/26/temporada-de-quemas-2024-en-yucatan-fechas-requisitos-y-recomendaciones.html>;
-  Posta, 90 % por actividad humana: <https://www.posta.com.mx/yucatan/estas-son-las-razones-por-las-cuales-yucatan-es-afectado-por-los-incendios-forestales-/vl2020641>;
-  Por Esto, Sucopó (2021): <https://www.poresto.com/yucatan/2021/5/18/incendio-consume-mas-de-35-hectareas-en-sucopo-tizimin.html>;
-  Por Esto, Oxkutzcab (2022): <https://www.poresto.com/yucatan/2022/4/21/incendio-acaba-con-15-hectareas-del-oro-verde-en-oxkutzcab.html>;
-  Diario de Yucatán, Umán (2025): <https://www.yucatan.com.mx/yucatan/2025/03/25/alarma-en-uman-incendio-cerca-de-dos-fraccionamientos.html>;
-  Por Esto, quemas y calor (6 abr 2026): <https://www.poresto.com/yucatan/2026/4/6/quemas-agricolas-y-calor-extremo-elevan-riesgo-de-incendios-en-yucatan.html>;
-  Por Esto, comité estatal (26 feb 2026): <https://www.poresto.com/yucatan/merida/2026/2/26/instalan-el-comite-del-programa-de-prevencion-y-combate-de-incendios-agricolas-y-forestales-en-yucatan.html>;
-  iniciativa del 25 feb 2026, Congreso del Estado de Yucatán, LXIV Legislatura.
+  Diario de Yucatán, «Temporada de quemas 2024 en Yucatán: Fechas, requisitos y recomendaciones» (Emanuel Rincón Becerra, 26 feb 2024): <https://www.yucatan.com.mx/merida/2024/02/26/temporada-de-quemas-2024-en-yucatan-fechas-requisitos-y-recomendaciones.html>;
+  Posta, «Estas son las razones por las cuales Yucatán es afectado por los incendios forestales» (Adity Cupil, 3 abr 2025): <https://www.posta.com.mx/yucatan/estas-son-las-razones-por-las-cuales-yucatan-es-afectado-por-los-incendios-forestales-/vl2020641>;
+  Por Esto, «Incendio consume más de 35 hectáreas en Sucopó, Tizimín» (Raquel Margarita Huerta, 18 may 2021): <https://www.poresto.com/yucatan/2021/5/18/incendio-consume-mas-de-35-hectareas-en-sucopo-tizimin.html>;
+  Por Esto, «Incendio acaba con 15 hectáreas del "oro verde" en Oxkutzcab» (Carlos Ek, Jaime Tun y Roberto Hernández, 21 abr 2022): <https://www.poresto.com/yucatan/2022/4/21/incendio-acaba-con-15-hectareas-del-oro-verde-en-oxkutzcab.html>;
+  Diario de Yucatán, «Alarma en Umán por incendio cerca de dos fraccionamientos» (Carolina Uc Quintal, 25 mar 2025): <https://www.yucatan.com.mx/yucatan/2025/03/25/alarma-en-uman-incendio-cerca-de-dos-fraccionamientos.html>;
+  Por Esto, «Quemas agrícolas y calor extremo elevan riesgo de incendios en Yucatán» (José Borges, 6 abr 2026): <https://www.poresto.com/yucatan/2026/4/6/quemas-agricolas-y-calor-extremo-elevan-riesgo-de-incendios-en-yucatan.html>;
+  Por Esto, «Instalan el Comité del Programa de Prevención y Combate de Incendios Agrícolas y Forestales en Yucatán» (Omar Xool, 26 feb 2026): <https://www.poresto.com/yucatan/merida/2026/2/26/instalan-el-comite-del-programa-de-prevencion-y-combate-de-incendios-agricolas-y-forestales-en-yucatan.html>;
+  iniciativa del 25 feb 2026, Congreso del Estado de Yucatán, LXIV Legislatura (sin liga; por verificar).
 - geoBoundaries, municipios de México (CC BY 4.0): <https://www.geoboundaries.org>
 - Lista de los 106 municipios de Yucatán: Wikipedia, «Anexo:Municipios de Yucatán».
 - NASA Earthdata, FIRMS y su latencia: <https://www.earthdata.nasa.gov/learn/articles/nasa-firms-helps-fight-wildland-fires-in-near-real-time>
