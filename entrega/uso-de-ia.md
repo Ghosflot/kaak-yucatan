@@ -8,7 +8,7 @@ is our disclosure. It covers the whole project.
 - **Claude** (Anthropic), through Claude Code and claude.ai.
 - **GitHub Copilot code review**, which left automatic comments on some pull requests.
 
-TODO(Gadiel, Misa, Melany): add any other AI tool you used (ChatGPT, Gemini, Copilot in the
+TODO(Gadiel, Melany): add any other AI tool you used (ChatGPT, Gemini, Copilot in the
 editor, Perplexity…) and what for.
 
 ## What the AI did
@@ -27,7 +27,9 @@ editor, Perplexity…) and what for.
 - **Writing.** Claude drafted planning documents in `docs/`, which the team then edited.
 - **Design.** Claude produced HTML mock-ups of the site. The team chose the direction and
   discarded most of the proposals.
-- **Code review.** GitHub Copilot added automatic comments to some pull requests.
+- **Code review.** GitHub Copilot added automatic comments to some pull requests. Claude
+  helped review pull requests and draft review comments; a team member checked each finding
+  before posting it.
 
 ## What each member did
 
@@ -37,7 +39,7 @@ editor, Perplexity…) and what for.
 | Gadiel (uicabg1) | Harmonization: the 1 km fire grid, the MODIS→VIIRS and NOAA-20 factors and the 25-year series (`pipeline/rejilla.py`, `armonizar.py`, `serie.py`, `cargar.py`) | Claude, to draft code and tests for the grid, the factors and the series, which he reviewed |
 | Nico (Nicomoguel) | Validation and the provisional calendar (`pipeline/calendario_provisional.py`, `validar.py`) | Claude, for parts of the validation code. TODO(Nico): the provisional calendar |
 | Leo (leosanlo30) | The site and the field data | Claude, for a redesign of the site and to write down the field notes |
-| Misa (David-Alcocer) | Quality and publication: automated tests, the daily update and the README | TODO(Misa) |
+| Misa (David-Alcocer) | Quality and publication: automated tests, the daily update and the README | Claude, to draft automated tests and the daily-update workflow, and to review pull requests and Actions runs and draft review comments. Misa reviewed every change and posted every review |
 | Melany (melanysuarezmagana) | Story and submission: the pitch script, the CONABIO review and the texts | TODO(Melany) |
 
 ## What the AI did not do
