@@ -146,6 +146,17 @@ lo damos a todo el estado.
 | *(5 min)* Tekax: 89 incendios y 17,845 ha; 16 a 21 de abril de 2024, 332 focos el día 21 | «¿Hay muchos incendios…?» y «Lo que ve el satélite (FIRMS)» |
 | *(5 min)* Incendio del basurero de Yaxkukul (9–10 nov 2026), humo en Mérida | «El humo llega a Mérida» (basurero de Yaxkukul). Notas: [Diario de Yucatán, 10 nov](https://www.yucatan.com.mx/yucatan/2026/11/10/controlan-el-incendio-registrado-en-el-basurero-municipal-de-yaxkukul-el-humo-afecto-a-merida.html), [Diario de Yucatán, 9 nov](https://www.yucatan.com.mx/merida/2026/11/09/densa-humareda-sorprende-a-colonias-de-merida-huele-a-quemado-reportan.html) y [Por Esto, 10 nov](https://www.poresto.com/yucatan/merida/2026/11/10/humo-merida-noche-lunes-noviembre-ssp-explica-origen.html) |
 
+## Preguntas probables del jurado
+
+Respuestas cortas, con su fuente en docs/01.
+
+- **«En la validación, ¿por qué 2022 sale peor que los demás años?»**
+  «Aqua, uno de los dos satélites viejos, estuvo apagado 17 días en plena temporada de 2022
+  por una falla que reportó NASA. Esos días no se cuentan. Además, ese año Aqua vio menos fuego
+  de lo normal, y su gemelo Terra no, así que es algo del satélite y no del fuego. Aun así la
+  prueba pasa: 11 % de error en cinco años que no se usaron para calibrar.»
+  Fuente: «2022: Aqua estuvo apagado 17 días y vio menos fuego de lo normal».
+
 ## Lo que no se dice
 
 - Que el fuego va en aumento: 2025 y 2026 fueron las temporadas más bajas del registro.
@@ -157,6 +168,8 @@ lo damos a todo el estado.
 - Del humo de Yaxkukul: que se esparció por otros municipios del norte o que afectó la salud
   de la gente. Las notas solo hablan de Mérida y no reportan síntomas ni cifras de calidad del
   aire. Tampoco que fue un incendio forestal o una quema agrícola: fue el basurero municipal.
+- De 2022: por qué Aqua vio menos fuego ese año (no está confirmado), ni que fue por la deriva
+  de su órbita (los datos no lo respaldan). Sí se puede decir lo del apagón de 17 días.
 
 ## Pendientes de la v1
 

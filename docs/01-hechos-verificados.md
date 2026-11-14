@@ -201,6 +201,47 @@ Focos de vegetación en la península (confianza nominal o alta):
   porque en FIRMS su registro empieza el 1 de abril de 2018 y le falta marzo.
 - Si se suman dos satélites VIIRS sin quitar duplicados, el mismo fuego se cuenta dos veces.
 
+### 2022: Aqua estuvo apagado 17 días y vio menos fuego de lo normal
+Explica por qué 2022 es el peor año de la Prueba 2 (`salidas/validacion.json`): la predicción
+con Aqua queda **25 % por debajo** de S-NPP (12,122 cuadritos-día contra 16,136), cuando
+2021, 2023, 2024 y 2025 quedan entre −5 % y +11 %. La prueba pasa igual (11 % de error en
+2021–2025, límite 25 %). Cifras de focos con `analisis/aqua_2022.py` (vegetación, confianza
+nominal o alta).
+
+**Confirmado: Aqua no mandó datos del 31 de marzo al 16 de abril de 2022.**
+- El 31 de marzo una falla en el control de energía del satélite lo puso en modo seguro y
+  MODIS dejó de tomar datos. NASA da los datos por buenos otra vez desde el 17 de abril
+  (Earthdata, MCST). LAADS pone el fin del evento el 21 de abril.
+- En la península, esos 17 días Aqua tiene **0 focos** y S-NPP **4,090**. Cayó en lo más
+  fuerte de la temporada.
+- La Prueba 2 ya quita esos días («días hueco»: un satélite en 0 y el otro con fuego), así que
+  el apagón **no** es lo que baja la predicción.
+
+**Confirmado con los datos: el resto de la temporada, Aqua vio menos de lo normal.**
+Focos de S-NPP por cada uno de MODIS, marzo a mayo, sin los días del apagón:
+
+| | 2013–2025 sin 2022 | Mediana | **2022** |
+|---|---|---|---|
+| Por cada foco de Aqua | 4.50 a 5.46 | 5.03 | **6.72** (+34 %) |
+| Por cada foco de Terra (control) | 6.71 a 9.51 | 8.24 | 8.62 (+5 %) |
+
+- Con Aqua, 2022 es el año más alto de los 13: Aqua vio como **un 25 % menos** de lo que
+  suele ver frente a S-NPP. Es el mismo 25 % que le falta a la predicción.
+- **No es por los fuegos de ese año:** Terra, que también es MODIS, sale normal, y la
+  intensidad típica de los fuegos que ve S-NPP también (FRP mediana 6.7 MW, como los demás
+  años).
+- **No es solo el apagón:** marzo ya sale alto (6.4 contra 4.7 de mediana), antes de la falla.
+  Abril (6.4 contra 4.6) y mayo (7.0 contra 6.0) también. Quitar los días de recuperación
+  (17 al 21 de abril) casi no lo cambia (6.85).
+- **No parece la deriva de la órbita de Aqua:** la deriva crece con los años, y en 2023 y
+  2024 Aqua vuelve a lo normal (2024 es el año más bajo: 4.52).
+
+**Sin confirmar:** por qué Aqua vio menos en 2022. Ver «Pendiente de verificar».
+
+**Para el pitch:** la Prueba 2 pasa con 2022 incluido. Si preguntan por 2022: «Aqua, uno de
+los satélites viejos, estuvo apagado 17 días por una falla que reportó NASA, y ese año vio
+menos fuego de lo normal; Terra, su gemelo, no. Aun así el error total es de 11 %».
+
 ### Calendario oficial de quemas por zonas (Yucatán)
 - En 2026 la Secretaría de Desarrollo Rural (SEDER) dividió el estado en cuatro zonas:
   zona 1, 30 municipios del sur-oriente (1 mar–15 abr); zona 2, 51 del centro-norte
@@ -352,6 +393,13 @@ Salen de `web/datos/`, que escribe `pipeline/exportar_web.py` a partir de la ser
 
 Los datos del campo (tarea 21).
 
+- **Por qué Aqua vio menos fuego en 2022** («2022: Aqua estuvo apagado 17 días»). Lo
+  comprobado: no son los fuegos de ese año (Terra sale normal) y empieza en marzo, antes del
+  apagón. Lo que falta: buscar en los avisos de NASA (MCST, LAADS) si algo de Aqua cambió en
+  2022, por ejemplo una maniobra de órbita o un ajuste del instrumento. Después del modo seguro
+  NASA reprocesó bandas térmicas de Aqua, pero no las que se usan para detectar fuego. Hasta
+  confirmarlo, no se dice en el pitch cuál es la causa.
+
 ## Fuentes
 
 - NASA FIRMS, archivos anuales por país: <https://firms.modaps.eosdis.nasa.gov/data/country/>
@@ -362,6 +410,9 @@ Los datos del campo (tarea 21).
 - Natural Earth, límites estatales (admin 1, 1:10m).
 - NASA LAADS, transición MODIS→VIIRS: <https://ladsweb.modaps.eosdis.nasa.gov/learn/modis-to-viirs-transition>
   y documento de abril de 2025: <https://ladsweb.modaps.eosdis.nasa.gov/learn/modis-to-viirs-transition/MODIS-VIIRS_Transition.pdf>
+- NASA Earthdata, modo seguro de Aqua (31 mar – 17 abr 2022): <https://www.earthdata.nasa.gov/data/alerts-outages/aqua-safe-mode-alert>
+- NASA MCST, el evento de modo seguro de Aqua: <https://mcst.gsfc.nasa.gov/news/aqua-safe-mode-event>
+- NASA LAADS, reprocesamiento de Aqua después del modo seguro: <https://ladsweb.modaps.eosdis.nasa.gov/alerts-and-issues/171771>
 - FIRMS, focos de los últimos 7 días (comprobación en vivo): <https://firms.modaps.eosdis.nasa.gov/data/active_fire/>
 - Guía de usuario VIIRS VNP14: <https://lpdaac.usgs.gov/documents/427/VNP14_User_Guide_V1.pdf>
 - NOM-015-SEMARNAT-AGRICULTURA-2023 (catálogo de la Secretaría de Economía): <https://platiica.economia.gob.mx/normalizacion/?p=248501>
