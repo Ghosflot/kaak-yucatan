@@ -1273,7 +1273,7 @@ def test_cada_idioma_tiene_sus_etiquetas():
     assert set(validar.ETIQUETAS["es"]) == set(validar.ETIQUETAS["en"])
     es = " ".join(validar.textos_figura(validar.figura(g_salto(), "es")))
     en = " ".join(validar.textos_figura(validar.figura(g_salto(), "en")))
-    assert "Focos de calor" in es and "Hot spots" in en and "Focos" not in en
+    assert "Cuadritos-día" in es and "Grid cell-days" in en and "Cuadritos" not in en
 
 
 def test_guardar_graficas_escribe_las_dos_versiones_con_ruta_fija(tmp_path):
@@ -1318,7 +1318,7 @@ def test_el_json_tiene_las_cuatro_pruebas_en_orden_fijo():
     r = resultados_completos()
     doc = validar.armar_validacion(list(reversed(r)), SIN_TEXTOS, validar.dibujar_todas(r))
     assert doc["schema_version"] == 1
-    assert doc["criterios"] == {"congelados": "docs/02, tarea 7", "regla_prueba_2": "docs/02, tarea 7"}
+    assert doc["criterios"] == {"congelados": "commit 4972835 (PR #3)", "regla_prueba_2": "commit 4972835 (PR #3)"}
     assert [p["id"] for p in doc["pruebas"]] == ["salto_2012", "aqua_fuera_muestra", "conafor", "viirs"]
 
 

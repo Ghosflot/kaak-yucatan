@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "criterios": {
-    "congelados": "docs/02, tarea 7",
-    "regla_prueba_2": "docs/02, tarea 7"
+    "congelados": "commit 4972835 (PR #3)",
+    "regla_prueba_2": "commit 4972835 (PR #3)"
   },
   "pruebas": [
     {
@@ -54,8 +54,8 @@
         "en": "graficas/validacion-salto-2012-en.png"
       },
       "huella_grafica": {
-        "es": "sha256:2ef6e268840fcb06a6bee89df598c34d32d1992e9d79dd4ae125d2282f3f4137",
-        "en": "sha256:560c911a9aeb2a31f568c3619d61a73de3295e79b2fbadf75d6a8b10c0b8de6c"
+        "es": "sha256:869ff19740ac7b5481a0e858e572621b4248cbe709c76306cc46a363ca8ac404",
+        "en": "sha256:f5ed306ce6048f01b01dc039b1991280e9f9436f13bce9ed3377a5152712fd41"
       },
       "metricas": {
         "peninsula": {
@@ -379,8 +379,8 @@
         "en": "graficas/validacion-aqua-2021-2025-en.png"
       },
       "huella_grafica": {
-        "es": "sha256:dcc787b8dc4ade2161a943b60f45cd7d336aee1fd2ed3cfad40837b70091877c",
-        "en": "sha256:1dbfeab0490e622e8f059e1b567d1f3d6230b2c0d87214ac19b90376c568ba76"
+        "es": "sha256:21e4a09a5a3d9b23c6867f4600ab0d2b0d07213f646ab92e28f541ec4a4d2d47",
+        "en": "sha256:f652fd9d5736421ad977ca431c5a6dcb7a628cb832d6036e6bd285d378497494"
       },
       "metricas": {
         "wape_zona_epoca": 0.11254543765114507,

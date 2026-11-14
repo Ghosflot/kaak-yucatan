@@ -1,8 +1,8 @@
-"""Las cuatro pruebas de que la armonización funciona (tarea 7, docs/02).
+"""Las cuatro pruebas de que la armonización funciona (tarea 7; criterios del commit 4972835, PR #3).
 
 Uso: python pipeline/validar.py
 
-Pruebas (criterios congelados antes de ver datos reales, en docs/02, tarea 7):
+Pruebas (criterios congelados antes de ver datos reales, en el commit 4972835, PR #3):
 1. salto_2012: el salto de sensor de 2012 disminuye (2009–2011 contra 2013–2015, península).
 2. aqua_fuera_muestra: los factores funcionan en años que no se usaron (Aqua 2021–2025),
    y si el modelo por zona y época le gana a un solo factor.
@@ -72,7 +72,7 @@ SEMANAS = 52
 # La Prueba 1 se decide en toda la península; Yucatán es solo un desglose.
 ESTADOS = ("Yucatán", "Campeche", "Quintana Roo")
 ESTADO_DESGLOSE = "Yucatán"
-# Criterio congelado antes de ver datos reales (docs/02, tarea 7). Límites inclusivos.
+# Criterio congelado antes de ver datos reales (commit 4972835, PR #3). Límites inclusivos.
 UMBRAL_SALTO = {"reduccion_minima": 0.50, "razon_min": 0.67, "razon_max": 1.50}
 
 CLAVE_CALENDARIO = ["estado", "municipio", "anio", "semana"]
@@ -344,7 +344,7 @@ def prueba_salto(cal: pd.DataFrame) -> dict:
 # Los huecos se calculan siempre con el mismo periodo que se cuenta.
 
 PERIODO_AQUA = (date(2021, 1, 1), date(2025, 12, 31))
-# Criterio congelado (docs/02, tarea 7). Límites inclusivos.
+# Criterio congelado (commit 4972835, PR #3). Límites inclusivos.
 UMBRAL_AQUA = {"wape_max": 0.25, "mejora_minima": 0.05}
 # Margen para comparar contra los límites sin que el redondeo de la computadora decida.
 _TOL = 1e-12
@@ -392,7 +392,7 @@ def celdas_aqua(por_zona: pd.DataFrame, peninsula: pd.DataFrame,
 
 
 def decidir_modelo(wape_zona: float, wape_unico: float) -> dict:
-    """Regla completa congelada (docs/02, tarea 7).
+    """Regla completa congelada (commit 4972835, PR #3).
 
     1. Si solo uno de los dos modelos cumple WAPE ≤ 25 %, gana ese. Si cumplen los dos o
        ninguno, gana zona×época si mejora ≥ 5 % relativo al único; si no, el único.
@@ -505,7 +505,7 @@ def prueba_aqua(por_zona: pd.DataFrame, peninsula: pd.DataFrame, factores: pd.Da
 CRUCE_CONAFOR = RAIZ / "analisis" / "cruce_conafor.py"
 SENSORES_CONAFOR = ("S-NPP", "MODIS")
 TAMANO_GRANDES = "Mayor a 100 Hectáreas"
-# Criterio congelado (docs/02, tarea 7): regresión, no decide nada del método.
+# Criterio congelado (commit 4972835, PR #3): regresión, no decide nada del método.
 UMBRAL_CONAFOR = {"veces_azar_min": 3.0, "grandes_min": 75.0}
 # Lo publicado en docs/01 («Validación con CONAFOR»), con la precisión con que se publicó
 # (porcentajes enteros). El «por azar» de MODIS se publicó como rango (4–5 %).
@@ -658,7 +658,7 @@ PERIODOS_VIIRS = {
     "NOAA-21": (date(2023, 3, 1), armonizar.PERIODO_NOAA20[1]),   # docs/01: empieza el 1 mar 2023
 }
 VIIRS_DECIDE = "NOAA-20"
-# Criterio congelado (docs/02, tarea 7). Límites inclusivos.
+# Criterio congelado (commit 4972835, PR #3). Límites inclusivos.
 UMBRAL_VIIRS = {"razon_min": 0.90, "razon_max": 1.10, "diferencia_max": 0.05}
 
 
@@ -1045,13 +1045,13 @@ ETIQUETAS = {
     "es": {
         "titulo_salto": "Prueba 1 · Salto de 2012 · Península de Yucatán",
         "sin_calibrar": "Sin calibrar", "calibrada": "Calibrada",
-        "focos_sin_calibrar": "Focos de calor por año, sin calibrar",
-        "focos_calibrada": "Focos de calor por año, calibrada",
+        "focos_sin_calibrar": "Cuadritos-día por año, sin calibrar",
+        "focos_calibrada": "Cuadritos-día por año, calibrada",
         "transicion": "transición,\nfuera del\npromedio", "promedio": "promedio",
         "razon_salto": "Promedio 2013–15 ÷ promedio 2009–11",
         "sin_salto": "(sin salto)", "umbral": "umbral", "rango_natural": "rango natural",
         "titulo_aqua": "Prueba 2 · Aqua en años fuera de la calibración",
-        "focos_anio": "Focos de calor por año",
+        "focos_anio": "Cuadritos-día por año",
         "snpp": "S-NPP (observado)", "aqua_zona": "Aqua × factor por zona y época",
         "aqua_unico": "Aqua × factor único", "error": "Error de Aqua contra S-NPP (%)",
         "limite": "límite", "zona_epoca": "Por zona\ny época", "unico": "Único",
@@ -1072,13 +1072,13 @@ ETIQUETAS = {
     "en": {
         "titulo_salto": "Test 1 · 2012 jump · Yucatán Peninsula",
         "sin_calibrar": "Uncalibrated", "calibrada": "Calibrated",
-        "focos_sin_calibrar": "Hot spots per year, uncalibrated",
-        "focos_calibrada": "Hot spots per year, calibrated",
+        "focos_sin_calibrar": "Grid cell-days per year, uncalibrated",
+        "focos_calibrada": "Grid cell-days per year, calibrated",
         "transicion": "transition,\nnot in the\naverage", "promedio": "average",
         "razon_salto": "Average 2013–15 ÷ average 2009–11",
         "sin_salto": "(no jump)", "umbral": "threshold", "rango_natural": "natural range",
         "titulo_aqua": "Test 2 · Aqua in years outside the calibration",
-        "focos_anio": "Hot spots per year",
+        "focos_anio": "Grid cell-days per year",
         "snpp": "S-NPP (observed)", "aqua_zona": "Aqua × zone and season factor",
         "aqua_unico": "Aqua × single factor", "error": "Aqua error against S-NPP (%)",
         "limite": "limit", "zona_epoca": "Zone and\nseason", "unico": "Single",
@@ -1504,7 +1504,7 @@ ARCHIVO_VALIDACION = "validacion.json"
 CARPETA_GRAFICAS = "graficas"
 SCHEMA_VERSION = 1
 ORDEN = ("salto_2012", "aqua_fuera_muestra", "conafor", "viirs")
-CRITERIOS = {"congelados": "docs/02, tarea 7", "regla_prueba_2": "docs/02, tarea 7"}
+CRITERIOS = {"congelados": "commit 4972835 (PR #3)", "regla_prueba_2": "commit 4972835 (PR #3)"}
 _RUTA_ABSOLUTA = re.compile(r"^(/|[A-Za-z]:[\\/]|~)")
 _FECHA_HORA = re.compile(r"\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}")
 
