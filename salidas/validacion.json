@@ -1,0 +1,1198 @@
+{
+  "schema_version": 1,
+  "criterios": {
+    "congelados": "commit 4972835 (PR #3)",
+    "regla_prueba_2": "commit 4972835 (PR #3)"
+  },
+  "pruebas": [
+    {
+      "id": "salto_2012",
+      "estado": "pasa",
+      "caso": "pasa_dentro",
+      "clave": "valSalto2012PasaDentro",
+      "nombre": {
+        "es": null,
+        "en": null
+      },
+      "numero": {
+        "es": null,
+        "en": null
+      },
+      "frase": {
+        "es": null,
+        "en": null
+      },
+      "limitaciones": {
+        "es": null,
+        "en": null
+      },
+      "pendiente": [
+        "es:valSalto2012PasaDentro",
+        "en:valSalto2012PasaDentro",
+        "es:valSalto2012Nombre",
+        "en:valSalto2012Nombre",
+        "es:valSalto2012Numero",
+        "en:valSalto2012Numero",
+        "es:valSalto2012Limitaciones",
+        "en:valSalto2012Limitaciones"
+      ],
+      "valores": {
+        "razonCruda": "3.26",
+        "razonArmonizada": "0.90",
+        "reduccionPct": 91,
+        "naturalMin": "0.87",
+        "naturalMax": "1.16",
+        "antesDesde": 2009,
+        "antesHasta": 2011,
+        "despuesDesde": 2013,
+        "despuesHasta": 2015,
+        "razonCrudaYucatan": "3.06",
+        "razonArmonizadaYucatan": "0.92"
+      },
+      "grafica": {
+        "es": "graficas/validacion-salto-2012-es.png",
+        "en": "graficas/validacion-salto-2012-en.png"
+      },
+      "huella_grafica": {
+        "es": "sha256:869ff19740ac7b5481a0e858e572621b4248cbe709c76306cc46a363ca8ac404",
+        "en": "sha256:f5ed306ce6048f01b01dc039b1991280e9f9436f13bce9ed3377a5152712fd41"
+      },
+      "metricas": {
+        "peninsula": {
+          "razon_cruda": 3.2582181259600613,
+          "razon_armonizada": 0.9036875251506647,
+          "distancia_cruda": 1.1811804588166013,
+          "distancia_armonizada": 0.10127163636263974,
+          "reduccion": 0.9142623503405216,
+          "rango_natural": {
+            "min": 0.8724347621465638,
+            "max": 1.162983808361983,
+            "ventanas": [
+              {
+                "antes": [
+                  2013,
+                  2015
+                ],
+                "despues": [
+                  2017,
+                  2019
+                ],
+                "razon": 0.9516642308236293
+              },
+              {
+                "antes": [
+                  2014,
+                  2016
+                ],
+                "despues": [
+                  2018,
+                  2020
+                ],
+                "razon": 1.162983808361983
+              },
+              {
+                "antes": [
+                  2015,
+                  2017
+                ],
+                "despues": [
+                  2019,
+                  2021
+                ],
+                "razon": 0.9935258785023199
+              },
+              {
+                "antes": [
+                  2016,
+                  2018
+                ],
+                "despues": [
+                  2020,
+                  2022
+                ],
+                "razon": 0.9809133705963505
+              },
+              {
+                "antes": [
+                  2017,
+                  2019
+                ],
+                "despues": [
+                  2021,
+                  2023
+                ],
+                "razon": 0.8724347621465638
+              },
+              {
+                "antes": [
+                  2018,
+                  2020
+                ],
+                "despues": [
+                  2022,
+                  2024
+                ],
+                "razon": 1.0287985886784357
+              },
+              {
+                "antes": [
+                  2019,
+                  2021
+                ],
+                "despues": [
+                  2023,
+                  2025
+                ],
+                "razon": 1.090407751994111
+              }
+            ]
+          },
+          "dentro_rango_natural": true,
+          "totales": [
+            {
+              "anio": 2009,
+              "crudo": 10564.0,
+              "armonizado": 38049.8261,
+              "transicion": false
+            },
+            {
+              "anio": 2010,
+              "crudo": 5462.0,
+              "armonizado": 19550.5114,
+              "transicion": false
+            },
+            {
+              "anio": 2011,
+              "crudo": 10014.0,
+              "armonizado": 36286.0974,
+              "transicion": false
+            },
+            {
+              "anio": 2012,
+              "crudo": 19264.0,
+              "armonizado": 19348.2298,
+              "transicion": true
+            },
+            {
+              "anio": 2013,
+              "crudo": 35378.0,
+              "armonizado": 35378.0,
+              "transicion": false
+            },
+            {
+              "anio": 2014,
+              "crudo": 17484.0,
+              "armonizado": 17484.0,
+              "transicion": false
+            },
+            {
+              "anio": 2015,
+              "crudo": 31982.0,
+              "armonizado": 31982.0,
+              "transicion": false
+            }
+          ]
+        },
+        "yucatan": {
+          "razon_cruda": 3.056876249722284,
+          "razon_armonizada": 0.9217460544601186,
+          "distancia_cruda": 1.1173935611348838,
+          "distancia_armonizada": 0.08148552236511761,
+          "reduccion": 0.9270753607329215,
+          "rango_natural": {
+            "min": 0.7597572498001308,
+            "max": 0.9557645252602791,
+            "ventanas": [
+              {
+                "antes": [
+                  2013,
+                  2015
+                ],
+                "despues": [
+                  2017,
+                  2019
+                ],
+                "razon": 0.7597572498001308
+              },
+              {
+                "antes": [
+                  2014,
+                  2016
+                ],
+                "despues": [
+                  2018,
+                  2020
+                ],
+                "razon": 0.9038986946528471
+              },
+              {
+                "antes": [
+                  2015,
+                  2017
+                ],
+                "despues": [
+                  2019,
+                  2021
+                ],
+                "razon": 0.9221014492753623
+              },
+              {
+                "antes": [
+                  2016,
+                  2018
+                ],
+                "despues": [
+                  2020,
+                  2022
+                ],
+                "razon": 0.9524039752887457
+              },
+              {
+                "antes": [
+                  2017,
+                  2019
+                ],
+                "despues": [
+                  2021,
+                  2023
+                ],
+                "razon": 0.8309657052661787
+              },
+              {
+                "antes": [
+                  2018,
+                  2020
+                ],
+                "despues": [
+                  2022,
+                  2024
+                ],
+                "razon": 0.9557645252602791
+              },
+              {
+                "antes": [
+                  2019,
+                  2021
+                ],
+                "despues": [
+                  2023,
+                  2025
+                ],
+                "razon": 0.9418275911639274
+              }
+            ]
+          },
+          "dentro_rango_natural": true,
+          "totales": [
+            {
+              "anio": 2009,
+              "crudo": 3695.0,
+              "armonizado": 12273.6,
+              "transicion": false
+            },
+            {
+              "anio": 2010,
+              "crudo": 2124.0,
+              "armonizado": 7027.7842,
+              "transicion": false
+            },
+            {
+              "anio": 2011,
+              "crudo": 3183.0,
+              "armonizado": 10552.825499999999,
+              "transicion": false
+            },
+            {
+              "anio": 2012,
+              "crudo": 6803.0,
+              "armonizado": 6823.1863,
+              "transicion": true
+            },
+            {
+              "anio": 2013,
+              "crudo": 10772.0,
+              "armonizado": 10772.0,
+              "transicion": false
+            },
+            {
+              "anio": 2014,
+              "crudo": 7429.0,
+              "armonizado": 7429.0,
+              "transicion": false
+            },
+            {
+              "anio": 2015,
+              "crudo": 9317.0,
+              "armonizado": 9317.0,
+              "transicion": false
+            }
+          ]
+        }
+      },
+      "umbral": {
+        "reduccion_minima": 0.5,
+        "razon_min": 0.67,
+        "razon_max": 1.5
+      }
+    },
+    {
+      "id": "aqua_fuera_muestra",
+      "estado": "pasa",
+      "caso": "pasa_zona_epoca",
+      "clave": "valAquaFueraMuestraPasaZonaEpoca",
+      "nombre": {
+        "es": null,
+        "en": null
+      },
+      "numero": {
+        "es": null,
+        "en": null
+      },
+      "frase": {
+        "es": null,
+        "en": null
+      },
+      "limitaciones": {
+        "es": null,
+        "en": null
+      },
+      "pendiente": [
+        "es:valAquaFueraMuestraPasaZonaEpoca",
+        "en:valAquaFueraMuestraPasaZonaEpoca",
+        "es:valAquaFueraMuestraNombre",
+        "en:valAquaFueraMuestraNombre",
+        "es:valAquaFueraMuestraNumero",
+        "en:valAquaFueraMuestraNumero",
+        "es:valAquaFueraMuestraLimitaciones",
+        "en:valAquaFueraMuestraLimitaciones"
+      ],
+      "valores": {
+        "wapeZonaEpocaPct": 11,
+        "wapeUnicoPct": 13,
+        "mejoraPct": 14,
+        "factorUnico": "3.62",
+        "desde": 2021,
+        "hasta": 2025
+      },
+      "grafica": {
+        "es": "graficas/validacion-aqua-2021-2025-es.png",
+        "en": "graficas/validacion-aqua-2021-2025-en.png"
+      },
+      "huella_grafica": {
+        "es": "sha256:21e4a09a5a3d9b23c6867f4600ab0d2b0d07213f646ab92e28f541ec4a4d2d47",
+        "en": "sha256:f652fd9d5736421ad977ca431c5a6dcb7a628cb832d6036e6bd285d378497494"
+      },
+      "metricas": {
+        "wape_zona_epoca": 0.11254543765114507,
+        "wape_unico": 0.13023793814574489,
+        "mejora": 0.13584751683338797,
+        "modelo": "zona_epoca",
+        "factor_unico": 3.6158977763026883,
+        "por_anio": [
+          {
+            "anio": 2021,
+            "observado": 17687.0,
+            "predicho_zona_epoca": 16873.687299999998,
+            "predicho_unico": 16828.388250912714,
+            "error_zona_epoca": -0.04598364335387586,
+            "error_unico": -0.0485447927340581
+          },
+          {
+            "anio": 2022,
+            "observado": 16136.0,
+            "predicho_zona_epoca": 12121.584,
+            "predicho_unico": 11798.674444075672,
+            "error_zona_epoca": -0.24878631631135345,
+            "error_unico": -0.2687980637037883
+          },
+          {
+            "anio": 2023,
+            "observado": 33114.0,
+            "predicho_zona_epoca": 32764.029199999997,
+            "predicho_unico": 32206.801493528048,
+            "error_zona_epoca": -0.01056866582110294,
+            "error_unico": -0.02739622233713692
+          },
+          {
+            "anio": 2024,
+            "observado": 33536.0,
+            "predicho_zona_epoca": 37360.7392,
+            "predicho_unico": 36903.85270494523,
+            "error_zona_epoca": 0.11404875954198485,
+            "error_unico": 0.10042499716559015
+          },
+          {
+            "anio": 2025,
+            "observado": 22753.0,
+            "predicho_zona_epoca": 21683.725199999997,
+            "predicho_unico": 21275.94251576502,
+            "error_zona_epoca": -0.04699489298114547,
+            "error_unico": -0.0649170432134216
+          }
+        ],
+        "por_epoca": {
+          "temporada": {
+            "wape_zona_epoca": 0.10833257240138518,
+            "wape_unico": 0.11749814727579379
+          },
+          "resto": {
+            "wape_zona_epoca": 0.1344933531546059,
+            "wape_unico": 0.19660888451327593
+          }
+        },
+        "cuadritos_snpp": 123226,
+        "cuadritos_aqua": 32914,
+        "celdas": 60,
+        "periodo": [
+          "2021-01-01",
+          "2025-12-31"
+        ],
+        "huecos": [
+          "2021-05-20",
+          "2022-03-04",
+          "2022-03-31",
+          "2022-04-01",
+          "2022-04-02",
+          "2022-04-03",
+          "2022-04-04",
+          "2022-04-05",
+          "2022-04-06",
+          "2022-04-07",
+          "2022-04-09",
+          "2022-04-10",
+          "2022-04-11",
+          "2022-04-12",
+          "2022-04-13",
+          "2022-04-14",
+          "2022-04-15",
+          "2022-04-16",
+          "2023-06-04",
+          "2024-05-30",
+          "2024-05-31",
+          "2024-06-01",
+          "2024-06-02",
+          "2024-06-13",
+          "2025-03-23",
+          "2025-05-10",
+          "2025-06-04",
+          "2025-06-07"
+        ],
+        "dias_snpp_cero_no_marcados": [
+          "2021-02-21",
+          "2021-07-24",
+          "2021-10-23",
+          "2021-11-20",
+          "2022-05-29",
+          "2022-07-27",
+          "2022-07-28",
+          "2022-07-29",
+          "2022-08-03",
+          "2022-08-05",
+          "2022-08-08",
+          "2022-08-19",
+          "2022-08-31",
+          "2022-09-18",
+          "2022-11-06",
+          "2022-12-04",
+          "2023-07-26",
+          "2024-06-03",
+          "2024-07-10",
+          "2024-07-11",
+          "2024-07-12",
+          "2024-07-13",
+          "2024-07-15",
+          "2024-08-28",
+          "2024-09-02",
+          "2024-09-04",
+          "2024-09-29",
+          "2024-11-19",
+          "2025-07-07",
+          "2025-12-19"
+        ]
+      },
+      "umbral": {
+        "wape_max": 0.25,
+        "mejora_minima": 0.05
+      }
+    },
+    {
+      "id": "conafor",
+      "estado": "informativa",
+      "caso": "cumple",
+      "clave": "valConaforCumple",
+      "nombre": {
+        "es": null,
+        "en": null
+      },
+      "numero": {
+        "es": null,
+        "en": null
+      },
+      "frase": {
+        "es": null,
+        "en": null
+      },
+      "limitaciones": {
+        "es": null,
+        "en": null
+      },
+      "pendiente": [
+        "es:valConaforCumple",
+        "en:valConaforCumple",
+        "es:valConaforNombre",
+        "en:valConaforNombre",
+        "es:valConaforNumero",
+        "en:valConaforNumero",
+        "es:valConaforLimitaciones",
+        "en:valConaforLimitaciones"
+      ],
+      "valores": {
+        "incendios": "1,222",
+        "realSnpp": 53,
+        "azarSnpp": 9,
+        "realModis": 36,
+        "azarModis": 5,
+        "grandesSnpp": 84
+      },
+      "grafica": {
+        "es": "graficas/validacion-conafor-es.png",
+        "en": "graficas/validacion-conafor-en.png"
+      },
+      "huella_grafica": {
+        "es": "sha256:c91a25362b80ffdf6e441adeab2c23584677f68497d185f872962bfd6881bf01",
+        "en": "sha256:5399c7074d9e57b6c77c35544fb8c4b8f661545c07832016a1f2580ca0ba455f"
+      },
+      "metricas": {
+        "incendios": 1222,
+        "por_satelite": {
+          "S-NPP": {
+            "real": 53.273322422258595,
+            "control_anio": 8.633387888707038,
+            "control_lugar": 8.633387888707038,
+            "azar_mayor": 8.633387888707038
+          },
+          "MODIS": {
+            "real": 36.17021276595745,
+            "control_anio": 3.8052373158756136,
+            "control_lugar": 4.991816693944354,
+            "azar_mayor": 4.991816693944354
+          }
+        },
+        "por_tamano": {
+          "0 a 5 Hectáreas": {
+            "incendios": 275,
+            "snpp": 17.81818181818182
+          },
+          "21 a 50 Hectáreas": {
+            "incendios": 167,
+            "snpp": 56.886227544910184
+          },
+          "Mayor a 100 Hectáreas": {
+            "incendios": 395,
+            "snpp": 83.79746835443038
+          },
+          "6 a 10 Hectáreas": {
+            "incendios": 126,
+            "snpp": 29.365079365079367
+          },
+          "11 a 20 Hectáreas": {
+            "incendios": 124,
+            "snpp": 40.32258064516129
+          },
+          "51 a 100 Hectáreas": {
+            "incendios": 134,
+            "snpp": 65.67164179104478
+          },
+          "0": {
+            "incendios": 1,
+            "snpp": 100.0
+          }
+        },
+        "grandes_snpp": 83.79746835443038,
+        "regresion_ok": true,
+        "reproduce_docs01": {
+          "control_publicado": {
+            "S-NPP": [
+              "anio",
+              "lugar"
+            ],
+            "MODIS": [
+              "anio",
+              "lugar"
+            ]
+          }
+        }
+      },
+      "umbral": {
+        "veces_azar_min": 3.0,
+        "grandes_min": 75.0
+      }
+    },
+    {
+      "id": "viirs",
+      "estado": "pasa",
+      "decide": "NOAA-20",
+      "caso": "pasa_noaa21_cumple",
+      "clave": "valViirsPasaNoaa21Cumple",
+      "nombre": {
+        "es": null,
+        "en": null
+      },
+      "numero": {
+        "es": null,
+        "en": null
+      },
+      "frase": {
+        "es": null,
+        "en": null
+      },
+      "limitaciones": {
+        "es": null,
+        "en": null
+      },
+      "pendiente": [
+        "es:valViirsPasaNoaa21Cumple",
+        "en:valViirsPasaNoaa21Cumple",
+        "es:valViirsNombre",
+        "en:valViirsNombre",
+        "es:valViirsNumero",
+        "en:valViirsNumero",
+        "es:valViirsLimitaciones",
+        "en:valViirsLimitaciones"
+      ],
+      "valores": {
+        "razonMinNoaa20": "0.99",
+        "razonMaxNoaa20": "1.03",
+        "diferenciaPctNoaa20": "0.3",
+        "razonMinNoaa21": "0.93",
+        "razonMaxNoaa21": "0.99",
+        "aniosDesde": 2019,
+        "aniosHasta": 2025
+      },
+      "grafica": {
+        "es": "graficas/validacion-viirs-es.png",
+        "en": "graficas/validacion-viirs-en.png"
+      },
+      "huella_grafica": {
+        "es": "sha256:4215474bf2b6d87c38c921778027c24cc2aae8fd6d595841f0ed292b33b1e27e",
+        "en": "sha256:e0ac075af6b9f532498b57bab1699d3d0518b3fb3ef7cb22c1ffd5b593e4ce08"
+      },
+      "metricas": {
+        "NOAA-20": {
+          "factor": {
+            "temporada": 1.0077,
+            "resto": 0.9812
+          },
+          "anios_enteros": [
+            2019,
+            2020,
+            2021,
+            2022,
+            2023,
+            2024,
+            2025
+          ],
+          "por_anio": [
+            {
+              "anio": 2018,
+              "completo": false,
+              "dias": 264,
+              "cuadritos_snpp": 15179,
+              "cuadritos_otro": 15078,
+              "cuadritos_otro_ajustado": 15116.5881,
+              "razon_cruda": 0.9933460702286053,
+              "razon": 0.9958882732722841,
+              "por_epoca": {
+                "temporada": 0.9941211218443056,
+                "resto": 1.0035
+              }
+            },
+            {
+              "anio": 2019,
+              "completo": true,
+              "dias": 350,
+              "cuadritos_snpp": 33029,
+              "cuadritos_otro": 32573,
+              "cuadritos_otro_ajustado": 32669.9796,
+              "razon_cruda": 0.986193950770535,
+              "razon": 0.9891301462351266,
+              "por_epoca": {
+                "temporada": 0.9898394040585665,
+                "resto": 0.9857850467289719
+              }
+            },
+            {
+              "anio": 2020,
+              "completo": true,
+              "dias": 322,
+              "cuadritos_snpp": 31774,
+              "cuadritos_otro": 31665,
+              "cuadritos_otro_ajustado": 31843.4185,
+              "razon_cruda": 0.996569522250897,
+              "razon": 1.0021847579782213,
+              "por_epoca": {
+                "temporada": 0.9959317886399026,
+                "resto": 1.084946953405018
+              }
+            },
+            {
+              "anio": 2021,
+              "completo": true,
+              "dias": 339,
+              "cuadritos_snpp": 17809,
+              "cuadritos_otro": 17815,
+              "cuadritos_otro_ajustado": 17869.6015,
+              "razon_cruda": 1.0003369083047897,
+              "razon": 1.0034028581054524,
+              "por_epoca": {
+                "temporada": 0.9893255610472884,
+                "resto": 1.0776944659851955
+              }
+            },
+            {
+              "anio": 2022,
+              "completo": true,
+              "dias": 332,
+              "cuadritos_snpp": 19141,
+              "cuadritos_otro": 19164,
+              "cuadritos_otro_ajustado": 19239.2443,
+              "razon_cruda": 1.0012016091113316,
+              "razon": 1.0051326628702784,
+              "por_epoca": {
+                "temporada": 0.9928391283496192,
+                "resto": 1.0884938211382114
+              }
+            },
+            {
+              "anio": 2023,
+              "completo": true,
+              "dias": 349,
+              "cuadritos_snpp": 33303,
+              "cuadritos_otro": 34265,
+              "cuadritos_otro_ajustado": 34357.2265,
+              "razon_cruda": 1.0288862865207338,
+              "razon": 1.0316556015974536,
+              "por_epoca": {
+                "temporada": 1.0404226379342374,
+                "resto": 0.9947168440826548
+              }
+            },
+            {
+              "anio": 2024,
+              "completo": true,
+              "dias": 316,
+              "cuadritos_snpp": 33619,
+              "cuadritos_otro": 33408,
+              "cuadritos_otro_ajustado": 33541.9371,
+              "razon_cruda": 0.9937237871441744,
+              "razon": 0.9977077575180702,
+              "por_epoca": {
+                "temporada": 1.0084715657954268,
+                "resto": 0.9344092509209989
+              }
+            },
+            {
+              "anio": 2025,
+              "completo": true,
+              "dias": 349,
+              "cuadritos_snpp": 23172,
+              "cuadritos_otro": 22898,
+              "cuadritos_otro_ajustado": 22968.6061,
+              "razon_cruda": 0.9881753840842395,
+              "razon": 0.9912224279302607,
+              "por_epoca": {
+                "temporada": 0.9840726798533286,
+                "resto": 1.0275680756103964
+              }
+            },
+            {
+              "anio": 2026,
+              "completo": false,
+              "dias": 293,
+              "cuadritos_snpp": 17228,
+              "cuadritos_otro": 16964,
+              "cuadritos_otro_ajustado": 16990.9283,
+              "razon_cruda": 0.9846761086603204,
+              "razon": 0.9862391629904805,
+              "por_epoca": {
+                "temporada": 0.9796999925506554,
+                "resto": 1.009315352260778
+              }
+            }
+          ],
+          "razon_agregada": 1.0033517000526462,
+          "diferencia_agregada": 0.003351700052646178,
+          "fallas": [],
+          "cumple_umbral": true,
+          "estado": "pasa",
+          "periodo": [
+            "2018-04-01",
+            "2026-11-01"
+          ],
+          "huecos": [
+            "2024-05-30",
+            "2024-05-31",
+            "2024-06-01",
+            "2024-06-02",
+            "2024-06-03",
+            "2026-03-10",
+            "2026-03-11",
+            "2026-03-12",
+            "2026-04-28",
+            "2026-04-29",
+            "2026-04-30"
+          ],
+          "dias_snpp_cero_no_marcados": [
+            "2018-07-29",
+            "2018-08-19",
+            "2018-09-20",
+            "2018-09-23",
+            "2018-09-25",
+            "2018-09-30",
+            "2018-10-06",
+            "2018-10-12",
+            "2018-10-18",
+            "2018-10-20",
+            "2018-11-02",
+            "2018-11-18",
+            "2018-11-19",
+            "2018-12-07",
+            "2018-12-18",
+            "2019-01-20",
+            "2019-06-01",
+            "2019-06-30",
+            "2019-08-21",
+            "2019-09-13",
+            "2019-09-14",
+            "2019-09-26",
+            "2019-09-29",
+            "2019-10-04",
+            "2019-10-05",
+            "2019-10-08",
+            "2019-10-10",
+            "2019-10-13",
+            "2019-10-15",
+            "2019-10-25",
+            "2019-11-01",
+            "2019-11-04",
+            "2019-11-06",
+            "2019-11-15",
+            "2019-12-23",
+            "2020-01-13",
+            "2020-01-17",
+            "2020-08-07",
+            "2020-09-12",
+            "2020-09-14",
+            "2020-09-15",
+            "2020-09-18",
+            "2020-09-25",
+            "2020-09-26",
+            "2020-10-01",
+            "2020-10-20",
+            "2020-10-21",
+            "2020-10-22",
+            "2020-10-26",
+            "2020-10-30",
+            "2020-11-12",
+            "2020-12-02",
+            "2020-12-04",
+            "2020-12-05",
+            "2020-12-08",
+            "2020-12-12",
+            "2020-12-13",
+            "2020-12-14",
+            "2020-12-15",
+            "2021-01-10",
+            "2021-02-20",
+            "2021-02-21",
+            "2021-06-14",
+            "2021-06-27",
+            "2021-07-02",
+            "2021-07-19",
+            "2021-07-24",
+            "2021-08-01",
+            "2021-08-12",
+            "2021-08-19",
+            "2021-09-12",
+            "2021-09-23",
+            "2021-10-19",
+            "2021-10-22",
+            "2021-10-23",
+            "2021-10-25",
+            "2021-11-15",
+            "2021-11-19",
+            "2022-01-29",
+            "2022-02-07",
+            "2022-02-11",
+            "2022-02-13",
+            "2022-02-14",
+            "2022-04-08",
+            "2022-06-03",
+            "2022-07-27",
+            "2022-07-28",
+            "2022-07-29",
+            "2022-07-30",
+            "2022-07-31",
+            "2022-08-01",
+            "2022-08-02",
+            "2022-08-03",
+            "2022-08-04",
+            "2022-08-05",
+            "2022-08-06",
+            "2022-08-08",
+            "2022-08-09",
+            "2022-08-10",
+            "2022-08-19",
+            "2022-08-25",
+            "2022-08-31",
+            "2022-09-01",
+            "2022-09-09",
+            "2022-09-16",
+            "2022-09-18",
+            "2022-10-09",
+            "2022-10-11",
+            "2022-10-13",
+            "2022-10-19",
+            "2022-11-02",
+            "2022-11-19",
+            "2022-12-04",
+            "2023-07-05",
+            "2023-07-26",
+            "2023-08-17",
+            "2023-08-27",
+            "2023-10-03",
+            "2023-10-06",
+            "2023-10-09",
+            "2023-10-15",
+            "2023-11-01",
+            "2023-11-05",
+            "2023-12-07",
+            "2023-12-13",
+            "2023-12-14",
+            "2023-12-15",
+            "2023-12-17",
+            "2023-12-28",
+            "2024-06-14",
+            "2024-06-30",
+            "2024-07-06",
+            "2024-07-07",
+            "2024-07-10",
+            "2024-07-11",
+            "2024-07-12",
+            "2024-07-13",
+            "2024-07-14",
+            "2024-07-15",
+            "2024-07-24",
+            "2024-07-25",
+            "2024-07-26",
+            "2024-07-27",
+            "2024-07-28",
+            "2024-08-28",
+            "2024-08-30",
+            "2024-09-02",
+            "2024-09-04",
+            "2024-09-09",
+            "2024-09-23",
+            "2024-09-26",
+            "2024-10-01",
+            "2024-10-11",
+            "2024-10-13",
+            "2024-10-28",
+            "2024-11-01",
+            "2024-11-04",
+            "2024-11-05",
+            "2024-11-10",
+            "2024-12-21",
+            "2025-01-20",
+            "2025-02-22",
+            "2025-07-07",
+            "2025-09-01",
+            "2025-09-18",
+            "2025-10-20",
+            "2025-11-07",
+            "2025-11-16",
+            "2025-12-13",
+            "2025-12-24",
+            "2025-12-28",
+            "2026-01-18",
+            "2026-06-01",
+            "2026-06-02",
+            "2026-07-12",
+            "2026-07-13",
+            "2026-07-14",
+            "2026-07-15",
+            "2026-07-16",
+            "2026-08-03",
+            "2026-10-19"
+          ],
+          "misma_muestra_que_el_factor": true
+        },
+        "NOAA-21": {
+          "factor": null,
+          "anios_enteros": [
+            2024,
+            2025
+          ],
+          "por_anio": [
+            {
+              "anio": 2023,
+              "completo": false,
+              "dias": 291,
+              "cuadritos_snpp": 31918,
+              "cuadritos_otro": 30527,
+              "cuadritos_otro_ajustado": 30527.0,
+              "razon_cruda": 0.956419575161351,
+              "razon": 0.956419575161351,
+              "por_epoca": {
+                "temporada": 0.9488389373955044,
+                "resto": 0.9972016789926045
+              }
+            },
+            {
+              "anio": 2024,
+              "completo": true,
+              "dias": 310,
+              "cuadritos_snpp": 33550,
+              "cuadritos_otro": 31273,
+              "cuadritos_otro_ajustado": 31273.0,
+              "razon_cruda": 0.9321311475409836,
+              "razon": 0.9321311475409836,
+              "por_epoca": {
+                "temporada": 0.9377718999060314,
+                "resto": 0.8984845339422878
+              }
+            },
+            {
+              "anio": 2025,
+              "completo": true,
+              "dias": 351,
+              "cuadritos_snpp": 23172,
+              "cuadritos_otro": 22961,
+              "cuadritos_otro_ajustado": 22961.0,
+              "razon_cruda": 0.9908941826342137,
+              "razon": 0.9908941826342137,
+              "por_epoca": {
+                "temporada": 0.9839900841811703,
+                "resto": 1.0259910737726436
+              }
+            },
+            {
+              "anio": 2026,
+              "completo": false,
+              "dias": 296,
+              "cuadritos_snpp": 17228,
+              "cuadritos_otro": 15943,
+              "cuadritos_otro_ajustado": 15943.0,
+              "razon_cruda": 0.9254121198049686,
+              "razon": 0.9254121198049686,
+              "por_epoca": {
+                "temporada": 0.89623063170441,
+                "resto": 1.028391167192429
+              }
+            }
+          ],
+          "razon_agregada": 0.9561369486266351,
+          "diferencia_agregada": 0.04386305137336488,
+          "fallas": [],
+          "cumple_umbral": true,
+          "estado": "informativa",
+          "periodo": [
+            "2023-03-01",
+            "2026-11-01"
+          ],
+          "huecos": [
+            "2024-02-27",
+            "2024-05-30",
+            "2024-05-31",
+            "2024-06-01",
+            "2024-06-02",
+            "2024-06-03",
+            "2026-03-10",
+            "2026-03-11",
+            "2026-04-28",
+            "2026-04-29",
+            "2026-04-30",
+            "2026-08-03"
+          ],
+          "dias_snpp_cero_no_marcados": [
+            "2023-03-20",
+            "2023-07-05",
+            "2023-07-26",
+            "2023-08-17",
+            "2023-08-27",
+            "2023-09-11",
+            "2023-09-29",
+            "2023-10-06",
+            "2023-10-15",
+            "2023-11-01",
+            "2023-11-28",
+            "2023-12-04",
+            "2023-12-07",
+            "2023-12-14",
+            "2023-12-15",
+            "2023-12-17",
+            "2023-12-28",
+            "2024-07-07",
+            "2024-07-10",
+            "2024-07-11",
+            "2024-07-12",
+            "2024-07-13",
+            "2024-07-14",
+            "2024-07-15",
+            "2024-07-24",
+            "2024-07-25",
+            "2024-07-26",
+            "2024-07-27",
+            "2024-07-28",
+            "2024-08-28",
+            "2024-09-02",
+            "2024-09-04",
+            "2024-09-26",
+            "2024-10-01",
+            "2024-10-11",
+            "2024-10-13",
+            "2024-10-28",
+            "2024-11-04",
+            "2024-11-05",
+            "2024-11-10",
+            "2024-11-19",
+            "2024-12-11",
+            "2024-12-26",
+            "2025-01-20",
+            "2025-02-21",
+            "2025-06-20",
+            "2025-06-27",
+            "2025-07-07",
+            "2025-09-20",
+            "2025-10-07",
+            "2025-10-20",
+            "2025-11-07",
+            "2025-12-13",
+            "2025-12-19",
+            "2025-12-24",
+            "2025-12-28",
+            "2026-01-18",
+            "2026-03-12",
+            "2026-06-01",
+            "2026-06-02",
+            "2026-06-11",
+            "2026-07-07",
+            "2026-07-11",
+            "2026-07-12",
+            "2026-07-13",
+            "2026-07-14",
+            "2026-07-15",
+            "2026-07-16",
+            "2026-10-19"
+          ],
+          "misma_muestra_que_el_factor": false
+        }
+      },
+      "umbral": {
+        "razon_min": 0.9,
+        "razon_max": 1.1,
+        "diferencia_max": 0.05
+      }
+    }
+  ]
+}

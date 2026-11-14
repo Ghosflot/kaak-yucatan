@@ -5,3 +5,4 @@ numpy>=1.26
 scipy>=1.11
 pytest>=8
 pillow>=10  # pipeline/mosaico.py (foto de la portada)
+matplotlib==3.11.2  # pipeline/validar.py (gráficas de la tarea 7)
