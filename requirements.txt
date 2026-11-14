@@ -1,0 +1,7 @@
+pandas>=2.2
+pyarrow>=15
+shapely>=2.0
+numpy>=1.26
+scipy>=1.11
+pytest>=8
+pillow>=10  # pipeline/mosaico.py (foto de la portada)

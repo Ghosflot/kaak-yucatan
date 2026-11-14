@@ -1,0 +1,27 @@
+zona,epoca,satelite,factor,factor_min,factor_max,cuadritos_dia_usados,debil
+Península,temporada,NOAA-20,1.0077,1.0059,1.0145,187752,False
+Península,resto,NOAA-20,0.9812,0.9684,0.9878,35438,False
+Yucatán 1,temporada,Aqua,2.8402,2.8004,2.8882,7664,False
+Yucatán 1,resto,Aqua,4.305,3.9643,6.5625,259,False
+Yucatán 2,temporada,Aqua,3.8325,3.7464,4.0157,2340,False
+Yucatán 2,resto,Aqua,4.2494,3.9237,4.8442,389,False
+Yucatán 3,temporada,Aqua,3.0977,3.0391,3.1513,2784,False
+Yucatán 3,resto,Aqua,3.7921,3.5223,4.2383,356,False
+Yucatán 4,temporada,Aqua,3.8354,3.7583,3.9395,3925,False
+Yucatán 4,resto,Aqua,5.341,5.0121,5.6667,437,False
+Campeche,temporada,Aqua,3.6311,3.5858,3.6908,29691,False
+Campeche,resto,Aqua,3.8757,3.7557,4.1557,3627,False
+Quintana Roo,temporada,Aqua,3.7911,3.7177,3.8557,7411,False
+Quintana Roo,resto,Aqua,5.2193,5.0148,5.5189,1391,False
+Yucatán 1,temporada,Terra,6.1401,5.7077,6.4935,3541,False
+Yucatán 1,resto,Terra,7.5053,7.4178,7.604,71,True
+Yucatán 2,temporada,Terra,3.9951,3.8546,4.2084,2237,False
+Yucatán 2,resto,Terra,9.7186,9.1824,10.3897,167,False
+Yucatán 3,temporada,Terra,4.2314,4.0677,4.3085,2035,False
+Yucatán 3,resto,Terra,6.3828,5.8556,6.8393,209,False
+Yucatán 4,temporada,Terra,4.6317,4.4763,4.8624,3220,False
+Yucatán 4,resto,Terra,7.006,6.6613,7.6749,334,False
+Campeche,temporada,Terra,5.2695,5.1906,5.352,20439,False
+Campeche,resto,Terra,6.5887,6.4866,6.7388,2086,False
+Quintana Roo,temporada,Terra,9.0419,8.7017,9.2538,3100,False
+Quintana Roo,resto,Terra,9.2379,8.8377,9.7832,786,False

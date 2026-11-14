@@ -1,0 +1,172 @@
+# Guion del pitch (tarea 23)
+
+Falta: reparto de partes y suplentes, cronometrar con el demo
+real y que Nico revise las cifras (cada una sale de docs/01).
+
+## Versión de 3 minutos
+
+Son unas 410 palabras; a ritmo de pitch (140–150 por minuto) dan cerca de 2:50. Hay que
+cronometrarla con el demo real.
+
+**[0:00–0:35] El abuelo**
+Él es mi abuelo Jesús. Tiene más de 50 años sembrando su parcela en Muna, Yucatán. Si le
+preguntas cuándo empiezan los focos de fuego, no lo piensa: «en abril». Nunca ha visto una
+gráfica, pero tiene un calendario del fuego en la cabeza.
+
+Y ese calendario lo aprendió quemando y sembrando, año tras año, no porque alguien le haya
+mostrado cómo va cada temporada.
+
+Pero ese calendario es de una sola parcela.
+
+**[0:35–1:10] El problema, a escala del estado**
+Yucatán tiene 106 municipios. Cada año, el satélite ve entre 6,800 y 14,500 focos de fuego. La
+estadística forestal registra decenas de incendios. El 89 % de ese fuego cae entre marzo y
+mayo, y mi abuelo tiene razón: el pico es abril.
+
+Quien tiene que preparar al estado no puede tener el calendario del abuelo para cada
+municipio. Revisamos el sistema de alerta de CONABIO: ve el fuego, pero cada satélite va por
+separado y no compara una temporada contra lo normal.
+
+**[1:10–1:45] Por qué unir los satélites**
+Para saber qué es «lo normal» hace falta historia larga, y esa historia está en dos satélites
+que no hablan el mismo idioma. VIIRS ve unas tres veces más fuego que MODIS. Si los pegas sin
+calibrar, parece que el fuego se triplicó en 2012. No se triplicó: cambió el sensor. Con VIIRS
+solo hay 13 años. Calibrados juntos, son 25.
+
+**[1:45–2:15] Demo**
+Esto es K'áak', fuego en maya. Elegimos Tekax, el municipio con más superficie quemada de
+Yucatán entre 2015 y 2024. *[Mostrar el calendario de 25 años y la frase de cómo va la
+temporada. Decir lo que la pantalla muestre ese día.]* Y la ficha cabe en un WhatsApp: el
+comisario la reenvía al pueblo.
+
+**[2:15–2:40] Pruebas**
+¿Cómo sabemos que funciona? De los incendios que CONAFOR registró en la península, el satélite
+vio más de la mitad, y 84 % de los de más de 100 hectáreas. Por azar coincidiría menos del
+10 %. Y lo cruzamos con el calendario oficial de quemas: en 2025, solo 19 % del fuego cayó
+dentro de la ventana de su zona. No es una acusación, es una pregunta para SEDER y Protección
+Civil.
+
+**[2:40–3:00] Para quién y cierre**
+K'áak' es para SEDER y Protección Civil, que deciden dónde y cuándo prepararse, y para los
+pueblos, que reciben la ficha de su municipio. No predice incendios ni manda alertas: dice si
+la temporada se sale de lo normal, hacia arriba o hacia abajo.
+
+Mi abuelo Jesús lleva 50 años aprendiendo el calendario del fuego de una parcela. Nosotros se
+lo damos a todo el estado.
+
+## Versión de 5 minutos
+
+Parte de la de 3 minutos y agrega el humo de Yaxkukul y Mérida, la variación de un año a otro,
+la urgencia de los satélites y un ejemplo concreto de Tekax. Son unas 700 palabras, cerca de
+4:50 a ritmo de pitch sin contar el demo. Hay que cronometrarla.
+
+**[0:00–0:40] El abuelo**
+Él es mi abuelo Jesús. Tiene más de 50 años sembrando su parcela en Muna, Yucatán. Si le
+preguntas cuándo empiezan los focos de fuego, no lo piensa: «en abril». Nunca ha visto una
+gráfica, pero tiene un calendario del fuego en la cabeza.
+
+Y ese calendario lo aprendió quemando y sembrando, año tras año, no porque alguien le haya
+mostrado cómo va cada temporada. Pero ese calendario es de una sola parcela.
+
+**[0:40–1:35] El humo no se queda donde nace**
+Hace unos días, el lunes 9 de noviembre por la noche, se incendió el basurero de Yaxkukul. Está
+a 26 kilómetros de Mérida. Esa noche, el humo llegó a colonias del norte, del centro y del
+poniente. Mucha gente creyó que era neblina. Protección Civil tuvo que pedir que se quedaran en
+casa, con puertas y ventanas cerradas, y que cuidaran a niños, adultos mayores y embarazadas.
+
+Un basurero no es una milpa. Pero muestra algo que casi nunca vemos: un solo foco, lejos, y el
+humo llega a quien nunca lo vio nacer. En mayo de 2024, Mérida estuvo entre las cinco ciudades
+más contaminadas de México, con aire «muy malo», por el humo de incendios de los días
+anteriores.
+
+El fuego parece lejano, del monte, de otro municipio. Aunque no lo parezca, nos afecta.
+
+**[1:35–2:20] El problema, a escala del estado**
+Yucatán tiene 106 municipios. Cada año, el satélite ve entre 6,800 y 14,500 focos de fuego. La
+estadística forestal registra decenas de incendios. El 89 % cae entre marzo y mayo, y mi abuelo
+tiene razón: el pico es abril.
+
+Pero el calendario del abuelo dice cuándo, no si esta temporada va peor o mejor que lo normal.
+Y eso cambia muchísimo: en Yucatán se quemaron 765 hectáreas en 2023, 20,334 en 2024, el peor
+año de la serie, y 2,215 en 2025.
+
+Revisamos el sistema de alerta de CONABIO: ve el fuego, pero cada satélite va por separado y no
+compara una temporada contra lo normal.
+
+**[2:20–3:00] Por qué unir los satélites**
+Para saber qué es «lo normal» hace falta historia larga, y esa historia está en satélites que
+no hablan el mismo idioma. VIIRS ve unas tres veces más fuego que MODIS. Si los pegas sin
+calibrar, parece que el fuego se triplicó en 2012. No se triplicó: cambió el sensor. Con VIIRS
+solo hay 13 años. Calibrados juntos, son 25.
+
+Y es urgente: MODIS se está retirando y S-NPP dejó de enviar datos el 2 de noviembre. Los 25
+años quedan repartidos entre cinco satélites.
+
+**[3:00–3:40] Demo**
+Esto es K'áak', fuego en maya. Elegimos Tekax, el municipio con más superficie quemada de
+Yucatán entre 2015 y 2024: 89 incendios y 17,845 hectáreas. En abril de 2024, los días con más
+focos fueron del 16 al 21, con 332 el día 21, y coinciden con incendios registrados en Tekax.
+*[Mostrar el calendario de 25 años y la frase de cómo va la temporada. Decir lo que la pantalla
+muestre ese día.]* Y la ficha cabe en un WhatsApp: el comisario la reenvía al pueblo.
+
+**[3:40–4:25] Pruebas**
+¿Cómo sabemos que funciona? De los incendios que CONAFOR registró en la península, el satélite
+vio más de la mitad, y 84 % de los de más de 100 hectáreas. Por azar coincidiría menos del
+10 %: es unas seis veces el azar. Entre más grande el incendio, más lo ve.
+
+Y lo cruzamos con el calendario oficial de quemas: en 2025, solo 19 % del fuego cayó dentro de
+la ventana de su zona. No es una acusación, es una pregunta para SEDER y Protección Civil. Y
+somos claros con el límite: que no haya focos no quiere decir que no hubo fuego.
+
+**[4:25–5:00] Para quién y cierre**
+K'áak' es para SEDER y Protección Civil, que deciden dónde y cuándo prepararse, y para los
+pueblos, que reciben la ficha de su municipio. Lo de hoy se actualiza cada día; lo normal, cada
+año. No predice incendios ni manda alertas: dice si la temporada se sale de lo normal, hacia
+arriba o hacia abajo.
+
+Mi abuelo Jesús lleva 50 años aprendiendo el calendario del fuego de una parcela. Nosotros se
+lo damos a todo el estado.
+
+## De dónde sale cada cifra (docs/01)
+
+| Se dice | Fuente en docs/01 |
+|---|---|
+| 106 municipios | Lista de los 106 municipios de Yucatán (Fuentes) |
+| 6,800 a 14,500 focos al año | «Lo que ve el satélite (FIRMS)», VIIRS 2013–2025 |
+| Decenas de incendios forestales | «¿Hay muchos incendios en Yucatán?» (CONAFOR: 13 a 155 al año) |
+| 89 % entre marzo y mayo; pico en abril | «Lo que ve el satélite (FIRMS)» (unos 4,100 focos en abril) |
+| CONABIO no compara contra lo normal | «Lo que ya existe» |
+| VIIRS ve unas 3 veces más que MODIS; 13 años con VIIRS; 25 con los dos | «El problema técnico del reto, con números» |
+| Tekax, el municipio con más superficie quemada | «¿Hay muchos incendios…?», 2015–2024 (17,845 ha) |
+| Más de la mitad y 84 % de los de más de 100 ha; azar menos del 10 % | «Validación con CONAFOR» |
+| 19 % dentro de la ventana de su zona (2025) | «Hallazgo: la mayor parte del fuego cae fuera de la ventana» |
+| *(5 min)* 765 ha en 2023, 20,334 en 2024 y 2,215 en 2025 | «¿Hay muchos incendios en Yucatán?» (CONAFOR) |
+| *(5 min)* Mérida entre las cinco ciudades más contaminadas, mayo de 2024 | «El humo llega a Mérida» |
+| *(5 min)* MODIS en retiro, S-NPP sin datos desde el 2 de nov, cinco satélites | «Contexto» y «S-NPP deja de entregar datos» |
+| *(5 min)* Tekax: 89 incendios y 17,845 ha; 16 a 21 de abril de 2024, 332 focos el día 21 | «¿Hay muchos incendios…?» y «Lo que ve el satélite (FIRMS)» |
+| *(5 min)* Incendio del basurero de Yaxkukul (9–10 nov 2026), humo en Mérida | «El humo llega a Mérida» (basurero de Yaxkukul). Notas: [Diario de Yucatán, 10 nov](https://www.yucatan.com.mx/yucatan/2026/11/10/controlan-el-incendio-registrado-en-el-basurero-municipal-de-yaxkukul-el-humo-afecto-a-merida.html), [Diario de Yucatán, 9 nov](https://www.yucatan.com.mx/merida/2026/11/09/densa-humareda-sorprende-a-colonias-de-merida-huele-a-quemado-reportan.html) y [Por Esto, 10 nov](https://www.poresto.com/yucatan/merida/2026/11/10/humo-merida-noche-lunes-noviembre-ssp-explica-origen.html) |
+
+## Lo que no se dice
+
+- Que el fuego va en aumento: 2025 y 2026 fueron las temporadas más bajas del registro.
+- «Quemas ilegales»: un foco fuera de su ventana puede tener otras causas.
+- Que K'áak' predice incendios, que es un sistema oficial de alerta o que el satélite ve todo
+  el fuego.
+- Nada sobre si Protección Civil informa o no a la gente: no está en docs/01 y es un usuario
+  principal del proyecto.
+- Del humo de Yaxkukul: que se esparció por otros municipios del norte o que afectó la salud
+  de la gente. Las notas solo hablan de Mérida y no reportan síntomas ni cifras de calidad del
+  aire. Tampoco que fue un incendio forestal o una quema agrícola: fue el basurero municipal.
+
+## Pendientes de la v1
+
+- **Datos del abuelo** (Jesús, Muna, más de 50 años, «abril»): anotarlos en docs/01, «Lo que
+  dice la gente del campo», con la fuente. Docs/01 habla del abuelo de Leo; confirmar quién
+  cuenta la historia.
+- **Demo:** la frase de la temporada depende de lo que muestre la página ese día.
+- **Yaxkukul:** ya está en docs/01, «El humo llega a Mérida». Una de las notas cita a una
+  funcionaria que dice que no implicaba riesgo, y Protección Civil pidió quedarse bajo techo;
+  el guion solo usa lo segundo. Pregunta de juez probable: «¿K'áak' habría visto ese
+  incendio?». No lo sabemos ni lo verificamos, y K'áak' no mide basureros.
+- **Pruebas de calibración** (tarea 7, de Nico): cuando estén, se agregan. Mientras tanto el
+  guion solo usa las pruebas con CONAFOR y el calendario de quemas.

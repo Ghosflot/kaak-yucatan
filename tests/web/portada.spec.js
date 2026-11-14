@@ -1,0 +1,286 @@
+// Portada (#/): criterios 1, 2, 3, 4, 7, 8 y 9 de la especificación.
+const fs = require('fs');
+const path = require('path');
+const { test, expect } = require('@playwright/test');
+const { abrir } = require('./ayudas');
+
+const PORTADA = JSON.parse(fs.readFileSync(path.join(__dirname, '..', '..', 'web', 'datos', 'portada.json'), 'utf8'));
+
+for (const [ancho, alto] of [[1440, 900], [1280, 720]]) {
+  test(`a ${ancho}×${alto} se ven la pregunta, la respuesta y el mapa sin desplazarse`, async ({ page }) => {
+    await abrir(page, '#/', { ancho, alto });
+    for (const sel of ['#titulo', '#respuesta', '#mapa', '#busca1']) {
+      const r = await page.locator(sel).boundingBox();
+      expect(r, sel).not.toBeNull();
+      expect(r.y + r.height, sel).toBeLessThanOrEqual(alto);
+    }
+  });
+
+  test(`a ${ancho}×${alto} el cierre cabe arriba de la línea de tiempo`, async ({ page }) => {
+    await abrir(page, '#/', { ancho, alto, reducir: true });
+    const bloque = await page.locator('#bloqueFinal').boundingBox();
+    const instrumento = await page.locator('#instrumento').boundingBox();
+    expect(bloque.y + bloque.height).toBeLessThanOrEqual(instrumento.y);
+  });
+}
+
+test('en el teléfono, el titular, el buscador y el mapa empiezan en la primera pantalla', async ({ page }) => {
+  await abrir(page, '#/', { ancho: 390, alto: 844 });
+  for (const sel of ['#titulo', '#busca1', '#mapa']) {
+    const r = await page.locator(sel).boundingBox();
+    expect(r.y, sel).toBeLessThan(844);
+  }
+});
+
+test('en el teléfono, lo que se toca mide al menos 44 px', async ({ page }) => {
+  await abrir(page, '#/', { ancho: 390, alto: 844, reducir: true });
+  const chicos = await page.$$eval('a, button, input, [role="slider"]', (es) => es
+    .filter((e) => e.getClientRects().length && getComputedStyle(e).visibility !== 'hidden' && !e.classList.contains('saltar'))
+    .map((e) => ({ e: e.id || e.className || e.tagName, r: e.getBoundingClientRect() }))
+    .filter(({ r }) => r.height < 44 || r.width < 44)
+    .map(({ e, r }) => `${e} ${Math.round(r.width)}×${Math.round(r.height)}`));
+  expect(chicos).toEqual([]);
+});
+
+test('con «reducir movimiento» abre directo en el cierre', async ({ page }) => {
+  await abrir(page, '#/', { reducir: true });
+  await expect(page.locator('#escenario')).toHaveAttribute('data-modo', 'final');
+  await expect(page.locator('#resultado')).toBeVisible();
+});
+
+test('el cierre pinta solo Yucatán', async ({ page }) => {
+  await abrir(page, '#/', { reducir: true });
+  const opacidad = (sel) => page.$eval(sel, (e) => Number(getComputedStyle(e).fillOpacity));
+  expect(await opacidad('.rellenos path.fuera')).toBe(0);
+  expect(await opacidad('.rellenos path:not(.fuera)')).toBeGreaterThan(0.9);
+});
+
+test('buscar Tekax abre su tarjeta y «Ver detalle» lleva a su página (dos acciones)', async ({ page }) => {
+  await abrir(page, '#/');
+  await page.fill('#busca1', 'tekax');
+  await page.keyboard.press('Enter');
+  const tarjeta = page.locator('.tarjeta.fija');
+  await expect(tarjeta).toBeVisible();
+  await expect(tarjeta).toContainText('Tekax');
+  const enlace = tarjeta.locator('a');
+  await expect(enlace).toHaveAttribute('href', '#/municipio/tekax');
+  await enlace.click();
+  await expect(page).toHaveURL(/#\/municipio\/tekax$/);
+  await expect(page.locator('h1')).toHaveText('Tekax');
+});
+
+test('buscar una ciudad encuentra su municipio («Cancún» lleva a Benito Juárez)', async ({ page }) => {
+  await abrir(page, '#/');
+  await page.fill('#busca1', 'cancun');
+  await expect(page.locator('#lista1 [role=option]').first()).toHaveText(/^Benito JuárezCancún, Quintana Roo$/);
+  await page.keyboard.press('Enter');
+  await expect(page.locator('.tarjeta.fija')).toContainText('Benito Juárez');
+  // «carmen» da el municipio de Carmen y Solidaridad (Playa del Carmen), sin repetir Carmen.
+  // Lo prueba en el buscador del cierre, que es el que se ve después de elegir.
+  await page.keyboard.press('Escape');
+  await page.fill('#busca2', 'carmen');
+  await expect(page.locator('#lista2 [role=option]')).toHaveText([/^CarmenCampeche$/, /^SolidaridadPlaya del Carmen/]);
+});
+
+test('la tarjeta de un municipio fuera del encuadre de Yucatán se ve completa', async ({ page }) => {
+  await abrir(page, '#/', { query: '?modo=final' });
+  await page.fill('#busca2', 'cancun');
+  await page.keyboard.press('Enter');
+  await page.waitForTimeout(400);
+  const tj = await page.locator('.tarjeta.fija').boundingBox(), esc = await page.locator('#escenario').boundingBox();
+  expect(tj.x + tj.width).toBeLessThanOrEqual(esc.x + esc.width);
+});
+
+test('tocar un municipio del mapa abre su tarjeta', async ({ page }) => {
+  await abrir(page, '#/', { reducir: true });
+  await page.locator('.rellenos path[data-id="tekax"]').click({ force: true });
+  await expect(page.locator('.tarjeta.fija')).toContainText('Tekax');
+  await page.keyboard.press('Escape');
+  await expect(page.locator('.tarjeta')).toBeHidden();
+});
+
+test('la línea de tiempo se mueve con el teclado', async ({ page }) => {
+  await abrir(page, '#/', { query: '?modo=repaso&t=10' });
+  const tiempo = page.locator('#tiempo');
+  await expect(tiempo).toHaveAttribute('aria-valuenow', '10');
+  await tiempo.focus();
+  await page.keyboard.press('ArrowRight');
+  await expect(tiempo).toHaveAttribute('aria-valuenow', '11');
+  await expect(page.locator('#fecha')).toHaveText('12 de marzo');
+  await page.keyboard.press('End');
+  await expect(page.locator('#escenario')).toHaveAttribute('data-modo', 'final');
+});
+
+test('tocar un día de la tira lleva el repaso a ese día', async ({ page }) => {
+  await abrir(page, '#/');
+  const caja = await page.locator('#tira').boundingBox();
+  const dia = 90; // 1 de abril, contado desde el 1 de enero
+  await page.mouse.click(caja.x + ((dia + 0.5) / PORTADA.z2.dias.length) * caja.width, caja.y + caja.height * 0.5);
+  await expect(page.locator('#escenario')).toHaveAttribute('data-modo', 'repaso');
+  await expect(page.locator('#fecha')).toHaveText('1 de abril');
+});
+
+test('tocar «Lo normal» explica qué es', async ({ page }) => {
+  await abrir(page, '#/');
+  await expect(page.locator('#explicaNormal')).toBeHidden();
+  await page.click('#leyNormal');
+  await expect(page.locator('#explicaNormal')).toBeVisible();
+  await expect(page.locator('#leyNormal')).toHaveAttribute('aria-expanded', 'true');
+});
+
+test('las cifras salen de web/datos y no están escritas en el código', async ({ page }) => {
+  await abrir(page, '#/', { reducir: true });
+  const texto = await page.evaluate(() => document.body.textContent);
+  for (const viejo of ['3,789', '8,905', 'Ucú', 'Prototipo', '×3.05', '30 de abril']) expect(texto).not.toContain(viejo);
+  const fmt = (n) => Math.round(n).toLocaleString('es-MX');
+  expect(texto).toContain(`${PORTADA.cuenta.menos} de ${PORTADA.cuenta.total} municipios`);
+  expect(texto).toContain(fmt(PORTADA.acum26[91]));
+  expect(texto).toContain(fmt(PORTADA.acumNormal[91]));
+  expect(texto).toContain(fmt(PORTADA.diaMax.n));
+});
+
+test('la primera carga pesa menos de 1.5 MB', async ({ page }) => {
+  await abrir(page, '#/');
+  const { bytes, archivos } = await page.evaluate(() => {
+    const todos = [...performance.getEntriesByType('navigation'), ...performance.getEntriesByType('resource')];
+    return { bytes: todos.reduce((s, e) => s + e.encodedBodySize, 0), archivos: todos.length };
+  });
+  console.log('primera carga:', Math.round(bytes / 1024), 'KB en', archivos, 'archivos');
+  expect(bytes).toBeGreaterThan(500 * 1024); // la foto y los datos tienen que estar contados
+  expect(bytes).toBeLessThan(1.5 * 1024 * 1024);
+});
+
+test('en el teléfono la barra se queda arriba al bajar', async ({ page }) => {
+  await abrir(page, '#/', { ancho: 390, alto: 844, reducir: true });
+  await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+  await page.waitForTimeout(100);
+  const r = await page.locator('.barra').boundingBox();
+  expect(Math.round(r.y)).toBe(0);
+});
+
+// Pulido del repaso (tarea 7): ritmo, interrupción y la línea de tiempo por día.
+test('el repaso dura menos de 10 segundos y termina en el cierre con las cifras del año', async ({ page }) => {
+  await page.clock.install();
+  await abrir(page, '#/');
+  await page.click('#verTemporada');
+  await expect(page.locator('#escenario')).toHaveAttribute('data-modo', 'repaso');
+  for (let i = 0; i < 100; i++) await page.clock.runFor(100); // 10 s, cuadro por cuadro
+  await expect(page.locator('#escenario')).toHaveAttribute('data-modo', 'final');
+  const fmt = (n) => Math.round(n).toLocaleString('es-MX');
+  await expect(page.locator('#n26')).toHaveText(fmt(PORTADA.acum26[91]));
+  await expect(page.locator('#nNormal')).toHaveText(fmt(PORTADA.acumNormal[91]));
+});
+
+test('tocar un municipio a media animación la interrumpe y abre su tarjeta', async ({ page }) => {
+  await abrir(page, '#/');
+  await page.click('#verTemporada');
+  await expect(page.locator('#escenario')).toHaveAttribute('data-modo', 'repaso');
+  await page.locator('.rellenos path[data-id="tekax"]').click({ force: true });
+  await expect(page.locator('.tarjeta.fija')).toContainText('Tekax');
+  await expect(page.locator('#escenario')).toHaveAttribute('data-modo', 'final');
+});
+
+test('la línea de tiempo tiene una barra por cada día con fuego y lee el día al pasar el mouse', async ({ page }) => {
+  await abrir(page, '#/', { query: '?modo=repaso&t=61' });
+  const conFuego = PORTADA.acum26.filter((v, i) => v - (i ? PORTADA.acum26[i - 1] : 0) > 0).length;
+  const barras = await page.$eval('#barrasFuturo', (e) => (e.getAttribute('d').match(/M/g) || []).length);
+  expect(barras).toBe(conFuego);
+  await expect(page.locator('#fecha')).toHaveText('1 de mayo');
+  const caja = await page.locator('#tiempo').boundingBox();
+  await page.mouse.move(caja.x + ((61 + 0.5) / 92) * caja.width, caja.y + 30);
+  const n = Math.round(PORTADA.acum26[61] - PORTADA.acum26[60]);
+  await expect(page.locator('#fantasmaTexto')).toHaveText(`1 may: ${n} focos`);
+  await expect(page.locator('#fecha')).toHaveText('1 de mayo'); // leer no mueve el repaso
+});
+
+test('en el teléfono, el menú lleva a las tres secciones', async ({ page }) => {
+  await abrir(page, '#/', { ancho: 360, alto: 740 });
+  for (const nombre of ['Temporada', 'Fechas', 'Método']) await expect(page.locator('.nav').getByRole('link', { name: nombre, exact: true })).toBeVisible();
+  const { scroll, ancho } = await page.$eval('.nav', (e) => ({ scroll: e.scrollWidth, ancho: e.clientWidth }));
+  expect(scroll).toBeLessThanOrEqual(ancho);
+  await page.locator('.nav').getByRole('link', { name: 'Método', exact: true }).click();
+  await expect(page).toHaveURL(/#\/metodo$/);
+});
+
+test('tocar un año del panel pinta ese año en el mapa; «Volver a 2026» regresa', async ({ page }) => {
+  await abrir(page, '#/');
+  await page.locator('#barras .toque').nth(2).click(); // 2003, el año con más fuego
+  const c = PORTADA.porAnio.cuenta['2003'];
+  await expect(page.locator('#escenario')).toHaveAttribute('data-modo', 'final');
+  await expect(page.locator('#resultado')).toHaveText(`En 2003, ${c.mas} de ${PORTADA.cuenta.total} municipios de Yucatán tuvieron más fuego que lo normal.`);
+  await expect(page.locator('#filaAnio')).toHaveText('2003');
+  // El panel sigue hablando de 2026; la pista dice qué año se ve en el mapa.
+  await expect(page.locator('#pistaAnio')).toHaveText('El mapa muestra 2003. Toca su barra otra vez para volver a 2026.');
+  const i = PORTADA.porAnio.ids.indexOf('tekax');
+  const v = PORTADA.porAnio.v[i][PORTADA.porAnio.anios.indexOf(2003)];
+  await page.locator('.rellenos path[data-id="tekax"]').click({ force: true });
+  await expect(page.locator('.tarjeta.fija')).toContainText('Focos de calor en 2003');
+  await expect(page.locator('.tarjeta.fija')).toContainText(Math.round(v).toLocaleString('es-MX'));
+  await page.keyboard.press('Escape');
+  await page.click('#volver');
+  await expect(page.locator('#resultado')).toHaveText(`${PORTADA.cuenta.menos} de ${PORTADA.cuenta.total} municipios de Yucatán tuvieron menos fuego que lo normal.`);
+  await expect(page.locator('#volver')).toBeHidden();
+  await expect(page.locator('#pistaAnio')).toHaveText('Toca un año para verlo en el mapa.');
+  // La línea de tiempo también vuelve: el acumulado es el de 2026, no el del año que se vio.
+  await expect(page.locator('#filaAnio')).toHaveText('2026');
+  await expect(page.locator('#n26')).toHaveText(Math.round(PORTADA.yuc.acum['2026'][91]).toLocaleString('es-MX'));
+});
+
+test('con otro año en el mapa, mover la línea de tiempo vuelve al repaso de 2026', async ({ page }) => {
+  await abrir(page, '#/', { query: '?anio=2009' });
+  await expect(page.locator('#filaAnio')).toHaveText('2009');
+  await page.locator('#tiempo').focus();
+  await page.keyboard.press('Home');
+  await expect(page.locator('#escenario')).toHaveAttribute('data-modo', 'repaso');
+  await expect(page.locator('#filaAnio')).toHaveText('2026');
+});
+
+test.describe('usar mi ubicación', () => {
+  test.use({ permissions: ['geolocation'] });
+
+  test('dentro de Tekax lleva a la página de Tekax', async ({ page, context }) => {
+    await context.setGeolocation({ latitude: 19.9829, longitude: -89.339 });
+    await abrir(page, '#/');
+    await page.locator('#buscador1 .ubicacion').click();
+    await expect(page).toHaveURL(/#\/municipio\/tekax$/);
+    await expect(page.locator('h1')).toHaveText('Tekax');
+  });
+
+  test('fuera de la península lo dice y deja el buscador', async ({ page, context }) => {
+    await context.setGeolocation({ latitude: 19.4326, longitude: -99.1332 });
+    await abrir(page, '#/');
+    await page.locator('#buscador1 .ubicacion').click();
+    await expect(page.locator('#buscador1 .aviso-ubicacion')).toHaveText(/fuera de la península/);
+    await expect(page).toHaveURL(/#\/$/);
+  });
+});
+
+test('arrastrar la línea de tiempo no selecciona texto', async ({ page }) => {
+  await abrir(page, '#/', { query: '?modo=repaso&t=10' });
+  const linea = await page.locator('#tiempo').boundingBox();
+  const y = linea.y + 8;
+  await page.mouse.move(linea.x + 4, y);
+  await page.mouse.down();
+  await page.mouse.move(linea.x + linea.width * 0.6, y, { steps: 20 });
+  await page.mouse.up();
+  expect(await page.evaluate(() => String(getSelection()))).toBe('');
+});
+
+// Dudas de la prueba de cinco segundos.
+test('las barras rayadas dicen qué son, y la respuesta de las fechas permitidas va arriba de su gráfica', async ({ page }) => {
+  await abrir(page, '#/');
+  await expect(page.locator('#barras text.ley-conv')).toHaveText('2001–2011: otro satélite, ajustado para comparar');
+  const z = PORTADA.z2, k = Math.round(((z.tot - z.dentro) / z.tot) * 10);
+  await expect(page.locator('#fechasRespuesta')).toHaveText(`En la zona 2, el centro y norte de Yucatán, de enero a junio de 2026, ${k} de cada 10 focos se vieron fuera de las fechas permitidas.`);
+  const respuesta = await page.locator('#fechasRespuesta').boundingBox();
+  const tira = await page.locator('#tira').boundingBox();
+  expect(respuesta.y + respuesta.height).toBeLessThan(tira.y);
+});
+
+test('el año normal de la línea de tiempo no es gris sólido como «casi nunca hay quemas»', async ({ page }) => {
+  await abrir(page, '#/', { reducir: true });
+  const normal = await page.$eval('#bNormal', (e) => getComputedStyle(e).backgroundColor);
+  const poco = await page.$eval('.escala-color .poco i', (e) => getComputedStyle(e).backgroundColor);
+  expect(normal).not.toBe(poco);
+  expect(normal).toBe('rgba(246, 244, 240, 0.85)'); // una línea blanca, como la silueta
+});

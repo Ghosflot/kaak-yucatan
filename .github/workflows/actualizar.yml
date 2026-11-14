@@ -1,0 +1,51 @@
+# Tarea 18: baja los focos nuevos de FIRMS una vez al día y sube el resultado a main.
+# Es el único que sube a main sin PR, y solo toca los archivos de datos generados.
+name: Actualización diaria
+
+on:
+  schedule:
+    - cron: "0 13 * * *"  # 13:00 UTC, 7:00 en Mérida
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: actualizacion-diaria
+  cancel-in-progress: false
+
+jobs:
+  actualizar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Instalar dependencias
+        run: pip install -r requirements.txt
+
+      - name: Bajar focos nuevos
+        env:
+          FIRMS_MAP_KEY: ${{ secrets.FIRMS_MAP_KEY }}
+        run: python pipeline/actualizar_diario.py
+
+      - name: Recalcular
+        run: python pipeline/correr_todo.py
+
+      - name: Subir a main
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add datos_peninsula/focos_recientes.parquet salidas web/datos
+          if git diff --cached --quiet; then
+            echo "Sin cambios"
+            exit 0
+          fi
+          git commit -m "datos: actualización diaria $(date -u +%Y-%m-%d)"
+          git pull --rebase origin main
+          git push origin HEAD:main

@@ -1,0 +1,14 @@
+{
+  "name": "kaak-web",
+  "private": true,
+  "description": "Pruebas y video de la página de K'áak' (la página no usa bibliotecas).",
+  "scripts": {
+    "servir": "python3 -m http.server 8790 -d web",
+    "pruebas": "playwright test",
+    "recorrido": "node tests/web/recorrido.mjs"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.10.2",
+    "@playwright/test": "1.56.1"
+  }
+}

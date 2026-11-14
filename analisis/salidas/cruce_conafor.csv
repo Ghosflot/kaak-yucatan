@@ -1,0 +1,1223 @@
+Clave_del_incendio,anio,Estado,Municipio,ini,fin,Total_hectareas,Tamano,Causa,n_snpp,n_modis,n_todos
+15-04-0001,2015,Campeche,Campeche,2015-01-27,2015-01-28,2.3,0 a 5 Hectáreas,Otras causas,0,0,0
+15-04-0002,2015,Campeche,Hopelchén,2015-03-21,2015-03-24,33.0,21 a 50 Hectáreas,Actividades agropecuarias,3,1,4
+15-04-0003,2015,Campeche,Hopelchén,2015-03-24,2015-03-24,1.5,0 a 5 Hectáreas,Actividades agropecuarias,0,0,0
+15-04-0004,2015,Campeche,Calakmul,2015-03-25,2015-03-28,21.0,21 a 50 Hectáreas,Otras causas,2,0,2
+15-04-0005,2015,Campeche,Hopelchén,2015-03-30,2015-04-03,295.0,Mayor a 100 Hectáreas,Actividades agropecuarias,3,0,3
+15-04-0006,2015,Campeche,Hecelchakán,2015-04-02,2015-04-03,43.0,21 a 50 Hectáreas,Cazadores,3,2,5
+15-04-0007,2015,Campeche,Calakmul,2015-04-10,2015-04-11,9.5,6 a 10 Hectáreas,Actividades agropecuarias,2,0,2
+15-04-0008,2015,Campeche,Calakmul,2015-04-13,2015-04-13,1.5,0 a 5 Hectáreas,Actividades agropecuarias,1,0,1
+15-04-0009,2015,Campeche,Hecelchakán,2015-04-15,2015-04-19,49.0,21 a 50 Hectáreas,Cazadores,5,2,7
+15-04-0010,2015,Campeche,Calakmul,2015-04-15,2015-04-16,20.0,11 a 20 Hectáreas,Actividades agropecuarias,0,0,0
+15-04-0011,2015,Campeche,Carmen,2015-04-17,2015-04-17,3.2,0 a 5 Hectáreas,Actividades agropecuarias,2,0,2
+15-04-0012,2015,Campeche,Hopelchén,2015-04-18,2015-04-21,18.5,11 a 20 Hectáreas,Actividades agropecuarias,7,0,7
+15-04-0013,2015,Campeche,Hopelchén,2015-04-18,2015-04-28,506.0,Mayor a 100 Hectáreas,Actividades agropecuarias,13,3,16
+15-04-0014,2015,Campeche,Hopelchén,2015-04-22,2015-05-01,615.0,Mayor a 100 Hectáreas,Cazadores,41,13,54
+15-04-0015,2015,Campeche,Hopelchén,2015-04-28,2015-05-01,390.0,Mayor a 100 Hectáreas,Actividades agropecuarias,10,1,11
+15-04-0016,2015,Campeche,Hopelchén,2015-04-15,2015-04-30,1620.0,Mayor a 100 Hectáreas,Cazadores,86,14,100
+15-04-0017,2015,Campeche,Campeche,2015-05-11,2015-05-14,816.0,Mayor a 100 Hectáreas,Cazadores,1,0,1
+15-04-0018,2015,Campeche,Hecelchakán,2015-05-12,2015-05-15,9.0,6 a 10 Hectáreas,Cazadores,1,0,1
+15-04-0019,2015,Campeche,Hopelchén,2015-05-11,2015-05-15,319.0,Mayor a 100 Hectáreas,Actividades agropecuarias,35,4,39
+15-04-0020,2015,Campeche,Escárcega,2015-05-19,2015-05-20,9.5,6 a 10 Hectáreas,Actividades agropecuarias,1,0,1
+15-04-0021,2015,Campeche,Champotón,2015-05-18,2015-05-22,341.0,Mayor a 100 Hectáreas,Actividades agropecuarias,12,4,16
+15-04-0022,2015,Campeche,Champotón,2015-05-18,2015-05-24,27.0,21 a 50 Hectáreas,Cazadores,13,0,13
+15-04-0023,2015,Campeche,Champotón,2015-05-20,2015-05-24,413.5,Mayor a 100 Hectáreas,Actividades agropecuarias,8,0,8
+15-04-0024,2015,Campeche,Escárcega,2015-05-20,2015-05-25,220.0,Mayor a 100 Hectáreas,Actividades agropecuarias,9,1,10
+15-04-0025,2015,Campeche,Calakmul,2015-05-22,2015-05-26,28.5,21 a 50 Hectáreas,Actividades agropecuarias,0,0,0
+15-04-0026,2015,Campeche,Calakmul,2015-05-23,2015-05-23,1.0,0 a 5 Hectáreas,Actividades agropecuarias,0,0,0
+15-04-0027,2015,Campeche,Hopelchén,2015-05-26,2015-06-02,592.0,Mayor a 100 Hectáreas,Actividades agropecuarias,46,9,55
+15-04-0028,2015,Campeche,Champotón,2015-07-01,2015-07-04,125.0,Mayor a 100 Hectáreas,Actividades agropecuarias,4,1,5
+15-23-0001,2015,Quintana Roo,Othón P. Blanco,2015-03-08,2015-03-09,3.34,0 a 5 Hectáreas,Actividades agropecuarias,0,0,0
+15-23-0002,2015,Quintana Roo,Benito Juárez,2015-03-17,2015-03-17,1.32,0 a 5 Hectáreas,Fumadores,0,0,0
+15-23-0003,2015,Quintana Roo,Tulum,2015-03-17,2015-03-19,1.1,0 a 5 Hectáreas,Actividades agropecuarias,0,0,0
+15-23-0004,2015,Quintana Roo,Lázaro Cárdenas,2015-03-19,2015-03-20,1.38,0 a 5 Hectáreas,Fumadores,0,0,0
+15-23-0005,2015,Quintana Roo,Benito Juárez,2015-03-21,2015-03-21,1.12,0 a 5 Hectáreas,Fumadores,0,0,0
+15-23-0006,2015,Quintana Roo,Tulum,2015-03-21,2015-03-21,1.29,0 a 5 Hectáreas,Cazadores,0,0,0
+15-23-0007,2015,Quintana Roo,Tulum,2015-03-22,2015-03-24,2.19,0 a 5 Hectáreas,Actividades agropecuarias,0,0,0
+15-23-0008,2015,Quintana Roo,Benito Juárez,2015-03-23,2015-03-27,8.9,6 a 10 Hectáreas,Intencional,0,0,0
+15-23-0009,2015,Quintana Roo,José María Morelos,2015-03-20,2015-03-27,9.04,6 a 10 Hectáreas,Cazadores,3,1,4
+15-23-0010,2015,Quintana Roo,Benito Juárez,2015-03-26,2015-03-28,2.07,0 a 5 Hectáreas,Actividades agropecuarias,0,0,0
+15-23-0011,2015,Quintana Roo,Bacalar,2015-03-25,2015-03-28,36.29,21 a 50 Hectáreas,Actividades agropecuarias,2,3,5
+15-23-0012,2015,Quintana Roo,Lázaro Cárdenas,2015-03-29,2015-03-31,2.61,0 a 5 Hectáreas,Cazadores,0,0,0
+15-23-0013,2015,Quintana Roo,Lázaro Cárdenas,2015-03-27,2015-03-31,20.86,11 a 20 Hectáreas,Actividades agropecuarias,6,1,7
+15-23-0014,2015,Quintana Roo,Bacalar,2015-03-23,2015-04-01,108.72,Mayor a 100 Hectáreas,Actividades agropecuarias,20,6,26
+15-23-0015,2015,Quintana Roo,Bacalar,2015-03-25,2015-04-01,46.08,21 a 50 Hectáreas,Actividades agropecuarias,19,2,21
+15-23-0016,2015,Quintana Roo,Bacalar,2015-04-01,2015-04-02,4.19,0 a 5 Hectáreas,Actividades agropecuarias,2,0,2
+15-23-0017,2015,Quintana Roo,Felipe Carrillo Puerto,2015-04-01,2015-04-03,47.01,21 a 50 Hectáreas,Cazadores,5,0,5
+15-23-0018,2015,Quintana Roo,Lázaro Cárdenas,2015-04-02,2015-04-03,5.25,0 a 5 Hectáreas,Cazadores,0,0,0
+15-23-0019,2015,Quintana Roo,Othón P. Blanco,2015-04-05,2015-04-07,13.39,11 a 20 Hectáreas,Actividades agropecuarias,0,0,0
+15-23-0020,2015,Quintana Roo,Tulum,2015-04-05,2015-04-08,13.75,11 a 20 Hectáreas,Fumadores,0,0,0
+15-23-0021,2015,Quintana Roo,Lázaro Cárdenas,2015-04-04,2015-04-10,82.04,51 a 100 Hectáreas,Cazadores,9,3,12
+15-23-0022,2015,Quintana Roo,Lázaro Cárdenas,2015-04-10,2015-04-11,1.69,0 a 5 Hectáreas,Cazadores,0,0,0
+15-23-0023,2015,Quintana Roo,Lázaro Cárdenas,2015-04-11,2015-04-12,2.5,0 a 5 Hectáreas,Intencional,0,0,0
+15-23-0024,2015,Quintana Roo,Tulum,2015-04-10,2015-04-13,7.08,6 a 10 Hectáreas,Cazadores,0,0,0
+15-23-0025,2015,Quintana Roo,Benito Juárez,2015-04-09,2015-04-14,55.33,51 a 100 Hectáreas,Intencional,0,0,0
+15-23-0026,2015,Quintana Roo,Lázaro Cárdenas,2015-04-10,2015-04-17,70.1,51 a 100 Hectáreas,Fumadores,1,0,1
+15-23-0027,2015,Quintana Roo,Benito Juárez,2015-04-16,2015-04-17,6.04,6 a 10 Hectáreas,Intencional,0,0,0
+15-23-0028,2015,Quintana Roo,Othón P. Blanco,2015-04-17,2015-04-19,8.36,6 a 10 Hectáreas,Cazadores,8,0,8
+15-23-0029,2015,Quintana Roo,Bacalar,2015-04-07,2015-04-20,143.7,Mayor a 100 Hectáreas,Actividades agropecuarias,54,2,56
+15-23-0030,2015,Quintana Roo,Lázaro Cárdenas,2015-04-17,2015-04-21,8.91,6 a 10 Hectáreas,Fumadores,0,0,0
+15-23-0031,2015,Quintana Roo,Benito Juárez,2015-04-17,2015-04-21,62.08,51 a 100 Hectáreas,Intencional,2,0,2
+15-23-0032,2015,Quintana Roo,Bacalar,2015-04-07,2015-04-24,210.51,Mayor a 100 Hectáreas,Actividades agropecuarias,37,9,46
+15-23-0033,2015,Quintana Roo,Benito Juárez,2015-04-21,2015-04-24,31.19,21 a 50 Hectáreas,Intencional,0,0,0
+15-23-0034,2015,Quintana Roo,José María Morelos,2015-04-17,2015-04-25,32.68,21 a 50 Hectáreas,Actividades agropecuarias,4,1,5
+15-23-0035,2015,Quintana Roo,Benito Juárez,2015-04-25,2015-04-26,3.46,0 a 5 Hectáreas,Intencional,9,0,9
+15-23-0036,2015,Quintana Roo,Lázaro Cárdenas,2015-04-23,2015-04-27,20.72,11 a 20 Hectáreas,Cazadores,9,1,10
+15-23-0037,2015,Quintana Roo,Othón P. Blanco,2015-04-24,2015-04-27,3.41,0 a 5 Hectáreas,Fumadores,0,0,0
+15-23-0038,2015,Quintana Roo,Bacalar,2015-04-20,2015-04-27,239.02,Mayor a 100 Hectáreas,Actividades agropecuarias,60,22,82
+15-23-0039,2015,Quintana Roo,Othón P. Blanco,2015-04-27,2015-04-28,1.51,0 a 5 Hectáreas,Fumadores,0,0,0
+15-23-0040,2015,Quintana Roo,Othón P. Blanco,2015-04-25,2015-04-29,40.95,21 a 50 Hectáreas,Actividades agropecuarias,13,5,18
+15-23-0041,2015,Quintana Roo,Bacalar,2015-04-25,2015-04-29,18.39,11 a 20 Hectáreas,Actividades agropecuarias,7,0,7
+15-23-0042,2015,Quintana Roo,Felipe Carrillo Puerto,2015-04-22,2015-04-30,60.01,51 a 100 Hectáreas,Actividades agropecuarias,10,1,11
+15-23-0043,2015,Quintana Roo,Bacalar,2015-04-28,2015-05-01,20.91,11 a 20 Hectáreas,Actividades agropecuarias,3,0,3
+15-23-0044,2015,Quintana Roo,Bacalar,2015-04-27,2015-05-01,52.39,51 a 100 Hectáreas,Actividades agropecuarias,0,0,0
+15-23-0045,2015,Quintana Roo,José María Morelos,2015-04-24,2015-05-01,25.53,21 a 50 Hectáreas,Actividades agropecuarias,11,4,15
+15-23-0046,2015,Quintana Roo,Felipe Carrillo Puerto,2015-04-28,2015-05-01,36.36,21 a 50 Hectáreas,Cazadores,0,0,0
+15-23-0047,2015,Quintana Roo,Othón P. Blanco,2015-05-04,2015-05-04,1.56,0 a 5 Hectáreas,Actividades agropecuarias,0,0,0
+15-23-0048,2015,Quintana Roo,Benito Juárez,2015-04-25,2015-05-06,89.5,51 a 100 Hectáreas,Intencional,20,0,20
+15-23-0049,2015,Quintana Roo,Solidaridad,2015-04-14,2015-05-09,1593.58,Mayor a 100 Hectáreas,Intencional,77,14,91
+15-23-0050,2015,Quintana Roo,Benito Juárez,2015-04-23,2015-05-10,121.36,Mayor a 100 Hectáreas,Intencional,30,11,41
+15-23-0051,2015,Quintana Roo,Benito Juárez,2015-05-01,2015-05-11,201.37,Mayor a 100 Hectáreas,Otras causas,1,0,1
+15-23-0052,2015,Quintana Roo,Benito Juárez,2015-05-09,2015-05-11,11.41,11 a 20 Hectáreas,Intencional,0,0,0
+15-23-0053,2015,Quintana Roo,Tulum,2015-05-09,2015-05-11,2.95,0 a 5 Hectáreas,Fogatas,0,0,0
+15-23-0054,2015,Quintana Roo,Benito Juárez,2015-05-11,2015-05-14,8.1,6 a 10 Hectáreas,Actividades agropecuarias,0,0,0
+15-23-0055,2015,Quintana Roo,Benito Juárez,2015-05-01,2015-05-16,7.37,6 a 10 Hectáreas,Cazadores,0,0,0
+15-23-0056,2015,Quintana Roo,Lázaro Cárdenas,2015-05-03,2015-05-16,103.72,Mayor a 100 Hectáreas,Cazadores,0,0,0
+15-23-0057,2015,Quintana Roo,Lázaro Cárdenas,2015-04-23,2015-05-16,120.83,Mayor a 100 Hectáreas,Cazadores,16,5,21
+15-23-0058,2015,Quintana Roo,Bacalar,2015-05-05,2015-05-18,148.77,Mayor a 100 Hectáreas,Actividades agropecuarias,67,19,86
+15-23-0059,2015,Quintana Roo,Benito Juárez,2015-05-12,2015-05-20,94.07,51 a 100 Hectáreas,Intencional,7,4,11
+15-23-0060,2015,Quintana Roo,Benito Juárez,2015-05-14,2015-05-20,30.96,21 a 50 Hectáreas,Intencional,18,9,27
+15-23-0061,2015,Quintana Roo,José María Morelos,2015-05-05,2015-05-21,0.0,0,Cazadores,159,27,186
+15-23-0062,2015,Quintana Roo,Solidaridad,2015-05-11,2015-05-21,25.89,21 a 50 Hectáreas,Actividades agropecuarias,8,0,8
+15-23-0063,2015,Quintana Roo,Benito Juárez,2015-05-14,2015-05-22,50.39,21 a 50 Hectáreas,Intencional,73,8,81
+15-23-0064,2015,Quintana Roo,Lázaro Cárdenas,2015-05-15,2015-05-23,82.9,51 a 100 Hectáreas,Cazadores,10,5,15
+15-23-0065,2015,Quintana Roo,Othón P. Blanco,2015-05-19,2015-05-24,30.09,21 a 50 Hectáreas,Actividades agropecuarias,0,0,0
+15-23-0066,2015,Quintana Roo,Tulum,2015-05-21,2015-05-24,10.1,6 a 10 Hectáreas,Cazadores,4,1,5
+15-23-0067,2015,Quintana Roo,Solidaridad,2015-05-20,2015-05-26,56.07,51 a 100 Hectáreas,Actividades agropecuarias,1,0,1
+15-23-0068,2015,Quintana Roo,Tulum,2015-05-23,2015-05-26,7.06,6 a 10 Hectáreas,Cazadores,0,0,0
+15-23-0069,2015,Quintana Roo,Solidaridad,2015-05-26,2015-05-28,4.98,0 a 5 Hectáreas,Cazadores,1,0,1
+15-23-0070,2015,Quintana Roo,Benito Juárez,2015-05-21,2015-05-29,19.31,11 a 20 Hectáreas,Intencional,21,2,23
+15-23-0071,2015,Quintana Roo,Tulum,2015-05-27,2015-05-30,13.31,11 a 20 Hectáreas,Fumadores,1,0,1
+15-23-0072,2015,Quintana Roo,Benito Juárez,2015-05-18,2015-05-30,761.53,Mayor a 100 Hectáreas,Intencional,93,18,111
+15-23-0073,2015,Quintana Roo,Tulum,2015-05-26,2015-05-30,7.12,6 a 10 Hectáreas,Actividades agropecuarias,2,0,2
+15-23-0074,2015,Quintana Roo,Benito Juárez,2015-05-24,2015-06-02,123.41,Mayor a 100 Hectáreas,Intencional,15,5,20
+15-23-0075,2015,Quintana Roo,Isla Mujeres,2015-05-24,2015-06-02,131.62,Mayor a 100 Hectáreas,Intencional,36,10,46
+15-23-0076,2015,Quintana Roo,Benito Juárez,2015-05-26,2015-06-02,302.91,Mayor a 100 Hectáreas,Intencional,30,7,37
+15-23-0077,2015,Quintana Roo,Solidaridad,2015-05-28,2015-06-02,12.1,11 a 20 Hectáreas,Intencional,1,1,2
+15-23-0078,2015,Quintana Roo,Tulum,2015-05-30,2015-06-02,4.98,0 a 5 Hectáreas,Fumadores,0,0,0
+15-23-0079,2015,Quintana Roo,Bacalar,2015-05-18,2015-06-02,75.54,51 a 100 Hectáreas,Actividades agropecuarias,12,1,13
+15-23-0080,2015,Quintana Roo,Lázaro Cárdenas,2015-05-29,2015-07-30,1.0,0 a 5 Hectáreas,Fumadores,0,0,0
+15-23-0081,2015,Quintana Roo,Benito Juárez,2015-07-28,2015-08-02,36.61,21 a 50 Hectáreas,Intencional,7,1,8
+15-31-0001,2015,Yucatán,Tizimín,2015-02-22,2015-02-23,2.5,0 a 5 Hectáreas,Actividades agropecuarias,0,0,0
+15-31-0002,2015,Yucatán,Abalá,2015-03-11,2015-03-12,30.0,21 a 50 Hectáreas,Fogatas,1,0,1
+15-31-0003,2015,Yucatán,Tizimín,2015-03-26,2015-03-28,156.0,Mayor a 100 Hectáreas,Actividades agropecuarias,1,0,1
+15-31-0004,2015,Yucatán,Tzucacab,2015-03-27,2015-04-02,40.0,21 a 50 Hectáreas,Actividades agropecuarias,0,0,0
+15-31-0005,2015,Yucatán,Ixil,2015-04-04,2015-04-06,70.0,51 a 100 Hectáreas,Cazadores,4,0,4
+15-31-0006,2015,Yucatán,Conkal,2015-04-14,2015-04-14,6.0,6 a 10 Hectáreas,Fumadores,3,0,3
+15-31-0007,2015,Yucatán,Tixpéhual,2015-04-19,2015-04-22,37.0,21 a 50 Hectáreas,Actividades agropecuarias,3,1,4
+15-31-0008,2015,Yucatán,Chemax,2015-04-15,2015-05-02,456.0,Mayor a 100 Hectáreas,Otras causas,26,5,31
+15-31-0009,2015,Yucatán,Chemax,2015-05-01,2015-05-01,2.7,0 a 5 Hectáreas,Actividades agropecuarias,0,0,0
+15-31-0010,2015,Yucatán,Chemax,2015-05-01,2015-05-03,3.0,0 a 5 Hectáreas,Actividades agropecuarias,0,0,0
+15-31-0011,2015,Yucatán,Chemax,2015-05-02,2015-05-06,108.0,Mayor a 100 Hectáreas,Actividades agropecuarias,0,0,0
+15-31-0012,2015,Yucatán,Tekax,2015-04-17,2015-05-15,5165.0,Mayor a 100 Hectáreas,Otras causas,119,23,142
+15-31-0013,2015,Yucatán,Chemax,2015-04-29,2015-05-08,470.0,Mayor a 100 Hectáreas,Actividades agropecuarias,0,0,0
+15-31-0014,2015,Yucatán,Chemax,2015-05-06,2015-05-08,34.0,21 a 50 Hectáreas,Limpias de derecho de vía,0,0,0
+15-31-0015,2015,Yucatán,Chocholá,2015-05-13,2015-05-14,34.85,21 a 50 Hectáreas,Fumadores,0,0,0
+15-31-0016,2015,Yucatán,Chemax,2015-05-20,2015-05-29,110.0,Mayor a 100 Hectáreas,Actividades agropecuarias,2,0,2
+15-31-0017,2015,Yucatán,Chemax,2015-05-20,2015-05-30,150.0,Mayor a 100 Hectáreas,Actividades agropecuarias,7,0,7
+15-31-0018,2015,Yucatán,Tizimín,2015-05-25,2015-06-04,737.0,Mayor a 100 Hectáreas,Actividades agropecuarias,21,1,22
+15-31-0019,2015,Yucatán,Kinchil,2015-05-25,2015-05-27,2.2,0 a 5 Hectáreas,Actividades agropecuarias,0,1,1
+15-31-0020,2015,Yucatán,Chemax,2015-05-29,2015-06-04,150.0,Mayor a 100 Hectáreas,Actividades agropecuarias,0,0,0
+15-31-0021,2015,Yucatán,Tizimín,2015-05-01,2015-05-03,20.0,11 a 20 Hectáreas,Actividades agropecuarias,0,0,0
+15-31-0022,2015,Yucatán,Tekax,2015-05-05,2015-05-05,3.0,0 a 5 Hectáreas,Otras causas,0,0,0
+15-31-0023,2015,Yucatán,Tekax,2015-05-07,2015-05-09,41.0,21 a 50 Hectáreas,Actividades agropecuarias,0,0,0
+15-31-0024,2015,Yucatán,Tizimín,2015-05-09,2015-05-13,285.0,Mayor a 100 Hectáreas,Actividades agropecuarias,1,0,1
+15-31-0025,2015,Yucatán,Tizimín,2015-05-26,2015-05-28,48.0,21 a 50 Hectáreas,Actividades agropecuarias,0,0,0
+15-31-0026,2015,Yucatán,Tizimín,2015-05-14,2015-05-18,106.0,Mayor a 100 Hectáreas,Actividades agropecuarias,0,0,0
+15-31-0027,2015,Yucatán,Tekax,2015-05-14,2015-05-14,10.0,6 a 10 Hectáreas,Otras causas,0,0,0
+15-31-0028,2015,Yucatán,Tekax,2015-05-21,2015-05-22,3.5,0 a 5 Hectáreas,Otras causas,0,0,0
+15-31-0029,2015,Yucatán,Tizimín,2015-05-21,2015-05-23,20.0,11 a 20 Hectáreas,Actividades agropecuarias,0,0,0
+15-31-0030,2015,Yucatán,Tekax,2015-05-28,2015-05-30,10.0,6 a 10 Hectáreas,Otras causas,0,0,0
+15-31-0031,2015,Yucatán,Tizimín,2015-06-03,2015-06-05,73.0,51 a 100 Hectáreas,Actividades agropecuarias,0,0,0
+15-31-0032,2015,Yucatán,Tizimín,2015-06-04,2015-06-07,169.0,Mayor a 100 Hectáreas,Actividades agropecuarias,0,0,0
+15-31-0033,2015,Yucatán,Tizimín,2015-06-06,2015-06-07,12.0,11 a 20 Hectáreas,Actividades agropecuarias,0,0,0
+15-31-0034,2015,Yucatán,Celestún,2015-08-19,2015-08-23,81.5,51 a 100 Hectáreas,Otras causas,2,2,4
+16-04-0001,2016,Campeche,Campeche,2016-02-02,2016-02-03,31.0,21 a 50 Hectáreas,Cazadores,6,4,10
+16-04-0002,2016,Campeche,Calakmul,2016-04-12,2016-04-13,6.5,6 a 10 Hectáreas,Actividades agropecuarias,1,3,4
+16-04-0003,2016,Campeche,Candelaria,2016-04-18,2016-04-18,0.5,0 a 5 Hectáreas,Actividades agropecuarias,0,0,0
+16-04-0004,2016,Campeche,Campeche,2016-04-18,2016-04-18,0.5,0 a 5 Hectáreas,Otras causas,0,0,0
+16-04-0005,2016,Campeche,Candelaria,2016-04-18,2016-04-20,11.0,11 a 20 Hectáreas,Actividades agropecuarias,0,1,1
+16-04-0006,2016,Campeche,Champotón,2016-04-29,2016-05-01,4.5,0 a 5 Hectáreas,Otras causas,6,0,6
+16-04-0007,2016,Campeche,Escárcega,2016-04-29,2016-05-03,174.0,Mayor a 100 Hectáreas,Otras causas,10,1,11
+16-04-0008,2016,Campeche,Escárcega,2016-05-04,2016-05-14,366.0,Mayor a 100 Hectáreas,Otras causas,38,4,42
+16-04-0009,2016,Campeche,Candelaria,2016-05-10,2016-05-13,102.0,Mayor a 100 Hectáreas,Actividades agropecuarias,2,1,3
+16-04-0010,2016,Campeche,Calakmul,2016-05-16,2016-05-21,46.0,21 a 50 Hectáreas,Actividades agropecuarias,0,0,0
+16-04-0011,2016,Campeche,Candelaria,2016-05-18,2016-05-19,10.5,6 a 10 Hectáreas,Otras causas,0,0,0
+16-04-0012,2016,Campeche,Candelaria,2016-05-18,2016-05-19,8.5,6 a 10 Hectáreas,Otras causas,0,0,0
+16-04-0013,2016,Campeche,Calakmul,2016-05-23,2016-05-23,0.5,0 a 5 Hectáreas,Actividades agropecuarias,5,0,5
+16-04-0014,2016,Campeche,Carmen,2016-05-25,2016-05-31,3812.0,Mayor a 100 Hectáreas,Otras causas,8,3,11
+16-04-0015,2016,Campeche,Escárcega,2016-05-25,2016-05-30,169.0,Mayor a 100 Hectáreas,Otras causas,12,3,15
+16-04-0016,2016,Campeche,Hopelchén,2016-05-27,2016-05-28,3.0,0 a 5 Hectáreas,Actividades agropecuarias,0,0,0
+16-04-0017,2016,Campeche,Calakmul,2016-05-26,2016-06-03,88.0,51 a 100 Hectáreas,Otras causas,1,0,1
+16-04-0018,2016,Campeche,Candelaria,2016-05-29,2016-05-30,14.0,11 a 20 Hectáreas,Actividades agropecuarias,0,0,0
+16-04-0019,2016,Campeche,Escárcega,2016-05-28,2016-06-03,60.0,51 a 100 Hectáreas,Otras causas,20,1,21
+16-04-0020,2016,Campeche,Escárcega,2016-05-29,2016-06-03,75.0,51 a 100 Hectáreas,Otras causas,25,10,35
+16-04-0021,2016,Campeche,Candelaria,2016-05-28,2016-06-04,194.0,Mayor a 100 Hectáreas,Otras causas,0,0,0
+16-23-0001,2016,Quintana Roo,Othón P. Blanco,2016-04-09,2016-04-09,0.74,0 a 5 Hectáreas,Actividades agropecuarias,0,0,0
+16-23-0002,2016,Quintana Roo,Othón P. Blanco,2016-04-09,2016-04-12,2.04,0 a 5 Hectáreas,Actividades agropecuarias,0,0,0
+16-23-0003,2016,Quintana Roo,Othón P. Blanco,2016-04-12,2016-04-12,1.0,0 a 5 Hectáreas,Actividades agropecuarias,0,0,0
+16-23-0004,2016,Quintana Roo,Othón P. Blanco,2016-04-17,2016-04-18,1.18,0 a 5 Hectáreas,Cazadores,3,1,4
+16-23-0005,2016,Quintana Roo,Bacalar,2016-04-18,2016-04-19,1.52,0 a 5 Hectáreas,Actividades agropecuarias,0,0,0
+16-23-0006,2016,Quintana Roo,Bacalar,2016-04-18,2016-04-19,2.16,0 a 5 Hectáreas,Actividades agropecuarias,10,1,11
+16-23-0007,2016,Quintana Roo,Lázaro Cárdenas,2016-04-19,2016-04-19,0.24,0 a 5 Hectáreas,Limpias de derecho de vía,0,0,0
+16-23-0008,2016,Quintana Roo,Bacalar,2016-04-20,2016-04-21,1.66,0 a 5 Hectáreas,Limpias de derecho de vía,0,0,0
+16-23-0009,2016,Quintana Roo,Puerto Morelos,2016-04-21,2016-04-23,25.92,21 a 50 Hectáreas,Limpias de derecho de vía,3,0,3
+16-23-0010,2016,Quintana Roo,Othón P. Blanco,2016-04-22,2016-04-23,2.01,0 a 5 Hectáreas,Limpias de derecho de vía,0,0,0
+16-23-0011,2016,Quintana Roo,Bacalar,2016-04-22,2016-04-26,8.1,6 a 10 Hectáreas,Cazadores,0,0,0
+16-23-0012,2016,Quintana Roo,Othón P. Blanco,2016-04-26,2016-04-29,1.52,0 a 5 Hectáreas,Actividades agropecuarias,0,0,0
+16-23-0013,2016,Quintana Roo,Solidaridad,2016-04-30,2016-04-30,0.5,0 a 5 Hectáreas,Fumadores,0,0,0
+16-23-0014,2016,Quintana Roo,Puerto Morelos,2016-05-01,2016-05-03,11.28,11 a 20 Hectáreas,Quema de basureros,0,0,0
+16-23-0015,2016,Quintana Roo,Lázaro Cárdenas,2016-05-06,2016-05-06,0.2,0 a 5 Hectáreas,Limpias de derecho de vía,0,0,0
+16-23-0016,2016,Quintana Roo,Lázaro Cárdenas,2016-05-06,2016-05-07,3.13,0 a 5 Hectáreas,Quema de basureros,0,0,0
+16-23-0017,2016,Quintana Roo,Lázaro Cárdenas,2016-05-09,2016-05-09,0.12,0 a 5 Hectáreas,Limpias de derecho de vía,0,0,0
+16-23-0018,2016,Quintana Roo,Tulum,2016-05-06,2016-05-09,2.0,0 a 5 Hectáreas,Actividades agropecuarias,3,0,3
+16-23-0019,2016,Quintana Roo,Lázaro Cárdenas,2016-05-10,2016-05-10,0.3,0 a 5 Hectáreas,Quema de basureros,0,0,0
+16-23-0020,2016,Quintana Roo,Bacalar,2016-05-06,2016-05-11,16.16,11 a 20 Hectáreas,Actividades agropecuarias,3,2,5
+16-23-0021,2016,Quintana Roo,Tulum,2016-05-05,2016-05-11,1.99,0 a 5 Hectáreas,Quema de basureros,0,0,0
+16-23-0022,2016,Quintana Roo,Benito Juárez,2016-05-08,2016-05-12,12.0,11 a 20 Hectáreas,Quema de basureros,0,0,0
+16-23-0023,2016,Quintana Roo,Bacalar,2016-05-12,2016-05-12,2.0,0 a 5 Hectáreas,Actividades agropecuarias,0,0,0
+16-23-0024,2016,Quintana Roo,Othón P. Blanco,2016-04-28,2016-05-13,420.54,Mayor a 100 Hectáreas,Limpias de derecho de vía,18,3,21
+16-23-0025,2016,Quintana Roo,Puerto Morelos,2016-05-13,2016-05-13,1.0,0 a 5 Hectáreas,Limpias de derecho de vía,0,0,0
+16-23-0026,2016,Quintana Roo,Bacalar,2016-05-13,2016-05-15,1.0,0 a 5 Hectáreas,Fumadores,0,0,0
+16-23-0027,2016,Quintana Roo,Tulum,2016-05-10,2016-05-10,10.0,6 a 10 Hectáreas,Actividades agropecuarias,0,0,0
+16-23-0028,2016,Quintana Roo,Othón P. Blanco,2016-05-14,2016-05-22,2.52,0 a 5 Hectáreas,Cazadores,0,0,0
+16-23-0029,2016,Quintana Roo,Othón P. Blanco,2016-05-14,2016-05-22,17.91,11 a 20 Hectáreas,Fumadores,2,0,2
+16-23-0030,2016,Quintana Roo,Isla Mujeres,2016-05-22,2016-05-23,1.5,0 a 5 Hectáreas,Limpias de derecho de vía,0,0,0
+16-23-0031,2016,Quintana Roo,Othón P. Blanco,2016-05-13,2016-05-26,22.0,21 a 50 Hectáreas,Cazadores,0,0,0
+16-23-0032,2016,Quintana Roo,Puerto Morelos,2016-05-25,2016-05-26,1.36,0 a 5 Hectáreas,Quema de basureros,1,0,1
+16-23-0033,2016,Quintana Roo,Lázaro Cárdenas,2016-05-24,2016-05-26,9.08,6 a 10 Hectáreas,Fumadores,0,0,0
+16-23-0034,2016,Quintana Roo,Lázaro Cárdenas,2016-05-24,2016-05-30,6.0,6 a 10 Hectáreas,Actividades agropecuarias,0,0,0
+16-23-0035,2016,Quintana Roo,Puerto Morelos,2016-05-23,2016-05-31,53.0,51 a 100 Hectáreas,Fumadores,2,0,2
+16-23-0036,2016,Quintana Roo,Othón P. Blanco,2016-05-19,2016-06-05,300.0,Mayor a 100 Hectáreas,Actividades agropecuarias,18,9,27
+16-23-0037,2016,Quintana Roo,Bacalar,2016-05-14,2016-06-07,490.0,Mayor a 100 Hectáreas,Actividades agropecuarias,85,16,101
+16-23-0038,2016,Quintana Roo,Othón P. Blanco,2016-05-13,2016-06-07,780.0,Mayor a 100 Hectáreas,Cazadores,9,3,12
+16-23-0039,2016,Quintana Roo,Tulum,2016-07-05,2016-07-07,1.0,0 a 5 Hectáreas,Cazadores,0,0,0
+16-23-0040,2016,Quintana Roo,Solidaridad,2016-07-22,2016-07-27,12.64,11 a 20 Hectáreas,Naturales,0,0,0
+16-23-0041,2016,Quintana Roo,Lázaro Cárdenas,2016-09-17,2016-09-21,74.13,51 a 100 Hectáreas,Intencional,6,0,6
+16-31-0001,2016,Yucatán,Halachó,2016-01-01,2016-01-04,285.0,Mayor a 100 Hectáreas,Cazadores,0,0,0
+16-31-0002,2016,Yucatán,Maxcanú,2016-01-25,2016-01-28,230.0,Mayor a 100 Hectáreas,Cazadores,3,2,5
+16-31-0003,2016,Yucatán,Halachó,2016-01-26,2016-01-29,56.0,51 a 100 Hectáreas,Limpias de derecho de vía,8,0,8
+16-31-0004,2016,Yucatán,Maxcanú,2016-01-28,2016-01-29,40.0,21 a 50 Hectáreas,Limpias de derecho de vía,0,0,0
+16-31-0005,2016,Yucatán,Hunucmá,2016-02-12,2016-02-17,237.0,Mayor a 100 Hectáreas,Cazadores,6,6,12
+16-31-0006,2016,Yucatán,Tixkokob,2016-03-16,2016-03-17,8.0,6 a 10 Hectáreas,Fumadores,0,0,0
+16-31-0007,2016,Yucatán,Tixkokob,2016-03-16,2016-03-20,80.0,51 a 100 Hectáreas,Fumadores,0,0,0
+16-31-0008,2016,Yucatán,Tizimín,2016-04-05,2016-04-09,162.0,Mayor a 100 Hectáreas,Cazadores,9,2,11
+16-31-0009,2016,Yucatán,Acanceh,2016-04-06,2016-04-08,30.0,21 a 50 Hectáreas,Fumadores,2,0,2
+16-31-0010,2016,Yucatán,Tahmek,2016-04-07,2016-04-07,52.0,51 a 100 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0011,2016,Yucatán,Cacalchén,2016-04-10,2016-04-10,10.0,6 a 10 Hectáreas,Fumadores,0,0,0
+16-31-0012,2016,Yucatán,Tizimín,2016-04-11,2016-04-14,72.0,51 a 100 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0013,2016,Yucatán,Mocochá,2016-04-14,2016-04-17,63.0,51 a 100 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0014,2016,Yucatán,Umán,2016-04-15,2016-04-17,393.0,Mayor a 100 Hectáreas,Cazadores,13,2,15
+16-31-0015,2016,Yucatán,Temax,2016-04-14,2016-04-18,48.0,21 a 50 Hectáreas,Actividades agropecuarias,1,1,2
+16-31-0016,2016,Yucatán,Tizimín,2016-04-14,2016-04-18,5.0,0 a 5 Hectáreas,Cazadores,2,1,3
+16-31-0017,2016,Yucatán,Tixkokob,2016-04-17,2016-04-19,130.0,Mayor a 100 Hectáreas,Quema de basureros,0,0,0
+16-31-0018,2016,Yucatán,Hunucmá,2016-04-26,2016-04-29,8.0,6 a 10 Hectáreas,Fumadores,0,0,0
+16-31-0019,2016,Yucatán,Ucú,2016-04-30,2016-05-02,20.0,11 a 20 Hectáreas,Quema de basureros,1,0,1
+16-31-0020,2016,Yucatán,Tekax,2016-05-02,2016-05-04,7.0,6 a 10 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0021,2016,Yucatán,Tixkokob,2016-05-03,2016-05-05,23.0,21 a 50 Hectáreas,Actividades agropecuarias,1,0,1
+16-31-0022,2016,Yucatán,Tixkokob,2016-05-05,2016-05-06,15.0,11 a 20 Hectáreas,Actividades agropecuarias,1,0,1
+16-31-0023,2016,Yucatán,Tekax,2016-05-05,2016-05-06,10.0,6 a 10 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0024,2016,Yucatán,Hunucmá,2016-05-06,2016-05-08,16.0,11 a 20 Hectáreas,Fumadores,2,2,4
+16-31-0025,2016,Yucatán,Hunucmá,2016-05-06,2016-05-08,6.0,6 a 10 Hectáreas,Fumadores,1,0,1
+16-31-0026,2016,Yucatán,Tixkokob,2016-05-08,2016-05-11,15.0,11 a 20 Hectáreas,Cazadores,0,0,0
+16-31-0027,2016,Yucatán,Oxkutzcab,2016-05-08,2016-05-11,20.0,11 a 20 Hectáreas,Actividades agropecuarias,0,2,2
+16-31-0028,2016,Yucatán,Celestún,2016-05-07,2016-05-13,132.0,Mayor a 100 Hectáreas,Cazadores,1,1,2
+16-31-0029,2016,Yucatán,Umán,2016-05-12,2016-05-15,208.0,Mayor a 100 Hectáreas,Cazadores,4,0,4
+16-31-0030,2016,Yucatán,Tixkokob,2016-05-13,2016-05-17,96.0,51 a 100 Hectáreas,Fumadores,0,0,0
+16-31-0031,2016,Yucatán,Tetiz,2016-05-17,2016-05-24,72.0,51 a 100 Hectáreas,Fumadores,0,0,0
+16-31-0032,2016,Yucatán,Progreso,2016-05-18,2016-05-25,25.0,21 a 50 Hectáreas,Cazadores,0,0,0
+16-31-0033,2016,Yucatán,Progreso,2016-05-20,2016-05-26,21.0,21 a 50 Hectáreas,Cazadores,0,0,0
+16-31-0034,2016,Yucatán,Tizimín,2016-05-20,2016-05-27,115.0,Mayor a 100 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0035,2016,Yucatán,Chemax,2016-05-23,2016-05-26,10.0,6 a 10 Hectáreas,Fumadores,1,0,1
+16-31-0036,2016,Yucatán,Tetiz,2016-05-24,2016-05-27,7.0,6 a 10 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0037,2016,Yucatán,Chemax,2016-05-26,2016-05-28,3.0,0 a 5 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0038,2016,Yucatán,Chemax,2016-05-26,2016-05-27,3.0,0 a 5 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0039,2016,Yucatán,Chemax,2016-05-27,2016-05-30,4.0,0 a 5 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0040,2016,Yucatán,Tekax,2016-05-27,2016-06-04,75.0,51 a 100 Hectáreas,Actividades agropecuarias,9,1,10
+16-31-0041,2016,Yucatán,Abalá,2016-05-28,2016-05-29,7.0,6 a 10 Hectáreas,Transportes,0,0,0
+16-31-0042,2016,Yucatán,Chocholá,2016-05-28,2016-06-03,10.0,6 a 10 Hectáreas,Actividades agropecuarias,2,0,2
+16-31-0043,2016,Yucatán,Celestún,2016-06-01,2016-06-06,53.0,51 a 100 Hectáreas,Ninguna / No aplica,0,2,2
+16-31-0044,2016,Yucatán,Chemax,2016-06-02,2016-06-03,1.0,0 a 5 Hectáreas,Ninguna / No aplica,0,0,0
+16-31-0045,2016,Yucatán,Chemax,2016-06-03,2016-06-05,3.0,0 a 5 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0046,2016,Yucatán,Tzucacab,2016-06-03,2016-06-07,30.0,21 a 50 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0047,2016,Yucatán,Chemax,2016-06-04,2016-06-09,10.0,6 a 10 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0048,2016,Yucatán,Chemax,2016-05-16,2016-05-16,2.5,0 a 5 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0049,2016,Yucatán,Chemax,2016-05-30,2016-05-31,4.0,0 a 5 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0050,2016,Yucatán,Chemax,2016-04-20,2016-04-22,72.0,51 a 100 Hectáreas,Quema de basureros,0,0,0
+16-31-0051,2016,Yucatán,Chemax,2016-04-01,2016-04-03,2.0,0 a 5 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0052,2016,Yucatán,Chemax,2016-05-19,2016-05-20,6.5,6 a 10 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0053,2016,Yucatán,Chemax,2016-04-23,2016-04-24,7.0,6 a 10 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0054,2016,Yucatán,Chemax,2016-04-25,2016-04-27,11.0,11 a 20 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0055,2016,Yucatán,Chemax,2016-05-19,2016-05-20,2.0,0 a 5 Hectáreas,Actividades agropecuarias,2,0,2
+16-31-0056,2016,Yucatán,Chemax,2016-05-09,2016-05-11,2.5,0 a 5 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0057,2016,Yucatán,Chemax,2016-05-06,2016-05-08,4.5,0 a 5 Hectáreas,Actividades agropecuarias,1,0,1
+16-31-0058,2016,Yucatán,Yaxcabá,2016-05-06,2016-05-06,25.0,21 a 50 Hectáreas,Actividades agropecuarias,1,3,4
+16-31-0059,2016,Yucatán,Yaxcabá,2016-05-06,2016-05-06,8.0,6 a 10 Hectáreas,Actividades agropecuarias,1,0,1
+16-31-0060,2016,Yucatán,Yaxcabá,2016-05-07,2016-05-08,40.0,21 a 50 Hectáreas,Actividades agropecuarias,1,0,1
+16-31-0061,2016,Yucatán,Yaxcabá,2016-05-17,2016-05-17,3.0,0 a 5 Hectáreas,Fumadores,0,0,0
+16-31-0062,2016,Yucatán,Yaxcabá,2016-05-20,2016-05-20,20.0,11 a 20 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0063,2016,Yucatán,Yaxcabá,2016-04-28,2016-04-28,5.0,0 a 5 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0064,2016,Yucatán,Tzucacab,2016-04-13,2016-04-15,32.6,21 a 50 Hectáreas,Fumadores,2,5,7
+16-31-0065,2016,Yucatán,Tzucacab,2016-04-06,2016-04-07,34.2,21 a 50 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0066,2016,Yucatán,Tzucacab,2016-04-30,2016-05-01,13.2,11 a 20 Hectáreas,Actividades agropecuarias,1,0,1
+16-31-0067,2016,Yucatán,Tzucacab,2016-05-27,2016-05-28,11.1,11 a 20 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0068,2016,Yucatán,Tzucacab,2016-04-12,2016-04-13,6.4,6 a 10 Hectáreas,Actividades agropecuarias,2,4,6
+16-31-0069,2016,Yucatán,Tzucacab,2016-05-14,2016-05-15,8.3,6 a 10 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0070,2016,Yucatán,Tzucacab,2016-04-01,2016-04-03,8.3,6 a 10 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0071,2016,Yucatán,Tzucacab,2016-05-08,2016-05-09,29.3,21 a 50 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0072,2016,Yucatán,Tzucacab,2016-04-20,2016-04-22,8.0,6 a 10 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0073,2016,Yucatán,Tzucacab,2016-05-20,2016-05-20,1.5,0 a 5 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0074,2016,Yucatán,Tzucacab,2016-05-07,2016-05-08,10.3,6 a 10 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0075,2016,Yucatán,Tzucacab,2016-05-27,2016-05-29,34.0,21 a 50 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0076,2016,Yucatán,Tzucacab,2016-05-27,2016-05-29,13.1,11 a 20 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0077,2016,Yucatán,Tzucacab,2016-05-01,2016-05-02,16.0,11 a 20 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0078,2016,Yucatán,Tzucacab,2016-04-18,2016-04-19,9.2,6 a 10 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0079,2016,Yucatán,Tzucacab,2016-04-01,2016-04-02,2.4,0 a 5 Hectáreas,Actividades agropecuarias,0,1,1
+16-31-0080,2016,Yucatán,Tzucacab,2016-04-26,2016-04-26,1.5,0 a 5 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0081,2016,Yucatán,Tzucacab,2016-05-10,2016-05-11,5.8,0 a 5 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0082,2016,Yucatán,Tekax,2016-04-19,2016-04-19,3.3,0 a 5 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0083,2016,Yucatán,Tekax,2016-03-28,2016-03-31,7.8,6 a 10 Hectáreas,Actividades agropecuarias,1,0,1
+16-31-0084,2016,Yucatán,Tekax,2016-03-31,2016-03-31,1.7,0 a 5 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0085,2016,Yucatán,Tekax,2016-05-05,2016-05-05,5.0,0 a 5 Hectáreas,Actividades agropecuarias,1,0,1
+16-31-0086,2016,Yucatán,Tekax,2016-05-05,2016-05-05,1.6,0 a 5 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0087,2016,Yucatán,Tekax,2016-03-16,2016-03-18,7.1,6 a 10 Hectáreas,Fumadores,0,0,0
+16-31-0088,2016,Yucatán,Tekax,2016-05-30,2016-06-01,26.0,21 a 50 Hectáreas,Fumadores,7,2,9
+16-31-0089,2016,Yucatán,Tekax,2016-04-05,2016-04-07,109.0,Mayor a 100 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0090,2016,Yucatán,Tekax,2016-03-23,2016-03-24,5.0,0 a 5 Hectáreas,Fumadores,0,0,0
+16-31-0091,2016,Yucatán,Tekax,2016-04-13,2016-04-14,3.0,0 a 5 Hectáreas,Fumadores,0,0,0
+16-31-0092,2016,Yucatán,Tekax,2016-04-29,2016-04-29,4.3,0 a 5 Hectáreas,Fumadores,0,0,0
+16-31-0093,2016,Yucatán,Tekax,2016-05-12,2016-05-13,5.1,0 a 5 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0094,2016,Yucatán,Tekax,2016-05-05,2016-05-05,5.0,0 a 5 Hectáreas,Fumadores,0,0,0
+16-31-0095,2016,Yucatán,Tekax,2016-05-24,2016-05-26,27.4,21 a 50 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0096,2016,Yucatán,Tekax,2016-05-11,2016-05-11,3.0,0 a 5 Hectáreas,Fumadores,0,0,0
+16-31-0097,2016,Yucatán,Tekax,2016-05-12,2016-05-13,1.0,0 a 5 Hectáreas,Fumadores,0,0,0
+16-31-0098,2016,Yucatán,Tekax,2016-05-01,2016-05-02,4.1,0 a 5 Hectáreas,Fumadores,0,0,0
+16-31-0099,2016,Yucatán,Tekax,2016-05-30,2016-06-01,26.0,21 a 50 Hectáreas,Fumadores,0,0,0
+16-31-0100,2016,Yucatán,Tekax,2016-05-27,2016-05-29,6.0,6 a 10 Hectáreas,Otras causas,0,0,0
+16-31-0101,2016,Yucatán,Tekax,2016-05-25,2016-05-26,6.5,6 a 10 Hectáreas,Fumadores,0,0,0
+16-31-0102,2016,Yucatán,Tekax,2016-05-24,2016-05-26,5.1,0 a 5 Hectáreas,Fumadores,0,0,0
+16-31-0103,2016,Yucatán,Tekax,2016-03-15,2016-03-17,15.0,11 a 20 Hectáreas,Cazadores,0,0,0
+16-31-0104,2016,Yucatán,Tekax,2016-04-18,2016-04-18,6.4,6 a 10 Hectáreas,Fumadores,0,0,0
+16-31-0105,2016,Yucatán,Tekax,2016-05-05,2016-05-05,5.0,0 a 5 Hectáreas,Otras causas,0,0,0
+16-31-0106,2016,Yucatán,Tekax,2016-05-05,2016-05-05,3.3,0 a 5 Hectáreas,Otras causas,0,0,0
+16-31-0107,2016,Yucatán,Tekax,2016-04-12,2016-04-12,1.0,0 a 5 Hectáreas,Quema de basureros,0,0,0
+16-31-0108,2016,Yucatán,Motul,2016-04-01,2016-04-01,6.3,6 a 10 Hectáreas,Fumadores,0,1,1
+16-31-0109,2016,Yucatán,Motul,2016-05-03,2016-05-04,18.0,11 a 20 Hectáreas,Otras causas,0,0,0
+16-31-0110,2016,Yucatán,Motul,2016-05-07,2016-05-08,10.0,6 a 10 Hectáreas,Otras causas,0,0,0
+16-31-0111,2016,Yucatán,Motul,2016-03-23,2016-03-23,7.3,6 a 10 Hectáreas,Otras causas,0,0,0
+16-31-0112,2016,Yucatán,Motul,2016-05-17,2016-05-18,11.1,11 a 20 Hectáreas,Otras causas,3,0,3
+16-31-0113,2016,Yucatán,Motul,2016-05-09,2016-05-14,126.0,Mayor a 100 Hectáreas,Otras causas,4,2,6
+16-31-0114,2016,Yucatán,Motul,2016-04-20,2016-04-21,9.8,6 a 10 Hectáreas,Otras causas,0,0,0
+16-31-0115,2016,Yucatán,Motul,2016-04-18,2016-04-18,6.3,6 a 10 Hectáreas,Otras causas,0,0,0
+16-31-0116,2016,Yucatán,Motul,2016-05-08,2016-05-08,5.2,0 a 5 Hectáreas,Otras causas,1,0,1
+16-31-0117,2016,Yucatán,Motul,2016-06-01,2016-06-01,3.7,0 a 5 Hectáreas,Fumadores,0,0,0
+16-31-0118,2016,Yucatán,Motul,2016-05-16,2016-05-16,7.8,6 a 10 Hectáreas,Otras causas,3,0,3
+16-31-0119,2016,Yucatán,Tizimín,2016-05-13,2016-05-13,2.0,0 a 5 Hectáreas,Fumadores,0,0,0
+16-31-0120,2016,Yucatán,Tizimín,2016-04-14,2016-04-14,3.0,0 a 5 Hectáreas,Fumadores,0,0,0
+16-31-0121,2016,Yucatán,Tizimín,2016-04-16,2016-04-16,500.0,Mayor a 100 Hectáreas,Fumadores,0,0,0
+16-31-0122,2016,Yucatán,Tizimín,2016-04-17,2016-04-17,300.0,Mayor a 100 Hectáreas,Fumadores,0,0,0
+16-31-0123,2016,Yucatán,Tizimín,2016-04-18,2016-04-18,25.0,21 a 50 Hectáreas,Otras causas,0,0,0
+16-31-0124,2016,Yucatán,Tizimín,2016-04-27,2016-04-27,25.0,21 a 50 Hectáreas,Otras causas,0,0,0
+16-31-0125,2016,Yucatán,Tizimín,2016-04-28,2016-04-28,34.5,21 a 50 Hectáreas,Otras causas,0,0,0
+16-31-0126,2016,Yucatán,Tizimín,2016-04-02,2016-04-02,15.0,11 a 20 Hectáreas,Otras causas,0,0,0
+16-31-0127,2016,Yucatán,Tizimín,2016-03-27,2016-03-29,25.0,21 a 50 Hectáreas,Otras causas,0,0,0
+16-31-0128,2016,Yucatán,Tizimín,2016-03-30,2016-03-30,25.0,21 a 50 Hectáreas,Otras causas,0,0,0
+16-31-0129,2016,Yucatán,Tizimín,2016-04-02,2016-04-03,61.0,51 a 100 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0130,2016,Yucatán,Tizimín,2016-04-08,2016-04-09,7.0,6 a 10 Hectáreas,Otras causas,0,0,0
+16-31-0131,2016,Yucatán,Tizimín,2016-04-09,2016-04-09,20.0,11 a 20 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0132,2016,Yucatán,Tizimín,2016-04-11,2016-04-12,20.0,11 a 20 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0133,2016,Yucatán,Tizimín,2016-04-15,2016-04-15,20.0,11 a 20 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0134,2016,Yucatán,Tizimín,2016-04-17,2016-04-17,36.0,21 a 50 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0135,2016,Yucatán,Tizimín,2016-04-20,2016-04-21,2.5,0 a 5 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0136,2016,Yucatán,Tizimín,2016-03-20,2016-03-20,3.0,0 a 5 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0137,2016,Yucatán,Tizimín,2016-04-23,2016-04-24,12.0,11 a 20 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0138,2016,Yucatán,Tizimín,2016-04-27,2016-04-27,4.7,0 a 5 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0139,2016,Yucatán,Tizimín,2016-04-30,2016-04-30,5.0,0 a 5 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0140,2016,Yucatán,Tizimín,2016-05-11,2016-05-11,5.0,0 a 5 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0141,2016,Yucatán,Izamal,2016-04-18,2016-04-18,5.2,0 a 5 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0142,2016,Yucatán,Izamal,2016-03-23,2016-03-23,7.1,6 a 10 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0143,2016,Yucatán,Izamal,2016-05-07,2016-05-08,13.4,11 a 20 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0144,2016,Yucatán,Izamal,2016-05-08,2016-05-08,4.5,0 a 5 Hectáreas,Otras causas,0,0,0
+16-31-0145,2016,Yucatán,Izamal,2016-03-15,2016-03-15,6.5,6 a 10 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0146,2016,Yucatán,Izamal,2016-04-17,2016-04-17,2.9,0 a 5 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0147,2016,Yucatán,Valladolid,2016-04-14,2016-04-15,7.0,6 a 10 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0148,2016,Yucatán,Valladolid,2016-04-12,2016-04-13,7.0,6 a 10 Hectáreas,Quema de basureros,1,1,2
+16-31-0149,2016,Yucatán,Valladolid,2016-04-19,2016-04-20,17.0,11 a 20 Hectáreas,Actividades agropecuarias,0,1,1
+16-31-0150,2016,Yucatán,Valladolid,2016-05-08,2016-05-09,2.5,0 a 5 Hectáreas,Fumadores,0,0,0
+16-31-0151,2016,Yucatán,Valladolid,2016-03-29,2016-03-30,8.0,6 a 10 Hectáreas,Actividades agropecuarias,0,0,0
+16-31-0152,2016,Yucatán,Dzilam de Bravo,2016-09-22,2016-09-27,1265.0,Mayor a 100 Hectáreas,Fogatas,11,3,14
+16-31-0153,2016,Yucatán,Hunucmá,2016-09-26,2016-09-28,138.0,Mayor a 100 Hectáreas,Cazadores,0,0,0
+16-31-0154,2016,Yucatán,San Felipe,2016-09-28,2016-10-08,481.0,Mayor a 100 Hectáreas,Otras causas,17,9,26
+16-31-0155,2016,Yucatán,Abalá,2016-12-08,2016-12-09,13.7,11 a 20 Hectáreas,Otras causas,0,0,0
+17-04-0001,2017,Campeche,Hopelchén,2017-01-24,2017-01-27,24.5,21 a 50 Hectáreas,Otras causas,5,1,6
+17-04-0002,2017,Campeche,Hopelchén,2017-02-24,2017-03-05,392.5,Mayor a 100 Hectáreas,Otras causas,21,7,28
+17-04-0003,2017,Campeche,Hopelchén,2017-02-28,2017-03-04,104.5,Mayor a 100 Hectáreas,Otras causas,3,0,3
+17-04-0004,2017,Campeche,Hopelchén,2017-03-17,2017-03-19,3.0,0 a 5 Hectáreas,Actividades agropecuarias,20,4,24
+17-04-0005,2017,Campeche,Champotón,2017-03-20,2017-04-04,1800.0,Mayor a 100 Hectáreas,Otras causas,8,3,11
+17-04-0006,2017,Campeche,Champotón,2017-03-20,2017-03-28,71.0,51 a 100 Hectáreas,Otras causas,4,0,4
+17-04-0007,2017,Campeche,Hopelchén,2017-03-20,2017-03-29,318.0,Mayor a 100 Hectáreas,Otras causas,8,1,9
+17-04-0008,2017,Campeche,Hopelchén,2017-03-20,2017-04-04,117.0,Mayor a 100 Hectáreas,Actividades agropecuarias,43,10,53
+17-04-0009,2017,Campeche,Hopelchén,2017-03-20,2017-03-28,682.5,Mayor a 100 Hectáreas,Actividades agropecuarias,56,7,63
+17-04-0010,2017,Campeche,Escárcega,2017-03-27,2017-03-29,0.5,0 a 5 Hectáreas,Otras causas,0,0,0
+17-04-0011,2017,Campeche,Calakmul,2017-03-30,2017-04-05,244.0,Mayor a 100 Hectáreas,Otras causas,9,2,11
+17-04-0012,2017,Campeche,Hopelchén,2017-03-31,2017-04-03,119.0,Mayor a 100 Hectáreas,Otras causas,0,0,0
+17-04-0013,2017,Campeche,Calakmul,2017-04-05,2017-04-07,105.0,Mayor a 100 Hectáreas,Otras causas,0,0,0
+17-04-0014,2017,Campeche,Champotón,2017-04-06,2017-04-09,83.0,51 a 100 Hectáreas,Otras causas,0,0,0
+17-04-0015,2017,Campeche,Calakmul,2017-04-09,2017-04-11,111.5,Mayor a 100 Hectáreas,Otras causas,3,0,3
+17-04-0016,2017,Campeche,Champotón,2017-04-13,2017-04-14,125.0,Mayor a 100 Hectáreas,Otras causas,0,1,1
+17-04-0017,2017,Campeche,Hopelchén,2017-04-28,2017-05-12,2259.0,Mayor a 100 Hectáreas,Actividades agropecuarias,19,7,26
+17-04-0018,2017,Campeche,Hecelchakán,2017-05-04,2017-05-19,278.0,Mayor a 100 Hectáreas,Otras causas,22,7,29
+17-04-0019,2017,Campeche,Hopelchén,2017-05-08,2017-05-11,83.0,51 a 100 Hectáreas,Otras causas,0,0,0
+17-04-0020,2017,Campeche,Escárcega,2017-05-18,2017-05-26,374.0,Mayor a 100 Hectáreas,Otras causas,0,1,1
+17-04-0021,2017,Campeche,Hopelchén,2017-05-20,2017-05-23,98.0,51 a 100 Hectáreas,Actividades agropecuarias,0,0,0
+17-04-0022,2017,Campeche,Calakmul,2017-05-19,2017-05-26,326.5,Mayor a 100 Hectáreas,Otras causas,0,0,0
+17-04-0023,2017,Campeche,Calakmul,2017-05-19,2017-05-25,63.5,51 a 100 Hectáreas,Otras causas,0,0,0
+17-04-0024,2017,Campeche,Calakmul,2017-05-20,2017-05-29,127.0,Mayor a 100 Hectáreas,Actividades agropecuarias,1,0,1
+17-04-0025,2017,Campeche,Calkiní,2017-05-22,2017-06-01,5150.0,Mayor a 100 Hectáreas,Otras causas,14,4,18
+17-04-0026,2017,Campeche,Hopelchén,2017-05-23,2017-05-26,65.5,51 a 100 Hectáreas,Otras causas,4,0,4
+17-04-0027,2017,Campeche,Tenabo,2017-05-24,2017-06-01,364.0,Mayor a 100 Hectáreas,Otras causas,0,0,0
+17-04-0028,2017,Campeche,Calkiní,2017-05-25,2017-05-26,35.0,21 a 50 Hectáreas,Otras causas,3,0,3
+17-04-0029,2017,Campeche,Escárcega,2017-06-01,2017-06-03,293.0,Mayor a 100 Hectáreas,Otras causas,5,0,5
+17-23-0001,2017,Quintana Roo,Bacalar,2017-01-25,2017-01-28,17.48,11 a 20 Hectáreas,Actividades agropecuarias,10,2,12
+17-23-0002,2017,Quintana Roo,Othón P. Blanco,2017-01-24,2017-01-29,21.07,21 a 50 Hectáreas,Actividades agropecuarias,1,0,1
+17-23-0003,2017,Quintana Roo,Othón P. Blanco,2017-01-28,2017-02-01,13.5,11 a 20 Hectáreas,Actividades agropecuarias,0,0,0
+17-23-0004,2017,Quintana Roo,Othón P. Blanco,2017-01-31,2017-02-04,6.45,6 a 10 Hectáreas,Cazadores,0,0,0
+17-23-0005,2017,Quintana Roo,Othón P. Blanco,2017-02-11,2017-02-11,0.8,0 a 5 Hectáreas,Cazadores,0,0,0
+17-23-0006,2017,Quintana Roo,Othón P. Blanco,2017-02-13,2017-02-20,36.11,21 a 50 Hectáreas,Cazadores,1,3,4
+17-23-0007,2017,Quintana Roo,Bacalar,2017-02-11,2017-02-22,217.31,Mayor a 100 Hectáreas,Intencional,36,3,39
+17-23-0008,2017,Quintana Roo,Othón P. Blanco,2017-02-24,2017-02-25,3.71,0 a 5 Hectáreas,Cazadores,0,0,0
+17-23-0009,2017,Quintana Roo,Bacalar,2017-02-20,2017-03-08,546.15,Mayor a 100 Hectáreas,Cazadores,51,12,63
+17-23-0010,2017,Quintana Roo,Othón P. Blanco,2017-03-17,2017-03-19,17.69,11 a 20 Hectáreas,Actividades agropecuarias,2,1,3
+17-23-0011,2017,Quintana Roo,Felipe Carrillo Puerto,2017-03-15,2017-03-20,44.02,21 a 50 Hectáreas,Actividades agropecuarias,12,1,13
+17-23-0012,2017,Quintana Roo,Felipe Carrillo Puerto,2017-03-23,2017-03-25,5.08,0 a 5 Hectáreas,Limpias de derecho de vía,1,0,1
+17-23-0013,2017,Quintana Roo,Othón P. Blanco,2017-03-21,2017-03-28,15.0,11 a 20 Hectáreas,Intencional,0,0,0
+17-23-0014,2017,Quintana Roo,Felipe Carrillo Puerto,2017-03-25,2017-03-26,7.73,6 a 10 Hectáreas,Limpias de derecho de vía,0,0,0
+17-23-0015,2017,Quintana Roo,Benito Juárez,2017-03-20,2017-03-27,10.24,6 a 10 Hectáreas,Quema de basureros,0,0,0
+17-23-0016,2017,Quintana Roo,Lázaro Cárdenas,2017-03-12,2017-03-27,350.76,Mayor a 100 Hectáreas,Cazadores,45,3,48
+17-23-0017,2017,Quintana Roo,Othón P. Blanco,2017-03-16,2017-03-31,99.05,51 a 100 Hectáreas,Limpias de derecho de vía,56,18,74
+17-23-0018,2017,Quintana Roo,Bacalar,2017-03-25,2017-04-01,247.85,Mayor a 100 Hectáreas,Actividades agropecuarias,1,0,1
+17-23-0019,2017,Quintana Roo,Lázaro Cárdenas,2017-03-27,2017-04-04,505.54,Mayor a 100 Hectáreas,Cazadores,17,3,20
+17-23-0020,2017,Quintana Roo,Othón P. Blanco,2017-03-17,2017-04-07,867.35,Mayor a 100 Hectáreas,Actividades agropecuarias,30,11,41
+17-23-0021,2017,Quintana Roo,Bacalar,2017-03-20,2017-04-07,623.59,Mayor a 100 Hectáreas,Actividades agropecuarias,18,6,24
+17-23-0022,2017,Quintana Roo,Othón P. Blanco,2017-03-28,2017-04-12,401.73,Mayor a 100 Hectáreas,Cazadores,19,13,32
+17-23-0023,2017,Quintana Roo,Othón P. Blanco,2017-04-10,2017-04-12,1.93,0 a 5 Hectáreas,Cazadores,2,0,2
+17-23-0024,2017,Quintana Roo,Othón P. Blanco,2017-04-07,2017-04-13,17.08,11 a 20 Hectáreas,Cazadores,0,0,0
+17-23-0025,2017,Quintana Roo,Othón P. Blanco,2017-03-31,2017-04-14,60.06,51 a 100 Hectáreas,Quema de basureros,3,0,3
+17-23-0026,2017,Quintana Roo,Solidaridad,2017-04-12,2017-04-15,1.47,0 a 5 Hectáreas,Fumadores,0,0,0
+17-23-0027,2017,Quintana Roo,Puerto Morelos,2017-04-11,2017-04-16,26.22,21 a 50 Hectáreas,Fumadores,10,0,10
+17-23-0028,2017,Quintana Roo,Bacalar,2017-04-04,2017-04-17,1695.16,Mayor a 100 Hectáreas,Actividades agropecuarias,35,10,45
+17-23-0029,2017,Quintana Roo,Lázaro Cárdenas,2017-04-02,2017-04-18,790.16,Mayor a 100 Hectáreas,Quema de basureros,42,12,54
+17-23-0030,2017,Quintana Roo,Othón P. Blanco,2017-04-11,2017-04-19,60.61,51 a 100 Hectáreas,Cazadores,0,0,0
+17-23-0031,2017,Quintana Roo,Othón P. Blanco,2017-04-13,2017-04-19,67.17,51 a 100 Hectáreas,Cazadores,0,0,0
+17-23-0032,2017,Quintana Roo,Othón P. Blanco,2017-04-08,2017-04-20,10.32,6 a 10 Hectáreas,Fumadores,0,0,0
+17-23-0033,2017,Quintana Roo,Benito Juárez,2017-04-15,2017-04-20,50.42,21 a 50 Hectáreas,Quema de basureros,0,0,0
+17-23-0034,2017,Quintana Roo,Solidaridad,2017-04-17,2017-04-20,9.63,6 a 10 Hectáreas,Fumadores,0,0,0
+17-23-0035,2017,Quintana Roo,Bacalar,2017-04-17,2017-04-20,7.2,6 a 10 Hectáreas,Intencional,3,0,3
+17-23-0036,2017,Quintana Roo,Felipe Carrillo Puerto,2017-04-17,2017-04-22,71.17,51 a 100 Hectáreas,Cazadores,0,0,0
+17-23-0037,2017,Quintana Roo,Othón P. Blanco,2017-04-20,2017-04-23,7.76,6 a 10 Hectáreas,Actividades agropecuarias,0,1,1
+17-23-0038,2017,Quintana Roo,Felipe Carrillo Puerto,2017-04-12,2017-04-25,137.0,Mayor a 100 Hectáreas,Cazadores,1,0,1
+17-23-0039,2017,Quintana Roo,Lázaro Cárdenas,2017-04-16,2017-04-28,30.0,21 a 50 Hectáreas,Cazadores,0,0,0
+17-23-0040,2017,Quintana Roo,Bacalar,2017-04-30,2017-05-01,1.04,0 a 5 Hectáreas,Actividades agropecuarias,6,3,9
+17-23-0041,2017,Quintana Roo,Othón P. Blanco,2017-04-28,2017-05-04,6.0,6 a 10 Hectáreas,Actividades agropecuarias,0,1,1
+17-23-0042,2017,Quintana Roo,Isla Mujeres,2017-05-03,2017-05-04,1.17,0 a 5 Hectáreas,Actividades agropecuarias,0,0,0
+17-23-0043,2017,Quintana Roo,Bacalar,2017-05-02,2017-05-05,22.82,21 a 50 Hectáreas,Actividades agropecuarias,0,0,0
+17-23-0044,2017,Quintana Roo,Benito Juárez,2017-05-04,2017-05-05,1.26,0 a 5 Hectáreas,Actividades agropecuarias,0,0,0
+17-23-0045,2017,Quintana Roo,Benito Juárez,2017-05-07,2017-05-08,1.11,0 a 5 Hectáreas,Cazadores,0,0,0
+17-23-0046,2017,Quintana Roo,Bacalar,2017-05-01,2017-05-10,82.79,51 a 100 Hectáreas,Cazadores,1,0,1
+17-23-0047,2017,Quintana Roo,Othón P. Blanco,2017-05-01,2017-05-10,381.312,Mayor a 100 Hectáreas,Actividades agropecuarias,6,0,6
+17-23-0048,2017,Quintana Roo,Bacalar,2017-05-07,2017-05-12,30.45,21 a 50 Hectáreas,Cazadores,0,0,0
+17-23-0049,2017,Quintana Roo,Bacalar,2017-05-07,2017-05-15,62.6,51 a 100 Hectáreas,Cazadores,0,0,0
+17-23-0050,2017,Quintana Roo,Lázaro Cárdenas,2017-05-10,2017-05-16,18.81,11 a 20 Hectáreas,Actividades agropecuarias,1,0,1
+17-23-0051,2017,Quintana Roo,Bacalar,2017-05-06,2017-05-17,483.73,Mayor a 100 Hectáreas,Actividades agropecuarias,4,1,5
+17-23-0052,2017,Quintana Roo,Lázaro Cárdenas,2017-05-12,2017-05-17,22.11,21 a 50 Hectáreas,Actividades agropecuarias,1,0,1
+17-23-0053,2017,Quintana Roo,Othón P. Blanco,2017-05-06,2017-05-19,103.18,Mayor a 100 Hectáreas,Actividades agropecuarias,6,4,10
+17-23-0054,2017,Quintana Roo,Bacalar,2017-05-02,2017-05-25,815.45,Mayor a 100 Hectáreas,Actividades agropecuarias,43,8,51
+17-23-0055,2017,Quintana Roo,Lázaro Cárdenas,2017-05-23,2017-05-25,10.93,6 a 10 Hectáreas,Intencional,1,1,2
+17-23-0056,2017,Quintana Roo,Bacalar,2017-05-19,2017-05-26,192.15,Mayor a 100 Hectáreas,Actividades agropecuarias,16,1,17
+17-23-0057,2017,Quintana Roo,Lázaro Cárdenas,2017-05-25,2017-05-29,155.39,Mayor a 100 Hectáreas,Cazadores,0,0,0
+17-23-0058,2017,Quintana Roo,Othón P. Blanco,2017-06-02,2017-06-06,16.18,11 a 20 Hectáreas,Actividades agropecuarias,0,0,0
+17-23-0059,2017,Quintana Roo,Puerto Morelos,2017-06-05,2017-06-06,2.49,0 a 5 Hectáreas,Quema de basureros,0,0,0
+17-23-0060,2017,Quintana Roo,Puerto Morelos,2017-09-25,2017-09-26,2.01,0 a 5 Hectáreas,Cazadores,0,0,0
+17-23-0061,2017,Quintana Roo,Othón P. Blanco,2017-11-22,2017-11-23,51.03,51 a 100 Hectáreas,Limpias de derecho de vía,1,0,1
+17-23-0062,2017,Quintana Roo,Felipe Carrillo Puerto,2017-04-05,2017-04-06,60.25,51 a 100 Hectáreas,Cazadores,0,0,0
+17-23-0063,2017,Quintana Roo,Tulum,2017-04-10,2017-04-10,0.015,0 a 5 Hectáreas,Otras causas,0,0,0
+17-23-0064,2017,Quintana Roo,Tulum,2017-07-18,2017-07-22,5.17,0 a 5 Hectáreas,Otras causas,0,0,0
+17-31-0001,2017,Yucatán,TEKAX,2017-01-10,2017-01-12,3.0,0 a 5 Hectáreas,Cazadores,0,0,0
+17-31-0002,2017,Yucatán,Oxkutzcab,2017-01-22,2017-01-24,3.0,0 a 5 Hectáreas,Quema de basureros,4,1,5
+17-31-0003,2017,Yucatán,Tetiz,2017-01-25,2017-01-27,35.0,21 a 50 Hectáreas,Otras actividades productivas,3,0,3
+17-31-0004,2017,Yucatán,Tixkokob,2017-01-26,2017-01-29,22.0,21 a 50 Hectáreas,Cazadores,2,0,2
+17-31-0005,2017,Yucatán,Tizimín,2017-01-29,2017-02-03,213.0,Mayor a 100 Hectáreas,Cazadores,4,0,4
+17-31-0006,2017,Yucatán,Tixkokob,2017-02-11,2017-02-14,2.0,0 a 5 Hectáreas,Actividades agropecuarias,0,0,0
+17-31-0007,2017,Yucatán,Tixkokob,2017-02-14,2017-02-22,70.0,51 a 100 Hectáreas,Cazadores,2,1,3
+17-31-0008,2017,Yucatán,Tixkokob,2017-02-19,2017-02-23,5.0,0 a 5 Hectáreas,Cazadores,0,0,0
+17-31-0009,2017,Yucatán,Tekax,2017-02-22,2017-02-22,3.0,0 a 5 Hectáreas,Quema de basureros,0,0,0
+17-31-0010,2017,Yucatán,Tixkokob,2017-02-23,2017-03-06,406.0,Mayor a 100 Hectáreas,Cazadores,1,1,2
+17-31-0011,2017,Yucatán,Cacalchén,2017-02-23,2017-03-06,900.0,Mayor a 100 Hectáreas,Cazadores,5,4,9
+17-31-0012,2017,Yucatán,Abalá,2017-02-28,2017-03-06,89.5,51 a 100 Hectáreas,Actividades agropecuarias,0,2,2
+17-31-0013,2017,Yucatán,Tixkokob,2017-03-01,2017-03-06,201.0,Mayor a 100 Hectáreas,Cazadores,1,0,1
+17-31-0014,2017,Yucatán,Dzilam de Bravo,2017-03-01,2017-03-06,107.0,Mayor a 100 Hectáreas,Cazadores,15,8,23
+17-31-0015,2017,Yucatán,Celestún,2017-03-01,2017-03-03,2.0,0 a 5 Hectáreas,Cazadores,0,0,0
+17-31-0016,2017,Yucatán,Temozón,2017-03-02,2017-03-03,8.0,6 a 10 Hectáreas,Cazadores,0,0,0
+17-31-0017,2017,Yucatán,Dzilam de Bravo,2017-03-04,2017-03-06,397.0,Mayor a 100 Hectáreas,Cazadores,5,2,7
+17-31-0018,2017,Yucatán,Mocochá,2017-03-08,2017-03-14,110.0,Mayor a 100 Hectáreas,Intencional,3,2,5
+17-31-0019,2017,Yucatán,Hunucmá,2017-03-09,2017-03-14,168.0,Mayor a 100 Hectáreas,Fumadores,8,2,10
+17-31-0020,2017,Yucatán,Tekit,2017-03-17,2017-03-25,198.0,Mayor a 100 Hectáreas,Actividades agropecuarias,5,1,6
+17-31-0021,2017,Yucatán,Sacalum,2017-03-17,2017-03-26,102.0,Mayor a 100 Hectáreas,Cazadores,2,0,2
+17-31-0022,2017,Yucatán,Abalá,2017-03-22,2017-03-28,37.0,21 a 50 Hectáreas,Cazadores,1,1,2
+17-31-0023,2017,Yucatán,Tekax,2017-03-21,2017-03-31,193.0,Mayor a 100 Hectáreas,Intencional,0,1,1
+17-31-0024,2017,Yucatán,Oxkutzcab,2017-03-24,2017-03-29,14.0,11 a 20 Hectáreas,Actividades agropecuarias,8,2,10
+17-31-0025,2017,Yucatán,Sacalum,2017-03-25,2017-04-02,141.0,Mayor a 100 Hectáreas,Cazadores,7,5,12
+17-31-0026,2017,Yucatán,Tekax,2017-03-25,2017-04-03,140.0,Mayor a 100 Hectáreas,Cazadores,2,1,3
+17-31-0027,2017,Yucatán,Tzucacab,2017-03-25,2017-04-03,311.0,Mayor a 100 Hectáreas,Actividades agropecuarias,0,0,0
+17-31-0028,2017,Yucatán,Tekit,2017-03-28,2017-04-08,377.0,Mayor a 100 Hectáreas,Cazadores,2,1,3
+17-31-0029,2017,Yucatán,Tzucacab,2017-03-28,2017-04-06,195.0,Mayor a 100 Hectáreas,Actividades agropecuarias,0,0,0
+17-31-0030,2017,Yucatán,Tekax,2017-03-30,2017-04-02,15.0,11 a 20 Hectáreas,Intencional,2,2,4
+17-31-0031,2017,Yucatán,Río Lagartos,2017-03-31,2017-04-05,1304.0,Mayor a 100 Hectáreas,Otras causas,11,4,15
+17-31-0032,2017,Yucatán,Abalá,2017-04-10,2017-04-16,160.0,Mayor a 100 Hectáreas,Quema de basureros,1,0,1
+17-31-0033,2017,Yucatán,Abalá,2017-04-13,2017-04-19,21.0,21 a 50 Hectáreas,Fumadores,0,0,0
+17-31-0034,2017,Yucatán,Calotmul,2017-04-27,2017-05-02,40.0,21 a 50 Hectáreas,Actividades agropecuarias,9,3,12
+17-31-0035,2017,Yucatán,Calotmul,2017-05-01,2017-05-05,20.0,11 a 20 Hectáreas,Actividades agropecuarias,0,4,4
+17-31-0036,2017,Yucatán,Hunucmá,2017-05-17,2017-06-03,550.0,Mayor a 100 Hectáreas,Cazadores,16,4,20
+17-31-0037,2017,Yucatán,Tixkokob,2017-05-15,2017-06-03,325.0,Mayor a 100 Hectáreas,Cazadores,0,0,0
+17-31-0038,2017,Yucatán,Dzilam de Bravo,2017-05-21,2017-06-11,400.0,Mayor a 100 Hectáreas,Cazadores,4,0,4
+17-31-0039,2017,Yucatán,Tizimín,2017-05-21,2017-06-03,121.0,Mayor a 100 Hectáreas,Cazadores,5,2,7
+17-31-0040,2017,Yucatán,Hunucmá,2017-08-15,2017-08-22,925.0,Mayor a 100 Hectáreas,Cazadores,7,3,10
+17-31-0041,2017,Yucatán,Tizimín,2017-08-19,2017-08-22,1003.0,Mayor a 100 Hectáreas,Cazadores,17,3,20
+17-31-0042,2017,Yucatán,Motul,2017-03-12,2017-03-12,11.0,11 a 20 Hectáreas,Actividades agropecuarias,0,0,0
+17-31-0043,2017,Yucatán,Motul,2017-03-13,2017-03-14,1.45,0 a 5 Hectáreas,Fumadores,1,0,1
+17-31-0044,2017,Yucatán,Motul,2017-03-20,2017-03-21,7.0,6 a 10 Hectáreas,Actividades agropecuarias,0,0,0
+17-31-0045,2017,Yucatán,Motul,2017-03-25,2017-03-26,1.77,0 a 5 Hectáreas,Actividades agropecuarias,0,0,0
+17-31-0046,2017,Yucatán,Motul,2017-04-03,2017-04-04,14.0,11 a 20 Hectáreas,Fumadores,0,0,0
+17-31-0047,2017,Yucatán,Motul,2017-04-25,2017-04-26,7.5,6 a 10 Hectáreas,Fumadores,0,0,0
+17-31-0048,2017,Yucatán,Motul,2017-05-03,2017-05-06,25.0,21 a 50 Hectáreas,Fumadores,7,1,8
+17-31-0049,2017,Yucatán,Motul,2017-05-04,2017-05-05,4.53,0 a 5 Hectáreas,Fumadores,1,0,1
+17-31-0050,2017,Yucatán,Motul,2017-05-12,2017-05-13,10.0,6 a 10 Hectáreas,Actividades agropecuarias,0,0,0
+17-31-0051,2017,Yucatán,Motul,2017-05-14,2017-05-14,1.5,0 a 5 Hectáreas,Actividades agropecuarias,0,0,0
+17-31-0052,2017,Yucatán,Motul,2017-05-17,2017-05-17,1.8,0 a 5 Hectáreas,Fumadores,0,0,0
+17-31-0053,2017,Yucatán,Tizimín,2017-04-23,2017-04-25,27.5,21 a 50 Hectáreas,Actividades agropecuarias,1,0,1
+17-31-0054,2017,Yucatán,Tizimín,2017-04-28,2017-04-30,5.2,0 a 5 Hectáreas,Actividades agropecuarias,4,0,4
+17-31-0055,2017,Yucatán,Tizimín,2017-05-04,2017-05-07,196.0,Mayor a 100 Hectáreas,Otras causas,1,1,2
+17-31-0056,2017,Yucatán,Tizimín,2017-05-16,2017-05-19,24.2,21 a 50 Hectáreas,Actividades agropecuarias,0,0,0
+17-31-0057,2017,Yucatán,Tizimín,2017-04-12,2017-04-18,38.0,21 a 50 Hectáreas,Actividades agropecuarias,3,1,4
+17-31-0058,2017,Yucatán,Tizimín,2017-04-23,2017-04-25,25.7,21 a 50 Hectáreas,Actividades agropecuarias,0,0,0
+17-31-0059,2017,Yucatán,Izamal,2017-02-28,2017-03-03,90.0,51 a 100 Hectáreas,Actividades agropecuarias,9,3,12
+17-31-0060,2017,Yucatán,Izamal,2017-03-29,2017-03-29,12.0,11 a 20 Hectáreas,Actividades agropecuarias,2,0,2
+17-31-0061,2017,Yucatán,Izamal,2017-04-01,2017-04-03,105.0,Mayor a 100 Hectáreas,Actividades agropecuarias,5,1,6
+17-31-0062,2017,Yucatán,Izamal,2017-04-05,2017-04-05,8.0,6 a 10 Hectáreas,Otras causas,0,0,0
+17-31-0063,2017,Yucatán,Izamal,2017-05-18,2017-05-22,82.0,51 a 100 Hectáreas,Actividades agropecuarias,0,0,0
+17-31-0064,2017,Yucatán,Izamal,2017-05-10,2017-05-11,34.0,21 a 50 Hectáreas,Actividades agropecuarias,0,0,0
+17-31-0065,2017,Yucatán,Yaxcabá,2017-03-17,2017-03-17,24.0,21 a 50 Hectáreas,Actividades agropecuarias,0,0,0
+17-31-0066,2017,Yucatán,Yaxcabá,2017-03-28,2017-03-29,2.0,0 a 5 Hectáreas,Actividades agropecuarias,0,0,0
+17-31-0067,2017,Yucatán,Yaxcabá,2017-04-01,2017-04-02,247.0,Mayor a 100 Hectáreas,Actividades agropecuarias,0,0,0
+17-31-0068,2017,Yucatán,Yaxcabá,2017-04-14,2017-04-15,90.0,51 a 100 Hectáreas,Otras causas,0,0,0
+17-31-0069,2017,Yucatán,Yaxcabá,2017-04-16,2017-04-16,10.0,6 a 10 Hectáreas,Fumadores,2,0,2
+17-31-0070,2017,Yucatán,Yaxcabá,2017-04-26,2017-04-26,10.0,6 a 10 Hectáreas,Fumadores,0,0,0
+17-31-0071,2017,Yucatán,Chemax,2017-03-23,2017-03-23,2.0,0 a 5 Hectáreas,Fumadores,0,0,0
+17-31-0072,2017,Yucatán,Chemax,2017-04-06,2017-04-08,52.0,51 a 100 Hectáreas,Quema de basureros,1,0,1
+17-31-0073,2017,Yucatán,Chemax,2017-04-11,2017-04-14,8.0,6 a 10 Hectáreas,Actividades agropecuarias,0,0,0
+17-31-0074,2017,Yucatán,Chemax,2017-04-08,2017-04-10,3.7,0 a 5 Hectáreas,Actividades agropecuarias,1,0,1
+17-31-0075,2017,Yucatán,Chemax,2017-05-25,2017-05-26,2.0,0 a 5 Hectáreas,Actividades agropecuarias,0,0,0
+17-31-0076,2017,Yucatán,Chemax,2017-05-10,2017-05-13,22.0,21 a 50 Hectáreas,Actividades agropecuarias,2,0,2
+17-31-0077,2017,Yucatán,Chemax,2017-05-15,2017-05-15,2.0,0 a 5 Hectáreas,Actividades agropecuarias,0,0,0
+17-31-0078,2017,Yucatán,Chemax,2017-05-21,2017-05-21,2.0,0 a 5 Hectáreas,Actividades agropecuarias,0,0,0
+17-31-0079,2017,Yucatán,Valladolid,2017-03-09,2017-03-11,5.0,0 a 5 Hectáreas,Fumadores,0,0,0
+17-31-0080,2017,Yucatán,Valladolid,2017-03-18,2017-03-20,13.25,11 a 20 Hectáreas,Actividades agropecuarias,0,0,0
+17-31-0081,2017,Yucatán,Valladolid,2017-03-21,2017-03-21,20.0,11 a 20 Hectáreas,Actividades agropecuarias,0,0,0
+17-31-0082,2017,Yucatán,Temozón,2017-03-22,2017-03-23,14.5,11 a 20 Hectáreas,Actividades agropecuarias,0,0,0
+17-31-0083,2017,Yucatán,Valladolid,2017-04-26,2017-04-27,4.0,0 a 5 Hectáreas,Actividades agropecuarias,0,0,0
+17-31-0084,2017,Yucatán,Valladolid,2017-05-05,2017-05-07,4.5,0 a 5 Hectáreas,Actividades agropecuarias,0,1,1
+17-31-0085,2017,Yucatán,Valladolid,2017-05-12,2017-05-15,9.8,6 a 10 Hectáreas,Actividades agropecuarias,0,0,0
+17-31-0086,2017,Yucatán,Valladolid,2017-05-19,2017-05-20,6.0,6 a 10 Hectáreas,Quema de basureros,3,0,3
+17-31-0087,2017,Yucatán,Tzucacab,2017-03-19,2017-03-19,20.0,11 a 20 Hectáreas,Actividades agropecuarias,2,2,4
+17-31-0088,2017,Yucatán,Tzucacab,2017-03-20,2017-03-20,7.0,6 a 10 Hectáreas,Actividades agropecuarias,1,0,1
+17-31-0089,2017,Yucatán,Tzucacab,2017-03-23,2017-03-23,12.0,11 a 20 Hectáreas,Actividades agropecuarias,0,0,0
+17-31-0090,2017,Yucatán,Tzucacab,2017-03-24,2017-03-24,6.0,6 a 10 Hectáreas,Actividades agropecuarias,0,0,0
+17-31-0091,2017,Yucatán,Tzucacab,2017-04-08,2017-04-09,6.0,6 a 10 Hectáreas,Actividades agropecuarias,0,0,0
+17-31-0092,2017,Yucatán,Tzucacab,2017-04-19,2017-04-20,10.0,6 a 10 Hectáreas,Actividades agropecuarias,0,0,0
+17-31-0093,2017,Yucatán,Tzucacab,2017-05-05,2017-05-08,31.0,21 a 50 Hectáreas,Actividades agropecuarias,0,0,0
+17-31-0094,2017,Yucatán,Tzucacab,2017-03-10,2017-03-12,13.0,11 a 20 Hectáreas,Actividades agropecuarias,0,0,0
+17-31-0095,2017,Yucatán,Tekax,2017-03-13,2017-03-16,50.0,21 a 50 Hectáreas,Actividades agropecuarias,0,0,0
+17-31-0096,2017,Yucatán,Tekax,2017-03-21,2017-03-24,82.0,51 a 100 Hectáreas,Actividades agropecuarias,1,1,2
+17-31-0097,2017,Yucatán,Tekax,2017-04-15,2017-04-18,50.0,21 a 50 Hectáreas,Actividades agropecuarias,0,0,0
+17-31-0098,2017,Yucatán,Tekax,2017-04-21,2017-04-23,13.0,11 a 20 Hectáreas,Actividades agropecuarias,0,0,0
+17-31-0099,2017,Yucatán,Tekax,2017-05-10,2017-05-13,20.0,11 a 20 Hectáreas,Actividades agropecuarias,0,0,0
+17-31-0100,2017,Yucatán,Oxkutzcab,2017-05-16,2017-05-17,3.3,0 a 5 Hectáreas,Actividades agropecuarias,0,0,0
+17-31-0101,2017,Yucatán,Tekax,2017-04-02,2017-04-04,17.5,11 a 20 Hectáreas,Actividades agropecuarias,0,0,0
+17-31-0102,2017,Yucatán,Tekax,2017-05-02,2017-05-06,33.2,21 a 50 Hectáreas,Actividades agropecuarias,0,0,0
+17-31-0103,2017,Yucatán,Tekax,2017-05-21,2017-05-23,11.0,11 a 20 Hectáreas,Actividades agropecuarias,0,0,0
+18-04-0001,2018,Campeche,Campeche,2018-03-25,2018-03-26,478.0,Mayor a 100 Hectáreas,Desconocidas,0,0,0
+18-04-0002,2018,Campeche,Calkiní,2018-06-01,2018-06-07,2553.0,Mayor a 100 Hectáreas,Desconocidas,17,13,47
+18-04-0003,2018,Campeche,Calkiní,2018-07-26,2018-07-28,119.0,Mayor a 100 Hectáreas,Desconocidas,5,0,5
+18-23-0001,2018,Quintana Roo,Tulum,2018-02-25,2018-03-04,7.5,6 a 10 Hectáreas,Quema de basureros,7,0,7
+18-23-0002,2018,Quintana Roo,Bacalar,2018-03-19,2018-03-21,10.27,11 a 20 Hectáreas,Intencional,7,0,7
+18-23-0003,2018,Quintana Roo,Tulum,2018-03-24,2018-03-24,0.5,0 a 5 Hectáreas,Quema de basureros,0,0,0
+18-23-0004,2018,Quintana Roo,Puerto Morelos,2018-03-24,2018-03-27,3.05,0 a 5 Hectáreas,Actividades agrícolas,0,0,0
+18-23-0005,2018,Quintana Roo,Othón P. Blanco,2018-03-28,2018-03-29,2.37,0 a 5 Hectáreas,Actividades agrícolas,0,0,0
+18-23-0006,2018,Quintana Roo,Lázaro Cárdenas,2018-03-23,2018-03-30,1218.04,Mayor a 100 Hectáreas,Cazadores,18,7,25
+18-23-0007,2018,Quintana Roo,Solidaridad,2018-03-29,2018-03-31,0.5,0 a 5 Hectáreas,Fumadores,0,0,0
+18-23-0008,2018,Quintana Roo,Bacalar,2018-03-28,2018-04-01,58.56,51 a 100 Hectáreas,Actividades agrícolas,0,0,0
+18-23-0009,2018,Quintana Roo,Felipe Carrillo Puerto,2018-03-28,2018-04-01,7.04,6 a 10 Hectáreas,Cazadores,0,0,0
+18-23-0010,2018,Quintana Roo,Othón P. Blanco,2018-03-28,2018-04-03,21.51,21 a 50 Hectáreas,Actividades agrícolas,1,0,1
+18-23-0011,2018,Quintana Roo,Othón P. Blanco,2018-04-03,2018-04-05,4.44,0 a 5 Hectáreas,Actividades agrícolas,13,6,33
+18-23-0012,2018,Quintana Roo,Bacalar,2018-03-28,2018-04-05,37.59,21 a 50 Hectáreas,Cazadores,0,0,0
+18-23-0013,2018,Quintana Roo,Othón P. Blanco,2018-04-05,2018-04-06,2.43,0 a 5 Hectáreas,Limpias de derecho de vía,0,0,0
+18-23-0014,2018,Quintana Roo,Bacalar,2018-04-05,2018-04-07,24.01,21 a 50 Hectáreas,Actividades agrícolas,0,0,0
+18-23-0015,2018,Quintana Roo,Bacalar,2018-04-05,2018-04-08,26.41,21 a 50 Hectáreas,Actividades agrícolas,6,4,21
+18-23-0016,2018,Quintana Roo,Othón P. Blanco,2018-04-05,2018-04-10,15.89,11 a 20 Hectáreas,Intencional,3,1,8
+18-23-0017,2018,Quintana Roo,Othón P. Blanco,2018-04-05,2018-04-10,2.34,0 a 5 Hectáreas,Intencional,3,1,7
+18-23-0018,2018,Quintana Roo,Bacalar,2018-04-07,2018-04-11,7.09,6 a 10 Hectáreas,Actividades agrícolas,5,1,12
+18-23-0019,2018,Quintana Roo,Othón P. Blanco,2018-04-07,2018-04-14,37.34,21 a 50 Hectáreas,Intencional,3,1,10
+18-23-0020,2018,Quintana Roo,Felipe Carrillo Puerto,2018-04-07,2018-04-16,54.18,51 a 100 Hectáreas,Cazadores,0,0,0
+18-23-0021,2018,Quintana Roo,Bacalar,2018-04-09,2018-04-16,47.25,21 a 50 Hectáreas,Cazadores,2,0,4
+18-23-0022,2018,Quintana Roo,Othón P. Blanco,2018-04-12,2018-04-18,5.07,6 a 10 Hectáreas,Cazadores,0,0,0
+18-23-0023,2018,Quintana Roo,Bacalar,2018-04-07,2018-04-21,1892.68,Mayor a 100 Hectáreas,Actividades agrícolas,60,17,109
+18-23-0024,2018,Quintana Roo,Felipe Carrillo Puerto,2018-04-18,2018-04-23,6.5,6 a 10 Hectáreas,Cazadores,0,0,0
+18-23-0025,2018,Quintana Roo,Bacalar,2018-04-22,2018-04-25,30.58,21 a 50 Hectáreas,Actividades agrícolas,4,1,7
+18-23-0026,2018,Quintana Roo,Bacalar,2018-04-23,2018-04-26,85.17,51 a 100 Hectáreas,Cazadores,3,2,10
+18-23-0027,2018,Quintana Roo,Othón P. Blanco,2018-04-18,2018-04-28,35.38,21 a 50 Hectáreas,Intencional,1,0,1
+18-23-0028,2018,Quintana Roo,Bacalar,2018-04-22,2018-04-28,21.67,21 a 50 Hectáreas,Limpias de derecho de vía,0,0,0
+18-23-0029,2018,Quintana Roo,Bacalar,2018-04-25,2018-04-28,62.35,51 a 100 Hectáreas,Cazadores,0,0,0
+18-23-0030,2018,Quintana Roo,Bacalar,2018-04-23,2018-04-29,15.0,11 a 20 Hectáreas,Actividades agrícolas,0,0,0
+18-23-0031,2018,Quintana Roo,Felipe Carrillo Puerto,2018-04-25,2018-05-06,760.0,Mayor a 100 Hectáreas,Cazadores,1,0,1
+18-23-0032,2018,Quintana Roo,Othón P. Blanco,2018-05-09,2018-05-11,9.85,6 a 10 Hectáreas,Limpias de derecho de vía,0,0,1
+18-23-0033,2018,Quintana Roo,Othón P. Blanco,2018-05-08,2018-05-12,18.9,11 a 20 Hectáreas,Actividades agrícolas,5,1,10
+18-23-0034,2018,Quintana Roo,Othón P. Blanco,2018-05-01,2018-05-15,309.04,Mayor a 100 Hectáreas,Cazadores,0,0,0
+18-23-0035,2018,Quintana Roo,Felipe Carrillo Puerto,2018-05-05,2018-05-18,15.0,11 a 20 Hectáreas,Cazadores,0,0,1
+18-23-0036,2018,Quintana Roo,Bacalar,2018-05-08,2018-05-19,272.23,Mayor a 100 Hectáreas,Cazadores,4,0,5
+18-23-0037,2018,Quintana Roo,Othón P. Blanco,2018-05-10,2018-05-19,149.31,Mayor a 100 Hectáreas,Cazadores,1,0,4
+18-23-0038,2018,Quintana Roo,Othón P. Blanco,2018-07-18,2018-07-27,171.03,Mayor a 100 Hectáreas,Cazadores,1,0,1
+18-23-0039,2018,Quintana Roo,Othón P. Blanco,2018-07-23,2018-07-28,11.77,11 a 20 Hectáreas,Cazadores,5,0,12
+18-23-0040,2018,Quintana Roo,Solidaridad,2018-07-26,2018-07-27,0.5,0 a 5 Hectáreas,Cazadores,1,0,1
+18-23-0041,2018,Quintana Roo,Othón P. Blanco,2018-07-20,2018-08-04,86.53,51 a 100 Hectáreas,Cazadores,0,0,0
+18-23-0042,2018,Quintana Roo,Othón P. Blanco,2018-07-20,2018-08-05,93.57,51 a 100 Hectáreas,Cazadores,0,0,0
+18-23-0043,2018,Quintana Roo,Othón P. Blanco,2018-07-20,2018-08-12,350.97,Mayor a 100 Hectáreas,Cazadores,0,0,0
+18-23-0044,2018,Quintana Roo,Othón P. Blanco,2018-08-07,2018-08-12,25.51,21 a 50 Hectáreas,Cazadores,0,0,0
+18-23-0045,2018,Quintana Roo,Othón P. Blanco,2018-08-13,2018-08-22,100.86,Mayor a 100 Hectáreas,Cazadores,0,0,0
+18-23-0046,2018,Quintana Roo,Benito Juárez,2018-08-24,2018-09-07,306.67,Mayor a 100 Hectáreas,Desconocidas,1,0,3
+18-23-0047,2018,Quintana Roo,Tulum,2018-01-17,2018-01-18,0.71,0 a 5 Hectáreas,Fumadores,0,0,0
+18-23-0048,2018,Quintana Roo,Felipe Carrillo Puerto,2018-03-15,2018-03-19,265.67,Mayor a 100 Hectáreas,Cazadores,0,0,0
+18-23-0049,2018,Quintana Roo,Felipe Carrillo Puerto,2018-05-08,2018-05-09,4.49,0 a 5 Hectáreas,Actividades agrícolas,1,0,1
+18-23-0050,2018,Quintana Roo,Felipe Carrillo Puerto,2018-09-15,2018-09-19,159.75,Mayor a 100 Hectáreas,Cazadores,2,3,13
+18-31-0001,2018,Yucatán,Mérida,2018-03-01,2018-03-04,10.0,6 a 10 Hectáreas,Desconocidas,2,0,2
+18-31-0002,2018,Yucatán,Tizimín,2018-03-05,2018-03-10,10.0,6 a 10 Hectáreas,Actividades agrícolas,0,0,0
+18-31-0003,2018,Yucatán,Tekax,2018-03-18,2018-03-24,34.7,21 a 50 Hectáreas,Actividades agrícolas,1,0,1
+18-31-0004,2018,Yucatán,Oxkutzcab,2018-03-19,2018-03-24,60.0,51 a 100 Hectáreas,Fumadores,1,0,1
+18-31-0005,2018,Yucatán,Tekax,2018-03-20,2018-03-23,2.6,0 a 5 Hectáreas,Actividades agrícolas,0,0,0
+18-31-0006,2018,Yucatán,Tekit,2018-03-23,2018-03-29,245.0,Mayor a 100 Hectáreas,Cazadores,7,4,11
+18-31-0007,2018,Yucatán,Abalá,2018-03-24,2018-03-29,26.0,21 a 50 Hectáreas,Fumadores,1,0,1
+18-31-0008,2018,Yucatán,Oxkutzcab,2018-03-24,2018-03-29,55.4,51 a 100 Hectáreas,Fumadores,7,3,10
+18-31-0009,2018,Yucatán,Tekit,2018-04-02,2018-04-08,106.0,Mayor a 100 Hectáreas,Actividades agrícolas,14,2,18
+18-31-0010,2018,Yucatán,Tixkokob,2018-04-03,2018-04-07,115.0,Mayor a 100 Hectáreas,Actividades agrícolas,12,1,17
+18-31-0011,2018,Yucatán,Tekit,2018-04-04,2018-04-08,56.5,51 a 100 Hectáreas,Cazadores,2,2,7
+18-31-0012,2018,Yucatán,Seyé,2018-04-10,2018-04-16,325.0,Mayor a 100 Hectáreas,Cazadores,1,0,3
+18-31-0013,2018,Yucatán,Mérida,2018-04-08,2018-04-14,11.0,11 a 20 Hectáreas,Fumadores,10,3,18
+18-31-0014,2018,Yucatán,Tixkokob,2018-04-10,2018-04-16,93.5,51 a 100 Hectáreas,Cazadores,1,2,5
+18-31-0015,2018,Yucatán,Abalá,2018-04-10,2018-04-20,43.2,21 a 50 Hectáreas,Actividades agrícolas,4,2,10
+18-31-0016,2018,Yucatán,Sacalum,2018-04-17,2018-04-20,19.3,11 a 20 Hectáreas,Fumadores,0,0,1
+18-31-0017,2018,Yucatán,Ticul,2018-05-20,2018-05-21,1.0,0 a 5 Hectáreas,Actividades agrícolas,0,0,0
+18-31-0018,2018,Yucatán,San Felipe,2018-06-03,2018-06-06,243.0,Mayor a 100 Hectáreas,Fogatas,17,7,37
+18-31-0019,2018,Yucatán,Ixil,2018-06-08,2018-06-08,1.1,0 a 5 Hectáreas,Fumadores,0,0,0
+18-31-0020,2018,Yucatán,Chemax,2018-03-04,2018-03-07,58.7,51 a 100 Hectáreas,Quema de basureros,2,0,2
+18-31-0022,2018,Yucatán,Yaxcabá,2018-04-13,2018-04-16,105.0,Mayor a 100 Hectáreas,Actividades agrícolas,0,2,2
+18-31-0025,2018,Yucatán,Chemax,2018-04-13,2018-04-16,41.8,21 a 50 Hectáreas,Actividades agrícolas,0,0,2
+18-31-0026,2018,Yucatán,Yaxcabá,2018-05-06,2018-05-07,11.0,11 a 20 Hectáreas,Fumadores,0,0,0
+18-31-0027,2018,Yucatán,Tzucacab,2018-03-02,2018-03-04,18.0,11 a 20 Hectáreas,Actividades agrícolas,0,0,0
+18-31-0029,2018,Yucatán,Tzucacab,2018-03-19,2018-03-20,5.0,0 a 5 Hectáreas,Actividades agrícolas,0,0,0
+18-31-0030,2018,Yucatán,Tzucacab,2018-03-22,2018-03-23,11.5,11 a 20 Hectáreas,Actividades agrícolas,0,0,0
+18-31-0031,2018,Yucatán,Tzucacab,2018-03-29,2018-03-29,5.8,6 a 10 Hectáreas,Actividades agrícolas,0,0,0
+18-31-0033,2018,Yucatán,Tzucacab,2018-04-05,2018-04-06,2.7,0 a 5 Hectáreas,Actividades agrícolas,0,0,0
+18-31-0035,2018,Yucatán,Tzucacab,2018-04-17,2018-04-18,4.0,0 a 5 Hectáreas,Desconocidas,0,0,0
+18-31-0036,2018,Yucatán,Tzucacab,2018-04-20,2018-04-21,4.8,0 a 5 Hectáreas,Actividades agrícolas,0,0,0
+18-31-0038,2018,Yucatán,Tzucacab,2018-05-20,2018-05-21,5.0,0 a 5 Hectáreas,Actividades agrícolas,0,0,0
+18-31-0039,2018,Yucatán,Tzucacab,2018-05-23,2018-05-25,2.2,0 a 5 Hectáreas,Actividades agrícolas,0,0,0
+18-31-0051,2018,Yucatán,Motul,2018-03-17,2018-03-17,8.5,6 a 10 Hectáreas,Desconocidas,0,0,0
+18-31-0052,2018,Yucatán,Motul,2018-03-23,2018-03-23,1.5,0 a 5 Hectáreas,Desconocidas,0,0,0
+18-31-0054,2018,Yucatán,Motul,2018-03-26,2018-03-26,4.0,0 a 5 Hectáreas,Desconocidas,0,0,0
+18-31-0063,2018,Yucatán,Muxupip,2018-05-03,2018-05-05,2.5,0 a 5 Hectáreas,Desconocidas,0,0,0
+18-31-0074,2018,Yucatán,Tizimín,2018-04-24,2018-04-24,1.0,0 a 5 Hectáreas,Desconocidas,0,0,0
+18-31-0075,2018,Yucatán,Tizimín,2018-04-25,2018-04-25,1.0,0 a 5 Hectáreas,Desconocidas,0,0,0
+18-31-0076,2018,Yucatán,Tizimín,2018-04-26,2018-04-26,4.0,0 a 5 Hectáreas,Desconocidas,0,0,0
+18-31-0080,2018,Yucatán,Tekax,2018-03-25,2018-03-27,2.5,0 a 5 Hectáreas,Desconocidas,0,0,0
+18-31-0083,2018,Yucatán,Tekax,2018-03-29,2018-04-01,24.0,21 a 50 Hectáreas,Actividades agrícolas,0,0,0
+18-31-0085,2018,Yucatán,tekax,2018-04-09,2018-04-14,39.0,21 a 50 Hectáreas,Actividades agrícolas,4,1,7
+18-31-0086,2018,Yucatán,Tekax,2018-04-11,2018-04-13,10.0,6 a 10 Hectáreas,Actividades agrícolas,0,0,0
+18-31-0088,2018,Yucatán,tekax,2018-04-25,2018-04-26,2.0,0 a 5 Hectáreas,Actividades agrícolas,0,0,0
+18-31-0089,2018,Yucatán,Tekax,2018-04-27,2018-04-30,6.6,6 a 10 Hectáreas,Actividades agrícolas,0,0,0
+18-31-0091,2018,Yucatán,tekax,2018-05-14,2018-05-15,10.5,11 a 20 Hectáreas,Actividades agrícolas,0,0,0
+19-04-0001,2019,Campeche,Calakmul,2019-02-27,2019-03-01,292.8,Mayor a 100 Hectáreas,Desconocidas,0,0,0
+19-04-0002,2019,Campeche,Calakmul,2019-02-27,2019-03-01,1.0,0 a 5 Hectáreas,Desconocidas,0,0,0
+19-04-0003,2019,Campeche,Calakmul,2019-03-14,2019-04-19,15.0,11 a 20 Hectáreas,Desconocidas,3,1,10
+19-04-0004,2019,Campeche,Calakmul,2019-03-28,2019-04-03,75.0,51 a 100 Hectáreas,Desconocidas,13,2,25
+19-04-0005,2019,Campeche,Escárcega,2019-04-01,2019-04-06,170.0,Mayor a 100 Hectáreas,Desconocidas,27,5,65
+19-04-0006,2019,Campeche,Calakmul,2019-04-05,2019-04-08,28.0,21 a 50 Hectáreas,Cazadores,0,0,0
+19-04-0007,2019,Campeche,Hopelchén,2019-04-07,2019-04-07,0.5,0 a 5 Hectáreas,Desconocidas,3,0,4
+19-04-0008,2019,Campeche,Campeche,2019-04-14,2019-04-17,658.0,Mayor a 100 Hectáreas,Desconocidas,4,0,8
+19-04-0009,2019,Campeche,Palizada,2019-04-18,2019-04-23,9517.0,Mayor a 100 Hectáreas,Desconocidas,2,4,6
+19-04-0010,2019,Campeche,Candelaria,2019-04-21,2019-04-22,3.0,0 a 5 Hectáreas,Desconocidas,0,0,0
+19-04-0011,2019,Campeche,Champotón,2019-04-22,2019-04-28,446.0,Mayor a 100 Hectáreas,Desconocidas,6,2,16
+19-04-0012,2019,Campeche,Escárcega,2019-04-25,2019-04-29,63.0,51 a 100 Hectáreas,Desconocidas,35,7,63
+19-04-0013,2019,Campeche,Escárcega,2019-04-29,2019-05-02,288.0,Mayor a 100 Hectáreas,Desconocidas,30,8,63
+19-04-0014,2019,Campeche,Candelaria,2019-06-06,2019-06-07,3.0,0 a 5 Hectáreas,Actividades agrícolas,3,0,8
+19-04-0015,2019,Campeche,Hopelchén,2019-06-24,2019-06-29,3087.0,Mayor a 100 Hectáreas,Actividades pecuarias,45,6,89
+19-23-0001,2019,Quintana Roo,Othón P. Blanco,2019-03-24,2019-03-29,18.81,11 a 20 Hectáreas,Limpias de derecho de vía,2,0,4
+19-23-0002,2019,Quintana Roo,Othón P. Blanco,2019-03-27,2019-04-01,45.37,21 a 50 Hectáreas,Actividades agrícolas,5,1,8
+19-23-0003,2019,Quintana Roo,Othón P. Blanco,2019-03-19,2019-04-07,175.56,Mayor a 100 Hectáreas,Cazadores,0,0,0
+19-23-0004,2019,Quintana Roo,Isla Mujeres,2019-04-03,2019-04-09,30.1,21 a 50 Hectáreas,Intencional,13,4,28
+19-23-0005,2019,Quintana Roo,Solidaridad,2019-04-07,2019-04-10,1.96,0 a 5 Hectáreas,Cazadores,0,0,0
+19-23-0006,2019,Quintana Roo,José María Morelos,2019-04-04,2019-04-16,287.27,Mayor a 100 Hectáreas,Cazadores,37,12,94
+19-23-0007,2019,Quintana Roo,Bacalar,2019-04-05,2019-04-17,311.41,Mayor a 100 Hectáreas,Actividades agrícolas,30,3,53
+19-23-0008,2019,Quintana Roo,Bacalar,2019-03-28,2019-04-21,790.94,Mayor a 100 Hectáreas,Actividades agrícolas,99,23,243
+19-23-0009,2019,Quintana Roo,José María Morelos,2019-04-16,2019-04-28,93.0,51 a 100 Hectáreas,Actividades agrícolas,17,7,36
+19-23-0010,2019,Quintana Roo,Bacalar,2019-04-19,2019-05-01,483.39,Mayor a 100 Hectáreas,Actividades agrícolas,18,2,38
+19-23-0011,2019,Quintana Roo,José María Morelos,2019-04-14,2019-05-03,602.14,Mayor a 100 Hectáreas,Actividades agrícolas,21,14,58
+19-23-0012,2019,Quintana Roo,José María Morelos,2019-04-18,2019-05-04,198.11,Mayor a 100 Hectáreas,Cazadores,34,4,78
+19-23-0013,2019,Quintana Roo,Bacalar,2019-04-18,2019-05-07,369.29,Mayor a 100 Hectáreas,Cazadores,17,4,38
+19-23-0014,2019,Quintana Roo,Felipe Carrillo Puerto,2019-05-09,2019-05-11,3.95,0 a 5 Hectáreas,Actividades agrícolas,2,0,3
+19-23-0015,2019,Quintana Roo,Othón P. Blanco,2019-04-25,2019-05-16,141.22,Mayor a 100 Hectáreas,Actividades agrícolas,10,4,22
+19-23-0016,2019,Quintana Roo,Othón P. Blanco,2019-05-11,2019-05-20,41.58,21 a 50 Hectáreas,Fumadores,2,0,2
+19-23-0017,2019,Quintana Roo,Othón P. Blanco,2019-05-20,2019-05-26,3.99,0 a 5 Hectáreas,Fumadores,0,0,0
+19-23-0018,2019,Quintana Roo,Benito Juárez,2019-05-13,2019-05-26,290.82,Mayor a 100 Hectáreas,Intencional,12,0,24
+19-23-0019,2019,Quintana Roo,Bacalar,2019-05-18,2019-05-28,176.26,Mayor a 100 Hectáreas,Cazadores,6,2,15
+19-23-0020,2019,Quintana Roo,Othón P. Blanco,2019-05-22,2019-05-29,4.89,0 a 5 Hectáreas,Cazadores,0,0,0
+19-23-0021,2019,Quintana Roo,Bacalar,2019-05-23,2019-06-01,129.49,Mayor a 100 Hectáreas,Actividades agrícolas,1,0,2
+19-23-0022,2019,Quintana Roo,Bacalar,2019-05-28,2019-06-01,38.66,21 a 50 Hectáreas,Actividades agrícolas,1,0,1
+19-23-0023,2019,Quintana Roo,Solidaridad,2019-05-24,2019-06-02,77.67,51 a 100 Hectáreas,Actividades agrícolas,0,0,1
+19-23-0024,2019,Quintana Roo,Bacalar,2019-05-28,2019-06-03,29.66,21 a 50 Hectáreas,Actividades agrícolas,0,0,0
+19-23-0025,2019,Quintana Roo,Bacalar,2019-05-20,2019-06-03,43.75,21 a 50 Hectáreas,Cazadores,0,1,3
+19-23-0026,2019,Quintana Roo,Bacalar,2019-05-18,2019-06-03,397.58,Mayor a 100 Hectáreas,Actividades agrícolas,6,0,13
+19-23-0027,2019,Quintana Roo,Puerto Morelos,2019-06-06,2019-06-07,3.06,0 a 5 Hectáreas,Quema de basureros,0,0,1
+19-23-0028,2019,Quintana Roo,Puerto Morelos,2019-06-09,2019-06-10,1.37,0 a 5 Hectáreas,Quema de basureros,0,0,0
+19-23-0029,2019,Quintana Roo,Puerto Morelos,2019-06-09,2019-06-12,4.84,0 a 5 Hectáreas,Actividades agrícolas,2,0,4
+19-23-0030,2019,Quintana Roo,Benito Juárez,2019-06-12,2019-06-13,1.46,0 a 5 Hectáreas,Quema de basureros,0,0,0
+19-23-0031,2019,Quintana Roo,Bacalar,2019-06-15,2019-06-27,39.69,21 a 50 Hectáreas,Fumadores,2,0,3
+19-23-0032,2019,Quintana Roo,Puerto Morelos,2019-06-24,2019-06-30,10.48,11 a 20 Hectáreas,Quema de basureros,0,0,0
+19-23-0033,2019,Quintana Roo,Bacalar,2019-06-26,2019-07-01,17.02,11 a 20 Hectáreas,Fumadores,0,0,0
+19-23-0034,2019,Quintana Roo,Benito Juárez,2019-06-24,2019-07-01,92.55,51 a 100 Hectáreas,Quema de basureros,2,4,10
+19-23-0035,2019,Quintana Roo,Bacalar,2019-06-19,2019-07-03,958.28,Mayor a 100 Hectáreas,Cazadores,49,9,110
+19-23-0036,2019,Quintana Roo,Bacalar,2019-07-04,2019-07-12,74.35,51 a 100 Hectáreas,Cazadores,0,0,0
+19-23-0037,2019,Quintana Roo,Puerto Morelos,2019-07-02,2019-07-12,12.23,11 a 20 Hectáreas,Intencional,0,0,0
+19-23-0038,2019,Quintana Roo,Felipe Carrillo Puerto,2019-07-05,2019-07-15,34.62,21 a 50 Hectáreas,Cazadores,1,1,4
+19-23-0039,2019,Quintana Roo,Othón P. Blanco,2019-07-11,2019-07-23,140.51,Mayor a 100 Hectáreas,Cazadores,8,1,19
+19-23-0040,2019,Quintana Roo,Puerto Morelos,2019-07-22,2019-07-25,2.07,0 a 5 Hectáreas,Intencional,0,0,0
+19-23-0041,2019,Quintana Roo,Felipe Carrillo Puerto,2019-07-08,2019-08-03,3205.87,Mayor a 100 Hectáreas,Cazadores,31,10,94
+19-23-0042,2019,Quintana Roo,Benito Juárez,2019-07-05,2019-08-04,367.7,Mayor a 100 Hectáreas,Intencional,9,0,16
+19-23-0043,2019,Quintana Roo,Bacalar,2019-07-22,2019-08-04,272.89,Mayor a 100 Hectáreas,Cazadores,7,1,9
+19-23-0044,2019,Quintana Roo,Benito Juárez,2019-07-21,2019-08-11,447.44,Mayor a 100 Hectáreas,Intencional,0,0,0
+19-23-0045,2019,Quintana Roo,Benito Juárez,2019-08-12,2019-08-14,1.86,0 a 5 Hectáreas,Quema de basureros,0,0,0
+19-23-0046,2019,Quintana Roo,Benito Juárez,2019-08-14,2019-08-21,6.08,6 a 10 Hectáreas,Intencional,2,2,5
+19-23-0047,2019,Quintana Roo,Felipe Carrillo Puerto,2019-08-01,2019-09-02,1610.96,Mayor a 100 Hectáreas,Cazadores,3,5,18
+19-23-0048,2019,Quintana Roo,Bacalar,2019-08-24,2019-08-31,2.75,0 a 5 Hectáreas,Fumadores,0,0,0
+19-23-0049,2019,Quintana Roo,Felipe Carrillo Puerto,2019-08-30,2019-09-08,9.87,6 a 10 Hectáreas,Cazadores,0,0,0
+19-23-0050,2019,Quintana Roo,José María Morelos,2019-05-26,2019-06-03,105.54,Mayor a 100 Hectáreas,Actividades agrícolas,0,0,0
+19-23-0051,2019,Quintana Roo,Bacalar,2019-09-22,2019-09-28,147.62,Mayor a 100 Hectáreas,Cazadores,5,1,11
+19-23-0052,2019,Quintana Roo,Felipe Carrillo Puerto,2019-09-07,2019-09-09,309.82,Mayor a 100 Hectáreas,Cazadores,0,0,0
+19-23-0053,2019,Quintana Roo,Bacalar,2019-03-30,2019-04-02,1.81,0 a 5 Hectáreas,Intencional,0,0,0
+19-23-0054,2019,Quintana Roo,Felipe Carrillo Puerto,2019-06-06,2019-06-08,1.17,0 a 5 Hectáreas,Actividades agrícolas,0,0,0
+19-23-0055,2019,Quintana Roo,Othón P. Blanco,2019-06-15,2019-06-17,0.54,0 a 5 Hectáreas,Intencional,0,0,0
+19-23-0056,2019,Quintana Roo,Lázaro Cárdenas,2019-05-05,2019-05-09,10.87,11 a 20 Hectáreas,Desconocidas,4,1,8
+19-23-0057,2019,Quintana Roo,Lázaro Cárdenas,2019-05-24,2019-05-31,83.58,51 a 100 Hectáreas,Cazadores,0,0,0
+19-23-0058,2019,Quintana Roo,Lázaro Cárdenas,2019-06-03,2019-06-07,22.56,21 a 50 Hectáreas,Actividades agrícolas,0,0,2
+19-23-0059,2019,Quintana Roo,Othón P. Blanco,2019-11-04,2019-11-06,6.94,6 a 10 Hectáreas,Cazadores,2,0,3
+19-31-0001,2019,Yucatán,Celestún,2019-01-11,2019-01-13,88.0,51 a 100 Hectáreas,Cazadores,14,3,22
+19-31-0002,2019,Yucatán,Tekax,2019-02-21,2019-03-10,411.5,Mayor a 100 Hectáreas,Actividades pecuarias,26,2,54
+19-31-0003,2019,Yucatán,Celestún,2019-03-04,2019-03-18,98.8,51 a 100 Hectáreas,Cazadores,34,7,58
+19-31-0004,2019,Yucatán,Progreso,2019-03-08,2019-03-09,284.0,Mayor a 100 Hectáreas,Cazadores,9,4,20
+19-31-0005,2019,Yucatán,Yaxkukul,2019-03-10,2019-03-18,316.0,Mayor a 100 Hectáreas,Actividades agrícolas,20,7,39
+19-31-0006,2019,Yucatán,Río Lagartos,2019-03-04,2019-03-05,2.21,0 a 5 Hectáreas,Desconocidas,0,0,0
+19-31-0007,2019,Yucatán,Maxcanú,2019-03-15,2019-03-20,45.0,21 a 50 Hectáreas,Desconocidas,3,3,10
+19-31-0008,2019,Yucatán,Tekax,2019-03-23,2019-04-15,297.0,Mayor a 100 Hectáreas,Actividades pecuarias,5,4,11
+19-31-0009,2019,Yucatán,Tekax,2019-03-27,2019-04-01,107.0,Mayor a 100 Hectáreas,Actividades agrícolas,0,1,3
+19-31-0010,2019,Yucatán,Tekax,2019-03-21,2019-04-15,1047.5,Mayor a 100 Hectáreas,Desconocidas,38,13,101
+19-31-0011,2019,Yucatán,Tekax,2019-03-28,2019-04-07,55.8,51 a 100 Hectáreas,Actividades pecuarias,5,0,12
+19-31-0012,2019,Yucatán,Tekax,2019-03-28,2019-04-12,194.5,Mayor a 100 Hectáreas,Actividades agrícolas,19,5,46
+19-31-0013,2019,Yucatán,Tekax,2019-03-31,2019-04-03,90.0,51 a 100 Hectáreas,Actividades agrícolas,13,3,26
+19-31-0014,2019,Yucatán,Tekax,2019-04-22,2019-05-17,1333.0,Mayor a 100 Hectáreas,Actividades pecuarias,32,11,88
+19-31-0015,2019,Yucatán,Kinchil,2019-04-22,2019-05-04,377.0,Mayor a 100 Hectáreas,Desconocidas,10,0,14
+19-31-0016,2019,Yucatán,Tetiz,2019-04-21,2019-05-15,294.5,Mayor a 100 Hectáreas,Cazadores,31,8,54
+19-31-0017,2019,Yucatán,Celestún,2019-04-22,2019-04-25,47.0,21 a 50 Hectáreas,Fumadores,4,1,9
+19-31-0018,2019,Yucatán,Hunucmá,2019-04-22,2019-05-04,43.2,21 a 50 Hectáreas,Desconocidas,15,5,32
+19-31-0019,2019,Yucatán,Celestún,2019-04-25,2019-05-03,41.5,21 a 50 Hectáreas,Fumadores,2,0,2
+19-31-0020,2019,Yucatán,Tekax,2019-05-13,2019-05-17,53.1,51 a 100 Hectáreas,Actividades agrícolas,10,2,20
+19-31-0021,2019,Yucatán,Tizimín,2019-06-06,2019-06-10,320.0,Mayor a 100 Hectáreas,Desconocidas,0,0,1
+19-31-0022,2019,Yucatán,Celestún,2019-08-09,2019-08-16,144.0,Mayor a 100 Hectáreas,Desconocidas,6,1,15
+20-04-0001,2020,Campeche,Campeche,2020-02-04,2020-02-06,24.945,21 a 50 Hectáreas,Cazadores,3,0,6
+20-04-0002,2020,Campeche,Palizada,2020-01-28,2020-01-30,159.347,Mayor a 100 Hectáreas,Cazadores,3,1,9
+20-04-0003,2020,Campeche,Escárcega,2020-03-14,2020-03-15,0.474,0 a 5 Hectáreas,Actividades pecuarias,4,0,6
+20-04-0004,2020,Campeche,Campeche,2020-03-23,2020-03-24,8.764,6 a 10 Hectáreas,Desconocidas,0,1,2
+20-04-0005,2020,Campeche,Candelaria,2020-04-15,2020-04-19,84.913,51 a 100 Hectáreas,Actividades agrícolas,0,0,0
+20-04-0006,2020,Campeche,Calakmul,2020-04-17,2020-04-25,158.21,Mayor a 100 Hectáreas,Cazadores,2,2,13
+20-04-0007,2020,Campeche,Calakmul,2020-04-25,2020-04-27,1.5,0 a 5 Hectáreas,Fumadores,0,0,0
+20-04-0009,2020,Campeche,Palizada,2020-02-05,2020-02-05,53.891,51 a 100 Hectáreas,Cazadores,0,0,0
+20-04-0010,2020,Campeche,Palizada,2020-03-02,2020-03-03,132.454,Mayor a 100 Hectáreas,Cazadores,0,0,0
+20-04-0011,2020,Campeche,Palizada,2020-03-25,2020-04-05,378.819,Mayor a 100 Hectáreas,Cazadores,0,0,0
+20-04-0012,2020,Campeche,Carmen,2020-04-14,2020-04-14,7072.961,Mayor a 100 Hectáreas,Cazadores,0,0,0
+20-04-0013,2020,Campeche,Hopelchén,2020-04-28,2020-05-07,149.447,Mayor a 100 Hectáreas,Actividades agrícolas,6,1,8
+20-04-0014,2020,Campeche,Escárcega,2020-04-28,2020-05-01,3.525,0 a 5 Hectáreas,Cazadores,3,0,6
+20-04-0015,2020,Campeche,Hopelchén,2020-04-28,2020-05-02,25.794,21 a 50 Hectáreas,Actividades agrícolas,0,0,1
+20-04-0016,2020,Campeche,Hopelchén,2020-04-30,2020-05-05,207.324,Mayor a 100 Hectáreas,Actividades agrícolas,0,0,0
+20-04-0017,2020,Campeche,Hopelchén,2020-04-30,2020-05-09,438.509,Mayor a 100 Hectáreas,Actividades agrícolas,0,0,2
+20-04-0018,2020,Campeche,Champotón,2020-05-01,2020-05-08,370.92,Mayor a 100 Hectáreas,Cazadores,0,0,4
+20-04-0019,2020,Campeche,Campeche,2020-05-04,2020-05-05,1271.708,Mayor a 100 Hectáreas,Actividades agrícolas,3,1,8
+20-04-0020,2020,Campeche,Calakmul,2020-05-04,2020-05-08,35.763,21 a 50 Hectáreas,Cazadores,1,0,2
+20-04-0021,2020,Campeche,Hopelchén,2020-05-05,2020-05-07,71.638,51 a 100 Hectáreas,Actividades agrícolas,2,0,3
+20-04-0022,2020,Campeche,Carmen,2020-05-21,2020-05-22,294.88,Mayor a 100 Hectáreas,Cazadores,4,1,7
+20-23-0001,2020,Quintana Roo,Othón P. Blanco,2020-02-05,2020-02-09,44.51,21 a 50 Hectáreas,Quema de basureros,2,2,7
+20-23-0002,2020,Quintana Roo,Bacalar,2020-02-24,2020-02-28,26.05,21 a 50 Hectáreas,Cazadores,0,0,0
+20-23-0003,2020,Quintana Roo,Benito Juárez,2020-03-04,2020-03-05,0.011,0 a 5 Hectáreas,Desconocidas,0,0,0
+20-23-0004,2020,Quintana Roo,Bacalar,2020-03-09,2020-03-11,1.7,0 a 5 Hectáreas,Cazadores,0,0,0
+20-23-0005,2020,Quintana Roo,Lázaro Cárdenas,2020-03-11,2020-03-11,0.52,0 a 5 Hectáreas,Fumadores,0,0,0
+20-23-0006,2020,Quintana Roo,Solidaridad,2020-03-12,2020-03-14,1.11,0 a 5 Hectáreas,Fumadores,0,0,0
+20-23-0007,2020,Quintana Roo,Solidaridad,2020-03-15,2020-03-18,1.32,0 a 5 Hectáreas,Cazadores,0,0,0
+20-23-0008,2020,Quintana Roo,Lázaro Cárdenas,2020-03-17,2020-03-20,20.122,21 a 50 Hectáreas,Cazadores,1,0,2
+20-23-0009,2020,Quintana Roo,Othón P. Blanco,2020-03-19,2020-03-20,16.43,11 a 20 Hectáreas,Desconocidas,0,0,1
+20-23-0010,2020,Quintana Roo,Lázaro Cárdenas,2020-03-19,2020-03-20,1.73,0 a 5 Hectáreas,Limpias de derecho de vía,0,0,0
+20-23-0011,2020,Quintana Roo,Bacalar,2020-03-20,2020-03-21,2.43,0 a 5 Hectáreas,Limpias de derecho de vía,0,0,0
+20-23-0012,2020,Quintana Roo,Lázaro Cárdenas,2020-03-21,2020-03-22,1.32,0 a 5 Hectáreas,Actividades agrícolas,0,0,0
+20-23-0013,2020,Quintana Roo,Bacalar,2020-03-12,2020-03-24,46.19,21 a 50 Hectáreas,Cazadores,0,0,0
+20-23-0014,2020,Quintana Roo,Solidaridad,2020-03-22,2020-03-25,5.954,6 a 10 Hectáreas,Actividades agrícolas,0,0,1
+20-23-0015,2020,Quintana Roo,Lázaro Cárdenas,2020-03-22,2020-03-27,3.8,0 a 5 Hectáreas,Actividades agrícolas,0,0,0
+20-23-0016,2020,Quintana Roo,Solidaridad,2020-03-24,2020-03-28,3.05,0 a 5 Hectáreas,Quema de basureros,0,0,0
+20-23-0017,2020,Quintana Roo,Othón P. Blanco,2020-03-29,2020-03-30,10.66,11 a 20 Hectáreas,Cazadores,0,0,0
+20-23-0018,2020,Quintana Roo,Othón P. Blanco,2020-03-23,2020-04-02,18.82,11 a 20 Hectáreas,Cazadores,0,0,0
+20-23-0019,2020,Quintana Roo,Othón P. Blanco,2020-03-28,2020-04-02,13.91,11 a 20 Hectáreas,Limpias de derecho de vía,2,2,5
+20-23-0020,2020,Quintana Roo,Othón P. Blanco,2020-03-25,2020-04-04,101.62,Mayor a 100 Hectáreas,Cazadores,8,2,15
+20-23-0021,2020,Quintana Roo,Bacalar,2020-03-29,2020-04-04,53.8,51 a 100 Hectáreas,Cazadores,4,0,9
+20-23-0022,2020,Quintana Roo,Lázaro Cárdenas,2020-03-24,2020-04-08,619.97,Mayor a 100 Hectáreas,Quema de basureros,16,8,46
+20-23-0023,2020,Quintana Roo,Solidaridad,2020-03-27,2020-04-08,43.99,21 a 50 Hectáreas,Quema de basureros,1,0,1
+20-23-0024,2020,Quintana Roo,Bacalar,2020-03-25,2020-04-09,33.39,21 a 50 Hectáreas,Cazadores,2,0,7
+20-23-0025,2020,Quintana Roo,Othón P. Blanco,2020-04-09,2020-04-10,2.443,0 a 5 Hectáreas,Limpias de derecho de vía,0,0,0
+20-23-0026,2020,Quintana Roo,Othón P. Blanco,2020-04-10,2020-04-12,3.5,0 a 5 Hectáreas,Fumadores,2,0,2
+20-23-0027,2020,Quintana Roo,José María Morelos,2020-03-27,2020-04-13,570.0,Mayor a 100 Hectáreas,Cazadores,93,27,222
+20-23-0028,2020,Quintana Roo,Bacalar,2020-03-30,2020-04-15,1982.6,Mayor a 100 Hectáreas,Actividades agrícolas,60,8,119
+20-23-0029,2020,Quintana Roo,Benito Juárez,2020-04-05,2020-04-16,19.05,11 a 20 Hectáreas,Desconocidas,6,1,12
+20-23-0030,2020,Quintana Roo,Solidaridad,2020-04-06,2020-04-16,21.38,21 a 50 Hectáreas,Cazadores,0,0,0
+20-23-0031,2020,Quintana Roo,Solidaridad,2020-04-01,2020-04-17,89.79,51 a 100 Hectáreas,Cazadores,0,0,0
+20-23-0032,2020,Quintana Roo,Puerto Morelos,2020-04-10,2020-04-17,18.61,11 a 20 Hectáreas,Quema de basureros,7,0,14
+20-23-0033,2020,Quintana Roo,Solidaridad,2020-04-17,2020-04-19,6.12,6 a 10 Hectáreas,Quema de basureros,0,0,0
+20-23-0034,2020,Quintana Roo,Othón P. Blanco,2020-04-15,2020-04-21,14.17,11 a 20 Hectáreas,Fumadores,1,0,1
+20-23-0035,2020,Quintana Roo,Othón P. Blanco,2020-04-01,2020-04-23,789.99,Mayor a 100 Hectáreas,Cazadores,19,10,43
+20-23-0036,2020,Quintana Roo,Felipe Carrillo Puerto,2020-04-04,2020-04-23,202.75,Mayor a 100 Hectáreas,Cazadores,0,1,2
+20-23-0037,2020,Quintana Roo,Benito Juárez,2020-04-14,2020-04-23,170.926,Mayor a 100 Hectáreas,Quema de basureros,30,5,63
+20-23-0038,2020,Quintana Roo,Othón P. Blanco,2020-04-11,2020-04-24,155.81,Mayor a 100 Hectáreas,Actividades agrícolas,9,4,17
+20-23-0039,2020,Quintana Roo,Benito Juárez,2020-04-20,2020-04-24,6.83,6 a 10 Hectáreas,Limpias de derecho de vía,0,0,0
+20-23-0040,2020,Quintana Roo,Puerto Morelos,2020-04-05,2020-04-26,3262.312,Mayor a 100 Hectáreas,Desconocidas,36,6,75
+20-23-0041,2020,Quintana Roo,Benito Juárez,2020-04-22,2020-04-27,8.96,6 a 10 Hectáreas,Fumadores,0,0,0
+20-23-0042,2020,Quintana Roo,Felipe Carrillo Puerto,2020-04-23,2020-04-29,39.87,21 a 50 Hectáreas,Cazadores,2,1,10
+20-23-0043,2020,Quintana Roo,Othón P. Blanco,2020-04-18,2020-05-01,6.82,6 a 10 Hectáreas,Fumadores,0,0,1
+20-23-0044,2020,Quintana Roo,Othón P. Blanco,2020-04-20,2020-05-02,210.89,Mayor a 100 Hectáreas,Actividades agrícolas,13,1,19
+20-23-0045,2020,Quintana Roo,Othón P. Blanco,2020-04-16,2020-05-03,462.59,Mayor a 100 Hectáreas,Fumadores,36,7,83
+20-23-0046,2020,Quintana Roo,Puerto Morelos,2020-04-26,2020-05-03,83.09,51 a 100 Hectáreas,Desconocidas,0,0,0
+20-23-0047,2020,Quintana Roo,Benito Juárez,2020-04-27,2020-05-05,318.59,Mayor a 100 Hectáreas,Desconocidas,3,3,20
+20-23-0048,2020,Quintana Roo,Lázaro Cárdenas,2020-04-27,2020-05-06,1487.36,Mayor a 100 Hectáreas,Cazadores,8,2,36
+20-23-0049,2020,Quintana Roo,Solidaridad,2020-04-17,2020-05-08,248.6,Mayor a 100 Hectáreas,Cazadores,4,0,8
+20-23-0050,2020,Quintana Roo,José María Morelos,2020-04-16,2020-05-10,435.31,Mayor a 100 Hectáreas,Actividades agrícolas,41,3,64
+20-23-0051,2020,Quintana Roo,Othón P. Blanco,2020-04-01,2020-05-10,3000.059,Mayor a 100 Hectáreas,Cazadores,119,21,261
+20-23-0052,2020,Quintana Roo,Othón P. Blanco,2020-04-30,2020-05-10,10.72,11 a 20 Hectáreas,Fumadores,0,0,0
+20-23-0053,2020,Quintana Roo,Othón P. Blanco,2020-04-25,2020-05-11,1242.57,Mayor a 100 Hectáreas,Actividades agrícolas,27,3,57
+20-23-0054,2020,Quintana Roo,Bacalar,2020-04-29,2020-05-11,418.49,Mayor a 100 Hectáreas,Actividades agrícolas,1,0,2
+20-23-0055,2020,Quintana Roo,Puerto Morelos,2020-05-04,2020-05-11,100.04,Mayor a 100 Hectáreas,Desconocidas,0,0,3
+20-23-0056,2020,Quintana Roo,Bacalar,2020-04-17,2020-05-11,9778.86,Mayor a 100 Hectáreas,Cazadores,0,0,8
+20-23-0057,2020,Quintana Roo,Felipe Carrillo Puerto,2020-04-27,2020-05-12,240.29,Mayor a 100 Hectáreas,Desconocidas,5,0,11
+20-23-0058,2020,Quintana Roo,Benito Juárez,2020-05-02,2020-05-12,199.21,Mayor a 100 Hectáreas,Quema de basureros,0,0,1
+20-23-0059,2020,Quintana Roo,Solidaridad,2020-05-08,2020-05-12,45.6,21 a 50 Hectáreas,Actividades agrícolas,0,0,0
+20-23-0060,2020,Quintana Roo,Lázaro Cárdenas,2020-04-08,2020-05-13,4274.74,Mayor a 100 Hectáreas,Cazadores,4,1,8
+20-23-0061,2020,Quintana Roo,Othón P. Blanco,2020-05-20,2020-05-28,75.1,51 a 100 Hectáreas,Cazadores,2,2,7
+20-23-0062,2020,Quintana Roo,Othón P. Blanco,2020-05-26,2020-05-30,10.44,11 a 20 Hectáreas,Fumadores,0,0,0
+20-23-0063,2020,Quintana Roo,Othón P. Blanco,2020-07-16,2020-07-21,42.23,21 a 50 Hectáreas,Limpias de derecho de vía,0,0,1
+20-23-0064,2020,Quintana Roo,Othón P. Blanco,2020-08-03,2020-08-06,11.72,11 a 20 Hectáreas,Cazadores,4,1,9
+20-23-0065,2020,Quintana Roo,Felipe Carrillo Puerto,2020-08-26,2020-09-04,8765.99,Mayor a 100 Hectáreas,Cazadores,29,11,70
+20-23-0066,2020,Quintana Roo,Othón P. Blanco,2020-09-11,2020-09-12,10.2,11 a 20 Hectáreas,Quema de basureros,0,0,0
+20-23-0067,2020,Quintana Roo,Benito Juárez,2020-04-08,2020-05-12,275.155,Mayor a 100 Hectáreas,Desconocidas,19,2,42
+20-23-0068,2020,Quintana Roo,Benito Juárez,2020-04-08,2020-05-12,1486.032,Mayor a 100 Hectáreas,Desconocidas,0,1,2
+20-31-0001,2020,Yucatán,Mérida,2020-03-04,2020-03-07,56.0,51 a 100 Hectáreas,Cazadores,0,2,6
+20-31-0002,2020,Yucatán,Umán,2020-03-13,2020-03-17,117.6,Mayor a 100 Hectáreas,Cazadores,5,2,11
+20-31-0003,2020,Yucatán,Tekax,2020-03-19,2020-03-25,278.34,Mayor a 100 Hectáreas,Actividades ilícitas,5,1,8
+20-31-0004,2020,Yucatán,Sacalum,2020-03-20,2020-04-02,797.39,Mayor a 100 Hectáreas,Cazadores,12,4,26
+20-31-0005,2020,Yucatán,Hunucmá,2020-03-25,2020-04-06,264.14,Mayor a 100 Hectáreas,Cazadores,26,7,43
+20-31-0006,2020,Yucatán,Valladolid,2020-03-28,2020-04-06,68.6,51 a 100 Hectáreas,Desconocidas,8,2,23
+20-31-0007,2020,Yucatán,Umán,2020-04-07,2020-04-12,91.0,51 a 100 Hectáreas,Cazadores,4,0,4
+20-31-0008,2020,Yucatán,Tzucacab,2020-04-11,2020-04-15,13.0,11 a 20 Hectáreas,Cazadores,0,0,0
+20-31-0009,2020,Yucatán,Tekax,2020-04-17,2020-04-30,534.4,Mayor a 100 Hectáreas,Cazadores,5,1,15
+20-31-0010,2020,Yucatán,Tzucacab,2020-04-17,2020-05-01,273.0,Mayor a 100 Hectáreas,Actividades agrícolas,14,4,34
+20-31-0011,2020,Yucatán,Tekax,2020-04-18,2020-05-02,378.7,Mayor a 100 Hectáreas,Actividades agrícolas,23,9,51
+20-31-0012,2020,Yucatán,Tekax,2020-04-17,2020-04-23,30.0,21 a 50 Hectáreas,Actividades agrícolas,12,7,32
+20-31-0013,2020,Yucatán,Tekit,2020-04-15,2020-05-03,1302.0,Mayor a 100 Hectáreas,Actividades agrícolas,6,7,27
+20-31-0014,2020,Yucatán,Chemax,2020-04-15,2020-05-10,1171.26,Mayor a 100 Hectáreas,Cazadores,46,9,89
+20-31-0015,2020,Yucatán,Tizimín,2020-04-28,2020-05-10,1195.26,Mayor a 100 Hectáreas,Desconocidas,6,1,9
+20-31-0016,2020,Yucatán,Valladolid,2020-04-28,2020-05-12,788.56,Mayor a 100 Hectáreas,Actividades agrícolas,15,2,60
+20-31-0017,2020,Yucatán,Chemax,2020-04-26,2020-05-14,721.91,Mayor a 100 Hectáreas,Desconocidas,21,1,34
+20-31-0018,2020,Yucatán,Dzilam de Bravo,2020-07-21,2020-07-25,1788.87,Mayor a 100 Hectáreas,Desconocidas,17,2,45
+20-31-0019,2020,Yucatán,Oxkutzcab,2020-03-21,2020-03-23,9.0,6 a 10 Hectáreas,Actividades agrícolas,0,0,0
+20-31-0020,2020,Yucatán,Oxkutzcab,2020-03-25,2020-03-27,5.65,6 a 10 Hectáreas,Actividades agrícolas,0,0,0
+20-31-0021,2020,Yucatán,Oxkutzcab,2020-04-21,2020-04-26,20.0,11 a 20 Hectáreas,Actividades agrícolas,0,0,0
+20-31-0022,2020,Yucatán,Oxkutzcab,2020-05-10,2020-05-14,65.03,51 a 100 Hectáreas,Actividades agrícolas,0,0,0
+20-31-0023,2020,Yucatán,Oxkutzcab,2020-05-29,2020-05-31,3.0,0 a 5 Hectáreas,Actividades agrícolas,0,0,0
+20-31-0024,2020,Yucatán,Oxkutzcab,2020-04-12,2020-04-14,9.0,6 a 10 Hectáreas,Actividades agrícolas,2,0,3
+20-31-0025,2020,Yucatán,Ticul,2020-05-01,2020-05-03,29.0,21 a 50 Hectáreas,Desconocidas,0,0,0
+20-31-0026,2020,Yucatán,Oxkutzcab,2020-05-31,2020-06-02,4.0,0 a 5 Hectáreas,Actividades agrícolas,0,0,0
+21-04-0001,2021,Campeche,Calkiní,2021-03-11,2021-03-12,142.47,Mayor a 100 Hectáreas,Cazadores,13,6,25
+21-04-0002,2021,Campeche,Campeche,2021-04-11,2021-04-13,2.066,0 a 5 Hectáreas,Quema de basureros,0,0,0
+21-04-0003,2021,Campeche,Seybaplaya,2021-04-15,2021-04-16,3.12,0 a 5 Hectáreas,Actividades agrícolas,0,0,0
+21-04-0004,2021,Campeche,Campeche,2021-04-29,2021-05-05,144.843,Mayor a 100 Hectáreas,Actividades agrícolas,11,2,19
+21-04-0005,2021,Campeche,Carmen,2021-09-01,2021-09-04,1736.53,Mayor a 100 Hectáreas,Cazadores,23,10,55
+21-23-0001,2021,Quintana Roo,Puerto Morelos,2021-03-30,2021-03-31,0.9,0 a 5 Hectáreas,Fumadores,0,0,0
+21-23-0003,2021,Quintana Roo,Puerto Morelos,2021-04-05,2021-04-05,0.251,0 a 5 Hectáreas,Quema de basureros,0,0,0
+21-23-0004,2021,Quintana Roo,Puerto Morelos,2021-04-06,2021-04-06,0.321,0 a 5 Hectáreas,Desconocidas,0,0,0
+21-23-0005,2021,Quintana Roo,Othón P. Blanco,2021-04-03,2021-04-08,85.906,51 a 100 Hectáreas,Fumadores,1,0,2
+21-23-0006,2021,Quintana Roo,Puerto Morelos,2021-04-13,2021-04-14,2.005,0 a 5 Hectáreas,Fumadores,0,0,0
+21-23-0007,2021,Quintana Roo,Lázaro Cárdenas,2021-04-14,2021-04-15,5.059,6 a 10 Hectáreas,Desconocidas,1,0,1
+21-23-0008,2021,Quintana Roo,Solidaridad,2021-04-15,2021-04-17,1.024,0 a 5 Hectáreas,Fogatas,0,0,0
+21-23-0009,2021,Quintana Roo,Solidaridad,2021-04-18,2021-04-19,0.72,0 a 5 Hectáreas,Fumadores,0,0,0
+21-23-0010,2021,Quintana Roo,Lázaro Cárdenas,2021-04-15,2021-04-22,17.766,11 a 20 Hectáreas,Actividades agrícolas,0,0,1
+21-23-0011,2021,Quintana Roo,Benito Juárez,2021-04-15,2021-04-23,160.065,Mayor a 100 Hectáreas,Quema de basureros,6,1,13
+21-23-0012,2021,Quintana Roo,Puerto Morelos,2021-04-28,2021-05-01,1.67,0 a 5 Hectáreas,Desconocidas,0,0,0
+21-23-0013,2021,Quintana Roo,Othón P. Blanco,2021-04-24,2021-05-01,27.133,21 a 50 Hectáreas,Quema de basureros,7,3,20
+21-23-0014,2021,Quintana Roo,Benito Juárez,2021-04-26,2021-05-01,4.029,0 a 5 Hectáreas,Quema de basureros,0,0,1
+21-23-0015,2021,Quintana Roo,Puerto Morelos,2021-04-30,2021-05-03,2.22,0 a 5 Hectáreas,Quema de basureros,0,0,0
+21-23-0016,2021,Quintana Roo,Othón P. Blanco,2021-04-28,2021-05-04,3.828,0 a 5 Hectáreas,Quema de basureros,0,0,0
+21-23-0017,2021,Quintana Roo,Solidaridad,2021-04-25,2021-05-05,66.786,51 a 100 Hectáreas,Quema de basureros,3,2,14
+21-23-0018,2021,Quintana Roo,Tulum,2021-05-01,2021-05-10,6.681,6 a 10 Hectáreas,Desconocidas,0,0,0
+21-23-0019,2021,Quintana Roo,Tulum,2021-05-06,2021-05-11,4.325,0 a 5 Hectáreas,Quema de basureros,0,0,0
+21-23-0020,2021,Quintana Roo,Puerto Morelos,2021-04-30,2021-05-11,182.949,Mayor a 100 Hectáreas,Desconocidas,30,1,51
+21-23-0021,2021,Quintana Roo,Isla Mujeres,2021-05-02,2021-05-11,258.027,Mayor a 100 Hectáreas,Actividades agrícolas,12,1,18
+21-23-0022,2021,Quintana Roo,Puerto Morelos,2021-05-02,2021-05-11,84.004,51 a 100 Hectáreas,Desconocidas,6,0,9
+21-23-0023,2021,Quintana Roo,Benito Juárez,2021-05-10,2021-05-16,25.092,21 a 50 Hectáreas,Quema de basureros,0,0,2
+21-23-0024,2021,Quintana Roo,Benito Juárez,2021-05-16,2021-05-21,53.487,51 a 100 Hectáreas,Quema de basureros,0,0,0
+21-23-0025,2021,Quintana Roo,Felipe Carrillo Puerto,2021-05-15,2021-05-23,13.631,11 a 20 Hectáreas,Actividades agrícolas,0,0,0
+21-23-0026,2021,Quintana Roo,Solidaridad,2021-05-08,2021-05-23,160.56,Mayor a 100 Hectáreas,Quema de basureros,4,0,6
+21-23-0027,2021,Quintana Roo,Bacalar,2021-05-10,2021-06-16,72.511,51 a 100 Hectáreas,Cazadores,0,0,0
+21-23-0028,2021,Quintana Roo,Benito Juárez,2021-05-02,2021-05-25,568.945,Mayor a 100 Hectáreas,Quema de basureros,14,0,36
+21-23-0029,2021,Quintana Roo,Puerto Morelos,2021-05-10,2021-05-26,7.1,6 a 10 Hectáreas,Quema de basureros,0,0,1
+21-23-0030,2021,Quintana Roo,Isla Mujeres,2021-06-10,2021-06-13,56.671,51 a 100 Hectáreas,Quema de basureros,3,0,3
+21-23-0031,2021,Quintana Roo,Felipe Carrillo Puerto,2021-05-16,2021-05-19,1.297,0 a 5 Hectáreas,Actividades agrícolas,0,0,0
+21-23-0032,2021,Quintana Roo,Tulum,2021-05-19,2021-05-20,0.644,0 a 5 Hectáreas,Quema de basureros,0,0,0
+21-23-0033,2021,Quintana Roo,Tulum,2021-06-01,2021-06-01,2.338,0 a 5 Hectáreas,Quema de basureros,0,0,0
+21-23-0034,2021,Quintana Roo,Tulum,2021-10-31,2021-10-31,0.664,0 a 5 Hectáreas,Actividades ilícitas,0,0,0
+21-31-0001,2021,Yucatán,Progreso,2021-03-01,2021-03-02,19.802,11 a 20 Hectáreas,Desconocidas,0,0,0
+21-31-0002,2021,Yucatán,Maxcanú,2021-03-14,2021-03-15,24.721,21 a 50 Hectáreas,Desconocidas,3,0,4
+21-31-0003,2021,Yucatán,Dzemul,2021-03-24,2021-03-26,11.842,11 a 20 Hectáreas,Desconocidas,3,0,5
+21-31-0004,2021,Yucatán,Dzemul,2021-03-26,2021-03-30,11.134,11 a 20 Hectáreas,Desconocidas,2,0,2
+21-31-0005,2021,Yucatán,Halachó,2021-04-08,2021-04-11,99.568,51 a 100 Hectáreas,Desconocidas,8,0,24
+21-31-0006,2021,Yucatán,Conkal,2021-04-10,2021-04-15,149.994,Mayor a 100 Hectáreas,Desconocidas,19,5,29
+21-31-0007,2021,Yucatán,Yaxkukul,2021-05-10,2021-05-12,274.99,Mayor a 100 Hectáreas,Desconocidas,0,8,19
+21-31-0008,2021,Yucatán,Chemax,2021-04-12,2021-04-12,3.535,0 a 5 Hectáreas,Desconocidas,1,1,2
+21-31-0009,2021,Yucatán,Chemax,2021-04-14,2021-04-14,3.746,0 a 5 Hectáreas,Desconocidas,0,0,0
+21-31-0010,2021,Yucatán,Chemax,2021-05-04,2021-05-04,2.36,0 a 5 Hectáreas,Actividades agrícolas,3,0,3
+21-31-0011,2021,Yucatán,Chemax,2021-05-07,2021-05-07,5.882,6 a 10 Hectáreas,Actividades agrícolas,0,0,0
+21-31-0012,2021,Yucatán,Chocholá,2021-03-28,2021-03-31,101.141,Mayor a 100 Hectáreas,Desconocidas,0,0,0
+21-31-0013,2021,Yucatán,Tixkokob,2021-04-08,2021-04-11,61.482,51 a 100 Hectáreas,Desconocidas,1,1,2
+21-31-0014,2021,Yucatán,Umán,2021-04-15,2021-04-20,80.064,51 a 100 Hectáreas,Desconocidas,19,4,27
+21-31-0015,2021,Yucatán,Tekax,2021-04-12,2021-04-13,41.51,21 a 50 Hectáreas,Desconocidas,0,0,0
+22-04-0001,2022,Campeche,Palizada,2022-02-01,2022-02-04,200.0,Mayor a 100 Hectáreas,Cazadores,6,2,11
+22-04-0002,2022,Campeche,Palizada,2022-02-25,2022-03-04,8717.3282,Mayor a 100 Hectáreas,Cazadores,28,8,59
+22-04-0003,2022,Campeche,Calakmul,2022-03-20,2022-03-23,119.6095,Mayor a 100 Hectáreas,Limpias de derecho de vía,1,0,7
+22-04-0004,2022,Campeche,Hopelchén,2022-04-04,2022-04-06,24.1472,21 a 50 Hectáreas,Cazadores,0,0,0
+22-04-0005,2022,Campeche,Hopelchén,2022-04-10,2022-04-30,3999.9363,Mayor a 100 Hectáreas,Cazadores,70,5,151
+22-04-0006,2022,Campeche,Campeche,2022-05-13,2022-05-16,828.7207,Mayor a 100 Hectáreas,Cazadores,4,7,24
+22-04-0007,2022,Campeche,Calakmul,2022-04-15,2022-04-16,634.4226,Mayor a 100 Hectáreas,Actividades agrícolas,18,1,32
+22-04-0008,2022,Campeche,Palizada,2022-05-05,2022-05-08,1363.0244,Mayor a 100 Hectáreas,Actividades agrícolas,35,10,71
+22-04-0009,2022,Campeche,Carmen,2022-05-06,2022-05-08,137.1231,Mayor a 100 Hectáreas,Actividades pecuarias,14,3,34
+22-04-0010,2022,Campeche,Calakmul,2022-05-16,2022-05-19,16.722,11 a 20 Hectáreas,Actividades agrícolas,0,0,1
+22-04-0011,2022,Campeche,Calakmul,2022-05-18,2022-05-21,10.1772,11 a 20 Hectáreas,Actividades agrícolas,0,0,1
+22-04-0012,2022,Campeche,Calakmul,2022-05-10,2022-05-14,148.6974,Mayor a 100 Hectáreas,Actividades agrícolas,3,1,9
+22-04-0013,2022,Campeche,Hecelchakán,2022-05-19,2022-05-22,366.1951,Mayor a 100 Hectáreas,Cazadores,5,0,12
+22-04-0014,2022,Campeche,Champotón,2022-05-09,2022-05-20,772.9438,Mayor a 100 Hectáreas,Cazadores,5,3,24
+22-04-0015,2022,Campeche,Calkiní,2022-12-09,2022-12-11,558.2955,Mayor a 100 Hectáreas,Cazadores,25,9,59
+22-23-0001,2022,Quintana Roo,Tulum,2022-02-22,2022-02-23,0.1956,0 a 5 Hectáreas,Actividades ilícitas,0,0,0
+22-23-0002,2022,Quintana Roo,Tulum,2022-02-22,2022-02-23,0.2278,0 a 5 Hectáreas,Actividades ilícitas,0,0,0
+22-23-0003,2022,Quintana Roo,Bacalar,2022-03-03,2022-03-10,83.014,51 a 100 Hectáreas,Cazadores,1,0,1
+22-23-0004,2022,Quintana Roo,Bacalar,2022-03-23,2022-03-25,14.6548,11 a 20 Hectáreas,Actividades agrícolas,0,0,0
+22-23-0005,2022,Quintana Roo,Bacalar,2022-03-26,2022-03-30,57.2771,51 a 100 Hectáreas,Actividades agrícolas,7,3,10
+22-23-0006,2022,Quintana Roo,Tulum,2022-03-27,2022-04-01,5.4071,6 a 10 Hectáreas,Actividades ilícitas,3,0,6
+22-23-0007,2022,Quintana Roo,Solidaridad,2022-03-28,2022-04-04,9.2276,6 a 10 Hectáreas,Fogatas,9,1,15
+22-23-0008,2022,Quintana Roo,Solidaridad,2022-04-05,2022-04-08,2.2298,0 a 5 Hectáreas,Quema de basureros,0,0,1
+22-23-0009,2022,Quintana Roo,Puerto Morelos,2022-04-05,2022-04-09,10.639,11 a 20 Hectáreas,Fumadores,2,0,2
+22-23-0010,2022,Quintana Roo,Bacalar,2022-04-03,2022-04-09,185.2221,Mayor a 100 Hectáreas,Cazadores,5,2,16
+22-23-0011,2022,Quintana Roo,Bacalar,2022-04-03,2022-04-10,106.9379,Mayor a 100 Hectáreas,Actividades agrícolas,3,0,6
+22-23-0012,2022,Quintana Roo,Bacalar,2022-04-11,2022-04-15,32.84,21 a 50 Hectáreas,Fumadores,0,0,0
+22-23-0013,2022,Quintana Roo,Bacalar,2022-04-11,2022-04-15,34.5451,21 a 50 Hectáreas,Desconocidas,0,0,0
+22-23-0014,2022,Quintana Roo,Solidaridad,2022-04-07,2022-04-16,24.953,21 a 50 Hectáreas,Fumadores,1,0,1
+22-23-0015,2022,Quintana Roo,Bacalar,2022-04-17,2022-04-18,3.6676,0 a 5 Hectáreas,Quema de basureros,0,0,0
+22-23-0016,2022,Quintana Roo,Bacalar,2022-04-15,2022-04-18,2.0798,0 a 5 Hectáreas,Cazadores,0,0,0
+22-23-0017,2022,Quintana Roo,Bacalar,2022-04-16,2022-04-21,123.837,Mayor a 100 Hectáreas,Limpias de derecho de vía,1,0,1
+22-23-0018,2022,Quintana Roo,Bacalar,2022-04-15,2022-04-21,28.1756,21 a 50 Hectáreas,Fumadores,0,0,0
+22-23-0019,2022,Quintana Roo,Bacalar,2022-04-18,2022-04-22,44.4005,21 a 50 Hectáreas,Cazadores,2,3,6
+22-23-0020,2022,Quintana Roo,Solidaridad,2022-04-19,2022-04-27,25.948,21 a 50 Hectáreas,Quema de basureros,0,0,0
+22-23-0021,2022,Quintana Roo,Bacalar,2022-04-19,2022-04-30,1716.1248,Mayor a 100 Hectáreas,Cazadores,9,2,24
+22-23-0022,2022,Quintana Roo,Isla Mujeres,2022-05-05,2022-05-07,3.2607,0 a 5 Hectáreas,Quema de basureros,0,0,0
+22-23-0023,2022,Quintana Roo,Othón P. Blanco,2022-05-11,2022-05-15,52.6933,51 a 100 Hectáreas,Actividades agrícolas,2,0,3
+22-23-0024,2022,Quintana Roo,Puerto Morelos,2022-05-12,2022-05-15,13.9953,11 a 20 Hectáreas,Desconocidas,1,0,1
+22-23-0025,2022,Quintana Roo,Benito Juárez,2022-05-12,2022-05-15,2.3106,0 a 5 Hectáreas,Actividades ilícitas,4,1,9
+22-23-0026,2022,Quintana Roo,Bacalar,2022-05-07,2022-05-17,34.4148,21 a 50 Hectáreas,Actividades agrícolas,1,1,2
+22-23-0027,2022,Quintana Roo,Othón P. Blanco,2022-05-10,2022-05-19,30.6049,21 a 50 Hectáreas,Cazadores,0,0,0
+22-23-0028,2022,Quintana Roo,Puerto Morelos,2022-05-09,2022-05-19,14.5027,11 a 20 Hectáreas,Quema de basureros,0,0,1
+22-23-0029,2022,Quintana Roo,Othón P. Blanco,2022-05-10,2022-05-21,900.0873,Mayor a 100 Hectáreas,Cazadores,21,5,49
+22-23-0030,2022,Quintana Roo,Bacalar,2022-05-10,2022-05-21,224.5744,Mayor a 100 Hectáreas,Actividades agrícolas,2,0,2
+22-23-0031,2022,Quintana Roo,Bacalar,2022-05-13,2022-05-21,278.0,Mayor a 100 Hectáreas,Cazadores,9,6,24
+22-23-0032,2022,Quintana Roo,Puerto Morelos,2022-05-19,2022-05-21,3.3401,0 a 5 Hectáreas,Limpias de derecho de vía,0,0,0
+22-23-0033,2022,Quintana Roo,Othón P. Blanco,2022-05-16,2022-05-25,43.5454,21 a 50 Hectáreas,Limpias de derecho de vía,14,1,22
+22-23-0034,2022,Quintana Roo,Benito Juárez,2022-05-05,2022-05-26,79.6105,51 a 100 Hectáreas,Actividades ilícitas,15,2,32
+22-23-0035,2022,Quintana Roo,Solidaridad,2022-05-11,2022-05-27,428.1471,Mayor a 100 Hectáreas,Desconocidas,15,3,35
+22-23-0036,2022,Quintana Roo,Benito Juárez,2022-05-18,2022-05-30,387.0259,Mayor a 100 Hectáreas,Actividades ilícitas,25,3,59
+22-23-0037,2022,Quintana Roo,Solidaridad,2022-05-09,2022-05-31,739.6883,Mayor a 100 Hectáreas,Desconocidas,18,4,40
+22-23-0038,2022,Quintana Roo,Tulum,2022-05-13,2022-05-31,178.603,Mayor a 100 Hectáreas,Actividades ilícitas,44,11,121
+22-23-0039,2022,Quintana Roo,Solidaridad,2022-05-13,2022-05-31,363.7761,Mayor a 100 Hectáreas,Desconocidas,9,2,23
+22-23-0040,2022,Quintana Roo,Solidaridad,2022-05-12,2022-05-31,533.3565,Mayor a 100 Hectáreas,Fumadores,1,2,5
+22-23-0041,2022,Quintana Roo,Solidaridad,2022-05-15,2022-05-31,347.8044,Mayor a 100 Hectáreas,Actividades ilícitas,0,1,8
+22-23-0042,2022,Quintana Roo,Solidaridad,2022-05-13,2022-05-31,299.6314,Mayor a 100 Hectáreas,Quema de basureros,3,1,8
+22-23-0043,2022,Quintana Roo,Solidaridad,2022-05-25,2022-05-30,32.1377,21 a 50 Hectáreas,Desconocidas,0,0,0
+22-23-0044,2022,Quintana Roo,Felipe Carrillo Puerto,2022-07-15,2022-07-19,742.4256,Mayor a 100 Hectáreas,Cazadores,7,1,13
+22-31-0001,2022,Yucatán,Tizimín,2022-03-11,2022-03-12,150.0,Mayor a 100 Hectáreas,Desconocidas,3,2,9
+22-31-0002,2022,Yucatán,Muna,2022-03-30,2022-04-06,16.221,11 a 20 Hectáreas,Actividades pecuarias,2,2,7
+22-31-0003,2022,Yucatán,Muna,2022-04-05,2022-04-08,2.1494,0 a 5 Hectáreas,Desconocidas,1,0,2
+22-31-0004,2022,Yucatán,Kinchil,2022-04-06,2022-04-11,16.103,11 a 20 Hectáreas,Desconocidas,2,0,6
+22-31-0005,2022,Yucatán,Muna,2022-04-10,2022-04-15,37.7042,21 a 50 Hectáreas,Desconocidas,5,0,8
+22-31-0006,2022,Yucatán,Maxcanú,2022-04-10,2022-04-13,88.9642,51 a 100 Hectáreas,Desconocidas,4,0,15
+22-31-0007,2022,Yucatán,Halachó,2022-04-20,2022-04-30,50.5084,51 a 100 Hectáreas,Actividades pecuarias,0,0,0
+22-31-0008,2022,Yucatán,Tekax,2022-04-23,2022-04-25,53.5152,51 a 100 Hectáreas,Desconocidas,0,0,0
+22-31-0009,2022,Yucatán,Tekax,2022-03-17,2022-03-18,1.9927,0 a 5 Hectáreas,Desconocidas,0,0,0
+22-31-0010,2022,Yucatán,Tekax,2022-03-21,2022-03-21,13.1956,11 a 20 Hectáreas,Desconocidas,0,0,0
+22-31-0011,2022,Yucatán,Tekax,2022-03-22,2022-03-22,9.5871,6 a 10 Hectáreas,Desconocidas,0,0,0
+22-31-0012,2022,Yucatán,Chemax,2022-03-27,2022-03-27,4.0751,0 a 5 Hectáreas,Desconocidas,0,0,0
+22-31-0013,2022,Yucatán,Tizimín,2022-05-11,2022-05-12,8.0113,6 a 10 Hectáreas,Desconocidas,1,0,1
+22-31-0014,2022,Yucatán,Tizimín,2022-05-12,2022-05-14,482.6378,Mayor a 100 Hectáreas,Desconocidas,8,7,21
+22-31-0015,2022,Yucatán,Celestún,2022-05-16,2022-05-24,105.9805,Mayor a 100 Hectáreas,Actividades pecuarias,14,2,22
+22-31-0016,2022,Yucatán,Chemax,2022-05-16,2022-05-17,13.6697,11 a 20 Hectáreas,Desconocidas,0,0,0
+22-31-0017,2022,Yucatán,Tekax,2022-04-12,2022-04-12,2.5718,0 a 5 Hectáreas,Desconocidas,0,0,0
+22-31-0019,2022,Yucatán,Tekax,2022-04-23,2022-04-24,83.8,51 a 100 Hectáreas,Desconocidas,10,3,24
+22-31-0020,2022,Yucatán,Mérida,2022-05-16,2022-05-17,22.6423,21 a 50 Hectáreas,Desconocidas,4,2,6
+22-31-0021,2022,Yucatán,Tekax,2022-05-09,2022-05-09,1.9829,0 a 5 Hectáreas,Desconocidas,0,0,0
+22-31-0022,2022,Yucatán,Tekax,2022-05-10,2022-05-10,1.3063,0 a 5 Hectáreas,Desconocidas,0,0,0
+22-31-0023,2022,Yucatán,Tekax,2022-05-13,2022-05-13,1.1022,0 a 5 Hectáreas,Desconocidas,0,0,0
+22-31-0024,2022,Yucatán,Tekax,2022-05-23,2022-05-23,4.0903,0 a 5 Hectáreas,Desconocidas,0,0,0
+22-31-0025,2022,Yucatán,Tekax,2022-05-24,2022-05-24,2.6411,0 a 5 Hectáreas,Desconocidas,0,0,0
+22-31-0026,2022,Yucatán,Progreso,2022-07-08,2022-07-10,85.8739,51 a 100 Hectáreas,Cazadores,4,3,11
+22-31-0027,2022,Yucatán,Chemax,2022-04-17,2022-04-17,1.8121,0 a 5 Hectáreas,Desconocidas,0,0,0
+22-31-0028,2022,Yucatán,Chemax,2022-04-18,2022-04-18,1.902,0 a 5 Hectáreas,Desconocidas,0,0,0
+22-31-0029,2022,Yucatán,Chemax,2022-04-20,2022-04-20,5.9478,6 a 10 Hectáreas,Desconocidas,0,0,0
+22-31-0030,2022,Yucatán,Chemax,2022-04-25,2022-04-25,1.5857,0 a 5 Hectáreas,Desconocidas,0,0,0
+22-31-0031,2022,Yucatán,Chemax,2022-05-09,2022-05-09,1.3996,0 a 5 Hectáreas,Desconocidas,0,0,0
+22-31-0032,2022,Yucatán,Chemax,2022-05-11,2022-05-11,2.0109,0 a 5 Hectáreas,Desconocidas,0,0,0
+22-31-0033,2022,Yucatán,Chemax,2022-05-17,2022-05-18,7.7191,6 a 10 Hectáreas,Desconocidas,1,0,1
+22-31-0034,2022,Yucatán,Chemax,2022-05-19,2022-05-19,2.2194,0 a 5 Hectáreas,Fogatas,0,0,0
+22-31-0035,2022,Yucatán,Chemax,2022-05-24,2022-05-24,1.7279,0 a 5 Hectáreas,Desconocidas,0,0,0
+22-31-0036,2022,Yucatán,Chemax,2022-05-24,2022-05-24,1.0696,0 a 5 Hectáreas,Desconocidas,0,0,0
+22-31-0037,2022,Yucatán,Chemax,2022-05-26,2022-05-26,1.2534,0 a 5 Hectáreas,Desconocidas,1,0,1
+23-04-0001,2023,Campeche,Carmen,2023-02-28,2023-03-01,526.057,Mayor a 100 Hectáreas,Cazadores,6,0,9
+23-04-0002,2023,Campeche,Campeche,2023-03-27,2023-03-30,229.475,Mayor a 100 Hectáreas,Cazadores,2,1,5
+23-04-0003,2023,Campeche,Champotón,2023-03-29,2023-04-19,2599.4014,Mayor a 100 Hectáreas,Intencional,73,8,195
+23-04-0006,2023,Campeche,Escárcega,2023-03-30,2023-04-12,1094.0316,Mayor a 100 Hectáreas,Cazadores,35,4,103
+23-04-0008,2023,Campeche,Calakmul,2023-04-04,2023-04-12,136.0508,Mayor a 100 Hectáreas,Actividades agrícolas,16,5,36
+23-04-0009,2023,Campeche,Calkiní,2023-03-29,2023-03-30,46.05,21 a 50 Hectáreas,Cazadores,6,0,9
+23-04-0010,2023,Campeche,Hecelchakán,2023-04-08,2023-04-10,29.548,21 a 50 Hectáreas,Cazadores,11,2,30
+23-04-0011,2023,Campeche,Hopelchén,2023-04-25,2023-04-29,53.521,51 a 100 Hectáreas,Desconocidas,2,1,6
+23-04-0013,2023,Campeche,Champotón,2023-05-03,2023-05-14,902.2364,Mayor a 100 Hectáreas,Actividades agrícolas,81,13,226
+23-04-0014,2023,Campeche,Hecelchakán,2023-05-06,2023-05-11,310.2731,Mayor a 100 Hectáreas,Cazadores,12,6,51
+23-04-0015,2023,Campeche,Calkiní,2023-04-13,2023-04-15,1317.8904,Mayor a 100 Hectáreas,Desconocidas,13,7,64
+23-04-0016,2023,Campeche,Candelaria,2023-05-05,2023-05-07,33.9894,21 a 50 Hectáreas,Actividades agrícolas,0,0,2
+23-04-0017,2023,Campeche,Hopelchén,2023-05-08,2023-05-13,115.1103,Mayor a 100 Hectáreas,Actividades agrícolas,9,2,26
+23-04-0018,2023,Campeche,Calakmul,2023-05-07,2023-05-12,140.6705,Mayor a 100 Hectáreas,Actividades agrícolas,13,2,26
+23-04-0019,2023,Campeche,Champotón,2023-05-04,2023-05-14,129.31,Mayor a 100 Hectáreas,Desconocidas,1,0,1
+23-04-0020,2023,Campeche,Calkiní,2023-05-04,2023-05-07,1365.6808,Mayor a 100 Hectáreas,Cazadores,26,13,81
+23-04-0021,2023,Campeche,Escárcega,2023-06-01,2023-06-07,605.484,Mayor a 100 Hectáreas,Actividades pecuarias,51,11,165
+23-04-0022,2023,Campeche,Campeche,2023-06-14,2023-06-15,59.2203,51 a 100 Hectáreas,Cazadores,0,0,0
+23-04-0023,2023,Campeche,Palizada,2023-10-23,2023-10-26,415.2217,Mayor a 100 Hectáreas,Cazadores,19,2,59
+23-04-0024,2023,Campeche,Champotón,2023-04-04,2023-04-18,210.6781,Mayor a 100 Hectáreas,Desconocidas,24,4,66
+23-23-0001,2023,Quintana Roo,Lázaro Cárdenas,2023-01-23,2023-01-24,0.2412,0 a 5 Hectáreas,Intencional,0,0,0
+23-23-0002,2023,Quintana Roo,Felipe Carrillo Puerto,2023-02-02,2023-02-05,2.78,0 a 5 Hectáreas,Cazadores,3,0,3
+23-23-0003,2023,Quintana Roo,Othón P. Blanco,2023-02-28,2023-03-02,8.2359,6 a 10 Hectáreas,Cazadores,2,0,2
+23-23-0004,2023,Quintana Roo,Bacalar,2023-03-01,2023-03-02,4.9015,0 a 5 Hectáreas,Actividades agrícolas,0,0,2
+23-23-0005,2023,Quintana Roo,Bacalar,2023-03-09,2023-03-11,0.0921,0 a 5 Hectáreas,Cazadores,0,0,0
+23-23-0006,2023,Quintana Roo,Othón P. Blanco,2023-03-13,2023-03-15,8.7066,6 a 10 Hectáreas,Quema de basureros,2,0,7
+23-23-0007,2023,Quintana Roo,Othón P. Blanco,2023-03-18,2023-03-19,32.5111,21 a 50 Hectáreas,Cazadores,0,0,2
+23-23-0008,2023,Quintana Roo,Othón P. Blanco,2023-03-28,2023-03-30,64.9906,51 a 100 Hectáreas,Actividades agrícolas,4,2,18
+23-23-0009,2023,Quintana Roo,Tulum,2023-03-30,2023-03-31,0.1454,0 a 5 Hectáreas,Fogatas,0,0,0
+23-23-0010,2023,Quintana Roo,Lázaro Cárdenas,2023-04-03,2023-05-18,2802.2944,Mayor a 100 Hectáreas,Intencional,40,8,130
+23-23-0011,2023,Quintana Roo,Solidaridad,2023-04-03,2023-04-15,227.08,Mayor a 100 Hectáreas,Actividades pecuarias,35,8,121
+23-23-0012,2023,Quintana Roo,Bacalar,2023-04-06,2023-04-09,23.0209,21 a 50 Hectáreas,Cazadores,5,0,13
+23-23-0013,2023,Quintana Roo,Othón P. Blanco,2023-04-05,2023-04-12,5.4323,0 a 5 Hectáreas,Fumadores,1,0,2
+23-23-0014,2023,Quintana Roo,Othón P. Blanco,2023-04-07,2023-04-10,20.6984,11 a 20 Hectáreas,Intencional,0,0,0
+23-23-0015,2023,Quintana Roo,Bacalar,2023-04-11,2023-04-13,4.638,0 a 5 Hectáreas,Cazadores,0,0,1
+23-23-0016,2023,Quintana Roo,Bacalar,2023-04-10,2023-04-19,119.9883,Mayor a 100 Hectáreas,Actividades agrícolas,4,0,13
+23-23-0017,2023,Quintana Roo,Othón P. Blanco,2023-04-11,2023-04-13,9.1888,6 a 10 Hectáreas,Actividades agrícolas,0,0,0
+23-23-0018,2023,Quintana Roo,Othón P. Blanco,2023-04-19,2023-04-21,1.6526,0 a 5 Hectáreas,Fumadores,0,0,0
+23-23-0019,2023,Quintana Roo,Isla Mujeres,2023-04-24,2023-04-27,80.881,51 a 100 Hectáreas,Actividades agrícolas,1,2,8
+23-23-0020,2023,Quintana Roo,Tulum,2023-04-25,2023-05-04,69.6537,51 a 100 Hectáreas,Fumadores,2,5,21
+23-23-0021,2023,Quintana Roo,Tulum,2023-04-26,2023-04-27,47.6011,21 a 50 Hectáreas,Intencional,10,2,23
+23-23-0022,2023,Quintana Roo,Bacalar,2023-04-26,2023-05-05,147.759,Mayor a 100 Hectáreas,Actividades agrícolas,5,2,18
+23-23-0023,2023,Quintana Roo,Othón P. Blanco,2023-04-27,2023-04-29,38.813,21 a 50 Hectáreas,Actividades agrícolas,3,2,15
+23-23-0024,2023,Quintana Roo,Solidaridad,2023-04-28,2023-05-16,80.9213,51 a 100 Hectáreas,Intencional,14,3,36
+23-23-0025,2023,Quintana Roo,Tulum,2023-05-04,2023-05-18,413.7659,Mayor a 100 Hectáreas,Actividades agrícolas,87,24,284
+23-23-0026,2023,Quintana Roo,Benito Juárez,2023-05-09,2023-05-13,33.68,21 a 50 Hectáreas,Quema de basureros,1,0,10
+23-23-0027,2023,Quintana Roo,Lázaro Cárdenas,2023-05-09,2023-05-15,32.3688,21 a 50 Hectáreas,Fumadores,0,0,0
+23-23-0028,2023,Quintana Roo,Bacalar,2023-05-10,2023-05-13,15.5955,11 a 20 Hectáreas,Intencional,4,0,4
+23-23-0029,2023,Quintana Roo,Bacalar,2023-05-11,2023-05-13,39.6495,21 a 50 Hectáreas,Intencional,0,0,0
+23-23-0030,2023,Quintana Roo,Bacalar,2023-05-10,2023-05-15,168.7303,Mayor a 100 Hectáreas,Actividades agrícolas,13,2,30
+23-23-0031,2023,Quintana Roo,José María Morelos,2023-05-13,2023-05-20,118.2761,Mayor a 100 Hectáreas,Cazadores,4,2,11
+23-23-0032,2023,Quintana Roo,Benito Juárez,2023-05-14,2023-05-18,4.1308,0 a 5 Hectáreas,Intencional,0,0,0
+23-23-0033,2023,Quintana Roo,Tulum,2023-05-16,2023-05-29,154.3038,Mayor a 100 Hectáreas,Intencional,1,0,4
+23-23-0034,2023,Quintana Roo,Solidaridad,2023-05-20,2023-05-26,8.3315,6 a 10 Hectáreas,Desconocidas,0,0,0
+23-23-0035,2023,Quintana Roo,Benito Juárez,2023-05-17,2023-05-26,67.5912,51 a 100 Hectáreas,Desconocidas,19,1,57
+23-23-0036,2023,Quintana Roo,Lázaro Cárdenas,2023-05-25,2023-05-28,26.9205,21 a 50 Hectáreas,Quema de basureros,4,0,9
+23-23-0037,2023,Quintana Roo,Felipe Carrillo Puerto,2023-05-23,2023-06-03,115.1699,Mayor a 100 Hectáreas,Actividades agrícolas,2,2,4
+23-23-0038,2023,Quintana Roo,Benito Juárez,2023-05-22,2023-06-01,193.018,Mayor a 100 Hectáreas,Otras actividades productivas,19,1,55
+23-23-0040,2023,Quintana Roo,Lázaro Cárdenas,2023-05-28,2023-06-01,28.8242,21 a 50 Hectáreas,Quema de basureros,0,0,0
+23-23-0041,2023,Quintana Roo,Bacalar,2023-06-16,2023-06-23,19.7169,11 a 20 Hectáreas,Cazadores,7,0,9
+23-23-0042,2023,Quintana Roo,Benito Juárez,2023-07-01,2023-07-03,16.9163,11 a 20 Hectáreas,Desconocidas,2,1,7
+23-23-0043,2023,Quintana Roo,Benito Juárez,2023-07-21,2023-08-16,76.2769,51 a 100 Hectáreas,Desconocidas,13,1,48
+23-23-0044,2023,Quintana Roo,Isla Mujeres,2023-07-22,2023-07-24,1.8954,0 a 5 Hectáreas,Intencional,0,0,3
+23-23-0045,2023,Quintana Roo,Isla Mujeres,2023-07-23,2023-08-04,37.9531,21 a 50 Hectáreas,Intencional,4,0,22
+23-23-0046,2023,Quintana Roo,Benito Juárez,2023-08-04,2023-08-08,1.6611,0 a 5 Hectáreas,Desconocidas,3,0,6
+23-23-0047,2023,Quintana Roo,Isla Mujeres,2023-08-06,2023-08-14,899.2676,Mayor a 100 Hectáreas,Desconocidas,41,1,106
+23-23-0048,2023,Quintana Roo,Lázaro Cárdenas,2023-08-18,2023-08-22,1237.4003,Mayor a 100 Hectáreas,Desconocidas,24,6,55
+23-23-0049,2023,Quintana Roo,Felipe Carrillo Puerto,2023-09-18,2023-09-26,2471.925,Mayor a 100 Hectáreas,Naturales,0,0,0
+23-23-0050,2023,Quintana Roo,Solidaridad,2023-04-09,2023-04-12,84.3327,51 a 100 Hectáreas,Desconocidas,3,2,14
+23-23-0051,2023,Quintana Roo,Solidaridad,2023-05-02,2023-05-18,845.5008,Mayor a 100 Hectáreas,Desconocidas,94,24,329
+23-31-0001,2023,Yucatán,Ixil,2023-02-16,2023-02-16,31.39,21 a 50 Hectáreas,Otras actividades productivas,3,0,8
+23-31-0002,2023,Yucatán,Ixil,2023-03-06,2023-03-08,38.8491,21 a 50 Hectáreas,Desconocidas,6,0,15
+23-31-0003,2023,Yucatán,Mérida,2023-03-06,2023-03-08,93.4232,51 a 100 Hectáreas,Desconocidas,2,0,2
+23-31-0004,2023,Yucatán,Progreso,2023-03-14,2023-03-14,5.6261,0 a 5 Hectáreas,Desconocidas,1,0,1
+23-31-0005,2023,Yucatán,Dzilam de Bravo,2023-03-27,2023-04-02,144.576,Mayor a 100 Hectáreas,Otras actividades productivas,4,1,12
+23-31-0006,2023,Yucatán,Halachó,2023-03-30,2023-04-13,65.2122,51 a 100 Hectáreas,Cazadores,26,8,81
+23-31-0008,2023,Yucatán,Tizimín,2023-04-05,2023-04-06,78.0284,51 a 100 Hectáreas,Actividades agrícolas,3,0,8
+23-31-0009,2023,Yucatán,Tekax,2023-04-07,2023-04-08,229.1728,Mayor a 100 Hectáreas,Actividades agrícolas,8,4,15
+23-31-0012,2023,Yucatán,Tekax,2023-04-12,2023-04-12,23.6423,21 a 50 Hectáreas,Cazadores,0,0,0
+23-31-0013,2023,Yucatán,Tekax,2023-03-17,2023-03-17,5.8178,0 a 5 Hectáreas,Fumadores,0,0,0
+23-31-0014,2023,Yucatán,Tekax,2023-04-11,2023-04-11,4.0661,0 a 5 Hectáreas,Limpias de derecho de vía,2,0,6
+23-31-0016,2023,Yucatán,Tizimín,2023-04-19,2023-04-21,3.4112,0 a 5 Hectáreas,Actividades pecuarias,3,0,7
+23-31-0017,2023,Yucatán,Tekax,2023-04-05,2023-04-05,3.3872,0 a 5 Hectáreas,Actividades agrícolas,0,0,0
+23-31-0018,2023,Yucatán,Oxkutzcab,2023-04-09,2023-04-15,14.8972,11 a 20 Hectáreas,Actividades agrícolas,1,2,7
+23-31-0020,2023,Yucatán,Tzucacab,2023-05-05,2023-05-12,23.6613,21 a 50 Hectáreas,Desconocidas,2,3,9
+37005,2024,Campeche,Hopelchén,2024-03-24,2024-03-27,52.01,51 a 100 Hectáreas,Actividades agrícolas,3,2,10
+37370,2024,Campeche,Champotón,2024-03-26,2024-03-27,60.66,51 a 100 Hectáreas,Intencional,0,0,0
+37735,2024,Campeche,Calkiní,2024-04-01,2024-04-03,95.33,51 a 100 Hectáreas,Desconocidas,0,2,4
+38101,2024,Campeche,Tenabo,2024-04-08,2024-04-09,20.34,11 a 20 Hectáreas,Actividades agrícolas,3,2,7
+38466,2024,Campeche,Hopelchén,2024-04-14,2024-04-30,2226.4,Mayor a 100 Hectáreas,Actividades agrícolas,78,22,341
+38831,2024,Campeche,Carmen,2024-04-20,2024-04-29,234.92,Mayor a 100 Hectáreas,Cazadores,15,1,54
+39196,2024,Campeche,Carmen,2024-04-21,2024-04-22,1268.72,Mayor a 100 Hectáreas,Cazadores,2,3,18
+39562,2024,Campeche,Hopelchén,2024-04-27,2024-05-13,3371.87,Mayor a 100 Hectáreas,Actividades agrícolas,55,21,166
+39927,2024,Campeche,Carmen,2024-04-26,2024-04-27,12.74,11 a 20 Hectáreas,Cazadores,4,0,12
+40292,2024,Campeche,Calkiní,2024-05-01,2024-05-02,87.15,51 a 100 Hectáreas,Cazadores,2,0,5
+40657,2024,Campeche,Hopelchén,2024-05-01,2024-05-17,846.17,Mayor a 100 Hectáreas,Actividades agrícolas,50,22,173
+41023,2024,Campeche,Hopelchén,2024-05-03,2024-05-23,2412.77,Mayor a 100 Hectáreas,Actividades agrícolas,115,37,350
+41388,2024,Campeche,Hopelchén,2024-05-03,2024-05-18,988.16,Mayor a 100 Hectáreas,Cazadores,53,18,173
+41753,2024,Campeche,Champotón,2024-05-03,2024-05-24,1706.94,Mayor a 100 Hectáreas,Actividades agrícolas,41,3,110
+42118,2024,Campeche,Calakmul,2024-04-30,2024-05-05,124.49,Mayor a 100 Hectáreas,Actividades pecuarias,0,0,0
+42484,2024,Campeche,Calkiní,2024-05-14,2024-05-26,80.29,51 a 100 Hectáreas,Cazadores,47,18,205
+42849,2024,Campeche,Calkiní,2024-05-11,2024-06-12,982.1,Mayor a 100 Hectáreas,Cazadores,91,16,320
+43579,2024,Campeche,Escárcega,2024-05-15,2024-05-17,1378.08,Mayor a 100 Hectáreas,Desconocidas,9,0,31
+43945,2024,Campeche,Calakmul,2024-05-20,2024-06-02,171.43,Mayor a 100 Hectáreas,Actividades agrícolas,0,0,2
+44310,2024,Campeche,Calakmul,2024-05-20,2024-05-27,54.34,51 a 100 Hectáreas,Actividades agrícolas,2,0,10
+44675,2024,Campeche,Hopelchén,2024-05-27,2024-06-06,231.02,Mayor a 100 Hectáreas,Cazadores,0,0,0
+45040,2024,Campeche,Escárcega,2024-05-17,2024-05-29,60.26,51 a 100 Hectáreas,Actividades agrícolas,7,2,22
+45406,2024,Campeche,Calkiní,2024-05-25,2024-05-27,559.3,Mayor a 100 Hectáreas,Cazadores,24,3,96
+45771,2024,Campeche,Champotón,2024-05-27,2024-06-02,1188.14,Mayor a 100 Hectáreas,Actividades agrícolas,13,3,45
+46136,2024,Campeche,Calkiní,2024-05-09,2024-06-06,147.33,Mayor a 100 Hectáreas,Cazadores,28,5,99
+46501,2024,Campeche,Escárcega,2024-05-30,2024-06-09,988.94,Mayor a 100 Hectáreas,Actividades agrícolas,29,19,172
+46867,2024,Campeche,Escárcega,2024-06-03,2024-06-06,6.64,6 a 10 Hectáreas,Actividades agrícolas,1,1,8
+47232,2024,Campeche,Champotón,2024-06-02,2024-06-09,328.69,Mayor a 100 Hectáreas,Actividades agrícolas,15,4,55
+11072,2024,Campeche,Escárcega,2024-05-22,2024-06-08,1978.17,Mayor a 100 Hectáreas,Cazadores,35,12,149
+11437,2024,Campeche,Champotón,2024-04-20,2024-05-20,6003.22,Mayor a 100 Hectáreas,Actividades agrícolas,7,0,16
+24-23-0001,2024,Quintana Roo,José María Morelos,2024-03-25,2024-03-27,56.68,51 a 100 Hectáreas,Otras actividades productivas,1,0,3
+24-23-0002,2024,Quintana Roo,Bacalar,2024-03-24,2024-05-01,155.68,Mayor a 100 Hectáreas,Intencional,10,3,32
+24-23-0003,2024,Quintana Roo,Tulum,2024-03-30,2024-04-08,66.38,51 a 100 Hectáreas,Intencional,36,9,87
+24-23-0004,2024,Quintana Roo,Bacalar,2024-03-29,2024-04-01,417.96,Mayor a 100 Hectáreas,Cazadores,1,0,10
+24-23-0005,2024,Quintana Roo,Tulum,2024-03-29,2024-03-31,3.45,0 a 5 Hectáreas,Intencional,0,0,0
+24-23-0006,2024,Quintana Roo,Bacalar,2024-03-29,2024-04-07,146.15,Mayor a 100 Hectáreas,Cazadores,1,3,11
+24-23-0007,2024,Quintana Roo,Isla Mujeres,2024-04-01,2024-04-07,49.64,21 a 50 Hectáreas,Intencional,3,0,7
+24-23-0008,2024,Quintana Roo,José María Morelos,2024-03-31,2024-04-16,335.78,Mayor a 100 Hectáreas,Cazadores,12,1,39
+24-23-0009,2024,Quintana Roo,José María Morelos,2024-03-24,2024-04-11,800.61,Mayor a 100 Hectáreas,Intencional,11,1,35
+24-23-0010,2024,Quintana Roo,Othón P. Blanco,2024-04-04,2024-04-10,31.32,21 a 50 Hectáreas,Cazadores,2,0,5
+24-23-0011,2024,Quintana Roo,Bacalar,2024-04-05,2024-04-07,99.63,51 a 100 Hectáreas,Cazadores,2,0,4
+24-23-0012,2024,Quintana Roo,Solidaridad,2024-04-04,2024-04-14,2354.04,Mayor a 100 Hectáreas,Desconocidas,3,0,5
+24-23-0013,2024,Quintana Roo,José María Morelos,2024-04-05,2024-06-07,17562.84,Mayor a 100 Hectáreas,Actividades agrícolas,8,2,18
+24-23-0014,2024,Quintana Roo,Bacalar,2024-04-06,2024-04-10,163.5,Mayor a 100 Hectáreas,Cazadores,4,2,13
+24-23-0015,2024,Quintana Roo,Bacalar,2024-04-07,2024-04-09,11.84,11 a 20 Hectáreas,Intencional,4,2,11
+24-23-0016,2024,Quintana Roo,Bacalar,2024-04-08,2024-04-15,306.85,Mayor a 100 Hectáreas,Desconocidas,8,2,14
+24-23-0017,2024,Quintana Roo,Isla Mujeres,2024-04-13,2024-04-19,192.93,Mayor a 100 Hectáreas,Desconocidas,0,0,0
+24-23-0018,2024,Quintana Roo,Bacalar,2024-04-14,2024-05-09,1587.38,Mayor a 100 Hectáreas,Actividades agrícolas,19,9,73
+24-23-0019,2024,Quintana Roo,Bacalar,2024-04-14,2024-04-29,2641.52,Mayor a 100 Hectáreas,Actividades agrícolas,32,10,81
+24-23-0020,2024,Quintana Roo,Othón P. Blanco,2024-03-23,2024-04-18,69.57,51 a 100 Hectáreas,Cazadores,2,0,6
+24-23-0021,2024,Quintana Roo,José María Morelos,2024-04-19,2024-04-28,15.43,11 a 20 Hectáreas,Actividades agrícolas,0,0,0
+24-23-0022,2024,Quintana Roo,Othón P. Blanco,2024-04-18,2024-04-20,185.6,Mayor a 100 Hectáreas,Actividades agrícolas,4,0,8
+24-23-0023,2024,Quintana Roo,Felipe Carrillo Puerto,2024-04-22,2024-04-24,55.46,51 a 100 Hectáreas,Actividades agrícolas,2,0,4
+24-23-0024,2024,Quintana Roo,Puerto Morelos,2024-04-22,2024-04-25,33.03,21 a 50 Hectáreas,Desconocidas,4,0,7
+24-23-0025,2024,Quintana Roo,Bacalar,2024-04-21,2024-05-07,1217.22,Mayor a 100 Hectáreas,Actividades agrícolas,31,7,89
+24-23-0026,2024,Quintana Roo,Bacalar,2024-04-24,2024-05-02,105.88,Mayor a 100 Hectáreas,Cazadores,0,0,0
+24-23-0027,2024,Quintana Roo,Bacalar,2024-04-23,2024-05-14,3620.87,Mayor a 100 Hectáreas,Actividades agrícolas,23,2,100
+24-23-0028,2024,Quintana Roo,Bacalar,2024-04-29,2024-05-06,50.7,21 a 50 Hectáreas,Actividades agrícolas,2,0,3
+24-23-0029,2024,Quintana Roo,Othón P. Blanco,2024-04-30,2024-05-04,69.6,51 a 100 Hectáreas,Actividades agrícolas,2,0,5
+24-23-0030,2024,Quintana Roo,Benito Juárez,2024-04-29,2024-05-23,1042.33,Mayor a 100 Hectáreas,Desconocidas,59,17,227
+24-23-0031,2024,Quintana Roo,Isla Mujeres,2024-05-01,2024-05-15,39.55,21 a 50 Hectáreas,Cazadores,3,0,5
+24-23-0032,2024,Quintana Roo,Othón P. Blanco,2024-04-25,2024-05-18,181.92,Mayor a 100 Hectáreas,Fumadores,0,0,0
+24-23-0033,2024,Quintana Roo,Othón P. Blanco,2024-05-04,2024-06-05,2533.79,Mayor a 100 Hectáreas,Actividades agrícolas,10,13,80
+24-23-0034,2024,Quintana Roo,Bacalar,2024-05-04,2024-05-15,711.57,Mayor a 100 Hectáreas,Actividades agrícolas,11,4,32
+24-23-0035,2024,Quintana Roo,José María Morelos,2024-05-05,2024-06-07,2547.93,Mayor a 100 Hectáreas,Desconocidas,74,26,299
+24-23-0036,2024,Quintana Roo,Bacalar,2024-05-04,2024-05-25,2926.33,Mayor a 100 Hectáreas,Desconocidas,80,15,252
+24-23-0037,2024,Quintana Roo,Bacalar,2024-05-07,2024-05-21,86.42,51 a 100 Hectáreas,Desconocidas,2,1,5
+24-23-0038,2024,Quintana Roo,Bacalar,2024-05-09,2024-05-25,114.49,Mayor a 100 Hectáreas,Desconocidas,0,0,0
+24-23-0039,2024,Quintana Roo,Bacalar,2024-05-10,2024-06-13,2190.65,Mayor a 100 Hectáreas,Cazadores,20,7,67
+24-23-0040,2024,Quintana Roo,Othón P. Blanco,2024-05-11,2024-05-17,873.48,Mayor a 100 Hectáreas,Actividades agrícolas,11,3,34
+24-23-0041,2024,Quintana Roo,José María Morelos,2024-05-08,2024-05-31,1362.45,Mayor a 100 Hectáreas,Actividades agrícolas,24,3,73
+24-23-0042,2024,Quintana Roo,Isla Mujeres,2024-05-13,2024-06-13,4607.02,Mayor a 100 Hectáreas,Cazadores,117,13,383
+24-23-0043,2024,Quintana Roo,Bacalar,2024-05-13,2024-05-31,2117.97,Mayor a 100 Hectáreas,Actividades agrícolas,16,2,55
+24-23-0044,2024,Quintana Roo,Lázaro Cárdenas,2024-05-11,2024-05-23,4554.82,Mayor a 100 Hectáreas,Desconocidas,25,5,65
+24-23-0045,2024,Quintana Roo,Benito Juárez,2024-05-15,2024-06-13,3423.15,Mayor a 100 Hectáreas,Intencional,73,13,249
+24-23-0046,2024,Quintana Roo,Bacalar,2024-05-18,2024-06-03,13671.44,Mayor a 100 Hectáreas,Desconocidas,38,6,132
+24-23-0047,2024,Quintana Roo,Solidaridad,2024-05-20,2024-06-05,303.62,Mayor a 100 Hectáreas,Desconocidas,54,15,156
+24-23-0048,2024,Quintana Roo,Benito Juárez,2024-05-21,2024-06-13,1037.69,Mayor a 100 Hectáreas,Intencional,50,15,182
+24-23-0049,2024,Quintana Roo,Othón P. Blanco,2024-05-25,2024-06-11,2276.1,Mayor a 100 Hectáreas,Actividades agrícolas,29,12,123
+24-23-0050,2024,Quintana Roo,José María Morelos,2024-05-20,2024-06-13,2589.84,Mayor a 100 Hectáreas,Actividades agrícolas,48,16,194
+24-23-0051,2024,Quintana Roo,Bacalar,2024-05-26,2024-06-12,3993.17,Mayor a 100 Hectáreas,Actividades agrícolas,10,0,50
+24-23-0052,2024,Quintana Roo,Bacalar,2024-06-01,2024-06-08,1527.96,Mayor a 100 Hectáreas,Actividades agrícolas,7,1,28
+24-23-0053,2024,Quintana Roo,Othón P. Blanco,2024-06-06,2024-06-12,88.42,51 a 100 Hectáreas,Actividades agrícolas,1,0,10
+24-23-0054,2024,Quintana Roo,Felipe Carrillo Puerto,2024-06-04,2024-06-12,258.83,Mayor a 100 Hectáreas,Cazadores,11,2,39
+24-23-0055,2024,Quintana Roo,Felipe Carrillo Puerto,2024-06-06,2024-06-15,184.19,Mayor a 100 Hectáreas,Desconocidas,2,0,4
+24-23-0056,2024,Quintana Roo,Bacalar,2024-06-09,2024-06-11,10.44,6 a 10 Hectáreas,Desconocidas,0,0,0
+24-23-0057,2024,Quintana Roo,Felipe Carrillo Puerto,2024-08-05,2024-08-11,2523.75,Mayor a 100 Hectáreas,Cazadores,23,5,65
+24-23-0058,2024,Quintana Roo,Bacalar,2024-03-26,2024-03-29,1.93,0 a 5 Hectáreas,Cazadores,1,0,2
+24-23-0059,2024,Quintana Roo,Bacalar,2024-03-26,2024-03-29,28.66,21 a 50 Hectáreas,Cazadores,1,0,2
+24-23-0060,2024,Quintana Roo,José María Morelos,2024-04-09,2024-04-10,4.56,0 a 5 Hectáreas,Cazadores,0,1,1
+24-23-0061,2024,Quintana Roo,José María Morelos,2024-04-11,2024-04-12,9.58,6 a 10 Hectáreas,Cazadores,0,0,0
+24-23-0062,2024,Quintana Roo,Bacalar,2024-04-23,2024-05-02,123.8,Mayor a 100 Hectáreas,Cazadores,4,0,7
+24-23-0063,2024,Quintana Roo,José María Morelos,2024-05-13,2024-06-12,1069.5,Mayor a 100 Hectáreas,Cazadores,51,20,205
+24-23-0064,2024,Quintana Roo,Bacalar,2024-05-25,2024-06-03,123.06,Mayor a 100 Hectáreas,Cazadores,1,0,6
+24-31-0001,2024,Yucatán,Dzilam de Bravo,2024-02-15,2024-02-21,1777.03,Mayor a 100 Hectáreas,Desconocidas,21,4,80
+24-31-0002,2024,Yucatán,Mérida,2024-03-14,2024-03-15,68.34,51 a 100 Hectáreas,Desconocidas,16,0,20
+24-31-0003,2024,Yucatán,Celestún,2024-03-25,2024-03-26,14.39,11 a 20 Hectáreas,Desconocidas,3,0,12
+24-31-0004,2024,Yucatán,Tekax,2024-03-25,2024-03-25,2.52,0 a 5 Hectáreas,Desconocidas,1,0,5
+24-31-0005,2024,Yucatán,Oxkutzcab,2024-03-23,2024-03-30,26.59,21 a 50 Hectáreas,Actividades pecuarias,6,0,7
+24-31-0006,2024,Yucatán,Tixkokob,2024-03-31,2024-04-07,450.05,Mayor a 100 Hectáreas,Desconocidas,13,2,36
+24-31-0007,2024,Yucatán,Tizimín,2024-04-01,2024-04-02,10.57,6 a 10 Hectáreas,Actividades agrícolas,2,0,8
+24-31-0008,2024,Yucatán,Tekit,2024-03-31,2024-04-13,974.44,Mayor a 100 Hectáreas,Desconocidas,41,13,154
+24-31-0009,2024,Yucatán,Tizimín,2024-04-07,2024-04-13,1065.71,Mayor a 100 Hectáreas,Desconocidas,13,4,56
+24-31-0010,2024,Yucatán,Tizimín,2024-04-08,2024-04-10,22.94,21 a 50 Hectáreas,Cazadores,0,0,0
+24-31-0011,2024,Yucatán,Tinum,2024-04-08,2024-04-14,2219.26,Mayor a 100 Hectáreas,Desconocidas,40,16,125
+24-31-0012,2024,Yucatán,Chemax,2024-04-08,2024-04-09,0.98,0 a 5 Hectáreas,Actividades agrícolas,0,0,0
+24-31-0013,2024,Yucatán,Tekax,2024-04-14,2024-05-06,1803.97,Mayor a 100 Hectáreas,Actividades agrícolas,20,3,84
+24-31-0015,2024,Yucatán,Tekax,2024-04-17,2024-04-21,531.2,Mayor a 100 Hectáreas,Actividades agrícolas,11,2,34
+24-31-0016,2024,Yucatán,Tekom,2024-04-16,2024-06-25,248.69,Mayor a 100 Hectáreas,Actividades agrícolas,9,5,32
+24-31-0017,2024,Yucatán,Tekax,2024-04-18,2024-04-23,562.78,Mayor a 100 Hectáreas,Actividades agrícolas,26,15,108
+24-31-0018,2024,Yucatán,Tekax,2024-04-21,2024-06-11,2428.28,Mayor a 100 Hectáreas,Actividades agrícolas,74,21,210
+24-31-0019,2024,Yucatán,Chemax,2024-04-19,2024-04-21,20.46,11 a 20 Hectáreas,Fogatas,1,3,11
+24-31-0020,2024,Yucatán,Chemax,2024-04-21,2024-04-24,85.58,51 a 100 Hectáreas,Actividades agrícolas,4,1,14
+24-31-0021,2024,Yucatán,Tizimín,2024-05-06,2024-05-08,422.57,Mayor a 100 Hectáreas,Cazadores,0,0,4
+24-31-0022,2024,Yucatán,Tzucacab,2024-05-08,2024-05-21,575.97,Mayor a 100 Hectáreas,Intencional,11,4,33
+24-31-0023,2024,Yucatán,Halachó,2024-05-11,2024-06-13,3178.29,Mayor a 100 Hectáreas,Desconocidas,94,14,290
+24-31-0024,2024,Yucatán,Tizimín,2024-05-13,2024-06-02,964.75,Mayor a 100 Hectáreas,Actividades agrícolas,39,23,166
+24-31-0025,2024,Yucatán,Tekax,2024-05-21,2024-05-27,895.28,Mayor a 100 Hectáreas,Actividades agrícolas,13,10,65
+24-31-0026,2024,Yucatán,Celestún,2024-06-02,2024-06-16,500.14,Mayor a 100 Hectáreas,Actividades pecuarias,46,19,180
+24-31-0027,2024,Yucatán,Tizimín,2024-05-11,2024-05-12,61.56,51 a 100 Hectáreas,Desconocidas,0,0,1
+24-31-0028,2024,Yucatán,Tizimín,2024-05-26,2024-05-31,135.99,Mayor a 100 Hectáreas,Cazadores,0,0,3
+24-31-0029,2024,Yucatán,Tizimín,2024-06-01,2024-06-03,635.02,Mayor a 100 Hectáreas,Desconocidas,0,0,3
+24-31-0030,2024,Yucatán,Hunucmá,2024-08-14,2024-08-17,650.48,Mayor a 100 Hectáreas,Naturales,6,3,18

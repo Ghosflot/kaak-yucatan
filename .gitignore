@@ -1,0 +1,12 @@
+data/
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.env
+
+# Pruebas de la página
+node_modules/
+test-results/
+playwright-report/
+videos/

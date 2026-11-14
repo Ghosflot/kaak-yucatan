@@ -1,0 +1,53 @@
+# Tarea 19: en cada PR a main corre ruff (errores de Python) y pytest, y las pruebas de la página.
+name: Pruebas
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  pruebas:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Instalar dependencias
+        run: pip install -r requirements.txt ruff==0.17.4
+
+      - name: Ruff
+        run: ruff check --output-format=github .
+
+      - name: Pytest
+        run: pytest -q
+
+  # La página (tests/web/): Playwright abre web/ en escritorio y en teléfono y revisa los
+  # criterios de accesibilidad con axe-core.
+  pagina:
+    # Playwright 1.56 todavía no tiene Chromium para ubuntu-latest (26.04).
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Instalar Playwright
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Pruebas de la página
+        run: npx playwright test
