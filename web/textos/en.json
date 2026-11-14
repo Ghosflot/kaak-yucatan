@@ -129,13 +129,13 @@
   "rutaAria": "Breadcrumb",
   "peninsula": "Peninsula",
   "frase": [
-    "There was less than half the fire of a normal year.",
-    "There was half the fire of a normal year.",
+    "There was less than half as much fire as in a normal year.",
+    "There was half as much fire as in a normal year.",
     "There was less fire than in a normal year.",
     "There was about as much fire as in a normal year.",
     "There was more fire than in a normal year.",
-    "There was double the fire of a normal year.",
-    "There was more than double the fire of a normal year.",
+    "There was twice as much fire as in a normal year.",
+    "There was more than twice as much fire as in a normal year.",
     "There is hardly ever any burning here, so there is nothing to compare."
   ],
   "munCifras2": "{a} hot spots from March to May 2026; in a normal year, {b}.",

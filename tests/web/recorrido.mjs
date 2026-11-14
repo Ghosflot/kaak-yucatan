@@ -180,7 +180,7 @@ async function temporada() {
     await page.waitForSelector('#ficha');
     await sub('La página de Tekax: el veredicto en una frase, sus años y cuándo se quema.', 5000);
     await page.mouse.wheel(0, 260);
-    await sub('Hubo la mitad del fuego de un año normal; la barra roja es 2026.', 4000);
+    await sub('Hubo la mitad del fuego que en un año normal; la barra roja es 2026.', 4000);
     await page.click('#barrasMun .toque[aria-label^="2003"]');
     await sub('Tocar un año muestra cómo se repartió su fuego contra un año normal.', 5000);
     await page.click('#barrasMun .toque[aria-label^="2026"]');

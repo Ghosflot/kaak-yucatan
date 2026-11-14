@@ -129,13 +129,13 @@
   "rutaAria": "Ruta",
   "peninsula": "Península",
   "frase": [
-    "Hubo menos de la mitad del fuego de un año normal.",
-    "Hubo la mitad del fuego de un año normal.",
+    "Hubo menos de la mitad del fuego que en un año normal.",
+    "Hubo la mitad del fuego que en un año normal.",
     "Hubo menos fuego que en un año normal.",
     "Hubo casi el mismo fuego que en un año normal.",
     "Hubo más fuego que en un año normal.",
-    "Hubo el doble del fuego de un año normal.",
-    "Hubo más del doble del fuego de un año normal.",
+    "Hubo el doble del fuego que en un año normal.",
+    "Hubo más del doble del fuego que en un año normal.",
     "Casi nunca hay quemas, así que no hay con qué comparar."
   ],
   "munCifras2": "{a} focos de calor de marzo a mayo de 2026; en un año normal, {b}.",

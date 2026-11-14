@@ -326,7 +326,13 @@ Salen de `web/datos/`, que escribe `pipeline/exportar_web.py` a partir de la ser
 - **El año con más fuego fue 2003:** 16,518 focos, y 80 de los 106 municipios tuvieron más
   fuego que lo normal (se ve al tocar 2003 en las barras de la portada).
 - **Tekax:** 191 focos en 2026 contra 390 de un año normal. En un año normal, 8 de cada 10
-  focos aparecen después del 3 de abril, cuando cierra la ventana de su zona.
+  focos (79 %) aparecen después del 3 de abril, cuando cierra la ventana de su zona.
+- **Un año normal, día por día** (`pipeline/datos_web.py`, `normal_diario`): es la forma
+  promedio de la temporada de 2001 a 2025, escalada para que sume la mediana de los totales.
+  Hasta el 14 de noviembre se restaba día a día la mediana del acumulado; como el año que queda
+  en medio cambia de un día a otro, salían días en cero y saltos (Tekax tenía 20 focos el 31 de
+  mayo después de cinco días en cero). Con la corrección, la frase «k de cada 10 focos aparecen
+  después de…» cambió en 35 municipios (Dzitas pasó de 9 a 5); Tekax y los totales no cambian.
 - **Focos fuera de las fechas permitidas, de enero a junio de 2026** (`web/datos/zonas.json`):
 
   | Zona | Fechas permitidas | Fuera de fecha |

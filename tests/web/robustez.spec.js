@@ -70,7 +70,7 @@ test('cambiar de idioma mientras carga un municipio no muestra «no existe»', a
   await expect(page.locator('h1')).toHaveCount(0);
   soltar();
   await expect(page.locator('h1')).toHaveText('Tekax');
-  await expect(page.locator('#frase')).toHaveText('There was half the fire of a normal year.');
+  await expect(page.locator('#frase')).toHaveText('There was half as much fire as in a normal year.');
 });
 
 test('compartir la ficha abre la hoja de compartir en el mismo clic (Safari lo exige)', async ({ page }) => {
