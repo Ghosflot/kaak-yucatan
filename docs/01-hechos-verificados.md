@@ -120,16 +120,20 @@ para calibrar.
   henequenera de siempre). Todo indica que la zona 2 es la henequenera, así que no hace
   falta otro mapa. Leo lo confirma con gente del campo (tarea 21).
 
-### Lo que viven Protección Civil y SEDER
+### Lo que viven Protección Civil y SEDER (por verificar)
 Antecedentes para el storytelling y el pitch, reunidos por Leo de notas de prensa
 (`docs/campo-y-datos-pc-seder.pdf` trae la versión completa con referencias APA). Solo van
-aquí las cifras que no chocan con otras fuentes; ver «Pendiente de verificar».
+aquí las cifras que no chocan con otras fuentes. Ya se revisaron las notas de Quadratín
+(24 mar 2023) y Diario de Yucatán (12 ene 2026); las demás están en «Pendiente de verificar».
+Cuando estén revisadas, se quita la marca del título.
 
-- **Protección Civil rebasada:** en 22 días de marzo de 2023 atendió 427 incidentes
-  (Quadratín), y en toda la temporada 2023 hubo solo 187 registros de quema en el estado
-  (Diario de Yucatán, 26 feb 2024). En 22 días atendió más del doble de incidentes que
-  todas las quemas registradas en el año. Es otro dato que el de 434 reportes de marzo de 2024
-  (arriba): no mezclarlos.
+- **Casi nadie avisa antes de quemar:** en los primeros 22 días de marzo de 2023, Protección
+  Civil recibió 427 reportes de incidentes de todo tipo, 126 de ellos relacionados con fuego
+  (Quadratín, «Recibe Procivy 19 reportes diarios de incendios», 24 mar 2023). En toda la
+  temporada 2023 solo se registraron 187 quemas con permiso en el estado (Diario de Yucatán,
+  26 feb 2024). Ese mismo año VIIRS detectó 8,757 focos en Yucatán («Lo que ve el satélite»).
+  Focos no son quemas, pero la distancia muestra que muy pocas quemas se avisan. Los 427 son
+  otro dato que los 434 reportes de marzo de 2024 (arriba): no mezclarlos.
 - Más del 90 % de los incendios en Yucatán los provoca el ser humano, según Protección Civil
   (Posta).
 - Cuando no se respeta el calendario, los incendios se salen de control en varias zonas a la
@@ -140,7 +144,8 @@ aquí las cifras que no chocan con otras fuentes; ver «Pendiente de verificar»
   - Oxkutzcab (2022): 15 ha de limón persa en las unidades San Luis I y II, por efecto lupa y
     quemas no programadas (Por Esto, 21 abr 2022).
   - Umán (2025): incendio junto a dos fraccionamientos (Diario de Yucatán, 25 mar 2025). Ese
-    año Umán perdió 264.29 ha de selva mediana y Yaxkukul 480.05 ha de selva baja.
+    año Umán perdió 264.29 ha de selva mediana y Yaxkukul 480.05 ha de selva baja (Diario de
+    Yucatán, 12 ene 2026, con cifras preliminares de CONAFOR).
 - **El hueco:** el permiso de quema es gratuito, en papel, en el palacio municipal, y solo
   permite quemar de 17:00 a 08:00 (Diario de Yucatán, 26 feb 2024). SEDER coordina cada año
   el Comité Estatal del Programa de Prevención y Combate de Incendios Agrícolas y Forestales
@@ -372,8 +377,15 @@ Los reúne Leo con su abuelo, que es agricultor, y con gente de los pueblos (tar
 docs/02). Cada dato lleva de quién viene. Sirven para contar la historia y para revisar la
 ficha; no son cifras.
 
-**Jesús, abuelo de Leo** (confirmado por Leo): 73 años, vive en Muna (zona 3 del calendario
-de SEDER) y trabaja su parcela desde los 15 años, hace más de 50.
+**Lorenzo de Jesús López Nabte, abuelo de Leo** (confirmado por Leo): 73 años, vive en Muna
+y trabaja su parcela desde los 15 años, hace más de 50.
+
+- **En Muna las quemas empiezan en abril** (confirmado por él con Leo, 14 nov 2026). Muna está
+  en la zona 3 de SEDER, cuya ventana es del 10 de marzo al 3 de abril
+  (`analisis/zonas_quema_yucatan.csv`): la ventana cierra justo cuando él dice que empiezan.
+  Coincide con lo que ve el satélite en todo Yucatán: el 89 % de los focos cae entre marzo y
+  mayo, con el pico en abril («Lo que ve el satélite»). Respalda la frase «en abril» del
+  guion (docs/03).
 
 - «La gente del campo cuenta con sus propios calendarios para quemar y cosechar.»
 - «No se adaptan a la tecnología. Es muy difícil que puedan adaptar todo lo que llevan
@@ -440,9 +452,10 @@ Salen de `web/datos/`, que escribe `pipeline/exportar_web.py` a partir de la ser
 ## Pendiente de verificar
 
 - Datos del campo que faltan (tarea 21): si la zona 2 es la henequenera, las zonas inferidas
-  de Baca, Dzan y Tekit, el comentario de Misa y en qué mes quema Jesús.
-- Notas de prensa de «Lo que viven Protección Civil y SEDER»: confirmar en cada página el
-  título, la fecha y qué dato sostiene. Las 480.05 ha de Yaxkukul (2025) no tienen nota propia.
+  de Baca, Dzan y Tekit y el comentario de Misa.
+- Notas de prensa de «Lo que viven Protección Civil y SEDER» que falta abrir para confirmar
+  título, fecha y dato: Diario de Yucatán (26 feb 2024 y 25 mar 2025), Posta y las cuatro de
+  Por Esto.
 - Cifras que **no** van al pitch porque chocan entre fuentes: Yucatán 2023 (765 o 760 ha),
   2024 (20,334 o 20,333 ha) y 2026 (3 incendios y 335.83 ha, u otro reporte de más de 400 ha).
 
@@ -484,7 +497,8 @@ Salen de `web/datos/`, que escribe `pipeline/exportar_web.py` a partir de la ser
 - Calendario de quemas 2025 con listas por zona: <https://www.yucatan.com.mx/yucatan/2025/03/06/calendario-de-quemas-2025-en-yucatan-fechas-y-municipios-autorizados.html>
 - Programa Especial de Protección Civil 2026 (Yucatán): <https://www.yucatan.gob.mx/docs/procivy/archivos/programa_especial_de_proteccion_civil_2026.pdf>
 - Protección Civil y SEDER (reunidas por Leo; referencias APA en `docs/campo-y-datos-pc-seder.pdf`):
-  Quadratín, marzo 2023: <https://yucatan.quadratin.com.mx/?p=271037>;
+  Quadratín, «Recibe Procivy 19 reportes diarios de incendios» (24 mar 2023): <https://yucatan.quadratin.com.mx/?p=271037>;
+  Diario de Yucatán, «Península de Yucatán, con 98 incendios forestales» (Daniel Valdez Cetz, 12 ene 2026): <https://www.yucatan.com.mx/mexico/2026/01/12/peninsula-de-yucatan-con-98-incendios-forestales.html>;
   Diario de Yucatán, temporada de quemas 2024: <https://www.yucatan.com.mx/merida/2024/02/26/temporada-de-quemas-2024-en-yucatan-fechas-requisitos-y-recomendaciones.html>;
   Posta, 90 % por actividad humana: <https://www.posta.com.mx/yucatan/estas-son-las-razones-por-las-cuales-yucatan-es-afectado-por-los-incendios-forestales-/vl2020641>;
   Por Esto, Sucopó (2021): <https://www.poresto.com/yucatan/2021/5/18/incendio-consume-mas-de-35-hectareas-en-sucopo-tizimin.html>;
