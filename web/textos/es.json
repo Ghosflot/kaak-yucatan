@@ -391,5 +391,7 @@
     "Calculamos el factor de NOAA-20 con estos mismos años: el factor lleva la diferencia total ({diferenciaPctNoaa20} %) hacia cero. Lo que informa es cada año por separado.",
     "Comparamos satélites VIIRS entre sí: esto dice si la serie salta al cambiar de satélite, no si ven cada fuego.",
     "NOAA-21 está en FIRMS desde marzo de 2023, así que coincide con S-NPP solo dos años completos. Va sin factor y no entra en la serie."
-  ]
+  ],
+  "mIA": "Hicimos este proyecto con ayuda de inteligencia artificial (Claude, de Anthropic) para investigar, programar y redactar. El equipo decidió el método y revisó cada cifra contra su fuente.",
+  "mIAEnlace": "Qué hizo la IA y qué no"
 }

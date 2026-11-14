@@ -391,5 +391,7 @@
     "We calculated NOAA-20's factor from these same years, so the factor pulls the total difference ({diferenciaPctNoaa20}%) toward zero. What tells us something is each year on its own.",
     "We compare VIIRS with VIIRS: this shows whether the series jumps at a switch, not whether they see every fire.",
     "NOAA-21 has been in FIRMS since March 2023, so it overlaps S-NPP for only two full years. It has no factor and is not part of the series."
-  ]
+  ],
+  "mIA": "We built this project with the help of artificial intelligence (Claude, by Anthropic) for research, code and drafting. The team chose the method and checked every figure against its source.",
+  "mIAEnlace": "What the AI did and did not do"
 }
