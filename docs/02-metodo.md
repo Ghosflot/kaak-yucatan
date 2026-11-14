@@ -384,7 +384,9 @@ Cada prueba lleva un número, una gráfica y una frase que se pueda decir en el 
     regla de `analisis/preparar_peninsula.py`.
   - Agrega lo nuevo a `datos_peninsula/focos_recientes.parquet` sin repetir focos y corre
     `pipeline/correr_todo.py`.
-  - Un trabajo de GitHub Actions lo corre una vez al día (13:00 UTC) y sube el resultado a
+  - Un trabajo de GitHub Actions lo corre cuatro veces al día (1:23, 11:23, 14:23 y 23:23 UTC,
+    después de que FIRMS publica los pasos de los satélites; las razones están en
+    `.github/workflows/actualizar.yml`) y sube el resultado a
     `main`. Es el **único** que sube a `main` sin PR, y solo toca
     `datos_peninsula/focos_recientes.parquet`, `salidas/` y `web/datos/`.
   - La clave de FIRMS es el secreto del repo `FIRMS_MAP_KEY` (ya guardado) y nunca va en un
