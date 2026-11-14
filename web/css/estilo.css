@@ -563,6 +563,8 @@ h1, h2, h3 { scroll-margin-top: calc(var(--barra-alto) + 12px); }
 .metodo .m-cifra p { font-size: 16px; }
 .m-descargar { align-self: flex-start; text-decoration: none; }
 .metodo > .pie { margin-top: 28px; }
+/* La declaración del uso de IA va pegada al pie de datos, como parte del mismo bloque. */
+.metodo > .pie + .pie { margin-top: -8px; }
 @media (max-width: 860px) {
   .metodo h2 { font-size: 24px; }
   .m-cifras { grid-template-columns: 1fr; }
