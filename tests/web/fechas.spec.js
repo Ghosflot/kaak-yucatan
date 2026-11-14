@@ -84,7 +84,7 @@ test('buscar y filtrar por estado', async ({ page }) => {
   await expect(page.locator('#almVacio')).toBeVisible();
 });
 
-test('la descarga baja fechas.csv con lo que se ve, con BOM', async ({ page }) => {
+test('la descarga baja fechas.csv con los municipios del filtro, con BOM', async ({ page }) => {
   await abrir(page, '#/fechas');
   await page.click('[data-estado="Quintana Roo"]');
   const [descarga] = await Promise.all([page.waitForEvent('download'), page.click('#almCsv')]);
@@ -106,8 +106,29 @@ test('«2026» pinta los meses de este año', async ({ page }) => {
   expect(despues).toContain('2026');
 });
 
+test('de entrada se ven 12 renglones; «Ver los restantes» abre y cierra la tabla', async ({ page }) => {
+  await abrir(page, '#/fechas');
+  const vistos = page.locator('#almanaque tbody tr:not([hidden])');
+  await expect(vistos).toHaveCount(12);
+  const mas = page.locator('#almMas');
+  await expect(mas).toHaveText('Ver los 115 municipios restantes');
+  await expect(mas).toHaveAttribute('aria-expanded', 'false');
+  await mas.click();
+  await expect(vistos).toHaveCount(127);
+  await expect(mas).toHaveText('Ver menos municipios');
+  await mas.click();
+  await expect(vistos).toHaveCount(12);
+  // Con Yucatán se acorta igual; al buscar se ve todo lo que coincide y el botón se va.
+  await page.click('[data-estado="Yucatán"]');
+  await expect(mas).toHaveText('Ver los 94 municipios restantes');
+  await page.fill('#almBuscar', 'a');
+  await expect(mas).toBeHidden();
+  expect(await vistos.count()).toBeGreaterThan(12);
+});
+
 test('la zona de un renglón lleva a su calendario', async ({ page }) => {
   await abrir(page, '#/fechas');
+  await page.fill('#almBuscar', 'tekax');
   await page.click('#almanaque tr[data-id="tekax"] .a-zona');
   await expect(page.locator('#zona')).toHaveValue('3');
 });

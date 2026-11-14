@@ -12,6 +12,7 @@ const INICIO_MES = DIAS_MES.reduce((a, d) => [...a, a[a.length - 1] + d], [0]); 
 const YUC = { x: 297, y: 26, width: 416, height: 309 }; // Yucatán sin el arrecife Alacranes
 const CORTES = [5, 20, 100, 400]; // clases del almanaque: 0, menos de 5, 5 a 19, 20 a 99, 100 a 399, 400 o más
 const ESTADOS = ['Yucatán', 'Campeche', 'Quintana Roo'];
+const TOPE = 12; // renglones del almanaque antes de «Ver los demás»; al buscar se ven todos
 
 const diaDelAnio = (md) => INICIO_MES[Number(md.slice(0, 2)) - 1] + Number(md.slice(3)) - 1;
 const fechaDe = (i) => new Date(2026, 0, 1 + i, 12);
@@ -58,13 +59,14 @@ const PLANTILLA = `
       <tbody id="almCuerpo"></tbody>
     </table>
     <p class="alm-vacio" id="almVacio" data-t="almVacio" hidden></p>
+    <button type="button" class="b-borde alm-mas" id="almMas" aria-controls="almanaque" hidden></button>
   </section>
   <p class="pie" id="pie"></p>
 </article>`;
 
 export function montar(raiz, params) {
   let Z = null, lista = null, F = null, P = null, vivo = true;
-  const estado = { zona: params.zona || '2', q: '', e: '', anio: 'normal', fijo: null, mio: null };
+  const estado = { zona: params.zona || '2', q: '', e: '', anio: 'normal', fijo: null, mio: null, todos: false };
   const $ = (s) => raiz.querySelector('#' + s);
 
   const zonaDe = (n) => Z.zonas.find((z) => z.n === n);
@@ -355,11 +357,18 @@ export function montar(raiz, params) {
 
   const visibles = () => F.filter((r) => (!estado.e || r.e === estado.e) && (!estado.q || sinAcentos(r.n).includes(estado.q)));
 
+  // De entrada se ven los primeros renglones; al buscar, todos los que coinciden.
   function filtrar() {
-    const ver = new Set(visibles().map((r) => r.id));
+    const coinciden = visibles();
+    const corta = !estado.q && !estado.todos;
+    const ver = new Set((corta ? coinciden.slice(0, TOPE) : coinciden).map((r) => r.id));
     $('almCuerpo').querySelectorAll('tr').forEach((tr) => { tr.hidden = !ver.has(tr.dataset.id); });
     $('almVacio').hidden = ver.size > 0;
     $('almConteo').textContent = t('almConteo', { n: ver.size, t: F.length });
+    const mas = $('almMas');
+    mas.hidden = !!estado.q || coinciden.length <= TOPE;
+    mas.textContent = estado.todos ? t('almMenos') : t('almMas', { n: coinciden.length - TOPE });
+    mas.setAttribute('aria-expanded', String(estado.todos));
   }
 
   function csv() {
@@ -421,6 +430,12 @@ export function montar(raiz, params) {
       if (b) elegirZona(b.dataset.zona, { mover: true });
     });
     $('almCsv').addEventListener('click', () => descargar(csv(), 'fechas.csv'));
+    $('almMas').addEventListener('click', () => {
+      estado.todos = !estado.todos;
+      filtrar();
+      // Al cerrar, la tabla se encoge: el botón se trae de vuelta a la vista.
+      if (!estado.todos) $('almMas').scrollIntoView({ block: 'nearest', behavior: reducirMovimiento() ? 'auto' : 'smooth' });
+    });
   }
 
   async function arrancar() {
