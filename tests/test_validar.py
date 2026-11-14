@@ -1043,6 +1043,10 @@ def test_valores_redondeados_para_mostrar():
     c = validar.valores(r_conafor())
     assert (c["incendios"], c["realSnpp"], c["azarSnpp"], c["grandesSnpp"]) == ("1,222", 53, 9, 84)
     assert c["chicosSnpp"] == 18
+    w = validar.valores(r_viirs())
+    assert (w["razonMinNoaa20"], w["razonMaxNoaa20"], w["diferenciaPctNoaa20"]) == ("0.95", "1.06", "0.4")
+    assert (w["aniosDesde"], w["aniosHasta"]) == (2019, 2021)     # solo años enteros: no el 0.5 de 2018
+    assert validar.valores(r_viirs(n21=True))["razonMaxNoaa21"] == "1.00"   # conserva el cero final
 
 
 def test_el_error_del_numero_grande_es_el_del_modelo_elegido():
@@ -1056,10 +1060,6 @@ def test_sin_el_rango_de_incendios_chicos_la_limitacion_queda_pendiente():
     r = r_conafor()
     del r["metricas"]["por_tamano"]["0 a 5 Hectáreas"]
     assert validar.valores(r)["chicosSnpp"] is None
-    w = validar.valores(r_viirs())
-    assert (w["razonMinNoaa20"], w["razonMaxNoaa20"], w["diferenciaPctNoaa20"]) == ("0.95", "1.06", "0.4")
-    assert (w["aniosDesde"], w["aniosHasta"]) == (2019, 2021)     # solo años enteros: no el 0.5 de 2018
-    assert validar.valores(r_viirs(n21=True))["razonMaxNoaa21"] == "1.00"   # conserva el cero final
 
 
 def test_rellenar_como_la_pagina():
