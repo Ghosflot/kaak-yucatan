@@ -78,6 +78,9 @@ municipio es de Yucatán (`analisis/municipios_zona.csv`); las cifras de Yucatá
 
 **VIIRS detecta unas 3 veces más focos que MODIS sobre el mismo territorio y los mismos años.**
 En la península, la relación VIIRS/MODIS fue de 2.95 a 4.05 entre 2013 y 2025 (mediana: 3.08).
+Por zona y época, el factor calibrado va de 2.8 a 5.3 focos de S-NPP por cada uno de Aqua
+(2.84 en la zona 1 de Yucatán en temporada, 5.34 en la zona 4 fuera de temporada;
+`salidas/factores.csv`). Por eso en el guion: «entre tres y cinco veces».
 VIIRS tiene píxeles de 375 m y MODIS de 1 km, así que VIIRS ve fuegos más pequeños.
 
 Consecuencia: si alguien une ingenuamente MODIS (2001–2011) con VIIRS (2012 en adelante),
@@ -208,7 +211,8 @@ y cada dato aparece en su nota; los que no aparecían se quitaron.
   el Pacífico Sur.
   Fuente: <https://www.nesdis.noaa.gov/news/administrative-update-2-cessation-of-suomi-national-polar-orbiting-partnership-s-npp-data-users-november-02-2026-1300-utc-and-decommissioning-issued-october-19-2026-1400-utc>
 - Ese corte ocurre 11 días antes del hackatón. Con MODIS en retiro, el registro queda
-  repartido entre cinco satélites (Terra, Aqua, S-NPP, NOAA-20 y NOAA-21). El registro completo
+  repartido entre cuatro satélites (Terra, Aqua, S-NPP y NOAA-20); NOAA-21 también ve la
+  península, pero no entra en la serie (igual que el README). El registro completo
   de S-NPP, del 20 de enero de 2012 al 2 de noviembre de 2026, está en
   `datos_peninsula/focos_peninsula.parquet`.
 

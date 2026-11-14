@@ -58,7 +58,7 @@ separado y no compara una temporada contra lo normal.
 
 **[1:10–1:45] Por qué unir los satélites**
 Para saber qué es «lo normal» hace falta historia larga, y esa historia está en dos satélites
-que no hablan el mismo idioma. VIIRS ve unas tres veces más fuego que MODIS. Si los pegas sin
+que no hablan el mismo idioma. VIIRS ve entre tres y cinco veces más fuego que MODIS. Si los pegas sin
 calibrar, parece que el fuego se triplicó en 2012. No se triplicó: cambió el sensor. Con VIIRS
 solo hay 13 años. Calibrados juntos, son 25.
 
@@ -124,12 +124,12 @@ compara una temporada contra lo normal.
 
 **[2:20–3:00] Por qué unir los satélites**
 Para saber qué es «lo normal» hace falta historia larga, y esa historia está en satélites que
-no hablan el mismo idioma. VIIRS ve unas tres veces más fuego que MODIS. Si los pegas sin
+no hablan el mismo idioma. VIIRS ve entre tres y cinco veces más fuego que MODIS. Si los pegas sin
 calibrar, parece que el fuego se triplicó en 2012. No se triplicó: cambió el sensor. Con VIIRS
 solo hay 13 años. Calibrados juntos, son 25.
 
 Y es urgente: MODIS se está retirando y S-NPP dejó de enviar datos el 2 de noviembre. Los 25
-años quedan repartidos entre cinco satélites.
+años quedan repartidos entre cuatro satélites.
 
 **[3:00–3:40] Demo**
 Esto es K'áak', fuego en maya. Elegimos Tekax, el municipio con más superficie quemada de
@@ -165,13 +165,13 @@ lo damos a todo el estado.
 | Decenas de incendios forestales | «¿Hay muchos incendios en Yucatán?» (CONAFOR: 13 a 155 al año) |
 | 89 % entre marzo y mayo; pico en abril | «Lo que ve el satélite (FIRMS)» (unos 4,100 focos en abril) |
 | CONABIO no compara contra lo normal | «Lo que ya existe» |
-| VIIRS ve unas 3 veces más que MODIS; 13 años con VIIRS; 25 con los dos | «El problema técnico del reto, con números» |
+| VIIRS ve entre 3 y 5 veces más que MODIS; 13 años con VIIRS; 25 con los dos | «El problema técnico del reto, con números» |
 | Tekax, el municipio con más superficie quemada | «¿Hay muchos incendios…?», 2015–2024 (17,845 ha) |
 | Más de la mitad y 84 % de los de más de 100 ha; azar menos del 10 % | «Validación con CONAFOR» |
 | 19 % dentro de la ventana de su zona (2025) | «Hallazgo: la mayor parte del fuego cae fuera de la ventana» |
 | *(5 min)* 765 ha en 2023, 20,334 en 2024 y 2,215 en 2025 | «¿Hay muchos incendios en Yucatán?» (CONAFOR) |
 | *(5 min)* Mérida entre las cinco ciudades más contaminadas, mayo de 2024 | «El humo llega a Mérida» |
-| *(5 min)* MODIS en retiro, S-NPP sin datos desde el 2 de nov, cinco satélites | «Contexto» y «S-NPP deja de entregar datos» |
+| *(5 min)* MODIS en retiro, S-NPP sin datos desde el 2 de nov, cuatro satélites | «Contexto» y «S-NPP deja de entregar datos» |
 | *(5 min)* Tekax: 89 incendios y 17,845 ha; 16 a 21 de abril de 2024, 332 focos el día 21 | «¿Hay muchos incendios…?» y «Lo que ve el satélite (FIRMS)» |
 | *(30 s)* Se quema para sembrar; cada comunidad conoce su temporada | «¿Hay muchos incendios…?» (causa: «quema para preparación de siembra») y «Lo que dice la gente del campo» |
 | *(30 s)* Unos satélites ven entre tres y cinco veces más fuego que otros | `salidas/factores.csv` (Aqua: de 2.8 a 5.3 según zona y época), lo acordado en #26. docs/01 todavía dice «unas 3 veces» |
