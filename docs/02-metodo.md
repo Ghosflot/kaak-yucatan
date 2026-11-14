@@ -37,7 +37,9 @@ cada incendio y chat con IA.
 **Unidad: cuadritos de 1 km con fuego por día.** Se redondean latitud y longitud a 0.01° y se
 cuenta cada cuadrito una vez por día y satélite. MODIS ve en píxeles de 1 km y VIIRS en
 píxeles de 375 m, así que un mismo fuego produce más focos en VIIRS; contar cuadritos en
-lugar de focos quita esa diferencia de tamaño. Es una técnica estándar y se cita.
+lugar de focos quita esa diferencia de tamaño. No encontramos una publicación que cuente con
+esta misma rejilla de 0.01°; lo que sí está publicado es que S-NPP ve varias veces más píxeles
+de fuego que Aqua y que la razón cambia de un lugar a otro (White, 2022; ver «Referencias»).
 
 **Escala de referencia: VIIRS**, porque es el que sigue funcionando; MODIS se retira. La
 serie se expresa en «cuadritos-día equivalentes a VIIRS».
@@ -84,6 +86,14 @@ día. El respaldo es de la misma familia: NOAA-20 por S-NPP y Terra por Aqua. Te
   dos factores salen iguales, se dice.
 - **Se calibra con 2013–2020** (los dos satélites funcionando y antes de la deriva de órbita
   de MODIS) **y se comprueba con 2021–2025**, que no se usaron para calibrar.
+- **Por qué por zona y por época:** el factor es un estimador de razón estratificado: una
+  razón por estrato (zona × época), en lugar de una sola para todo. Cochran (1977, §6.10–6.12)
+  llama a esto la «razón separada» y advierte que, con pocos datos en un estrato, conviene la
+  razón combinada; por eso un factor `debil` (menos de 100 cuadritos-día) se reemplaza por el
+  de la misma época con todas las zonas juntas. Usar factores por región para pasar de un
+  conteo de satélite a otra cantidad también lo hace GFED5 (Chen et al., 2023), y Giglio et
+  al. (2025) concluyen que unir los registros de VIIRS y MODIS probablemente pide una
+  calibración estadística por región.
 
 **Día de un foco, en hora local:** FIRMS da la fecha y la hora en UTC. Antes de asignar día y
 semana se pasa a hora solar del lugar, `hora UTC + longitud / 15` (en la península, unas 6
@@ -220,9 +230,10 @@ cuántas horas lleva (cálculo aproximado para quien ya conoce la herramienta).
 - **Terminada cuando:** están los 12 factores de Aqua y los 12 de Terra. Un factor que se
   apoye en menos de 100 cuadritos-día se marca `debil` y se reemplaza por el de la misma
   época con todas las zonas juntas.
-- **Margen de cada factor:** se recalcula ocho veces, dejando fuera cada vez uno de los años
-  2013–2020, y se guardan el menor y el mayor (`factor_min`, `factor_max`). Un número sin su
-  margen es más fácil de atacar en las preguntas de los jueces.
+- **Rango de cada factor:** se recalcula ocho veces, dejando fuera cada vez uno de los años
+  2013–2020, y se guardan el menor y el mayor (`factor_min`, `factor_max`). Es un **rango**,
+  no un intervalo de confianza: en docs y en el pitch se dice «rango». Un número sin su rango
+  es más fácil de atacar en las preguntas de los jueces.
 - **Depende de:** 2 · **Horas:** 6 · **Saber:** pandas, proporciones.
 
 #### 4. Factor NOAA-20→S-NPP
@@ -426,3 +437,34 @@ Cada prueba lleva un número, una gráfica y una frase que se pueda decir en el 
 - **Terminada cuando:** ningún PR entra a `main` con pruebas fallando ni sin revisión, y
   `python pipeline/correr_todo.py` corre de principio a fin.
 - **Horas:** 2 para montarlo, más las revisiones.
+
+## Referencias
+
+Cada una se abrió y se confirmó que dice lo que se le atribuye (14 nov).
+
+- **Cochran, W. G. (1977).** *Sampling Techniques*, 3.ª ed. Nueva York: Wiley. §6.10
+  «Ratio estimates in stratified random sampling», §6.11 «The combined ratio estimate» y §6.12
+  (comparación). Respalda el factor por zona y época (razón separada por estrato) y el cambio a
+  la razón combinada cuando un estrato tiene pocos datos (`debil`).
+- **Chen, Y., Hall, J., van Wees, D., et al. (2023).** Multi-decadal trends and variability in
+  burned area from the fifth version of the Global Fire Emissions Database (GFED5). *Earth
+  System Science Data*, 15, 5227–5259. <https://doi.org/10.5194/essd-15-5227-2023>. Convierte
+  focos de MODIS en área quemada con factores que cambian por región GFED, tipo de vegetación
+  y cobertura de árboles. Es un precedente de factores por región; no une MODIS con VIIRS.
+- **Giglio, L., Boschetti, L., Roy, D. P., et al. (2025).** The NASA VIIRS burned area
+  product, global validation, and intercomparison with the NASA MODIS burned area product.
+  *Remote Sensing of Environment*, 331, 115006. <https://doi.org/10.1016/j.rse.2025.115006>.
+  Concluye que para tener un solo registro largo y consistente probablemente hace falta una
+  calibración estadística por región entre los productos de VIIRS y MODIS (son de área
+  quemada, no de focos).
+- **White, B. L. A. (2022).** Quantitative differences in detection of fire pixels using
+  Aqua/MODIS and NPP-Suomi/VIIRS satellites. *Journal of Hyperspectral Remote Sensing*,
+  12(6), 379–390. En Sudamérica, 2012–2021, S-NPP detectó en promedio 5.13 veces más píxeles
+  de fuego que Aqua; por país, de 3.87 (Chile) a 6.81 (Venezuela); en municipios de Pará, de
+  2.84 a 11.25. Concluye que no hay una sola fórmula para ajustar Aqua a S-NPP. Nuestros
+  factores de Aqua (2.84 a 5.34, `salidas/factores.csv`) caen en ese rango; se espera que
+  sean algo menores porque contamos cuadritos-día y no píxeles.
+
+**Sin agregar:** la serie armonizada MODIS/VIIRS de Boschetti, Roy y Giglio (presentación al
+MODIS Science Team, 2023). El servidor de NASA no respondió el 14 nov y no se pudo abrir; en
+2023 era un trabajo en preparación, no un artículo publicado.
