@@ -4,7 +4,7 @@ name: Actualización diaria
 
 on:
   schedule:
-    - cron: "0 13 * * *"  # 13:00 UTC, 7:00 en Mérida
+    - cron: "0 11 * * *"  # 11:00 UTC, 5:00 en Mérida
   workflow_dispatch:
 
 permissions:
