@@ -10,7 +10,9 @@ de la semana y del acumulado del año. Escribe:
 - salidas/calendario_mensual.parquet: municipio × año × mes, para el calendario de 25 años
   de la tarea 13;
 - salidas/serie_armonizada.csv: lo mismo que el calendario, para descargar, con 4 decimales
-  (UTF-8 con BOM, para que Excel muestre bien Tizimín o Dzán).
+  (UTF-8 con BOM, para que Excel muestre bien Tizimín o Dzán);
+- salidas/dias_sin_datos.csv: los días en que el satélite del periodo no mandó datos, cuáles
+  se rellenaron con el respaldo y cuáles solo se reportan (columnas: COLUMNAS_HUECOS).
 
 Reglas (docs/02, «Método»):
 - Un satélite por periodo, nunca sumados, en día solar local:
@@ -20,6 +22,12 @@ Reglas (docs/02, «Método»):
     NOAA-20  desde el 3 nov 2026
   Los cuadritos-día de otro satélite (Aqua después de 2012, Terra de 2000, NOAA-21, S-NPP
   después del 2 nov) se ignoran: existen, pero no son el satélite de ese día.
+- Días sin datos (H1): si el satélite del periodo tiene 0 cuadritos-día en toda la península
+  y su respaldo (S-NPP → NOAA-20, Aqua → Terra) tiene 50 o más (armonizar.UMBRAL_HUECO, la
+  regla de los días hueco de los factores), ese día se cuenta con el respaldo y su factor.
+  Sigue habiendo un solo satélite por día. Terra y NOAA-20 no tienen respaldo. Las caídas
+  que NASA confirma (CAIDAS_CONFIRMADAS: S-NPP jul–ago 2022, Terra jun–jul 2001) se
+  reportan en dias_sin_datos.csv y no se rellenan. Los días a medias no se detectan.
 - Cada cuadrito-día se multiplica por el factor de su satélite (salidas/factores.csv), de la
   zona de su municipio y de la época de su día (marzo a mayo, «temporada»; lo demás,
   «resto»). NOAA-20 usa el de toda la península. Se multiplica día por día y después se
@@ -33,13 +41,14 @@ Reglas (docs/02, «Método»):
 - cuadritos_modis_crudo y cuadritos_viirs_crudo: cuántos cuadritos-día crudos de MODIS
   (Terra o Aqua) y de VIIRS (S-NPP o NOAA-20) entraron a la serie esa semana; 0 si ese tipo
   de satélite no entró. La serie sin calibrar es su suma.
-- Cobertura: del 1 ene 2001 al último día con algún cuadrito-día del satélite en turno. La
-  semana de ese día se emite aunque esté incompleta (como en el provisional); no hay filas
-  de semanas futuras. resumen["semana_parcial"] dice cuál es.
+- Cobertura: del 1 ene 2001 al último día con algún cuadrito-día del satélite en turno (el
+  respaldo no la alarga). La semana de ese día se emite aunque esté incompleta (como en el
+  provisional); no hay filas de semanas futuras. resumen["semana_parcial"] dice cuál es.
 - Lo normal: por municipio y semana, sobre los 25 años 2001–2025 (el año en curso no entra).
   Las semanas sin fuego cuentan como 0. Si falta un año, se detiene.
 - Si el satélite de un periodo no tiene ni un cuadrito-día en un tramo de 30 días o más de
-  un año, se detiene: es más probable que falten datos que un año sin fuego.
+  un año, se detiene: es más probable que falten datos que un año sin fuego. Se revisa sin
+  el respaldo, para que un mes sin datos no se tape.
 
 Todo lo que hay en salidas/ lo escribe el código: no se edita a mano.
 """
@@ -60,6 +69,7 @@ FACTORES = RAIZ / "salidas" / "factores.csv"
 CALENDARIO = RAIZ / "salidas" / "calendario.parquet"
 MENSUAL = RAIZ / "salidas" / "calendario_mensual.parquet"
 SERIE_CSV = RAIZ / "salidas" / "serie_armonizada.csv"
+DIAS_SIN_DATOS = RAIZ / "salidas" / "dias_sin_datos.csv"
 
 # La tabla de periodos de docs/02, en día solar local (ambos extremos entran).
 PERIODOS = [
@@ -76,6 +86,27 @@ ANIOS_BASE = range(2001, 2026)
 # Un tramo más corto que esto puede no tener fuego de verdad (por ejemplo, Aqua del 1 al
 # 19 ene 2012 o los primeros días de NOAA-20); no se exige que tenga datos.
 TRAMO_MINIMO = 30
+
+# Días sin datos (H1, docs/06 «Método»): el satélite que cubre un día si el del periodo no
+# mandó datos. Siempre de la misma familia (VIIRS por VIIRS, MODIS por MODIS). Terra
+# (2001–2002) no tiene respaldo: Aqua aún no mandaba datos. NOAA-20 tampoco: NOAA-21 no
+# tiene factor y en los datos nunca hizo falta.
+RESPALDO = {"S-NPP": "NOAA-20", "Aqua": "Terra"}
+# Caídas que NASA confirma. Se reportan en salidas/dias_sin_datos.csv pero NO se rellenan
+# (decisión del 14 nov): S-NPP 2022 cae fuera de temporada y la regla del umbral no la
+# detecta; se deja visible a propósito. Terra 2001 no tiene con qué rellenarse.
+# Fuentes (docs/01, «Días sin datos del satélite»):
+# - https://www.earthdata.nasa.gov/data/alerts-outages/suomi-npp-recovers-from-safe-mode
+# - https://mcst.gsfc.nasa.gov/iot/am1weekly2001-1672001-173 (apagado el 15 jun 2001) y
+#   https://mcst.gsfc.nasa.gov/iot/am1weekly2001-1812001-187 (de vuelta el 2 jul, 22:48 UTC)
+CAIDAS_CONFIRMADAS = [
+    ("S-NPP", date(2022, 7, 26), date(2022, 8, 20),
+     "S-NPP en modo seguro: NASA Earthdata da por perdidos los datos del 26 jul al 20 ago 2022"),
+    ("Terra", date(2001, 6, 15), date(2001, 7, 2),
+     "MODIS de Terra apagado por una falla de su fuente de poder (NASA MCST): 15 jun – 2 jul 2001"),
+]
+COLUMNAS_HUECOS = ["dia_local", "satelite_periodo", "respaldo", "cuadritos_respaldo",
+                   "motivo", "rellenado", "nota"]
 
 COLUMNAS_CUADRITOS = ["satelite", "dia_local", "anio", "mes", "semana",
                       "lat_celda", "lon_celda", "estado", "municipio", "zona"]
@@ -161,6 +192,79 @@ def satelite_del_periodo(dias) -> pd.Series:
             dentro &= dia <= pd.Timestamp(hasta)
         satelite[dentro] = nombre
     return satelite
+
+
+def dias_sin_datos(cuadritos: pd.DataFrame, fin: date) -> pd.DataFrame:
+    """Días del 1 ene 2001 a `fin` en que el satélite del periodo parece no haber mandado datos.
+
+    Un día entra si el satélite del periodo tiene 0 cuadritos-día en toda la península y:
+    - su respaldo (RESPALDO) tiene armonizar.UMBRAL_HUECO o más: motivo «umbral», y ese
+      día se cuenta con el respaldo (rellenado=True). Es la misma regla de los días hueco
+      de los factores;
+    - o el día cae en una caída confirmada (CAIDAS_CONFIRMADAS): motivo
+      «caida_confirmada»; se reporta y no se rellena.
+    La península es la suma de los municipios, con cada cuadrito una vez aunque esté en la
+    frontera de dos (los focos sin municipio, 0.2 %, no entran). Columnas: COLUMNAS_HUECOS.
+    """
+    unicos = cuadritos.drop_duplicates(["satelite", "dia_local", "lat_celda", "lon_celda"])
+    satelites = [nombre for nombre, _, _ in PERIODOS]
+    conteo = armonizar.conteo_por_dia(unicos, satelites, INICIO, fin)
+    del_dia = satelite_del_periodo(conteo.index).to_numpy()
+    tablas = []
+    for satelite in satelites:
+        sub = conteo[del_dia == satelite]
+        if sub.empty:
+            continue
+        respaldo = RESPALDO.get(satelite)
+        otro = sub[respaldo] if respaldo else pd.Series(0, index=sub.index)
+        sin_datos = sub[satelite] == 0
+        umbral = sin_datos & (otro >= armonizar.UMBRAL_HUECO) & (respaldo is not None)
+        nota = pd.Series("", index=sub.index, dtype="object")
+        for sat, desde, hasta, texto in CAIDAS_CONFIRMADAS:
+            if sat == satelite:
+                nota[(sub.index >= pd.Timestamp(desde)) & (sub.index <= pd.Timestamp(hasta))] = texto
+        caida = sin_datos & (nota != "")
+        marcados = umbral | caida
+        tablas.append(pd.DataFrame({
+            "dia_local": sub.index[marcados],
+            "satelite_periodo": satelite,
+            "respaldo": respaldo,
+            "cuadritos_respaldo": otro[marcados].to_numpy() if respaldo else pd.NA,
+            "motivo": np.where(umbral[marcados], "umbral", "caida_confirmada"),
+            "rellenado": umbral[marcados].to_numpy(),
+            "nota": nota[marcados].to_numpy(),
+        }))
+    huecos = pd.concat(tablas, ignore_index=True)
+    return huecos.astype({"satelite_periodo": "string", "respaldo": "string",
+                          "cuadritos_respaldo": "Int64", "motivo": "string",
+                          "rellenado": "bool", "nota": "string"})[COLUMNAS_HUECOS]
+
+
+def _seleccion(cuadritos: pd.DataFrame) -> tuple[np.ndarray, pd.Series, pd.DataFrame, date]:
+    dia = pd.to_datetime(cuadritos["dia_local"])
+    satelite = cuadritos["satelite"].to_numpy()
+    del_periodo = satelite == satelite_del_periodo(dia).fillna("").to_numpy()  # antes de 2001: ""
+    if not del_periodo.any():
+        raise SerieError("Ningún cuadrito-día cae en el periodo de su satélite")
+    fin = dia[del_periodo].max().date()
+    huecos = dias_sin_datos(cuadritos, fin)
+    rellenar = huecos[huecos["rellenado"]]
+    respaldo_del_dia = pd.Series(rellenar["respaldo"].to_numpy(dtype=object),
+                                 index=pd.DatetimeIndex(rellenar["dia_local"]))
+    de_respaldo = (satelite == dia.map(respaldo_del_dia).to_numpy(dtype=object))
+    return del_periodo | de_respaldo, dia, huecos, fin
+
+
+def elegir(cuadritos: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame, date]:
+    """Los cuadritos-día que entran a la serie: un solo satélite por día.
+
+    El del periodo (PERIODOS) y, en los días sin datos rellenados (dias_sin_datos), su
+    respaldo. Devuelve (elegidos, huecos, fin). `fin` es el último día con datos del
+    satélite del periodo: el respaldo nunca alarga la serie. La usan armar_serie() y la
+    página (datos_web.elegidos_con_factor), para que las dos cuenten lo mismo.
+    """
+    entra, dia, huecos, fin = _seleccion(cuadritos)
+    return cuadritos[entra].assign(dia_local=dia[entra]), huecos, fin
 
 
 def validar_cuadritos(cuadritos: pd.DataFrame, catalogo: pd.DataFrame) -> None:
@@ -413,20 +517,18 @@ def armar_serie(
     validar_catalogo(catalogo)
     validar_cuadritos(cuadritos, catalogo)
 
-    dia = pd.to_datetime(cuadritos["dia_local"])
-    del_periodo = (cuadritos["satelite"] == satelite_del_periodo(dia)).fillna(False).to_numpy(dtype=bool)
-    elegidos = cuadritos[del_periodo].assign(dia_local=dia[del_periodo])
-    resumen["ignorados"] = cuadritos[~del_periodo].groupby("satelite").size().to_dict()
-    if elegidos.empty:
-        raise SerieError("Ningún cuadrito-día cae en el periodo de su satélite")
-
-    fin = elegidos["dia_local"].max().date()
+    entra, dia, huecos, fin = _seleccion(cuadritos)
+    elegidos = cuadritos[entra].assign(dia_local=dia[entra])
+    resumen["ignorados"] = cuadritos[~entra].groupby("satelite").size().to_dict()
     if fin < date(ANIOS_BASE[-1], 12, 31):
         raise SerieError(
             f"Los datos llegan solo al {fin}: lo normal necesita los años "
             f"{ANIOS_BASE[0]}–{ANIOS_BASE[-1]} completos"
         )
-    validar_tramos(elegidos, fin)
+    # Solo el satélite del periodo: un mes sin datos se detiene aunque haya respaldo.
+    propios = (elegidos["satelite"].to_numpy()
+               == satelite_del_periodo(elegidos["dia_local"]).to_numpy())
+    validar_tramos(elegidos[propios], fin)
     elegidos = aplicar_factores(elegidos, factores)
 
     cal = calendario_semanal(elegidos, catalogo, fin)
@@ -439,6 +541,16 @@ def armar_serie(
 
     resumen["fin"] = fin
     resumen["usados"] = elegidos.groupby("satelite").size().to_dict()
+    resumen["huecos"] = huecos
+    rellenados = huecos[huecos["rellenado"]]
+    resumen["rellenados"] = {
+        f"{s}→{r}": {"dias": len(g), "cuadritos_dia": int(g["cuadritos_respaldo"].sum())}
+        for (s, r), g in rellenados.groupby(["satelite_periodo", "respaldo"])
+    }
+    sin_rellenar = huecos[~huecos["rellenado"]]
+    resumen["sin_rellenar"] = {
+        s: [d.date() for d in g["dia_local"]] for s, g in sin_rellenar.groupby("satelite_periodo")
+    }
     parcial = cp.semanas_parciales(INICIO, fin)
     resumen["semana_parcial"] = parcial.iloc[0].to_dict() if len(parcial) else None
     resumen["debiles"] = factores.loc[factores["debil"].astype(bool), ["satelite", "zona", "epoca"]].to_dict("records")
@@ -482,13 +594,15 @@ def razones_salto(cal: pd.DataFrame, estado: str = "Yucatán") -> dict:
 
 def escribir_csv(cal: pd.DataFrame, ruta: Path = SERIE_CSV) -> None:
     """CSV en UTF-8 con BOM, con 4 decimales (como factores.csv): sin eso salen colas como
-    1.6000000000000014. Se escribe en un temporal y se pone en su lugar."""
+    1.6000000000000014. Se escribe en un temporal y se pone en su lugar. Sirve para el
+    calendario y para la tabla de días sin datos."""
     ruta = Path(ruta)
     ruta.parent.mkdir(parents=True, exist_ok=True)
     temporal = ruta.with_name(f".{ruta.name}.tmp")
+    decimales = {c: DECIMALES_CSV for c in cal.select_dtypes("float").columns}
     try:
-        cal.round(DECIMALES_CSV).to_csv(temporal, index=False, encoding="utf-8-sig")
-        releido = pd.read_csv(temporal, encoding="utf-8-sig", usecols=["estado"])
+        cal.round(decimales).to_csv(temporal, index=False, encoding="utf-8-sig")
+        releido = pd.read_csv(temporal, encoding="utf-8-sig", usecols=[0])
         if len(releido) != len(cal):
             raise SerieError("El CSV escrito no tiene las mismas filas")
         os.replace(temporal, ruta)
@@ -513,10 +627,17 @@ def main() -> None:
     cp.escribir(cal, CALENDARIO)
     cp.escribir(men, MENSUAL)
     escribir_csv(cal, SERIE_CSV)
+    escribir_csv(resumen["huecos"], DIAS_SIN_DATOS)
 
     print(f"Serie del {INICIO} al {resumen['fin']} (día solar local)")
     for satelite, n in resumen["usados"].items():
         print(f"  {satelite}: {n:,} cuadritos-día usados")
+    for cambio, r in resumen["rellenados"].items():
+        print(f"  Días sin datos rellenados {cambio}: {r['dias']} días, "
+              f"{r['cuadritos_dia']:,} cuadritos-día del respaldo")
+    for satelite, dias in resumen["sin_rellenar"].items():
+        print(f"  Días sin datos de {satelite} que NO se rellenan: {len(dias)} "
+              f"(del {dias[0]} al {dias[-1]}; ver {_relativa(DIAS_SIN_DATOS)})")
     ignorados = ", ".join(f"{s} {n:,}" for s, n in resumen["ignorados"].items())
     print(f"  Ignorados por no ser el satélite de su día: {ignorados}")
     p = resumen["semana_parcial"]

@@ -7,7 +7,7 @@ test('Tekax: veredicto, barras por año y llave', async ({ page }) => {
   await abrir(page, '#/municipio/tekax');
   await expect(page.locator('h1')).toHaveText('Tekax');
   await expect(page.locator('#frase')).toContainText('la mitad');
-  await expect(page.locator('#cifras')).toContainText('191');
+  await expect(page.locator('#cifras')).toContainText('213');
   await expect(page.locator('#barrasMun .toque')).toHaveCount(26);
   await expect(page.locator('#ventana')).toBeVisible();
   await expect(page.locator('#llave')).toContainText('8 de cada 10 focos');

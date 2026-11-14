@@ -131,7 +131,9 @@ test('tocar «Lo normal» explica qué es', async ({ page }) => {
 test('las cifras salen de web/datos y no están escritas en el código', async ({ page }) => {
   await abrir(page, '#/', { reducir: true });
   const texto = await page.evaluate(() => document.body.textContent);
-  for (const viejo of ['3,789', '8,905', 'Ucú', 'Prototipo', '×3.05', '30 de abril']) expect(texto).not.toContain(viejo);
+  // «30 de abril» era el día pico de la maqueta; desde H1 también es el día pico real
+  // (NOAA-20 cubre los días sin datos de S-NPP), así que ya no sirve para detectar la maqueta.
+  for (const viejo of ['3,789', '8,905', 'Ucú', 'Prototipo', '×3.05']) expect(texto).not.toContain(viejo);
   const fmt = (n) => Math.round(n).toLocaleString('es-MX');
   expect(texto).toContain(`${PORTADA.cuenta.menos} de ${PORTADA.cuenta.total} municipios`);
   expect(texto).toContain(fmt(PORTADA.acum26[91]));
@@ -366,7 +368,7 @@ test.describe('funciones escondidas', () => {
     await page.waitForTimeout(650);
     await page.mouse.up();
     await expect(page.locator('#tarjeta .historia rect')).toHaveCount(26);
-    await expect(page.locator('#tarjeta .historia')).toHaveAttribute('aria-label', /Valladolid.*Lo normal es 251; en 2026 hubo 84/);
+    await expect(page.locator('#tarjeta .historia')).toHaveAttribute('aria-label', /Valladolid.*Lo normal es 251; en 2026 hubo 96/);
     // Una vez usada, la pista ya no sale.
     await page.locator('#tarjeta .cerrar').click();
     await page.mouse.move(v.x + v.width / 2 + 2, v.y + v.height / 2);

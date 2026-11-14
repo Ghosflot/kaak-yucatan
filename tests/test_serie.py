@@ -11,6 +11,7 @@ los datos reales» se saltan si no está datos_peninsula/.
 """
 import math
 import sys
+from datetime import date
 from pathlib import Path
 
 import numpy as np
@@ -419,6 +420,110 @@ def test_31_de_diciembre_de_bisiesto_es_semana_52():
 
 
 # ---------------------------------------------------------------------------
+# Días sin datos: el satélite de respaldo (H1)
+#
+# Un día sin datos (el satélite del periodo con 0 en toda la península y su respaldo con 50
+# o más) se cuenta con el respaldo y su factor. El relleno de tabla() pone S-NPP solo el
+# 15 jun de cada año, así que cualquier otro día de 2012–2026 tiene S-NPP en 0.
+
+
+def test_dia_sin_datos_de_snpp_se_cuenta_con_noaa20_y_su_factor():
+    cal, _, res = armar(("NOAA-20", "2024-06-02", 60))           # junio: resto, factor 0.5
+    f = fila(cal, "A", 2024, 22)
+    assert f["cuadritos_viirs_crudo"] == 60
+    assert f["cuadritos_viirs_eq"] == pytest.approx(30)
+    assert res["rellenados"] == {"S-NPP→NOAA-20": {"dias": 1, "cuadritos_dia": 60}}
+    assert "NOAA-20" not in res["ignorados"]                      # se usó: no está ignorado
+    assert res["usados"]["NOAA-20"] == 60
+
+
+@pytest.mark.parametrize("n, entra", [(50, True), (49, False)])
+def test_el_umbral_del_respaldo_es_50_exacto(n, entra):
+    """Con menos de 50 pudo ser poco fuego de verdad: el día se queda en cero."""
+    cal, _, res = armar(("NOAA-20", "2024-06-02", n))
+    assert crudos(cal, "A") == (n if entra else 0)
+    assert bool(res["rellenados"]) == entra
+
+
+def test_aqua_sin_datos_se_cuenta_con_terra_y_su_factor():
+    cal, _, res = armar(("Terra", "2005-04-10", 60))              # abril: temporada, Terra 5
+    f = fila(cal, "A", 2005, 15)
+    assert f["cuadritos_modis_crudo"] == 60
+    assert f["cuadritos_viirs_crudo"] == 0
+    assert f["cuadritos_viirs_eq"] == pytest.approx(300)
+    assert res["rellenados"] == {"Aqua→Terra": {"dias": 1, "cuadritos_dia": 60}}
+
+
+def test_nunca_dos_satelites_el_mismo_dia():
+    t = tabla(("NOAA-20", "2024-06-02", 60), ("NOAA-21", "2024-06-02", 70, "A", 100),
+              ("S-NPP", "2024-06-03", 1), ("NOAA-20", "2024-06-03", 80, "A", 200))
+    elegidos, _, _ = serie.elegir(t)
+    assert elegidos.groupby("dia_local")["satelite"].nunique().max() == 1
+    assert set(elegidos.loc[elegidos["dia_local"] == "2024-06-02", "satelite"]) == {"NOAA-20"}
+    assert set(elegidos.loc[elegidos["dia_local"] == "2024-06-03", "satelite"]) == {"S-NPP"}
+
+
+def test_si_snpp_vio_algo_en_otro_municipio_el_dia_no_es_hueco():
+    """Se mira la península entera: un cuadrito de S-NPP en cualquier lugar basta."""
+    cal, _, res = armar(("NOAA-20", "2024-06-02", 60), ("S-NPP", "2024-06-02", 1, "R"))
+    assert crudos(cal, "A") == 0
+    assert res["rellenados"] == {}
+
+
+def test_el_umbral_suma_toda_la_peninsula():
+    cal, _, _ = armar(("NOAA-20", "2024-06-02", 30, "A"), ("NOAA-20", "2024-06-02", 30, "B", 30))
+    assert crudos(cal, "A") == 30 and crudos(cal, "B") == 30
+
+
+def test_un_cuadrito_de_frontera_cuenta_una_vez_para_el_umbral():
+    # 49 cuadritos, cada uno en A y en B (mismo lugar): son 49 en la península, no 98.
+    cal, _, _ = armar(("NOAA-20", "2024-06-02", 49, "A"),
+                      ("NOAA-20", "2024-06-02", 49, "B", 0, LON["A"]))
+    assert crudos(cal, "A") == 0 and crudos(cal, "B") == 0
+
+
+def test_noaa21_nunca_es_respaldo():
+    cal, _, res = armar(("NOAA-21", "2024-06-02", 80),
+                        ("NOAA-20", "2026-11-10", 1, "R"), ("NOAA-21", "2026-11-05", 80))
+    assert crudos(cal, "A") == 0
+    assert res["rellenados"] == {}
+    assert res["ignorados"]["NOAA-21"] == 160
+
+
+def test_el_respaldo_no_alarga_la_serie():
+    # El último S-NPP del relleno es el 15 jun 2026: un NOAA-20 después no entra.
+    cal, _, res = armar(("NOAA-20", "2026-07-01", 60))
+    assert res["fin"] == date(2026, 6, 15)
+    assert crudos(cal, "A") == 0
+
+
+def test_la_caida_de_snpp_de_2022_se_reporta_pero_no_se_rellena():
+    """Decisión del 14 nov: la caída confirmada por NASA queda visible a propósito."""
+    cal, _, res = armar(("NOAA-20", "2022-08-01", 30))
+    assert crudos(cal, "A") == 0
+    caida = res["huecos"][res["huecos"]["dia_local"] == pd.Timestamp("2022-08-01")].iloc[0]
+    assert caida["satelite_periodo"] == "S-NPP"
+    assert caida["respaldo"] == "NOAA-20"
+    assert caida["cuadritos_respaldo"] == 30
+    assert caida["motivo"] == "caida_confirmada"
+    assert not caida["rellenado"]
+
+
+def test_terra_2001_no_tiene_respaldo_y_se_reporta():
+    _, _, res = armar()
+    # El relleno pone Terra el 15 jun 2001: ese día sí tiene datos.
+    esperados = [d.date() for d in pd.date_range("2001-06-16", "2001-07-02")]
+    assert res["sin_rellenar"]["Terra"] == esperados
+    terra = res["huecos"][res["huecos"]["satelite_periodo"] == "Terra"]
+    assert terra["respaldo"].isna().all() and not terra["rellenado"].any()
+
+
+def test_un_dia_con_datos_dentro_de_la_caida_no_se_reporta():
+    _, _, res = armar(("S-NPP", "2022-08-12", 1))
+    assert pd.Timestamp("2022-08-12") not in set(res["huecos"]["dia_local"])
+
+
+# ---------------------------------------------------------------------------
 # Lo que debe salir bien (cuentas a mano)
 
 
@@ -490,6 +595,17 @@ def test_csv_es_el_calendario_con_4_decimales_y_bom(tmp_path, valido):
     assert [p.name for p in tmp_path.iterdir()] == ["serie_armonizada.csv"]
 
 
+def test_csv_de_dias_sin_datos(tmp_path):
+    _, _, res = armar(("NOAA-20", "2024-06-02", 60))
+    ruta = tmp_path / "dias_sin_datos.csv"
+    serie.escribir_csv(res["huecos"], ruta)
+    leido = pd.read_csv(ruta, encoding="utf-8-sig")
+    assert list(leido.columns) == serie.COLUMNAS_HUECOS
+    assert len(leido) == len(res["huecos"])
+    fila_2024 = leido[leido["dia_local"] == "2024-06-02"].iloc[0]
+    assert fila_2024["motivo"] == "umbral" and bool(fila_2024["rellenado"])
+
+
 def test_mismo_resultado_si_se_corre_dos_veces():
     grupos = [("Aqua", "2005-04-12", 10), ("S-NPP", "2015-04-10", 3, "B")]
     a, am, _ = armar(*grupos)
@@ -550,17 +666,23 @@ def test_reales_forma_del_calendario(reales):
 @hay_datos
 def test_reales_snpp_igual_al_calendario_provisional(reales):
     """El provisional de la tarea 1 cuenta S-NPP con su propio código: debe dar lo mismo en
-    todas sus semanas, menos la 44 de 2026, que en la serie también lleva NOAA-20."""
-    cal, _, _ = reales
+    todas sus semanas, menos la 44 de 2026 y las de días sin datos rellenados con NOAA-20
+    (H1), que en la serie también llevan NOAA-20."""
+    cal, _, resumen = reales
     prov = cp.generar_calendario()
-    prov = prov[~((prov["anio"] == 2026) & (prov["semana"] == 44))]
+    huecos = resumen["huecos"]
+    dias = pd.DatetimeIndex(huecos.loc[huecos["rellenado"]
+                                       & (huecos["satelite_periodo"] == "S-NPP"), "dia_local"])
+    con_noaa20 = {(2026, 44)} | set(zip(dias.year, cp.semana_del_anio(dias.day_of_year)))
+    prov = prov[[(a, s) not in con_noaa20 for a, s in zip(prov["anio"], prov["semana"])]]
     unido = prov[cp.CLAVE + ["cuadritos_viirs_crudo"]].merge(
         cal[cp.CLAVE + ["cuadritos_viirs_crudo"]], on=cp.CLAVE, how="left",
         suffixes=("_prov", "_serie"), validate="one_to_one",
     )
     assert unido["cuadritos_viirs_crudo_serie"].notna().all()
     assert (unido["cuadritos_viirs_crudo_prov"] == unido["cuadritos_viirs_crudo_serie"]).all()
-    assert unido["cuadritos_viirs_crudo_prov"].sum() > 380_000
+    # Sin las semanas con NOAA-20 quedan unos 375 mil (antes de H1 eran más de 380 mil).
+    assert unido["cuadritos_viirs_crudo_prov"].sum() > 370_000
 
 
 def _recalculo_aparte(satelite, municipio, anio, zona):
@@ -601,3 +723,22 @@ def test_reales_ya_no_hay_salto_en_2012(reales):
         bajo, alto = r["rango_natural"]
         assert bajo <= r["armonizada"] <= alto, nombre
         assert r["sin_calibrar"] > alto, nombre
+
+
+@hay_datos
+def test_reales_dias_sin_datos(reales):
+    """Los días que H1 rellena y los que solo reporta, contados en los datos del 14 nov."""
+    _, _, resumen = reales
+    h = resumen["huecos"]
+    rellenados = h[h["rellenado"]]
+    dias = {(r.satelite_periodo, r.dia_local.date().isoformat()) for r in rellenados.itertuples()}
+    snpp = ["2024-05-30", "2024-05-31", "2024-06-01", "2024-06-02", "2024-06-03",
+            "2026-03-10", "2026-03-11", "2026-03-12", "2026-04-28", "2026-04-29", "2026-04-30"]
+    assert dias == {("S-NPP", d) for d in snpp} | {("Aqua", "2003-05-12")}
+    assert (rellenados["cuadritos_respaldo"] >= 50).all()
+    # Caída de S-NPP de 2022: S-NPP en 0 del 27 jul al 10 ago y el 18 y 19 ago; se reporta.
+    caida = h[(h["satelite_periodo"] == "S-NPP") & ~h["rellenado"]]
+    esperados = list(pd.date_range("2022-07-27", "2022-08-10")) + [pd.Timestamp("2022-08-18"),
+                                                                    pd.Timestamp("2022-08-19")]
+    assert list(caida["dia_local"]) == esperados
+    assert set(resumen["sin_rellenar"]) == {"S-NPP", "Terra"}

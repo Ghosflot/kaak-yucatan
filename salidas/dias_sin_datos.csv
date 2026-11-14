@@ -1,0 +1,48 @@
+﻿dia_local,satelite_periodo,respaldo,cuadritos_respaldo,motivo,rellenado,nota
+2001-06-15,Terra,,,caida_confirmada,False,MODIS de Terra apagado por una falla de su fuente de poder (NASA MCST): 15 jun – 2 jul 2001
+2001-06-16,Terra,,,caida_confirmada,False,MODIS de Terra apagado por una falla de su fuente de poder (NASA MCST): 15 jun – 2 jul 2001
+2001-06-17,Terra,,,caida_confirmada,False,MODIS de Terra apagado por una falla de su fuente de poder (NASA MCST): 15 jun – 2 jul 2001
+2001-06-18,Terra,,,caida_confirmada,False,MODIS de Terra apagado por una falla de su fuente de poder (NASA MCST): 15 jun – 2 jul 2001
+2001-06-19,Terra,,,caida_confirmada,False,MODIS de Terra apagado por una falla de su fuente de poder (NASA MCST): 15 jun – 2 jul 2001
+2001-06-20,Terra,,,caida_confirmada,False,MODIS de Terra apagado por una falla de su fuente de poder (NASA MCST): 15 jun – 2 jul 2001
+2001-06-21,Terra,,,caida_confirmada,False,MODIS de Terra apagado por una falla de su fuente de poder (NASA MCST): 15 jun – 2 jul 2001
+2001-06-22,Terra,,,caida_confirmada,False,MODIS de Terra apagado por una falla de su fuente de poder (NASA MCST): 15 jun – 2 jul 2001
+2001-06-23,Terra,,,caida_confirmada,False,MODIS de Terra apagado por una falla de su fuente de poder (NASA MCST): 15 jun – 2 jul 2001
+2001-06-24,Terra,,,caida_confirmada,False,MODIS de Terra apagado por una falla de su fuente de poder (NASA MCST): 15 jun – 2 jul 2001
+2001-06-25,Terra,,,caida_confirmada,False,MODIS de Terra apagado por una falla de su fuente de poder (NASA MCST): 15 jun – 2 jul 2001
+2001-06-26,Terra,,,caida_confirmada,False,MODIS de Terra apagado por una falla de su fuente de poder (NASA MCST): 15 jun – 2 jul 2001
+2001-06-27,Terra,,,caida_confirmada,False,MODIS de Terra apagado por una falla de su fuente de poder (NASA MCST): 15 jun – 2 jul 2001
+2001-06-28,Terra,,,caida_confirmada,False,MODIS de Terra apagado por una falla de su fuente de poder (NASA MCST): 15 jun – 2 jul 2001
+2001-06-29,Terra,,,caida_confirmada,False,MODIS de Terra apagado por una falla de su fuente de poder (NASA MCST): 15 jun – 2 jul 2001
+2001-06-30,Terra,,,caida_confirmada,False,MODIS de Terra apagado por una falla de su fuente de poder (NASA MCST): 15 jun – 2 jul 2001
+2001-07-01,Terra,,,caida_confirmada,False,MODIS de Terra apagado por una falla de su fuente de poder (NASA MCST): 15 jun – 2 jul 2001
+2001-07-02,Terra,,,caida_confirmada,False,MODIS de Terra apagado por una falla de su fuente de poder (NASA MCST): 15 jun – 2 jul 2001
+2003-05-12,Aqua,Terra,174,umbral,True,
+2022-07-27,S-NPP,NOAA-20,2,caida_confirmada,False,S-NPP en modo seguro: NASA Earthdata da por perdidos los datos del 26 jul al 20 ago 2022
+2022-07-28,S-NPP,NOAA-20,13,caida_confirmada,False,S-NPP en modo seguro: NASA Earthdata da por perdidos los datos del 26 jul al 20 ago 2022
+2022-07-29,S-NPP,NOAA-20,6,caida_confirmada,False,S-NPP en modo seguro: NASA Earthdata da por perdidos los datos del 26 jul al 20 ago 2022
+2022-07-30,S-NPP,NOAA-20,1,caida_confirmada,False,S-NPP en modo seguro: NASA Earthdata da por perdidos los datos del 26 jul al 20 ago 2022
+2022-07-31,S-NPP,NOAA-20,3,caida_confirmada,False,S-NPP en modo seguro: NASA Earthdata da por perdidos los datos del 26 jul al 20 ago 2022
+2022-08-01,S-NPP,NOAA-20,1,caida_confirmada,False,S-NPP en modo seguro: NASA Earthdata da por perdidos los datos del 26 jul al 20 ago 2022
+2022-08-02,S-NPP,NOAA-20,9,caida_confirmada,False,S-NPP en modo seguro: NASA Earthdata da por perdidos los datos del 26 jul al 20 ago 2022
+2022-08-03,S-NPP,NOAA-20,17,caida_confirmada,False,S-NPP en modo seguro: NASA Earthdata da por perdidos los datos del 26 jul al 20 ago 2022
+2022-08-04,S-NPP,NOAA-20,10,caida_confirmada,False,S-NPP en modo seguro: NASA Earthdata da por perdidos los datos del 26 jul al 20 ago 2022
+2022-08-05,S-NPP,NOAA-20,12,caida_confirmada,False,S-NPP en modo seguro: NASA Earthdata da por perdidos los datos del 26 jul al 20 ago 2022
+2022-08-06,S-NPP,NOAA-20,4,caida_confirmada,False,S-NPP en modo seguro: NASA Earthdata da por perdidos los datos del 26 jul al 20 ago 2022
+2022-08-07,S-NPP,NOAA-20,0,caida_confirmada,False,S-NPP en modo seguro: NASA Earthdata da por perdidos los datos del 26 jul al 20 ago 2022
+2022-08-08,S-NPP,NOAA-20,5,caida_confirmada,False,S-NPP en modo seguro: NASA Earthdata da por perdidos los datos del 26 jul al 20 ago 2022
+2022-08-09,S-NPP,NOAA-20,4,caida_confirmada,False,S-NPP en modo seguro: NASA Earthdata da por perdidos los datos del 26 jul al 20 ago 2022
+2022-08-10,S-NPP,NOAA-20,1,caida_confirmada,False,S-NPP en modo seguro: NASA Earthdata da por perdidos los datos del 26 jul al 20 ago 2022
+2022-08-18,S-NPP,NOAA-20,0,caida_confirmada,False,S-NPP en modo seguro: NASA Earthdata da por perdidos los datos del 26 jul al 20 ago 2022
+2022-08-19,S-NPP,NOAA-20,4,caida_confirmada,False,S-NPP en modo seguro: NASA Earthdata da por perdidos los datos del 26 jul al 20 ago 2022
+2024-05-30,S-NPP,NOAA-20,468,umbral,True,
+2024-05-31,S-NPP,NOAA-20,898,umbral,True,
+2024-06-01,S-NPP,NOAA-20,559,umbral,True,
+2024-06-02,S-NPP,NOAA-20,380,umbral,True,
+2024-06-03,S-NPP,NOAA-20,541,umbral,True,
+2026-03-10,S-NPP,NOAA-20,77,umbral,True,
+2026-03-11,S-NPP,NOAA-20,116,umbral,True,
+2026-03-12,S-NPP,NOAA-20,56,umbral,True,
+2026-04-28,S-NPP,NOAA-20,406,umbral,True,
+2026-04-29,S-NPP,NOAA-20,347,umbral,True,
+2026-04-30,S-NPP,NOAA-20,682,umbral,True,

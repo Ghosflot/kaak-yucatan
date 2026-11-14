@@ -1,5 +1,6 @@
 """Las tarjetas de la vista previa (web/og/, de pipeline/tarjetas.mjs) cubren a todos los municipios."""
 import json
+import math
 import re
 from pathlib import Path
 
@@ -33,7 +34,8 @@ def test_las_cifras_de_la_tarjeta_son_las_del_municipio():
     for i in _ids():
         m = json.loads((WEB / "datos" / "municipio" / f"{i}.json").read_text(encoding="utf-8"))
         cifras = re.findall(r"[\d,]+", textos["municipios"][i]["descripcion"])
-        assert f"{round(m['v26']):,}" == cifras[0], i
+        # Como Math.round de la página: .5 sube (round() de Python lo lleva al par: 506.5 → 506).
+        assert f"{math.floor(m['v26'] + 0.5):,}" == cifras[0], i
 
 
 def test_index_trae_la_tarjeta_general():

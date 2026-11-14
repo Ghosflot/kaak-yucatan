@@ -56,6 +56,25 @@ Aqua es el MODIS de referencia porque pasa a la misma hora que S-NPP (hacia la 1
 tarde y de la madrugada), y el fuego cambia a lo largo del día. Terra solo cubre el año y
 medio antes de que Aqua empezara.
 
+**Días sin datos (añadido el 14 nov):** si el satélite del periodo no mandó datos un día, ese
+día se cuenta con su respaldo y el factor del respaldo; sigue habiendo un solo satélite por
+día. El respaldo es de la misma familia: NOAA-20 por S-NPP y Terra por Aqua. Terra
+(2001–2002) y NOAA-20 no tienen respaldo, y NOAA-21 no entra.
+- **Cuándo un día no tiene datos:** el satélite del periodo tiene 0 cuadritos-día en toda la
+  península y su respaldo tiene 50 o más. Es la misma regla de los días hueco de los factores
+  (`armonizar.UMBRAL_HUECO`). Se mira la península completa y el día completo porque un día
+  sin fuego de verdad es posible en un municipio, pero no que un satélite vea 0 en toda la
+  península mientras el otro ve 50 o más.
+- **Caídas confirmadas por NASA** (S-NPP del 26 jul al 20 ago 2022 y Terra del 15 jun al 2 jul
+  2001): se reportan y no se rellenan. La de 2022 queda visible a propósito: es fuera de
+  temporada y la regla no la detecta. Fuentes en docs/01, «Días sin datos del satélite».
+- **Fuera de alcance:** los días con datos a medias y los días en que el respaldo vio menos
+  de 50.
+- `salidas/dias_sin_datos.csv` lista cada día: cuál se rellenó, con qué satélite y cuánto vio
+  el respaldo, y cuál solo se reporta (`pipeline/serie.py`, `dias_sin_datos()` y `elegir()`;
+  la página usa la misma función). Con los datos del 14 nov se rellenan 12 días: 11 de S-NPP
+  (2024 y 2026) y 1 de Aqua (12 may 2003).
+
 **Los factores MODIS→VIIRS** se calculan por zona y por época:
 - **6 zonas:** las 4 zonas de quema de Yucatán (`analisis/zonas_quema_yucatan.csv`), más
   Campeche y Quintana Roo como una zona cada uno.
@@ -161,6 +180,7 @@ calendario provisional y, cuando llega el armonizado, solo se reemplaza el archi
 | `salidas/cuadritos_recurrencia.parquet` | cuadrito de 1 km | `lat`, `lon`, `temporadas_con_fuego` (de 14) |
 | `salidas/validacion.json` | prueba | nombre, número, frase en lenguaje simple y ruta de su gráfica |
 | `salidas/serie_armonizada.csv` | municipio × año × semana | lo mismo que el calendario, para descargar |
+| `salidas/dias_sin_datos.csv` | día sin datos del satélite del periodo | `dia_local`, `satelite_periodo`, `respaldo`, `cuadritos_respaldo`, `motivo` (`umbral` o `caida_confirmada`), `rellenado`, `nota` |
 
 ---
 
