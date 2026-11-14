@@ -8,7 +8,7 @@ is our disclosure. It covers the whole project.
 - **Claude** (Anthropic), through Claude Code and claude.ai.
 - **GitHub Copilot code review**, which left automatic comments on some pull requests.
 
-TODO(Gadiel, Melany): add any other AI tool you used (ChatGPT, Gemini, Copilot in the
+TODO(Gadiel): add any other AI tool you used (ChatGPT, Gemini, Copilot in the
 editor, Perplexity…) and what for.
 
 ## What the AI did
@@ -40,7 +40,7 @@ editor, Perplexity…) and what for.
 | Nico (Nicomoguel) | Validation: the four tests of the harmonization, their pass criteria and how the site reports them (`pipeline/validar.py`), and the provisional calendar (`pipeline/calendario_provisional.py`) | Built the validation code and its tests with Claude Code as a coding assistant, and reviewed every part of it. Claude drafted the charts, a literature review on how to report results without overstating them, and drafts of the result sentences in Spanish and English. Nico set the pass criteria, checked the results against the data and edited the sentences. TODO(Nico): the provisional calendar |
 | Leo (leosanlo30) | The site and the field data | Claude, for a redesign of the site and to write down the field notes |
 | Misa (David-Alcocer) | Quality and publication: automated tests, the daily update and the README | Claude, to draft automated tests and the daily-update workflow, and to review pull requests and Actions runs and draft review comments. Misa reviewed every change and posted every review |
-| Melany (melanysuarezmagana) | Story and submission: the pitch script, the CONABIO review and the texts | TODO(Melany) |
+| Melany (melanysuarezmagana) | Story and submission: the pitch script, the CONABIO review and the texts | Claude, to research pitch techniques, check her pitch drafts against the verified facts in docs/01, help her shape her drafts into the structure of the 30-second version and translate it into English. Melany wrote the drafts, did the CONABIO review herself, chose what goes into the pitch and approved every change |
 
 ## What the AI did not do
 
