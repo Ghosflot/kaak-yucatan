@@ -1,4 +1,4 @@
-// Enrutador de la página: #/ (temporada), #/municipio/<id>, #/fechas[/<zona>] y #/metodo.
+// Enrutador de la página: #/ (temporada), #/municipio/<id>, #/fechas[/<zona>], #/metodo y #/proteccion[/<id>].
 // Cada vista exporta montar(raiz, params) y devuelve su limpieza.
 import { cargarTextos, cambiarIdioma, idioma, t, traducir } from './textos.js';
 
@@ -7,6 +7,7 @@ const VISTAS = {
   municipio: () => import('./vistas/municipio.js'),
   fechas: () => import('./vistas/fechas.js'),
   metodo: () => import('./vistas/metodo.js'),
+  proteccion: () => import('./vistas/proteccion.js'),
 };
 
 // Un ancla mal escrita (%E0%A4) no debe tumbar la página: se usa tal cual y la vista dirá que no existe.
@@ -21,6 +22,7 @@ export function ruta(hash = location.hash, camino = location.pathname) {
   // La zona de #/fechas/<zona> no vuelve a montar la vista: la vista la sigue sola.
   if (nombre === 'fechas') return { vista: nombre, params: { zona: /^[1-4]$/.test(id || '') ? id : '2' } };
   if (nombre === 'metodo') return { vista: nombre, params: {} };
+  if (nombre === 'proteccion') return { vista: nombre, params: id ? { id: decodificar(id) } : {} };
   return { vista: 'portada', params: {} };
 }
 

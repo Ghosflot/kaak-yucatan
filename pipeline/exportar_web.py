@@ -37,6 +37,7 @@ from shapely.geometry import shape
 import shapely
 
 import datos_web as dw
+import herramientas_pc
 
 RAIZ = Path(__file__).resolve().parent.parent
 MUNICIPIOS_ZONA = RAIZ / "analisis" / "municipios_zona.csv"
@@ -410,6 +411,7 @@ def exportar(salida: Path = SALIDA, elegidos: pd.DataFrame | None = None) -> dic
     escribir(salida / "zonas.json", zonas_yucatan(elegidos, mun))
     escribir(salida / "metodo.json", metodo(elegidos))
     shutil.copyfile(SERIE, salida / "serie_armonizada.csv")
+    herramientas_pc.exportar(salida)  # exploración de la rama explorar-usos: datos/pc/
     print(f"web/datos: {len(registros)} municipios; Yucatán 2026 {yuc['totales'][ANIO]:,.0f} "
           f"contra {yuc['normal']:,.0f}; {cuenta['menos']} de {cuenta['total']} con menos fuego")
     return portada

@@ -1,7 +1,7 @@
 // Ayudas de las pruebas de la página.
 const AxeBuilder = require('@axe-core/playwright').default;
 
-const RUTAS = ['#/', '#/municipio/tekax', '#/fechas', '#/metodo'];
+const RUTAS = ['#/', '#/municipio/tekax', '#/fechas', '#/metodo', '#/proteccion/uman'];
 const TAMANOS = [
   { ancho: 1440, alto: 900 },
   { ancho: 1280, alto: 720 },

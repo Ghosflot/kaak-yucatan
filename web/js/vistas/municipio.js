@@ -50,6 +50,7 @@ const PLANTILLA = `
       <button type="button" class="b-borde" id="descargar" data-t="descargarImagen"></button>
     </div>
     <button type="button" class="enlace fuerte" id="csv"></button>
+    <a class="b-borde mun-pc" id="irPc" href="#/proteccion" data-t="pcIr" hidden></a>
     <p class="pie" id="pie"></p>
   </aside>
 </article>`;
@@ -217,6 +218,9 @@ export function montar(raiz, { id }) {
     $('cifras').textContent = cifras('munCifras2', m);
     $('leyNormal').textContent = t('loNormal', { n: fmt(m.normal) });
     $('cuandoTitulo').textContent = t('cuandoTitulo', { m: m.nombre });
+    // Exploración (rama explorar-usos): dónde se quema dentro del municipio, solo hay datos de Yucatán.
+    $('irPc').hidden = m.estado !== 'Yucatán';
+    $('irPc').setAttribute('href', '#/proteccion/' + m.id);
     const zona = (m.zona || '').replace(/^\D+/, '');
     const nota = $('notaFechas');
     if (!m.ventana) nota.textContent = t('notaSinVentana', { e: m.estado });
