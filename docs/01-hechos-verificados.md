@@ -441,14 +441,14 @@ satélite» abajo).
   después de…» cambió en 35 municipios (Dzitas pasó de 9 a 5); Tekax y los totales no cambian.
 - **Umán, el municipio de ejemplo de la página** (`web/datos/municipio/uman.json`; issue #30):
   42 focos en un año normal. En 2025, la segunda temporada más tranquila del registro, tuvo 63 (1.5 veces
-  lo normal, «arriba»), y en 2024, 54 («arriba»); en 2026, 14. Se ve al tocar 2025 en sus
-  barras. Lo respalda CONAFOR: 5 incendios forestales en 2015–2024, todos en selva y 4 de ellos
+  lo normal, «arriba»), y en 2024, 54 («arriba»); en 2026, 19 (antes de contar los días sin
+  datos de S-NPP con NOAA-20 eran 14). Se ve al tocar 2025 en sus barras. Lo respalda CONAFOR: 5 incendios forestales en 2015–2024, todos en selva y 4 de ellos
   por cazadores, con 890 ha (`datos_peninsula/incendios_conafor_2015_2024.csv`), y 264.29 ha de
   selva mediana en 2025 (Diario de Yucatán, 12 ene 2026, con cifras preliminares de CONAFOR).
   **Ojo:** en 2016 CONAFOR registra 601 ha, pero el satélite da 26 focos, menos que lo normal:
   el satélite no ve todos los incendios (ver «Validación con CONAFOR»). Reemplaza a Tekax como
   ejemplo porque muestra un año malo (2025) cuando el resto del estado estuvo tranquilo. Con los
-  datos actuales Tekax 2024 también sale «arriba» (592 contra 390), no «dentro de lo normal».
+  datos actuales Tekax 2024 también sale «arriba» (617 contra 390), no «dentro de lo normal».
   No va en el pitch: solo es el ejemplo de la página.
 - **Focos fuera de las fechas permitidas, de enero a junio de 2026** (`web/datos/zonas.json`):
 
