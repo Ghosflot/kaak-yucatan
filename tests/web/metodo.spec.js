@@ -5,6 +5,8 @@ const { test, expect } = require('@playwright/test');
 const { abrir } = require('./ayudas');
 
 const M = JSON.parse(fs.readFileSync('web/datos/metodo.json', 'utf8'));
+const V = JSON.parse(fs.readFileSync('web/datos/validacion.json', 'utf8'));
+const ES = JSON.parse(fs.readFileSync('web/textos/es.json', 'utf8'));
 const uno = (n) => n.toFixed(1);
 
 test('explica qué es un foco de calor y qué no es', async ({ page }) => {
@@ -57,16 +59,34 @@ test('con «reducir movimiento» abre ya calibrado', async ({ page }) => {
   await expect(page.locator('[data-ver="armonizado"]')).toHaveAttribute('aria-pressed', 'true');
 });
 
-test('¿Se puede confiar?: el cruce con CONAFOR y los dos satélites de ahora', async ({ page }) => {
+test('¿Se puede confiar?: una tarjeta por prueba, con la frase de su caso', async ({ page }) => {
   await abrir(page, '#/metodo');
   const c = page.locator('#mConfiar');
   await expect(c.locator('h2')).toHaveText('¿Se puede confiar?');
-  await expect(c).toContainText(M.conafor.vistos + ' %');
-  await expect(c).toContainText('1,222');
-  await expect(c).toContainText(M.conafor.azar + ' %');
-  await expect(c).toContainText(M.conafor.grandes + ' %');
-  await expect(c).toContainText(M.factores.noaa20.toFixed(2));
-  await expect(c).toContainText('no quemas agrícolas');
+  const tarjetas = c.locator('.m-prueba');
+  await expect(tarjetas).toHaveCount(V.pruebas.length);
+  for (const p of V.pruebas) {
+    const tj = c.locator(`.m-prueba[data-prueba="${p.id}"]`);
+    // La frase del caso que salió, con sus números (como t() en web/js/textos.js).
+    const frase = ES[p.clave].replace(/\{(\w+)\}/g, (m, k) => String(p.valores[k]));
+    await expect(tj.locator('p').first()).toHaveText(frase);
+    await expect(tj.locator('img')).toHaveAttribute('src', '/datos/' + p.grafica.es);
+    await expect(tj.locator('.m-pendiente')).toHaveCount(0);
+  }
+  // Ya no dice que los satélites coinciden sin la prueba, ni una cifra de azar fija.
+  await expect(c).not.toContainText('Los satélites de ahora coinciden');
+  const conafor = c.locator('.m-prueba[data-prueba="conafor"]');
+  await expect(conafor).toContainText(V.pruebas.find((p) => p.id === 'conafor').valores.azarSnpp + ' %');
+  await conafor.locator('summary').click();
+  await expect(conafor.locator('details li').first()).toBeVisible();
+  await expect(conafor).toContainText('no quemas agrícolas');
+});
+
+test('¿Se puede confiar? en inglés usa la gráfica en inglés', async ({ page }) => {
+  await abrir(page, '#/metodo', { query: '?lang=en' });
+  await expect(page.locator('#mConfiar h2')).toHaveText('Can it be trusted?');
+  const p = V.pruebas[0];
+  await expect(page.locator(`.m-prueba[data-prueba="${p.id}"] img`)).toHaveAttribute('src', '/datos/' + p.grafica.en);
 });
 
 test('el pie dice el periodo de cada fuente', async ({ page }) => {

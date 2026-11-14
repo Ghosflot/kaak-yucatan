@@ -196,12 +196,27 @@ def test_metodo_satelites_factores_y_conafor(salida):
     assert m["periodos"][3]["hasta"] is None
     f = m["factores"]
     assert 2 < f["aqua"][0] < f["aqua"][1] < 5  # Aqua en temporada, zonas de Yucatán
-    # El factor es S-NPP / NOAA-20 (pipeline/armonizar.py); la página dice cuántos focos ve
-    # NOAA-20 por cada uno de S-NPP, así que usa el inverso.
-    fac = pd.read_csv(ew.FACTORES)
-    noaa = fac[(fac["satelite"] == "NOAA-20") & (fac["epoca"] == "temporada")]["factor"].iloc[0]
-    assert f["noaa20"] == round(1 / noaa, 2)
+    assert "noaa20" not in f  # lo cuenta la prueba «viirs» de la validación
     # Las cifras de docs/01, «Validación con CONAFOR».
     c = m["conafor"]
     assert (c["incendios"], c["desde"], c["hasta"]) == (1222, 2015, 2024)
-    assert (c["vistos"], c["grandes"], c["nGrandes"], c["azar"]) == (53, 84, 395, 9)
+    assert (c["vistos"], c["grandes"], c["nGrandes"]) == (53, 84, 395)
+    assert "azar" not in c  # sale de la validación (azarSnpp), no de una cifra fija
+
+
+def test_validacion_para_la_pagina(salida):
+    """«¿Se puede confiar?» lee el caso y los números de salidas/validacion.json, sin textos."""
+    v = _json(salida, "validacion.json")
+    original = json.loads(ew.VALIDACION.read_text(encoding="utf-8"))
+    assert [p["id"] for p in v["pruebas"]] == [p["id"] for p in original["pruebas"]]
+    for p, o in zip(v["pruebas"], original["pruebas"]):
+        assert set(p) == {"id", "estado", "caso", "clave", "valores", "grafica"}
+        assert (p["caso"], p["clave"], p["valores"]) == (o["caso"], o["clave"], o["valores"])
+        for idioma in ("es", "en"):
+            copia = salida / p["grafica"][idioma]
+            assert copia.read_bytes() == (ew.VALIDACION.parent / o["grafica"][idioma]).read_bytes()
+    # Cada caso tiene su frase en los dos idiomas.
+    for idioma in ("es", "en"):
+        textos = json.loads((ew.RAIZ / "web" / "textos" / f"{idioma}.json").read_text(encoding="utf-8"))
+        for p in v["pruebas"]:
+            assert textos.get(p["clave"]), f"{idioma}:{p['clave']}"

@@ -556,20 +556,26 @@ h1, h2, h3 { scroll-margin-top: calc(var(--barra-alto) + 12px); }
 #salto.quieto .m-barra, #salto.quieto .m-promedio { transition: none; }
 @media (prefers-reduced-motion: reduce) { #salto .m-barra, #salto .m-promedio { transition: none; } }
 .metodo .m-nota { font-size: 15px; color: var(--tinta-2); }
-.m-cifras { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px 32px; max-width: 1000px; margin-top: 10px; }
 .sin-corte { white-space: nowrap; }
-.m-cifra { display: flex; flex-direction: column; gap: 6px; }
-.m-cifra b { font-family: var(--display); font-weight: 400; font-size: 46px; line-height: 1; color: var(--tinta); }
-.metodo .m-cifra p { font-size: 16px; }
+/* ¿Se puede confiar?: una tarjeta por prueba de la validación. */
+.m-pruebas { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 40px; max-width: 1000px; margin-top: 10px; }
+.m-prueba { display: flex; flex-direction: column; gap: 8px; min-width: 0; padding-top: 14px; border-top: 2px solid var(--tinta); }
+.m-prueba h3 { margin: 0; font-size: 16px; font-weight: 800; letter-spacing: 0.02em; text-transform: uppercase; color: var(--tinta-2); }
+.m-prueba b { font-family: var(--display); font-weight: 400; font-size: 32px; line-height: 1.1; color: var(--tinta); }
+.metodo .m-prueba p { font-size: 16px; }
+.metodo .m-prueba .m-pendiente { color: var(--tinta-2); font-style: italic; }
+.m-prueba img { display: block; width: 100%; height: auto; margin-top: 6px; border: 1px solid var(--linea); }
+.m-prueba summary { padding: 11px 0; font-size: 15px; font-weight: 700; cursor: pointer; }
+.m-prueba details ul { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: 6px; font-size: 15px; color: var(--tinta-2); }
 .m-descargar { align-self: flex-start; text-decoration: none; }
 .metodo > .pie { margin-top: 28px; }
 /* La declaración del uso de IA va pegada al pie de datos, como parte del mismo bloque. */
 .metodo > .pie + .pie { margin-top: -8px; }
 @media (max-width: 860px) {
   .metodo h2 { font-size: 24px; }
-  .m-cifras { grid-template-columns: 1fr; }
+  .m-pruebas { grid-template-columns: minmax(0, 1fr); }
+  .m-prueba b { font-size: 28px; }
   .metodo .m-salto { font-size: 18px; min-height: 4em; }
-  .m-cifra b { font-size: 40px; }
   .m-descargar { height: auto; min-height: 48px; }
 }
 /* El mapa del cierre se recorre con las flechas: el contorno del foco va por dentro del recuadro. */

@@ -1,6 +1,7 @@
 // Cómo lo medimos (#/metodo): qué es un foco de calor, cómo se unieron los satélites (con el salto
 // de 2012), ¿se puede confiar? y la descarga de la serie. Spec, «Cómo lo medimos».
-// Las cifras salen de web/datos/metodo.json, que escribe pipeline/exportar_web.py.
+// Las cifras salen de web/datos/metodo.json y validacion.json, que escribe pipeline/exportar_web.py.
+// «¿Se puede confiar?» muestra cada prueba de la validación (tarea 7) con la frase de su caso.
 import { t, traducir, idioma } from '../textos.js';
 import { fmt, fechaDiaAnio, el, datos, reducirMovimiento } from '../comun.js';
 
@@ -37,12 +38,8 @@ const PLANTILLA = `
   </section>
   <section id="mConfiar" aria-labelledby="mConfiarT">
     <h2 id="mConfiarT" data-t="mConfiarTitulo"></h2>
-    <div class="m-cifras">
-      <div class="m-cifra"><b class="cifra" id="cVistos"></b><p id="cConafor"></p></div>
-      <div class="m-cifra"><b class="cifra" id="cGrandes"></b><p id="cGrandesT"></p></div>
-      <div class="m-cifra"><b class="cifra" id="cNoaa"></b><p id="cNoaaT"></p></div>
-    </div>
-    <p class="m-nota" data-t="mConfiarNota"></p>
+    <p data-t="mConfiarIntro"></p>
+    <div class="m-pruebas" id="mPruebas"></div>
   </section>
   <section id="mDescarga" aria-labelledby="mDescargaT">
     <h2 id="mDescargaT" data-t="mDescargaTitulo"></h2>
@@ -65,6 +62,54 @@ function texto(nodo, s) {
     span.textContent = parte;
     return span;
   }));
+}
+
+// t() con los números de la prueba, también en las listas (las limitaciones).
+function rellenar(clave, valores) {
+  const v = t(clave, valores);
+  if (!Array.isArray(v)) return v;
+  return v.map((s) => s.replace(/\{(\w+)\}/g, (m, k) => (k in valores ? String(valores[k]) : m)));
+}
+
+// Una tarjeta por prueba: nombre, cifra, la frase de su caso, la gráfica y las limitaciones.
+// Si el caso todavía no tiene frase, lo dice en lugar de usar la de otro caso.
+function tarjeta(p) {
+  // La misma regla que pipeline/validar.py (clave): «salto_2012» → valSalto2012Nombre, …
+  const base = 'val' + p.id.split('_').map((x) => x[0].toUpperCase() + x.slice(1)).join('');
+  const art = document.createElement('article');
+  art.className = 'm-prueba';
+  art.dataset.prueba = p.id;
+  art.dataset.estado = p.estado;
+  const nombre = rellenar(base + 'Nombre', p.valores);
+  const h3 = document.createElement('h3');
+  h3.textContent = nombre;
+  const cifra = document.createElement('b');
+  cifra.className = 'cifra';
+  texto(cifra, rellenar(base + 'Numero', p.valores));
+  const frase = document.createElement('p');
+  const f = rellenar(p.clave, p.valores);
+  if (f === p.clave) { frase.className = 'm-pendiente'; frase.textContent = t('mValPendiente'); } else texto(frase, f);
+  art.append(h3, cifra, frase);
+  const ruta = p.grafica[idioma()] || p.grafica.es;
+  if (ruta) {
+    const img = document.createElement('img');
+    img.src = '/datos/' + ruta;
+    img.alt = t('mValGrafica', { n: nombre });
+    img.loading = 'lazy';
+    img.decoding = 'async';
+    art.append(img);
+  }
+  const lim = rellenar(base + 'Limitaciones', p.valores);
+  if (Array.isArray(lim) && lim.length) {
+    const det = document.createElement('details');
+    const sum = document.createElement('summary');
+    sum.textContent = t('mValLimitaciones');
+    const ul = document.createElement('ul');
+    ul.append(...lim.map((s) => { const li = document.createElement('li'); texto(li, s); return li; }));
+    det.append(sum, ul);
+    art.append(det);
+  }
+  return art;
 }
 
 /**
@@ -133,7 +178,7 @@ function armarSalto(svg, M) {
 }
 
 export function montar(raiz) {
-  let M = null, P = null, nMun = 0, vivo = true;
+  let M = null, P = null, V = null, nMun = 0, vivo = true;
   // Se abre sin calibrar; al llegar a la gráfica, se calibra sola una vez (si nadie la tocó antes).
   let vista = reducirMovimiento() ? 'armonizado' : 'crudo', tocado = false, verSalto = null, espera = 0, observador = null, medida = null, anchoCaja = 0;
   const $ = (s) => raiz.querySelector('#' + s);
@@ -151,14 +196,10 @@ export function montar(raiz) {
     $('mUnir2').textContent = t('mUnir2', { a: dec(M.factores.aqua[0], 1), b: dec(M.factores.aqua[1], 1) });
     dibujarSalto();
 
+    // Si la validación no carga, la sección se queda con su título y su introducción.
+    $('mPruebas').replaceChildren(...(V ? V.pruebas.map(tarjeta) : []));
+
     const c = M.conafor;
-    $('cVistos').textContent = t('mPct', { n: c.vistos });
-    $('cConafor').textContent = t('mConfiarConafor', { i: fmt(c.incendios), d: c.desde, h: c.hasta, z: c.azar });
-    $('cGrandes').textContent = t('mPct', { n: c.grandes });
-    $('cGrandesT').textContent = t('mConfiarGrandes', { n: fmt(c.nGrandes), ha: c.ha });
-    $('cNoaa').textContent = dec(M.factores.noaa20, 2);
-    const snpp = M.periodos.find((p) => p.sat === 'S-NPP');
-    texto($('cNoaaT'), t('mConfiarNoaa', { f: fechaDiaAnio(snpp.hasta) }));
 
     $('mDescarga1').textContent = t('mDescarga1', { n: nMun });
     $('serie').textContent = t('mDescargar', { mb: M.serieMB });
@@ -216,6 +257,8 @@ export function montar(raiz) {
       traducir(raiz);
       return;
     }
+    if (!vivo) return;
+    V = await datos('validacion.json').catch(() => null);
     if (!vivo) return;
     nMun = lista.length;
     raiz.innerHTML = PLANTILLA;
