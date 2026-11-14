@@ -505,6 +505,7 @@ def prueba_aqua(por_zona: pd.DataFrame, peninsula: pd.DataFrame, factores: pd.Da
 CRUCE_CONAFOR = RAIZ / "analisis" / "cruce_conafor.py"
 SENSORES_CONAFOR = ("S-NPP", "MODIS")
 TAMANO_GRANDES = "Mayor a 100 Hectáreas"
+TAMANO_CHICOS = "0 a 5 Hectáreas"     # solo para el texto de las limitaciones (chicosSnpp)
 # Criterio congelado (commit 4972835, PR #3): regresión, no decide nada del método.
 UMBRAL_CONAFOR = {"veces_azar_min": 3.0, "grandes_min": 75.0}
 # Lo publicado en docs/01 («Validación con CONAFOR»), con la precisión con que se publicó
@@ -830,9 +831,10 @@ VALORES = {
     "salto_2012": ("razonCruda", "razonArmonizada", "reduccionPct", "naturalMin", "naturalMax",
                    "antesDesde", "antesHasta", "despuesDesde", "despuesHasta",
                    "razonCrudaYucatan", "razonArmonizadaYucatan"),
-    "aqua_fuera_muestra": ("wapeZonaEpocaPct", "wapeUnicoPct", "mejoraPct", "factorUnico",
-                           "desde", "hasta"),
-    "conafor": ("incendios", "realSnpp", "azarSnpp", "realModis", "azarModis", "grandesSnpp"),
+    "aqua_fuera_muestra": ("wapeElegidoPct", "wapeZonaEpocaPct", "wapeUnicoPct", "mejoraPct",
+                           "factorUnico", "desde", "hasta"),
+    "conafor": ("incendios", "realSnpp", "azarSnpp", "realModis", "azarModis", "grandesSnpp",
+                "chicosSnpp"),
     "viirs": ("razonMinNoaa20", "razonMaxNoaa20", "diferenciaPctNoaa20", "razonMinNoaa21",
               "razonMaxNoaa21", "aniosDesde", "aniosHasta"),
 }
@@ -905,15 +907,19 @@ def valores(resultado: dict) -> dict:
              "razonCrudaYucatan": _r2(y["razon_cruda"]),
              "razonArmonizadaYucatan": _r2(y["razon_armonizada"])}
     elif i == "aqua_fuera_muestra":
-        v = {"wapeZonaEpocaPct": _pct(m["wape_zona_epoca"]), "wapeUnicoPct": _pct(m["wape_unico"]),
+        # El error del modelo que se eligió: el número grande es verdad en los cuatro casos.
+        elegido = m["wape_zona_epoca"] if m["modelo"] == "zona_epoca" else m["wape_unico"]
+        v = {"wapeElegidoPct": _pct(elegido),
+             "wapeZonaEpocaPct": _pct(m["wape_zona_epoca"]), "wapeUnicoPct": _pct(m["wape_unico"]),
              "mejoraPct": _pct(m["mejora"]), "factorUnico": _r2(m["factor_unico"]),
              "desde": int(m["periodo"][0][:4]), "hasta": int(m["periodo"][1][:4])}
     elif i == "conafor":
         s, mo = m["por_satelite"]["S-NPP"], m["por_satelite"]["MODIS"]
+        chicos = m.get("por_tamano", {}).get(TAMANO_CHICOS, {}).get("snpp")
         v = {"incendios": f"{m['incendios']:,}",
              "realSnpp": _pct(s["real"], False), "azarSnpp": _pct(s["azar_mayor"], False),
              "realModis": _pct(mo["real"], False), "azarModis": _pct(mo["azar_mayor"], False),
-             "grandesSnpp": _pct(m["grandes_snpp"], False)}
+             "grandesSnpp": _pct(m["grandes_snpp"], False), "chicosSnpp": _pct(chicos, False)}
     elif i == "viirs":
         n20, n21 = m["NOAA-20"], m["NOAA-21"]
         r20, r21 = _razones_enteras(n20), _razones_enteras(n21)

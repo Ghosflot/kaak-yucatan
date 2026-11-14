@@ -350,46 +350,46 @@
   "mPie": "Datos: FIRMS (NASA), de {a} a {b}, e incendios forestales de la CONAFOR, de {d} a {h}. Actualizado el {f}.",
   "valSalto2012Nombre": "El salto de 2012",
   "valSalto2012Numero": "×{razonCruda} → ×{razonArmonizada}",
-  "valSalto2012PasaDentro": "Pasa: el salto de 2012 era del satélite, no del fuego. Sin calibrar, el fuego parece multiplicarse por {razonCruda}. Calibrado, queda en ×{razonArmonizada} (1 = sin cambio), dentro de lo que varía entre años normales ({naturalMin} a {naturalMax}).",
-  "valSalto2012PasaFuera": "Pasa: la calibración quita el {reduccionPct} % del salto de 2012. Pero lo que queda, ×{razonArmonizada}, se sale de lo que varía el fuego entre años normales ({naturalMin} a {naturalMax}). Parte del cambio puede seguir siendo del satélite.",
-  "valSalto2012NoPasaDentro": "No pasa: la meta era quitar al menos la mitad del salto de 2012 y quedar entre 0.67 y 1.50. La calibración quita el {reduccionPct} % y deja ×{razonArmonizada}; entre años normales varía de {naturalMin} a {naturalMax}. No podemos asegurar que la calibración resuelva el cambio de satélite de 2012.",
-  "valSalto2012NoPasaFuera": "No pasa: la meta era quitar al menos la mitad del salto de 2012 y quedar entre 0.67 y 1.50. La calibración quita el {reduccionPct} % y deja ×{razonArmonizada}, fuera de lo que varía entre años normales ({naturalMin} a {naturalMax}). Los años de antes de 2012 todavía no se pueden comparar con los de después.",
+  "valSalto2012PasaDentro": "Pasa: sin calibrar, de {antesDesde}–{antesHasta} a {despuesDesde}–{despuesHasta} los focos de calor se multiplican por {razonCruda}. Calibrados, quedan en {razonArmonizada} veces lo de antes (1 = sin salto). Eso cabe en la variación normal entre años ({naturalMin} a {naturalMax}). Los años de antes y de después de 2012 se pueden comparar.",
+  "valSalto2012PasaFuera": "Pasa: sin calibrar, de {antesDesde}–{antesHasta} a {despuesDesde}–{despuesHasta} los focos de calor se multiplican por {razonCruda}. Calibrados, quedan en {razonArmonizada} veces lo de antes (1 = sin salto). Eso cumple la meta fijada de antemano (0.67 a 1.50). Pero queda fuera de la variación normal entre años ({naturalMin} a {naturalMax}): parte del salto puede seguir siendo del satélite.",
+  "valSalto2012NoPasaDentro": "No pasa: la meta era quitar al menos la mitad del salto y quedar entre 0.67 y 1.50. La fijamos de antemano. La calibración quita el {reduccionPct} % del salto y deja los focos en {razonArmonizada} veces lo de antes (1 = sin salto). Eso cabe en la variación normal entre años ({naturalMin} a {naturalMax}), pero no cambia el veredicto. No podemos decir que la calibración resuelva el cambio de satélite.",
+  "valSalto2012NoPasaFuera": "No pasa: la meta era quitar al menos la mitad del salto y quedar entre 0.67 y 1.50. La fijamos de antemano. La calibración quita el {reduccionPct} % del salto y deja los focos en {razonArmonizada} veces lo de antes (1 = sin salto). Eso queda fuera de la variación normal entre años ({naturalMin} a {naturalMax}). Los años de antes de 2012 todavía no se pueden comparar con los de después.",
   "valSalto2012Limitaciones": [
     "Solo revisamos el cambio de satélite de 2012, con promedios de tres años, no cada año de 2001 a 2011.",
-    "Lo normal sale de comparar periodos de S-NPP de 2013 a 2025. Son pocos y se enciman: es una referencia, no una prueba estadística.",
-    "Medimos toda la península, todo el año. Solo en Yucatán, el salto va de ×{razonCrudaYucatan} a ×{razonArmonizadaYucatan}."
+    "La variación normal sale de comparar periodos de S-NPP de 2013 a 2025. Son siete y se enciman: es una referencia, no una prueba estadística.",
+    "Medimos la península entera y el año completo. En un municipio o en temporada, el salto puede ser otro: el estado de Yucatán va de ×{razonCrudaYucatan} a ×{razonArmonizadaYucatan}."
   ],
-  "valAquaFueraMuestraNombre": "Prueba a ciegas, {desde}–{hasta}",
-  "valAquaFueraMuestraNumero": "{wapeZonaEpocaPct} % contra {wapeUnicoPct} % de error",
-  "valAquaFueraMuestraPasaZonaEpoca": "Pasa: calibramos sin ver {desde}–{hasta}. En esos años, Aqua convertido por zona y época se desvió {wapeZonaEpocaPct} % de lo que vio S-NPP. El límite que fijamos era 25 %; con un solo factor para todo, el error sube a {wapeUnicoPct} %.",
-  "valAquaFueraMuestraPasaUnico": "Pasa con un solo factor: calibramos sin ver {desde}–{hasta}. En esos años, Aqua convertido con un solo factor se desvió {wapeUnicoPct} % de lo que vio S-NPP. El límite era 25 %, y por zona y época no mejora lo suficiente ({wapeZonaEpocaPct} %): basta un factor.",
-  "valAquaFueraMuestraNoPasaZonaEpoca": "No pasa: la meta era como mucho 25 % de error en años que no usamos para calibrar. En {desde}–{hasta}, Aqua convertido por zona y época se desvió {wapeZonaEpocaPct} % de S-NPP; con un solo factor, {wapeUnicoPct} %. Los años de antes de 2012 pueden estar desviados en esa medida.",
-  "valAquaFueraMuestraNoPasaUnico": "No pasa: la meta era como mucho 25 % de error en años que no usamos para calibrar. En {desde}–{hasta}, Aqua convertido con un solo factor se desvió {wapeUnicoPct} % de S-NPP; por zona y época, {wapeZonaEpocaPct} %. Los años de antes de 2012 pueden estar desviados en esa medida.",
+  "valAquaFueraMuestraNombre": "Aqua en años fuera de la calibración",
+  "valAquaFueraMuestraNumero": "{wapeElegidoPct} % de error (límite: 25 %)",
+  "valAquaFueraMuestraPasaZonaEpoca": "Pasa: probamos la calibración en {desde}–{hasta}, años que no usamos para calcularla. Convertido por zona y época, Aqua se desvió en promedio {wapeZonaEpocaPct} % de S-NPP; con un solo factor, {wapeUnicoPct} %. El límite, fijado de antemano, era 25 %. Es lo que pueden desviarse los años de Aqua, de 2002 a 2011.",
+  "valAquaFueraMuestraPasaUnico": "Pasa con un solo factor: probamos la calibración en {desde}–{hasta}, años que no usamos para calcularla. Convertido con un solo factor, Aqua se desvió en promedio {wapeUnicoPct} % de S-NPP. Separar por zona y época no mejora lo bastante ({wapeZonaEpocaPct} %). El límite, fijado de antemano, era 25 %. Es lo que pueden desviarse los años de Aqua, de 2002 a 2011.",
+  "valAquaFueraMuestraNoPasaZonaEpoca": "No pasa: probamos la calibración en {desde}–{hasta}, años que no usamos para calcularla. Convertido por zona y época, Aqua se desvió en promedio {wapeZonaEpocaPct} % de S-NPP; con un solo factor, {wapeUnicoPct} %. El límite, fijado de antemano, era 25 %. Los años de Aqua, de 2002 a 2011, pueden desviarse más de lo que fijamos como aceptable.",
+  "valAquaFueraMuestraNoPasaUnico": "No pasa: probamos la calibración en {desde}–{hasta}, años que no usamos para calcularla. Convertido con un solo factor, Aqua se desvió en promedio {wapeUnicoPct} % de S-NPP; por zona y época, {wapeZonaEpocaPct} %. El límite, fijado de antemano, era 25 %. Los años de Aqua, de 2002 a 2011, pueden desviarse más de lo que fijamos como aceptable.",
   "valAquaFueraMuestraLimitaciones": [
     "Comparamos contra S-NPP, que tampoco ve cada fuego: esto dice si los satélites cuadran entre sí, no cuánto fuego hubo.",
-    "El error cambia de un año a otro; la gráfica lo muestra año por año.",
-    "En 2022 Aqua estuvo apagado 17 días por una falla que reportó la NASA, y no contamos esos días. El resto del año vio menos fuego de lo usual; aún no sabemos por qué.",
+    "El error junta cinco años y todas las zonas; la gráfica lo muestra año por año. En un municipio o en una semana puede ser mayor.",
+    "En 2022, Aqua pasó 17 días sin mandar datos por una falla que reportó la NASA; no los contamos. El resto de la temporada vio menos focos de lo usual frente a S-NPP, y Terra, su gemelo, no. Aún no sabemos por qué.",
     "Solo probamos Aqua. Terra, que cubre de 2001 a mediados de 2002, no tiene una prueba así."
   ],
   "valConaforNombre": "Incendios registrados por la CONAFOR",
-  "valConaforNumero": "{realSnpp} % contra {azarSnpp} %",
-  "valConaforCumple": "Cumple: de los {incendios} incendios que registró la CONAFOR, el {realSnpp} % tuvo focos de calor de S-NPP cerca. Por azar coincidiría el {azarSnpp} %. En los de más de 100 hectáreas, fue el {grandesSnpp} %.",
-  "valConaforNoCumple": "No cumple: pedíamos al menos el triple que el azar y el 75 % de los incendios de más de 100 hectáreas. De los {incendios} incendios de la CONAFOR, el {realSnpp} % tuvo focos de calor cerca; por azar, el {azarSnpp} %. De los de más de 100 hectáreas, el {grandesSnpp} %.",
+  "valConaforNumero": "{realSnpp} % contra {azarSnpp} % por azar",
+  "valConaforCumple": "Cumple: de {incendios} incendios registrados por la CONAFOR, el {realSnpp} % tuvo focos de S-NPP cerca; por azar, el {azarSnpp} %. De los de más de 100 hectáreas, el {grandesSnpp} %. La meta, fijada de antemano, era al menos el triple del azar y el 75 % de los grandes.",
+  "valConaforNoCumple": "No cumple: de {incendios} incendios registrados por la CONAFOR, el {realSnpp} % tuvo focos de S-NPP cerca; por azar, el {azarSnpp} %. De los de más de 100 hectáreas, el {grandesSnpp} %. La meta, fijada de antemano, era al menos el triple del azar y el 75 % de los grandes.",
   "valConaforLimitaciones": [
     "Es informativa: revisa si el satélite detecta incendios, no la conversión entre satélites.",
-    "La CONAFOR registra los incendios forestales que atendió de 2015 a 2024, no las quemas agrícolas. Esto no dice nada de las fechas de quema.",
+    "Los registros de la CONAFOR son incendios forestales de 2015 a 2024, no quemas agrícolas. Esto no dice nada de las fechas de quema.",
     "Contamos cualquier foco a menos de 2 km, de un día antes a un día después del incendio. Como en temporada hay fuego por todas partes, medimos también lo que coincidiría por azar.",
-    "Los incendios chicos se escapan más: de los de 5 hectáreas o menos, menos de 1 de cada 5 tuvo focos cerca."
+    "Los incendios chicos se escapan más: de los de 5 hectáreas o menos, el {chicosSnpp} % tuvo focos cerca."
   ],
   "valViirsNombre": "El relevo de S-NPP",
-  "valViirsNumero": "{razonMinNoaa20} a {razonMaxNoaa20}",
-  "valViirsPasaNoaa21Cumple": "Pasa: por cada foco de S-NPP, NOAA-20 vio entre {razonMinNoaa20} y {razonMaxNoaa20}, cada año de {aniosDesde} a {aniosHasta}. La meta era de 0.90 a 1.10. Así, la serie puede seguir con NOAA-20 sin un salto como el de 2012. NOAA-21 también queda en la meta ({razonMinNoaa21} a {razonMaxNoaa21}).",
-  "valViirsPasaNoaa21NoCumple": "Pasa: por cada foco de S-NPP, NOAA-20 vio entre {razonMinNoaa20} y {razonMaxNoaa20}, cada año de {aniosDesde} a {aniosHasta}. La meta era de 0.90 a 1.10. Así, la serie puede seguir con NOAA-20 sin un salto como el de 2012. NOAA-21, que no entra en la serie, queda fuera de la meta ({razonMinNoaa21} a {razonMaxNoaa21}).",
-  "valViirsNoPasaNoaa21Cumple": "No pasa: la meta era de 0.90 a 1.10 cada año y como mucho 5 % de diferencia total. Por cada foco de S-NPP, NOAA-20 vio entre {razonMinNoaa20} y {razonMaxNoaa20} según el año, con {diferenciaPctNoaa20} % de diferencia total. Al seguir con NOAA-20, la serie puede tener un salto. NOAA-21 sí queda entre 0.90 y 1.10 ({razonMinNoaa21} a {razonMaxNoaa21}).",
-  "valViirsNoPasaNoaa21NoCumple": "No pasa: la meta era de 0.90 a 1.10 cada año y como mucho 5 % de diferencia total. Por cada foco de S-NPP, NOAA-20 vio entre {razonMinNoaa20} y {razonMaxNoaa20} según el año, con {diferenciaPctNoaa20} % de diferencia total. Al seguir con NOAA-20, la serie puede tener un salto. NOAA-21 tampoco queda entre 0.90 y 1.10 ({razonMinNoaa21} a {razonMaxNoaa21}).",
+  "valViirsNumero": "{razonMinNoaa20} a {razonMaxNoaa20} (meta: 0.90 a 1.10)",
+  "valViirsPasaNoaa21Cumple": "Pasa: de {aniosDesde} a {aniosHasta}, NOAA-20 con su factor contó entre {razonMinNoaa20} y {razonMaxNoaa20} por cada foco de S-NPP. La meta, fijada de antemano, era de 0.90 a 1.10 cada año. Así, la serie puede seguir con NOAA-20 sin un salto como el de 2012. NOAA-21, en sus dos años completos, también cumple la meta ({razonMinNoaa21} a {razonMaxNoaa21}).",
+  "valViirsPasaNoaa21NoCumple": "Pasa: de {aniosDesde} a {aniosHasta}, NOAA-20 con su factor contó entre {razonMinNoaa20} y {razonMaxNoaa20} por cada foco de S-NPP. La meta, fijada de antemano, era de 0.90 a 1.10 cada año. Así, la serie puede seguir con NOAA-20 sin un salto como el de 2012. NOAA-21, en sus dos años completos, no cumple la meta ({razonMinNoaa21} a {razonMaxNoaa21}); no entra en la serie.",
+  "valViirsNoPasaNoaa21Cumple": "No pasa: de {aniosDesde} a {aniosHasta}, NOAA-20 con su factor contó entre {razonMinNoaa20} y {razonMaxNoaa20} por cada foco de S-NPP. La meta, fijada de antemano, era de 0.90 a 1.10 cada año y como mucho 5 % de diferencia total. La diferencia dio {diferenciaPctNoaa20} %. Al seguir con NOAA-20, la serie puede tener un salto. NOAA-21, en sus dos años completos, sí cumple la meta ({razonMinNoaa21} a {razonMaxNoaa21}).",
+  "valViirsNoPasaNoaa21NoCumple": "No pasa: de {aniosDesde} a {aniosHasta}, NOAA-20 con su factor contó entre {razonMinNoaa20} y {razonMaxNoaa20} por cada foco de S-NPP. La meta, fijada de antemano, era de 0.90 a 1.10 cada año y como mucho 5 % de diferencia total. La diferencia dio {diferenciaPctNoaa20} %. Al seguir con NOAA-20, la serie puede tener un salto. NOAA-21, en sus dos años completos, tampoco cumple la meta ({razonMinNoaa21} a {razonMaxNoaa21}).",
   "valViirsLimitaciones": [
-    "Calculamos el factor de NOAA-20 con estos mismos años. Por eso la diferencia total ({diferenciaPctNoaa20} %) sale casi en cero, por construcción. Lo que informa es que cada año quede cerca de 1.",
-    "Que los VIIRS coincidan dice que la serie no salta al cambiar de satélite, no que cuenten cada fuego.",
-    "NOAA-21 está en FIRMS desde marzo de 2023: solo tiene dos años completos, va sin factor y no entra en la serie."
+    "Calculamos el factor de NOAA-20 con estos mismos años: el factor lleva la diferencia total ({diferenciaPctNoaa20} %) hacia cero. Lo que informa es cada año por separado.",
+    "Comparamos satélites VIIRS entre sí: esto dice si la serie salta al cambiar de satélite, no si ven cada fuego.",
+    "NOAA-21 está en FIRMS desde marzo de 2023, así que coincide con S-NPP solo dos años completos. Va sin factor y no entra en la serie."
   ]
 }
