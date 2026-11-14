@@ -505,8 +505,9 @@ NOAA-20 por S-NPP y Terra por Aqua. Lista completa en `salidas/dias_sin_datos.cs
   de Baca, Dzan y Tekit y el comentario de Misa.
 - Iniciativa de ley del 25 feb 2026 («Lo que viven Protección Civil y SEDER»): falta la liga
   oficial del Congreso de Yucatán. Las notas de prensa de esa sección ya se revisaron; se
-  quitaron dos frases que no aparecían en su nota (El Niño a finales de 2026, e incendios en
-  varias zonas a la vez que desbordan a las brigadas).
+  quitaron cuatro frases sin fuente: El Niño a finales de 2026, incendios en varias zonas a la
+  vez que desbordan a las brigadas, que el permiso se pide «en papel» y que Protección Civil
+  «se entera cuando ya hay fuego».
 - Cifras que **no** van al pitch porque chocan entre fuentes: Yucatán 2023 (765 o 760 ha),
   2024 (20,334 o 20,333 ha) y 2026 (3 incendios y 335.83 ha, u otro reporte de más de 400 ha).
 
