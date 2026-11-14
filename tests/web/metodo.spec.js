@@ -26,16 +26,35 @@ test('un satélite por periodo, con sus fechas', async ({ page }) => {
   await expect(page.locator('#mUnir')).toContainText(`entre ${uno(M.factores.aqua[0])} y ${uno(M.factores.aqua[1])}`);
 });
 
-test('el salto de 2012: sin calibrar y calibrado, en la misma escala', async ({ page }) => {
+test('el salto de 2012: el interruptor pasa de sin calibrar a calibrado', async ({ page }) => {
   await abrir(page, '#/metodo');
-  await expect(page.locator('#saltoCrudo rect.m-barra')).toHaveCount(26);
-  await expect(page.locator('#saltoArmonizado rect.m-barra')).toHaveCount(26);
-  const alto = async (id, y) => Number(await page.locator(`#${id} rect.m-barra[data-y="${y}"]`).getAttribute('height'));
-  // Desde 2012 las dos series son la misma; antes, sin calibrar queda abajo.
-  expect(await alto('saltoCrudo', 2013)).toBe(await alto('saltoArmonizado', 2013));
-  expect(await alto('saltoCrudo', 2011)).toBeLessThan(await alto('saltoArmonizado', 2011));
+  const barras = page.locator('#salto rect.m-barra');
+  await expect(barras).toHaveCount(26);
+  const escala = (y) => page.locator(`#salto rect.m-barra[data-y="${y}"]`).evaluate((r) => Number(r.style.transform.match(/scaleY\(([\d.]+)\)/)[1]));
+  await page.click('[data-ver="crudo"]');
+  await expect(page.locator('[data-ver="crudo"]')).toHaveAttribute('aria-pressed', 'true');
   await expect(page.locator('#mSalto')).toContainText(`por ${uno(M.salto.crudo)}`);
-  await expect(page.locator('#mSalto')).toContainText(`por ${uno(M.salto.armonizado)}`);
+  await expect(page.locator('#mRayas')).toBeHidden();
+  const crudo2011 = await escala(2011), crudo2013 = await escala(2013);
+  await page.click('[data-ver="armonizado"]');
+  await expect(page.locator('#mSalto')).toContainText(`por ${M.salto.armonizado.toFixed(2)}`);
+  await expect(page.locator('#mRayas')).toBeVisible();
+  // Desde 2012 las dos series son la misma; antes, sin calibrar queda abajo.
+  expect(await escala(2013)).toBe(crudo2013);
+  expect(await escala(2011)).toBeGreaterThan(crudo2011);
+  await expect(page.locator('#salto rect.m-barra[data-y="2011"]')).toHaveAttribute('fill', 'url(#salto-rayas)');
+});
+
+test('el salto se calibra solo al llegar a la gráfica, una vez', async ({ page }) => {
+  await abrir(page, '#/metodo');
+  await expect(page.locator('[data-ver="crudo"]')).toHaveAttribute('aria-pressed', 'true');
+  await page.locator('#salto').scrollIntoViewIfNeeded();
+  await expect(page.locator('[data-ver="armonizado"]')).toHaveAttribute('aria-pressed', 'true', { timeout: 4000 });
+});
+
+test('con «reducir movimiento» abre ya calibrado', async ({ page }) => {
+  await abrir(page, '#/metodo', { reducir: true });
+  await expect(page.locator('[data-ver="armonizado"]')).toHaveAttribute('aria-pressed', 'true');
 });
 
 test('¿Se puede confiar?: el cruce con CONAFOR y los dos satélites de ahora', async ({ page }) => {

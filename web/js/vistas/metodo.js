@@ -2,7 +2,7 @@
 // de 2012), ¿se puede confiar? y la descarga de la serie. Spec, «Cómo lo medimos».
 // Las cifras salen de web/datos/metodo.json, que escribe pipeline/exportar_web.py.
 import { t, traducir, idioma } from '../textos.js';
-import { fmt, fechaDiaAnio, el, datos } from '../comun.js';
+import { fmt, fechaDiaAnio, el, datos, reducirMovimiento } from '../comun.js';
 
 const SENSOR = { Terra: 'MODIS', Aqua: 'MODIS', 'S-NPP': 'VIIRS', 'NOAA-20': 'VIIRS' };
 const GRIS = '#8F877D'; // el mismo gris de las barras de la portada
@@ -25,12 +25,15 @@ const PLANTILLA = `
     <ul class="m-periodos" id="mPeriodos"></ul>
     <p id="mUnir2"></p>
     <h3 class="m-graf-titulo" data-t="mGrafTitulo"></h3>
-    <div class="m-graficas">
-      <figure><figcaption data-t="mCrudo"></figcaption><svg id="saltoCrudo"></svg></figure>
-      <figure><figcaption data-t="mArmonizado"></figcaption><svg id="saltoArmonizado"></svg></figure>
+    <div class="m-salto-caja">
+      <div class="alm-botones m-ver" role="group" data-t-aria="mVerAria" aria-label="">
+        <button type="button" data-ver="crudo" data-t="mVerCrudo"></button>
+        <button type="button" data-ver="armonizado" data-t="mVerArmonizado"></button>
+      </div>
+      <p class="m-salto" id="mSalto" aria-live="polite"></p>
+      <svg id="salto"></svg>
     </div>
-    <p class="m-nota" data-t="mRayas"></p>
-    <p class="m-salto" id="mSalto"></p>
+    <p class="m-nota" id="mRayas" data-t="mRayas"></p>
   </section>
   <section id="mConfiar" aria-labelledby="mConfiarT">
     <h2 id="mConfiarT" data-t="mConfiarTitulo"></h2>
@@ -63,45 +66,75 @@ function texto(nodo, s) {
   }));
 }
 
-/** Barras de cada año en temporada; las dos gráficas usan la misma escala (`max`). */
-function barrasSalto(svg, { anios, campo, max, rayar, aria }) {
+/**
+ * El salto de 2012 en una sola gráfica: las barras de MODIS (antes de 2012) se ven tal cual o
+ * calibradas, y pasan de una a otra con una animación. Las dos líneas punteadas son el promedio de
+ * los años que compara la frase (`salto.antes` y `salto.despues`).
+ */
+function armarSalto(svg, M) {
   svg.textContent = '';
-  const ancho = 340, alto = 110, base = alto + 18;
-  svg.setAttribute('viewBox', '0 0 ' + ancho + ' ' + (base + 22));
-  const paso = ancho / anios.length, bw = paso - 2.5;
-  const Y = (v) => base - (v / max) * alto;
-  const id = svg.id + '-rayas';
-  const pat = el('pattern', { id, width: 4, height: 4, patternUnits: 'userSpaceOnUse', patternTransform: 'rotate(45)' }, el('defs', {}, svg));
-  el('rect', { width: 4, height: 4, fill: GRIS }, pat);
-  el('rect', { width: 1.6, height: 4, fill: '#FFFFFF', 'fill-opacity': 0.55 }, pat);
-  anios.forEach((a, i) => {
-    const v = a[campo];
+  const anios = M.anios;
+  // El dibujo mide lo mismo que en pantalla: los textos salen a su tamaño en el teléfono y en la computadora.
+  const ancho = Math.max(300, Math.round(svg.parentNode.clientWidth || 680));
+  const alto = Math.round(Math.min(190, ancho * 0.45)), arriba = 26, base = arriba + alto;
+  svg.setAttribute('viewBox', '0 0 ' + ancho + ' ' + (base + 24));
+  const max = Math.max(...anios.map((a) => Math.max(a.crudo, a.armonizado)));
+  const paso = ancho / anios.length, bw = paso - 4;
+  const id = 'salto-rayas';
+  const pat = el('pattern', { id, width: 5, height: 5, patternUnits: 'userSpaceOnUse', patternTransform: 'rotate(45)' }, el('defs', {}, svg));
+  el('rect', { width: 5, height: 5, fill: GRIS }, pat);
+  el('rect', { width: 2, height: 5, fill: '#FFFFFF', 'fill-opacity': 0.55 }, pat);
+  // Cada barra mide lo más alto posible y se encoge con transform: así la animación es fluida.
+  const barras = anios.map((a, i) => {
     const r = el('rect', {
-      class: 'm-barra', 'data-y': a.y, x: (i * paso).toFixed(1), y: Y(v).toFixed(1), width: bw.toFixed(1),
-      height: (base - Y(v)).toFixed(1), fill: rayar && a.y < CAMBIO ? 'url(#' + id + ')' : GRIS,
+      class: 'm-barra', 'data-y': a.y, x: (i * paso).toFixed(1), y: arriba, width: bw.toFixed(1), height: alto, fill: GRIS,
     }, svg);
-    el('title', {}, r).textContent = a.y + ': ' + fmt(v);
+    if (a.y < CAMBIO) r.style.transitionDelay = (i * 0.025).toFixed(3) + 's';
+    el('title', {}, r);
+    return r;
   });
   el('line', { x1: 0, x2: ancho, y1: base + 0.5, y2: base + 0.5, stroke: TINTA, 'stroke-width': 1 }, svg);
-  // El cambio de satélite: una línea punteada antes de 2012, con su rótulo arriba.
   const iCambio = anios.findIndex((a) => a.y === CAMBIO);
   if (iCambio > 0) {
-    const x = iCambio * paso - 1.25;
-    el('line', { x1: x, x2: x, y1: 12, y2: base, stroke: TINTA, 'stroke-width': 1.2, 'stroke-dasharray': '3 3' }, svg);
-    el('text', { x: x + 4, y: 10, 'font-size': 11, 'font-weight': 700, fill: TINTA }, svg).textContent = t('mCambio');
+    const x = iCambio * paso - 2;
+    el('line', { x1: x, x2: x, y1: 14, y2: base, stroke: TINTA, 'stroke-width': 1.2, 'stroke-dasharray': '3 3' }, svg);
+    el('text', { x: x + 5, y: 11, 'font-size': 12, 'font-weight': 700, fill: TINTA }, svg).textContent = t('mCambio');
   }
-  const marcas = [[0, 'start'], [iCambio, 'middle'], [anios.length - 1, 'end']];
-  for (const [i, an] of marcas) {
+  for (const [i, an] of [[0, 'start'], [iCambio, 'middle'], [anios.length - 1, 'end']]) {
     if (i < 0) continue;
     const x = an === 'start' ? i * paso : an === 'end' ? i * paso + bw : i * paso + bw / 2;
-    el('text', { x: x.toFixed(1), y: base + 16, 'font-size': 11, fill: TINTA_2, 'text-anchor': an }, svg).textContent = String(anios[i].y);
+    el('text', { x: x.toFixed(1), y: base + 17, 'font-size': 12, fill: TINTA_2, 'text-anchor': an }, svg).textContent = String(anios[i].y);
   }
-  svg.setAttribute('role', 'img');
-  svg.setAttribute('aria-label', aria);
+  // Promedios de los años que compara la frase.
+  const tramo = ([a, b]) => anios.map((x, i) => ({ ...x, i })).filter((x) => x.y >= a && x.y <= b);
+  const promedio = (xs, campo) => xs.reduce((s, x) => s + x[campo], 0) / xs.length;
+  const lineas = [M.salto.antes, M.salto.despues].map((r) => {
+    const xs = tramo(r);
+    const g = el('g', { class: 'm-promedio' }, svg);
+    const x0 = xs[0].i * paso - 3, x1 = xs[xs.length - 1].i * paso + bw + 3;
+    el('line', { x1: x0, x2: x1, y1: base, y2: base }, g);
+    // El rótulo del primer tramo termina en su línea y el del segundo empieza en la suya: no se enciman.
+    const primero = r === M.salto.antes;
+    el('text', { x: primero ? x1 : x0, y: base - 6, 'text-anchor': primero ? 'end' : 'start' }, g).textContent = r[0] + '–' + r[1];
+    return { g, xs };
+  });
+  const Y = (v) => (v / max) * alto;
+  return function ver(campo) {
+    anios.forEach((a, i) => {
+      const r = barras[i];
+      r.style.transform = 'scaleY(' + (a[campo] / max).toFixed(4) + ')';
+      if (a.y < CAMBIO) r.setAttribute('fill', campo === 'armonizado' ? 'url(#' + id + ')' : GRIS);
+      r.firstChild.textContent = a.y + ': ' + fmt(a[campo]);
+    });
+    for (const { g, xs } of lineas) g.style.transform = 'translateY(' + (-Y(promedio(xs, campo))).toFixed(1) + 'px)';
+    svg.setAttribute('aria-label', t(campo === 'crudo' ? 'mCrudoAria' : 'mArmonizadoAria'));
+  };
 }
 
 export function montar(raiz) {
   let M = null, P = null, nMun = 0, vivo = true;
+  // Se abre sin calibrar; al llegar a la gráfica, se calibra sola una vez (si nadie la tocó antes).
+  let vista = reducirMovimiento() ? 'armonizado' : 'crudo', tocado = false, verSalto = null, espera = 0, observador = null, medida = null, anchoCaja = 0;
   const $ = (s) => raiz.querySelector('#' + s);
 
   function pintar() {
@@ -114,11 +147,7 @@ export function montar(raiz) {
       return li;
     }));
     $('mUnir2').textContent = t('mUnir2', { a: dec(M.factores.aqua[0], 1), b: dec(M.factores.aqua[1], 1) });
-    const max = Math.max(...M.anios.map((a) => Math.max(a.crudo, a.armonizado)));
-    barrasSalto($('saltoCrudo'), { anios: M.anios, campo: 'crudo', max, rayar: false, aria: t('mCrudoAria') });
-    barrasSalto($('saltoArmonizado'), { anios: M.anios, campo: 'armonizado', max, rayar: true, aria: t('mArmonizadoAria') });
-    const s = M.salto;
-    texto($('mSalto'), t('mSalto', { a1: s.antes[0], a2: s.antes[1], d1: s.despues[0], d2: s.despues[1], c: dec(s.crudo, 1), r: dec(s.armonizado, 2) }));
+    dibujarSalto();
 
     const c = M.conafor;
     $('cVistos').textContent = t('mPct', { n: c.vistos });
@@ -134,6 +163,48 @@ export function montar(raiz) {
     $('pie').textContent = t('mPie', { a: M.anios[0].y, b: M.anios[M.anios.length - 1].y, d: c.desde, h: c.hasta, f: fechaDiaAnio(P.actualizado) });
   }
 
+  // Al pintar, al cambiar de idioma o de ancho, la gráfica se rehace sin animarse.
+  function dibujarSalto() {
+    const svg = $('salto');
+    svg.setAttribute('role', 'img');
+    anchoCaja = svg.parentNode.clientWidth;
+    verSalto = armarSalto(svg, M);
+    svg.classList.add('quieto');
+    ver(vista);
+    svg.getBoundingClientRect();
+    svg.classList.remove('quieto');
+  }
+
+  function ver(campo) {
+    vista = campo;
+    verSalto(campo);
+    raiz.querySelectorAll('[data-ver]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.ver === campo)));
+    $('mRayas').hidden = campo !== 'armonizado';
+    const s = M.salto;
+    texto($('mSalto'), t(campo === 'crudo' ? 'mSaltoCrudo' : 'mSaltoArmonizado',
+      { a1: s.antes[0], a2: s.antes[1], d1: s.despues[0], d2: s.despues[1], c: dec(s.crudo, 1), r: dec(s.armonizado, 2) }));
+  }
+
+  function escuchar() {
+    raiz.querySelector('.m-ver').addEventListener('click', (e) => {
+      const b = e.target.closest('[data-ver]');
+      if (!b) return;
+      tocado = true;
+      ver(b.dataset.ver);
+    });
+    medida = new ResizeObserver(() => { if ($('salto') && $('salto').parentNode.clientWidth !== anchoCaja) dibujarSalto(); });
+    medida.observe(raiz.querySelector('.m-salto-caja'));
+    if (vista !== 'crudo' || !('IntersectionObserver' in window)) return;
+    observador = new IntersectionObserver((entradas) => {
+      if (!entradas.some((x) => x.isIntersecting)) { clearTimeout(espera); return; }
+      espera = setTimeout(() => {
+        observador.disconnect();
+        if (!tocado && vivo) ver('armonizado');
+      }, 1400);
+    }, { threshold: 0.75 });
+    observador.observe($('salto'));
+  }
+
   async function arrancar() {
     let lista;
     try {
@@ -147,10 +218,11 @@ export function montar(raiz) {
     nMun = lista.length;
     raiz.innerHTML = PLANTILLA;
     pintar();
+    escuchar();
   }
 
   arrancar();
   const alIdioma = () => { if (M && $('serie')) pintar(); };
   window.addEventListener('idioma', alIdioma);
-  return () => { vivo = false; window.removeEventListener('idioma', alIdioma); };
+  return () => { vivo = false; clearTimeout(espera); if (observador) observador.disconnect(); if (medida) medida.disconnect(); window.removeEventListener('idioma', alIdioma); };
 }
