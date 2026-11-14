@@ -11,31 +11,30 @@
       "caso": "pasa_dentro",
       "clave": "valSalto2012PasaDentro",
       "nombre": {
-        "es": null,
-        "en": null
+        "es": "El salto de 2012",
+        "en": "The 2012 jump"
       },
       "numero": {
-        "es": null,
-        "en": null
+        "es": "×3.26 → ×0.90",
+        "en": "×3.26 → ×0.90"
       },
       "frase": {
-        "es": null,
-        "en": null
+        "es": "Pasa: sin calibrar, de 2009–2011 a 2013–2015 los focos de calor se multiplican por 3.26. Calibrados, quedan en 0.90 veces lo de antes (1 = sin salto). Eso cabe en la variación normal entre años (0.87 a 1.16). Los años de antes y de después de 2012 se pueden comparar.",
+        "en": "Pass: uncalibrated, hot spots multiply by 3.26 from 2009–2011 to 2013–2015. Calibrated, they come to 0.90 times the earlier level (1 = no jump). That is within normal year-to-year variation (0.87 to 1.16). Years before and after 2012 can be compared."
       },
       "limitaciones": {
-        "es": null,
-        "en": null
+        "es": [
+          "Solo revisamos el cambio de satélite de 2012, con promedios de tres años, no cada año de 2001 a 2011.",
+          "La variación normal sale de comparar periodos de S-NPP de 2013 a 2025. Son siete y se enciman: es una referencia, no una prueba estadística.",
+          "Medimos la península entera y el año completo. En un municipio o en temporada, el salto puede ser otro: el estado de Yucatán va de ×3.06 a ×0.92."
+        ],
+        "en": [
+          "We only check the 2012 satellite change, using three-year averages, not each year from 2001 to 2011.",
+          "Normal variation comes from comparing S-NPP periods from 2013 to 2025. There are seven, and they overlap: a reference, not a statistical test.",
+          "We measure the whole peninsula over the whole year. A municipality or the burning season alone may differ: Yucatán state goes from ×3.06 to ×0.92."
+        ]
       },
-      "pendiente": [
-        "es:valSalto2012PasaDentro",
-        "en:valSalto2012PasaDentro",
-        "es:valSalto2012Nombre",
-        "en:valSalto2012Nombre",
-        "es:valSalto2012Numero",
-        "en:valSalto2012Numero",
-        "es:valSalto2012Limitaciones",
-        "en:valSalto2012Limitaciones"
-      ],
+      "pendiente": [],
       "valores": {
         "razonCruda": "3.26",
         "razonArmonizada": "0.90",
@@ -54,8 +53,8 @@
         "en": "graficas/validacion-salto-2012-en.png"
       },
       "huella_grafica": {
-        "es": "sha256:05943f2a7ad829bfe9a257f98ab4ab907134b1d28b296c0a5d9e6da8fc0a9313",
-        "en": "sha256:25bb849275bfe39da5bad9652d93f54b78ecd2e0bd9250cf9743123f05946168"
+        "es": "sha256:869ff19740ac7b5481a0e858e572621b4248cbe709c76306cc46a363ca8ac404",
+        "en": "sha256:f5ed306ce6048f01b01dc039b1991280e9f9436f13bce9ed3377a5152712fd41"
       },
       "metricas": {
         "peninsula": {
@@ -341,32 +340,34 @@
       "caso": "pasa_zona_epoca",
       "clave": "valAquaFueraMuestraPasaZonaEpoca",
       "nombre": {
-        "es": null,
-        "en": null
+        "es": "Aqua en años fuera de la calibración",
+        "en": "Aqua in years outside the calibration"
       },
       "numero": {
-        "es": null,
-        "en": null
+        "es": "11 % de error (límite: 25 %)",
+        "en": "11% error (limit: 25%)"
       },
       "frase": {
-        "es": null,
-        "en": null
+        "es": "Pasa: probamos la calibración en 2021–2025, años que no usamos para calcularla. Convertido por zona y época, Aqua se desvió en promedio 11 % de S-NPP; con un solo factor, 13 %. El límite, fijado de antemano, era 25 %. Es lo que pueden desviarse los años de Aqua, de 2002 a 2011.",
+        "en": "Pass: we tested the calibration on 2021–2025, years we left out of it. Converted by zone and season, Aqua was off from S-NPP by 11% on average; with a single factor, by 13%. The limit, set in advance, was 25%. Aqua years, 2002 to 2011, may be off by about that much."
       },
       "limitaciones": {
-        "es": null,
-        "en": null
+        "es": [
+          "Comparamos contra S-NPP, que tampoco ve cada fuego: esto dice si los satélites cuadran entre sí, no cuánto fuego hubo.",
+          "El error junta cinco años y todas las zonas; la gráfica lo muestra año por año. En un municipio o en una semana puede ser mayor.",
+          "En 2022, Aqua pasó 17 días sin mandar datos por una falla que reportó la NASA; no los contamos. El resto de la temporada vio menos focos de lo usual frente a S-NPP, y Terra, su gemelo, no. Aún no sabemos por qué.",
+          "Solo probamos Aqua. Terra, que cubre de 2001 a mediados de 2002, no tiene una prueba así."
+        ],
+        "en": [
+          "We compare against S-NPP, which also misses fires: this shows whether the satellites match, not how much fire there was.",
+          "The error pools five years and all zones; the chart shows it year by year. In one municipality or one week it can be larger.",
+          "In 2022, Aqua sent no data for 17 days after a failure reported by NASA; we leave those days out. The rest of the season it saw fewer hot spots than usual against S-NPP, while its twin Terra did not. We do not know why yet.",
+          "We only test Aqua. Terra, which covers 2001 to mid-2002, has no test like this."
+        ]
       },
-      "pendiente": [
-        "es:valAquaFueraMuestraPasaZonaEpoca",
-        "en:valAquaFueraMuestraPasaZonaEpoca",
-        "es:valAquaFueraMuestraNombre",
-        "en:valAquaFueraMuestraNombre",
-        "es:valAquaFueraMuestraNumero",
-        "en:valAquaFueraMuestraNumero",
-        "es:valAquaFueraMuestraLimitaciones",
-        "en:valAquaFueraMuestraLimitaciones"
-      ],
+      "pendiente": [],
       "valores": {
+        "wapeElegidoPct": 11,
         "wapeZonaEpocaPct": 11,
         "wapeUnicoPct": 13,
         "mejoraPct": 14,
@@ -379,8 +380,8 @@
         "en": "graficas/validacion-aqua-2021-2025-en.png"
       },
       "huella_grafica": {
-        "es": "sha256:3d88319f54a65818c8f3c77184352958bc74edeebf03d908e8f0dcef41f7217e",
-        "en": "sha256:f703b31c7f0eec546ee58bb62c4d25defb49edb2bb9dc5003a9f0e90fea8818e"
+        "es": "sha256:21e4a09a5a3d9b23c6867f4600ab0d2b0d07213f646ab92e28f541ec4a4d2d47",
+        "en": "sha256:f652fd9d5736421ad977ca431c5a6dcb7a628cb832d6036e6bd285d378497494"
       },
       "metricas": {
         "wape_zona_epoca": 0.11254543765114507,
@@ -521,46 +522,48 @@
       "caso": "cumple",
       "clave": "valConaforCumple",
       "nombre": {
-        "es": null,
-        "en": null
+        "es": "Incendios registrados por la CONAFOR",
+        "en": "Wildfires recorded by CONAFOR"
       },
       "numero": {
-        "es": null,
-        "en": null
+        "es": "53 % contra 9 % por azar",
+        "en": "53% vs. 9% by chance"
       },
       "frase": {
-        "es": null,
-        "en": null
+        "es": "Cumple: de 1,222 incendios registrados por la CONAFOR, el 53 % tuvo focos de S-NPP cerca; por azar, el 9 %. De los de más de 100 hectáreas, el 84 %. La meta, fijada de antemano, era al menos el triple del azar y el 75 % de los grandes.",
+        "en": "Met: of 1,222 wildfires recorded by CONAFOR, 53% had S-NPP hot spots nearby; by chance, 9%. Of those over 100 hectares, 84%. The target, set in advance, was at least three times chance and 75% of the large ones."
       },
       "limitaciones": {
-        "es": null,
-        "en": null
+        "es": [
+          "Es informativa: revisa si el satélite detecta incendios, no la conversión entre satélites.",
+          "Los registros de la CONAFOR son incendios forestales de 2015 a 2024, no quemas agrícolas. Esto no dice nada de las fechas de quema.",
+          "Contamos cualquier foco a menos de 2 km, de un día antes a un día después del incendio. Como en temporada hay fuego por todas partes, medimos también lo que coincidiría por azar.",
+          "Los incendios chicos se escapan más: de los de 5 hectáreas o menos, el 18 % tuvo focos cerca."
+        ],
+        "en": [
+          "This test is informative: it checks whether the satellite detects fires, not the conversion between satellites.",
+          "CONAFOR's records are wildfires from 2015 to 2024, not agricultural burns. This says nothing about burning dates.",
+          "We count any hot spot within 2 km, from a day before to a day after the fire. Since there is fire everywhere in the season, we also measure what would match by chance.",
+          "Small fires slip past more often: of those of 5 hectares or less, 18% had hot spots nearby."
+        ]
       },
-      "pendiente": [
-        "es:valConaforCumple",
-        "en:valConaforCumple",
-        "es:valConaforNombre",
-        "en:valConaforNombre",
-        "es:valConaforNumero",
-        "en:valConaforNumero",
-        "es:valConaforLimitaciones",
-        "en:valConaforLimitaciones"
-      ],
+      "pendiente": [],
       "valores": {
         "incendios": "1,222",
         "realSnpp": 53,
         "azarSnpp": 9,
         "realModis": 36,
         "azarModis": 5,
-        "grandesSnpp": 84
+        "grandesSnpp": 84,
+        "chicosSnpp": 18
       },
       "grafica": {
         "es": "graficas/validacion-conafor-es.png",
         "en": "graficas/validacion-conafor-en.png"
       },
       "huella_grafica": {
-        "es": "sha256:be278453e99e0c340ce2850b6380a445a1c994c6c9724ffd1c163ae318afcb4a",
-        "en": "sha256:a8df7750af143eeb85d294acab2227447cee1f4719bbdcb33d1b1d3f39c8b5ad"
+        "es": "sha256:c91a25362b80ffdf6e441adeab2c23584677f68497d185f872962bfd6881bf01",
+        "en": "sha256:5399c7074d9e57b6c77c35544fb8c4b8f661545c07832016a1f2580ca0ba455f"
       },
       "metricas": {
         "incendios": 1222,
@@ -635,31 +638,30 @@
       "caso": "pasa_noaa21_cumple",
       "clave": "valViirsPasaNoaa21Cumple",
       "nombre": {
-        "es": null,
-        "en": null
+        "es": "El relevo de S-NPP",
+        "en": "The handover from S-NPP"
       },
       "numero": {
-        "es": null,
-        "en": null
+        "es": "0.99 a 1.03 (meta: 0.90 a 1.10)",
+        "en": "0.99 to 1.03 (target: 0.90 to 1.10)"
       },
       "frase": {
-        "es": null,
-        "en": null
+        "es": "Pasa: de 2019 a 2025, NOAA-20 con su factor contó entre 0.99 y 1.03 por cada foco de S-NPP. La meta, fijada de antemano, era de 0.90 a 1.10 cada año. Así, la serie puede seguir con NOAA-20 sin un salto como el de 2012. NOAA-21, en sus dos años completos, también cumple la meta (0.93 a 0.99).",
+        "en": "Pass: from 2019 to 2025, NOAA-20 with its factor counted between 0.99 and 1.03 for each S-NPP hot spot. The target, set in advance, was 0.90 to 1.10 every year. So the series can continue with NOAA-20 without a jump like 2012's. NOAA-21, in its two full years, also meets the target (0.93 to 0.99)."
       },
       "limitaciones": {
-        "es": null,
-        "en": null
+        "es": [
+          "Calculamos el factor de NOAA-20 con estos mismos años: el factor lleva la diferencia total (0.3 %) hacia cero. Lo que informa es cada año por separado.",
+          "Comparamos satélites VIIRS entre sí: esto dice si la serie salta al cambiar de satélite, no si ven cada fuego.",
+          "NOAA-21 está en FIRMS desde marzo de 2023, así que coincide con S-NPP solo dos años completos. Va sin factor y no entra en la serie."
+        ],
+        "en": [
+          "We calculated NOAA-20's factor from these same years, so the factor pulls the total difference (0.3%) toward zero. What tells us something is each year on its own.",
+          "We compare VIIRS with VIIRS: this shows whether the series jumps at a switch, not whether they see every fire.",
+          "NOAA-21 has been in FIRMS since March 2023, so it overlaps S-NPP for only two full years. It has no factor and is not part of the series."
+        ]
       },
-      "pendiente": [
-        "es:valViirsPasaNoaa21Cumple",
-        "en:valViirsPasaNoaa21Cumple",
-        "es:valViirsNombre",
-        "en:valViirsNombre",
-        "es:valViirsNumero",
-        "en:valViirsNumero",
-        "es:valViirsLimitaciones",
-        "en:valViirsLimitaciones"
-      ],
+      "pendiente": [],
       "valores": {
         "razonMinNoaa20": "0.99",
         "razonMaxNoaa20": "1.03",
@@ -674,8 +676,8 @@
         "en": "graficas/validacion-viirs-en.png"
       },
       "huella_grafica": {
-        "es": "sha256:0a6a7b5ae9dd18ed97e9f75635d77763a77c64783c53bd07bc27e14a1bbfddb0",
-        "en": "sha256:75d8b0d7e772cc1ee9224f250e1e4c1cc77d327dca0a2e690e8f6eb907ffbb7c"
+        "es": "sha256:4215474bf2b6d87c38c921778027c24cc2aae8fd6d595841f0ed292b33b1e27e",
+        "en": "sha256:e0ac075af6b9f532498b57bab1699d3d0518b3fb3ef7cb22c1ffd5b593e4ce08"
       },
       "metricas": {
         "NOAA-20": {

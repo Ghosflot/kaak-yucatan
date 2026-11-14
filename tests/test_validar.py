@@ -986,9 +986,11 @@ def r_aqua(estado="pasa", modelo="zona_epoca", mejora=0.123):
 
 def r_conafor(ok=True, grandes=84.2):
     sat = {"S-NPP": {"real": 53.4, "azar_mayor": 9.1}, "MODIS": {"real": 36.0, "azar_mayor": 4.6}}
+    tamanos = {"0 a 5 Hectáreas": {"incendios": 275, "snpp": 17.8}, "Mayor a 100 Hectáreas":
+               {"incendios": 395, "snpp": grandes}}
     return {"id": "conafor", "estado": "informativa",
             "metricas": {"incendios": 1222, "por_satelite": sat, "grandes_snpp": grandes,
-                         "regresion_ok": ok}}
+                         "por_tamano": tamanos, "regresion_ok": ok}}
 
 
 def r_viirs(estado="pasa", n21=True):
@@ -1040,6 +1042,20 @@ def test_valores_redondeados_para_mostrar():
     assert (a["desde"], a["hasta"]) == (2021, 2025)
     c = validar.valores(r_conafor())
     assert (c["incendios"], c["realSnpp"], c["azarSnpp"], c["grandesSnpp"]) == ("1,222", 53, 9, 84)
+    assert c["chicosSnpp"] == 18
+
+
+def test_el_error_del_numero_grande_es_el_del_modelo_elegido():
+    """El número grande de la Prueba 2 sale en los cuatro casos: nunca el del modelo descartado."""
+    assert validar.valores(r_aqua("pasa", "zona_epoca"))["wapeElegidoPct"] == 18
+    assert validar.valores(r_aqua("pasa", "unico"))["wapeElegidoPct"] == 21
+    assert validar.valores(r_aqua("no_pasa", "unico"))["wapeElegidoPct"] == 21
+
+
+def test_sin_el_rango_de_incendios_chicos_la_limitacion_queda_pendiente():
+    r = r_conafor()
+    del r["metricas"]["por_tamano"]["0 a 5 Hectáreas"]
+    assert validar.valores(r)["chicosSnpp"] is None
     w = validar.valores(r_viirs())
     assert (w["razonMinNoaa20"], w["razonMaxNoaa20"], w["diferenciaPctNoaa20"]) == ("0.95", "1.06", "0.4")
     assert (w["aniosDesde"], w["aniosHasta"]) == (2019, 2021)     # solo años enteros: no el 0.5 de 2018
