@@ -89,10 +89,12 @@ def fraccion_despues(diaria: np.ndarray, fin: int) -> float | None:
 
 
 def elegidos_con_factor(cuadritos: pd.DataFrame, factores: pd.DataFrame) -> pd.DataFrame:
-    """Los cuadritos-día del satélite de su periodo, con su factor en `eq` (igual que serie.py)."""
-    dia = pd.to_datetime(cuadritos["dia_local"])
-    del_periodo = (cuadritos["satelite"] == serie.satelite_del_periodo(dia)).fillna(False).to_numpy(dtype=bool)
-    elegidos = cuadritos[del_periodo].assign(dia_local=dia[del_periodo])
+    """Los cuadritos-día que entran a la serie, con su factor en `eq`.
+
+    Usa serie.elegir(), la misma selección de la serie: el satélite del periodo y, en los
+    días sin datos, su respaldo (H1). Así la página y la serie cuentan lo mismo.
+    """
+    elegidos, _, _ = serie.elegir(cuadritos)
     return serie.aplicar_factores(elegidos, factores)
 
 

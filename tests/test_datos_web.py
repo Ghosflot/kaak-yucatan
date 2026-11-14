@@ -100,3 +100,23 @@ def test_dia_de_temporada():
     assert dw.dia_de_temporada(date(2026, 3, 1)) == 0
     assert dw.dia_de_temporada(date(2026, 5, 31)) == 91
     assert dw.dia_de_temporada(date(2026, 6, 1)) is None
+
+
+def _cuadritos(satelite, dia, n, municipio="A", zona="Yucatán 1"):
+    dia = pd.Timestamp(dia)
+    return [{"satelite": satelite, "dia_local": dia, "anio": dia.year, "mes": dia.month,
+             "lat_celda": 2000 + i, "lon_celda": -8900, "estado": "Yucatán",
+             "municipio": municipio, "zona": zona} for i in range(n)]
+
+
+def test_la_pagina_usa_el_respaldo_en_dias_sin_datos_como_la_serie():
+    """H1: la página y la serie eligen los mismos cuadritos-día (serie.elegir)."""
+    cuadritos = pd.DataFrame(_cuadritos("S-NPP", "2024-06-10", 1, "R", "Quintana Roo")
+                             + _cuadritos("NOAA-20", "2024-06-02", 60)    # S-NPP en 0: entra
+                             + _cuadritos("NOAA-21", "2024-06-03", 60))   # nunca es respaldo
+    factores = pd.DataFrame({"satelite": "NOAA-20", "zona": "Península",
+                             "epoca": ["temporada", "resto"], "factor": [1.0, 0.5]})
+    elegidos = dw.elegidos_con_factor(cuadritos, factores)
+    assert set(elegidos["satelite"]) == {"S-NPP", "NOAA-20"}
+    assert elegidos.loc[elegidos["satelite"] == "NOAA-20", "eq"].sum() == 30   # 60 × 0.5
+    assert elegidos["eq"].sum() == 31
