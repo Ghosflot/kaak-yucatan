@@ -428,6 +428,17 @@ Salen de `web/datos/`, que escribe `pipeline/exportar_web.py` a partir de la ser
   fuego que lo normal (se ve al tocar 2003 en las barras de la portada).
 - **Tekax:** 191 focos en 2026 contra 390 de un año normal. En un año normal, 8 de cada 10
   focos aparecen después del 3 de abril, cuando cierra la ventana de su zona.
+- **Umán, el municipio de ejemplo de la página** (`web/datos/municipio/uman.json`; issue #30):
+  42 focos en un año normal. En 2025, la segunda temporada más tranquila del registro, tuvo 63 (1.5 veces
+  lo normal, «arriba»), y en 2024, 54 («arriba»); en 2026, 14. Se ve al tocar 2025 en sus
+  barras. Lo respalda CONAFOR: 5 incendios forestales en 2015–2024, todos en selva y 4 de ellos
+  por cazadores, con 890 ha (`datos_peninsula/incendios_conafor_2015_2024.csv`), y 264.29 ha de
+  selva mediana en 2025 (Diario de Yucatán, 12 ene 2026, con cifras preliminares de CONAFOR).
+  **Ojo:** en 2016 CONAFOR registra 601 ha, pero el satélite da 26 focos, menos que lo normal:
+  el satélite no ve todos los incendios (ver «Validación con CONAFOR»). Reemplaza a Tekax como
+  ejemplo porque muestra un año malo (2025) cuando el resto del estado estuvo tranquilo. Con los
+  datos actuales Tekax 2024 también sale «arriba» (592 contra 390), no «dentro de lo normal».
+  No va en el pitch: solo es el ejemplo de la página.
 - **Focos fuera de las fechas permitidas, de enero a junio de 2026** (`web/datos/zonas.json`):
 
   | Zona | Fechas permitidas | Fuera de fecha |
