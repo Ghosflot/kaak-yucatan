@@ -192,6 +192,15 @@ def test_csv_con_las_columnas_del_contrato(tmp_path):
     assert len(leido) == 2
 
 
+def test_conteo_por_dia_pone_cero_en_los_dias_sin_nada():
+    """La tabla día × satélite que usan dias_hueco() y la serie (días sin datos)."""
+    t = tabla(("S-NPP", "2024-05-30", 3), ("NOAA-20", "2024-06-01", 2), ("Aqua", "2024-05-31", 7))
+    conteo = armonizar.conteo_por_dia(t, ["S-NPP", "NOAA-20"], date(2024, 5, 30), date(2024, 6, 1))
+    assert list(conteo.columns) == ["S-NPP", "NOAA-20"]
+    assert list(conteo.index) == list(pd.date_range("2024-05-30", "2024-06-01"))
+    assert conteo.to_numpy().tolist() == [[3, 0], [0, 0], [0, 2]]
+
+
 # ---------------------------------------------------------------------------
 # Lo que debe fallar
 

@@ -164,6 +164,29 @@ def factores_noaa20(cuadritos_peninsula: pd.DataFrame) -> pd.DataFrame:
     return factores_por_epoca(dias, "NOAA-20", ZONA_PENINSULA)
 
 
+def conteo_por_dia(cuadritos: pd.DataFrame, satelites: list[str], desde: date,
+                   hasta: date) -> pd.DataFrame:
+    """Cuántos renglones (cuadritos-día) tiene cada satélite cada día, de `desde` a `hasta`.
+
+    Un renglón por día (índice dia_local, todos los días, ambos extremos) y una columna por
+    satélite, en el orden de `satelites`; 0 donde no hubo nada. Lo usan dias_hueco() y la
+    serie (serie.dias_sin_datos) para decidir qué días parecen no tener datos.
+    """
+    faltan = NECESARIAS - set(cuadritos.columns)
+    if faltan:
+        raise FactorError(f"faltan columnas: {sorted(faltan)}")
+    dia = pd.to_datetime(cuadritos["dia_local"])
+    elegidos = cuadritos.assign(dia_local=dia)
+    elegidos = elegidos[elegidos["satelite"].isin(satelites)]
+    por_dia = (
+        elegidos.groupby(["dia_local", "satelite"]).size().unstack(fill_value=0)
+        .reindex(index=pd.date_range(desde, hasta, name="dia_local"),
+                 columns=satelites, fill_value=0)
+    )
+    por_dia.columns.name = None
+    return por_dia
+
+
 def dias_hueco(cuadritos_peninsula: pd.DataFrame, otro: str, desde: date,
                hasta: date) -> pd.DatetimeIndex:
     """Días en que uno de los dos satélites parece no haber mandado datos.
@@ -172,17 +195,7 @@ def dias_hueco(cuadritos_peninsula: pd.DataFrame, otro: str, desde: date,
     UMBRAL_HUECO o más. Se mira la península entera y no cada zona porque en una zona es
     normal que VIIRS vea fuego chico y MODIS nada: eso es justo lo que mide el factor.
     """
-    faltan = NECESARIAS - set(cuadritos_peninsula.columns)
-    if faltan:
-        raise FactorError(f"faltan columnas: {sorted(faltan)}")
-    dia = pd.to_datetime(cuadritos_peninsula["dia_local"])
-    elegidos = cuadritos_peninsula.assign(dia_local=dia)
-    elegidos = elegidos[elegidos["satelite"].isin([REFERENCIA, otro])]
-    por_dia = (
-        elegidos.groupby(["dia_local", "satelite"]).size().unstack(fill_value=0)
-        .reindex(index=pd.date_range(desde, hasta, name="dia_local"),
-                 columns=[REFERENCIA, otro], fill_value=0)
-    )
+    por_dia = conteo_por_dia(cuadritos_peninsula, [REFERENCIA, otro], desde, hasta)
     ref, otr = por_dia[REFERENCIA], por_dia[otro]
     hueco = ((ref == 0) & (otr >= UMBRAL_HUECO)) | ((otr == 0) & (ref >= UMBRAL_HUECO))
     return por_dia.index[hueco]
