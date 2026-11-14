@@ -1,0 +1,516 @@
+{
+ "municipios": {
+  "calakmul": {
+   "titulo": "Calakmul: hubo menos fuego que en un año normal",
+   "descripcion": "628 focos de calor en 2026; en un año normal, 806. Fechas para quemar en Calakmul: consulta el calendario de tu estado."
+  },
+  "calkini": {
+   "titulo": "Calkiní: hubo menos fuego que en un año normal",
+   "descripcion": "209 focos de calor en 2026; en un año normal, 341. Fechas para quemar en Calkiní: consulta el calendario de tu estado."
+  },
+  "campeche": {
+   "titulo": "Campeche: hubo menos fuego que en un año normal",
+   "descripcion": "444 focos de calor en 2026; en un año normal, 796. Fechas para quemar en Campeche: consulta el calendario de tu estado."
+  },
+  "candelaria": {
+   "titulo": "Candelaria: hubo menos fuego que en un año normal",
+   "descripcion": "1,642 focos de calor en 2026; en un año normal, 2,312. Fechas para quemar en Candelaria: consulta el calendario de tu estado."
+  },
+  "carmen": {
+   "titulo": "Carmen: hubo menos fuego que en un año normal",
+   "descripcion": "1,314 focos de calor en 2026; en un año normal, 1,667. Fechas para quemar en Carmen: consulta el calendario de tu estado."
+  },
+  "champoton": {
+   "titulo": "Champotón: hubo casi el mismo fuego que en un año normal",
+   "descripcion": "1,953 focos de calor en 2026; en un año normal, 2,279. Fechas para quemar en Champotón: consulta el calendario de tu estado."
+  },
+  "escarcega": {
+   "titulo": "Escárcega: hubo la mitad del fuego que en un año normal",
+   "descripcion": "617 focos de calor en 2026; en un año normal, 1,267. Fechas para quemar en Escárcega: consulta el calendario de tu estado."
+  },
+  "hecelchakan": {
+   "titulo": "Hecelchakán: hubo casi el mismo fuego que en un año normal",
+   "descripcion": "376 focos de calor en 2026; en un año normal, 401. Fechas para quemar en Hecelchakán: consulta el calendario de tu estado."
+  },
+  "hopelchen": {
+   "titulo": "Hopelchén: hubo casi el mismo fuego que en un año normal",
+   "descripcion": "1,615 focos de calor en 2026; en un año normal, 1,925. Fechas para quemar en Hopelchén: consulta el calendario de tu estado."
+  },
+  "palizada": {
+   "titulo": "Palizada: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "130 focos de calor en 2026; en un año normal, 306. Fechas para quemar en Palizada: consulta el calendario de tu estado."
+  },
+  "tenabo": {
+   "titulo": "Tenabo: hubo menos fuego que en un año normal",
+   "descripcion": "162 focos de calor en 2026; en un año normal, 242. Fechas para quemar en Tenabo: consulta el calendario de tu estado."
+  },
+  "bacalar": {
+   "titulo": "Bacalar: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "306 focos de calor en 2026; en un año normal, 773. Fechas para quemar en Bacalar: consulta el calendario de tu estado."
+  },
+  "benito-juarez": {
+   "titulo": "Benito Juárez: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "12 focos de calor en 2026; en un año normal, 50. Fechas para quemar en Benito Juárez: consulta el calendario de tu estado."
+  },
+  "cozumel": {
+   "titulo": "Cozumel: casi nunca hay quemas, así que no hay con qué comparar",
+   "descripcion": "1 foco de calor en 2026; en un año normal, 2. Fechas para quemar en Cozumel: consulta el calendario de tu estado."
+  },
+  "felipe-carrillo-puerto": {
+   "titulo": "Felipe Carrillo Puerto: hubo la mitad del fuego que en un año normal",
+   "descripcion": "230 focos de calor en 2026; en un año normal, 475. Fechas para quemar en Felipe Carrillo Puerto: consulta el calendario de tu estado."
+  },
+  "isla-mujeres": {
+   "titulo": "Isla Mujeres: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "3 focos de calor en 2026; en un año normal, 10. Fechas para quemar en Isla Mujeres: consulta el calendario de tu estado."
+  },
+  "jose-maria-morelos": {
+   "titulo": "José María Morelos: hubo menos fuego que en un año normal",
+   "descripcion": "320 focos de calor en 2026; en un año normal, 416. Fechas para quemar en José María Morelos: consulta el calendario de tu estado."
+  },
+  "lazaro-cardenas": {
+   "titulo": "Lázaro Cárdenas: hubo la mitad del fuego que en un año normal",
+   "descripcion": "65 focos de calor en 2026; en un año normal, 144. Fechas para quemar en Lázaro Cárdenas: consulta el calendario de tu estado."
+  },
+  "othon-p-blanco": {
+   "titulo": "Othón P. Blanco: hubo la mitad del fuego que en un año normal",
+   "descripcion": "467 focos de calor en 2026; en un año normal, 929. Fechas para quemar en Othón P. Blanco: consulta el calendario de tu estado."
+  },
+  "solidaridad": {
+   "titulo": "Solidaridad: hubo la mitad del fuego que en un año normal",
+   "descripcion": "13 focos de calor en 2026; en un año normal, 28. Fechas para quemar en Solidaridad: consulta el calendario de tu estado."
+  },
+  "tulum": {
+   "titulo": "Tulum: hubo menos fuego que en un año normal",
+   "descripcion": "55 focos de calor en 2026; en un año normal, 74. Fechas para quemar en Tulum: consulta el calendario de tu estado."
+  },
+  "abala": {
+   "titulo": "Abalá: hubo la mitad del fuego que en un año normal",
+   "descripcion": "19 focos de calor en 2026; en un año normal, 35. Fechas de la SEDER para quemar en Abalá (zona 2): 20 de abril al 31 de mayo."
+  },
+  "acanceh": {
+   "titulo": "Acanceh: hubo menos fuego que en un año normal",
+   "descripcion": "10 focos de calor en 2026; en un año normal, 15. Fechas de la SEDER para quemar en Acanceh (zona 2): 20 de abril al 31 de mayo."
+  },
+  "akil": {
+   "titulo": "Akil: hubo la mitad del fuego que en un año normal",
+   "descripcion": "8 focos de calor en 2026; en un año normal, 16. Fechas de la SEDER para quemar en Akil (zona 3): 10 de marzo al 3 de abril."
+  },
+  "baca": {
+   "titulo": "Baca: casi nunca hay quemas, así que no hay con qué comparar",
+   "descripcion": "1 foco de calor en 2026; en un año normal, 4. Fechas probables para quemar en Baca (zona 2): 20 de abril al 31 de mayo."
+  },
+  "bokoba": {
+   "titulo": "Bokobá: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "0 focos de calor en 2026; en un año normal, 7. Fechas de la SEDER para quemar en Bokobá (zona 2): 20 de abril al 31 de mayo."
+  },
+  "buctzotz": {
+   "titulo": "Buctzotz: hubo menos fuego que en un año normal",
+   "descripcion": "111 focos de calor en 2026; en un año normal, 180. Fechas de la SEDER para quemar en Buctzotz (zona 4): 10 de marzo al 3 de abril."
+  },
+  "cacalchen": {
+   "titulo": "Cacalchén: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "5 focos de calor en 2026; en un año normal, 12. Fechas de la SEDER para quemar en Cacalchén (zona 2): 20 de abril al 31 de mayo."
+  },
+  "calotmul": {
+   "titulo": "Calotmul: hubo la mitad del fuego que en un año normal",
+   "descripcion": "34 focos de calor en 2026; en un año normal, 68. Fechas de la SEDER para quemar en Calotmul (zona 4): 10 de marzo al 3 de abril."
+  },
+  "cansahcab": {
+   "titulo": "Cansahcab: hubo la mitad del fuego que en un año normal",
+   "descripcion": "5 focos de calor en 2026; en un año normal, 11. Fechas de la SEDER para quemar en Cansahcab (zona 2): 20 de abril al 31 de mayo."
+  },
+  "cantamayec": {
+   "titulo": "Cantamayec: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "17 focos de calor en 2026; en un año normal, 57. Fechas de la SEDER para quemar en Cantamayec (zona 1): 1 de marzo al 15 de abril."
+  },
+  "celestun": {
+   "titulo": "Celestún: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "10 focos de calor en 2026; en un año normal, 27. Fechas de la SEDER para quemar en Celestún (zona 2): 20 de abril al 31 de mayo."
+  },
+  "cenotillo": {
+   "titulo": "Cenotillo: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "60 focos de calor en 2026; en un año normal, 158. Fechas de la SEDER para quemar en Cenotillo (zona 4): 10 de marzo al 3 de abril."
+  },
+  "chacsinkin": {
+   "titulo": "Chacsinkín: hubo la mitad del fuego que en un año normal",
+   "descripcion": "23 focos de calor en 2026; en un año normal, 43. Fechas de la SEDER para quemar en Chacsinkín (zona 1): 1 de marzo al 15 de abril."
+  },
+  "chankom": {
+   "titulo": "Chankom: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "28 focos de calor en 2026; en un año normal, 99. Fechas de la SEDER para quemar en Chankom (zona 1): 1 de marzo al 15 de abril."
+  },
+  "chapab": {
+   "titulo": "Chapab: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "16 focos de calor en 2026; en un año normal, 42. Fechas de la SEDER para quemar en Chapab (zona 3): 10 de marzo al 3 de abril."
+  },
+  "chemax": {
+   "titulo": "Chemax: hubo menos fuego que en un año normal",
+   "descripcion": "152 focos de calor en 2026; en un año normal, 230. Fechas de la SEDER para quemar en Chemax (zona 1): 1 de marzo al 15 de abril."
+  },
+  "chichimila": {
+   "titulo": "Chichimilá: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "27 focos de calor en 2026; en un año normal, 65. Fechas de la SEDER para quemar en Chichimilá (zona 1): 1 de marzo al 15 de abril."
+  },
+  "chicxulub-pueblo": {
+   "titulo": "Chicxulub Pueblo: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "0 focos de calor en 2026; en un año normal, 5. Fechas de la SEDER para quemar en Chicxulub Pueblo (zona 2): 20 de abril al 31 de mayo."
+  },
+  "chikindzonot": {
+   "titulo": "Chikindzonot: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "38 focos de calor en 2026; en un año normal, 118. Fechas de la SEDER para quemar en Chikindzonot (zona 1): 1 de marzo al 15 de abril."
+  },
+  "chochola": {
+   "titulo": "Chocholá: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "5 focos de calor en 2026; en un año normal, 15. Fechas de la SEDER para quemar en Chocholá (zona 2): 20 de abril al 31 de mayo."
+  },
+  "chumayel": {
+   "titulo": "Chumayel: hubo la mitad del fuego que en un año normal",
+   "descripcion": "13 focos de calor en 2026; en un año normal, 26. Fechas de la SEDER para quemar en Chumayel (zona 1): 1 de marzo al 15 de abril."
+  },
+  "conkal": {
+   "titulo": "Conkal: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "4 focos de calor en 2026; en un año normal, 13. Fechas de la SEDER para quemar en Conkal (zona 2): 20 de abril al 31 de mayo."
+  },
+  "cuncunul": {
+   "titulo": "Cuncunul: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "6 focos de calor en 2026; en un año normal, 25. Fechas de la SEDER para quemar en Cuncunul (zona 1): 1 de marzo al 15 de abril."
+  },
+  "cuzama": {
+   "titulo": "Cuzamá: casi nunca hay quemas, así que no hay con qué comparar",
+   "descripcion": "5 focos de calor en 2026; en un año normal, 3. Fechas de la SEDER para quemar en Cuzamá (zona 2): 20 de abril al 31 de mayo."
+  },
+  "dzemul": {
+   "titulo": "Dzemul: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "3 focos de calor en 2026; en un año normal, 10. Fechas de la SEDER para quemar en Dzemul (zona 2): 20 de abril al 31 de mayo."
+  },
+  "dzidzantun": {
+   "titulo": "Dzidzantún: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "4 focos de calor en 2026; en un año normal, 26. Fechas de la SEDER para quemar en Dzidzantún (zona 2): 20 de abril al 31 de mayo."
+  },
+  "dzilam-gonzalez": {
+   "titulo": "Dzilam González: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "44 focos de calor en 2026; en un año normal, 106. Fechas de la SEDER para quemar en Dzilam González (zona 4): 10 de marzo al 3 de abril."
+  },
+  "dzilam-de-bravo": {
+   "titulo": "Dzilam de Bravo: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "5 focos de calor en 2026; en un año normal, 43. Fechas de la SEDER para quemar en Dzilam de Bravo (zona 4): 10 de marzo al 3 de abril."
+  },
+  "dzitas": {
+   "titulo": "Dzitás: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "27 focos de calor en 2026; en un año normal, 111. Fechas de la SEDER para quemar en Dzitás (zona 1): 1 de marzo al 15 de abril."
+  },
+  "dzoncauich": {
+   "titulo": "Dzoncauich: hubo la mitad del fuego que en un año normal",
+   "descripcion": "14 focos de calor en 2026; en un año normal, 27. Fechas de la SEDER para quemar en Dzoncauich (zona 2): 20 de abril al 31 de mayo."
+  },
+  "dzan": {
+   "titulo": "Dzán: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "10 focos de calor en 2026; en un año normal, 26. Fechas probables para quemar en Dzán (zona 3): 10 de marzo al 3 de abril."
+  },
+  "espita": {
+   "titulo": "Espita: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "70 focos de calor en 2026; en un año normal, 213. Fechas de la SEDER para quemar en Espita (zona 4): 10 de marzo al 3 de abril."
+  },
+  "halacho": {
+   "titulo": "Halachó: hubo menos fuego que en un año normal",
+   "descripcion": "30 focos de calor en 2026; en un año normal, 52. Fechas de la SEDER para quemar en Halachó (zona 2): 20 de abril al 31 de mayo."
+  },
+  "hocaba": {
+   "titulo": "Hocabá: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "4 focos de calor en 2026; en un año normal, 14. Fechas de la SEDER para quemar en Hocabá (zona 2): 20 de abril al 31 de mayo."
+  },
+  "hoctun": {
+   "titulo": "Hoctún: hubo casi el mismo fuego que en un año normal",
+   "descripcion": "13 focos de calor en 2026; en un año normal, 15. Fechas de la SEDER para quemar en Hoctún (zona 2): 20 de abril al 31 de mayo."
+  },
+  "homun": {
+   "titulo": "Homún: hubo la mitad del fuego que en un año normal",
+   "descripcion": "11 focos de calor en 2026; en un año normal, 23. Fechas de la SEDER para quemar en Homún (zona 1): 1 de marzo al 15 de abril."
+  },
+  "huhi": {
+   "titulo": "Huhí: hubo la mitad del fuego que en un año normal",
+   "descripcion": "13 focos de calor en 2026; en un año normal, 27. Fechas de la SEDER para quemar en Huhí (zona 1): 1 de marzo al 15 de abril."
+  },
+  "hunucma": {
+   "titulo": "Hunucmá: hubo la mitad del fuego que en un año normal",
+   "descripcion": "13 focos de calor en 2026; en un año normal, 26. Fechas de la SEDER para quemar en Hunucmá (zona 2): 20 de abril al 31 de mayo."
+  },
+  "ixil": {
+   "titulo": "Ixil: hubo casi el mismo fuego que en un año normal",
+   "descripcion": "8 focos de calor en 2026; en un año normal, 10. Fechas de la SEDER para quemar en Ixil (zona 2): 20 de abril al 31 de mayo."
+  },
+  "izamal": {
+   "titulo": "Izamal: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "39 focos de calor en 2026; en un año normal, 99. Fechas de la SEDER para quemar en Izamal (zona 2): 20 de abril al 31 de mayo."
+  },
+  "kanasin": {
+   "titulo": "Kanasín: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "0 focos de calor en 2026; en un año normal, 18. Fechas de la SEDER para quemar en Kanasín (zona 2): 20 de abril al 31 de mayo."
+  },
+  "kantunil": {
+   "titulo": "Kantunil: hubo la mitad del fuego que en un año normal",
+   "descripcion": "24 focos de calor en 2026; en un año normal, 52. Fechas de la SEDER para quemar en Kantunil (zona 1): 1 de marzo al 15 de abril."
+  },
+  "kaua": {
+   "titulo": "Kaua: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "16 focos de calor en 2026; en un año normal, 43. Fechas de la SEDER para quemar en Kaua (zona 1): 1 de marzo al 15 de abril."
+  },
+  "kinchil": {
+   "titulo": "Kinchil: hubo casi el mismo fuego que en un año normal",
+   "descripcion": "19 focos de calor en 2026; en un año normal, 20. Fechas de la SEDER para quemar en Kinchil (zona 2): 20 de abril al 31 de mayo."
+  },
+  "kopoma": {
+   "titulo": "Kopomá: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "3 focos de calor en 2026; en un año normal, 10. Fechas de la SEDER para quemar en Kopomá (zona 2): 20 de abril al 31 de mayo."
+  },
+  "mama": {
+   "titulo": "Mama: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "10 focos de calor en 2026; en un año normal, 31. Fechas de la SEDER para quemar en Mama (zona 3): 10 de marzo al 3 de abril."
+  },
+  "mani": {
+   "titulo": "Maní: hubo la mitad del fuego que en un año normal",
+   "descripcion": "16 focos de calor en 2026; en un año normal, 35. Fechas de la SEDER para quemar en Maní (zona 1): 1 de marzo al 15 de abril."
+  },
+  "maxcanu": {
+   "titulo": "Maxcanú: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "43 focos de calor en 2026; en un año normal, 115. Fechas de la SEDER para quemar en Maxcanú (zona 2): 20 de abril al 31 de mayo."
+  },
+  "mayapan": {
+   "titulo": "Mayapán: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "14 focos de calor en 2026; en un año normal, 48. Fechas de la SEDER para quemar en Mayapán (zona 1): 1 de marzo al 15 de abril."
+  },
+  "mococha": {
+   "titulo": "Mocochá: hubo la mitad del fuego que en un año normal",
+   "descripcion": "3 focos de calor en 2026; en un año normal, 6. Fechas de la SEDER para quemar en Mocochá (zona 2): 20 de abril al 31 de mayo."
+  },
+  "motul": {
+   "titulo": "Motul: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "6 focos de calor en 2026; en un año normal, 24. Fechas de la SEDER para quemar en Motul (zona 2): 20 de abril al 31 de mayo."
+  },
+  "muna": {
+   "titulo": "Muna: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "21 focos de calor en 2026; en un año normal, 56. Fechas de la SEDER para quemar en Muna (zona 3): 10 de marzo al 3 de abril."
+  },
+  "muxupip": {
+   "titulo": "Muxupip: casi nunca hay quemas, así que no hay con qué comparar",
+   "descripcion": "3 focos de calor en 2026; en un año normal, 4. Fechas de la SEDER para quemar en Muxupip (zona 2): 20 de abril al 31 de mayo."
+  },
+  "merida": {
+   "titulo": "Mérida: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "23 focos de calor en 2026; en un año normal, 84. Fechas de la SEDER para quemar en Mérida (zona 2): 20 de abril al 31 de mayo."
+  },
+  "opichen": {
+   "titulo": "Opichén: hubo la mitad del fuego que en un año normal",
+   "descripcion": "19 focos de calor en 2026; en un año normal, 39. Fechas de la SEDER para quemar en Opichén (zona 3): 10 de marzo al 3 de abril."
+  },
+  "oxkutzcab": {
+   "titulo": "Oxkutzcab: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "61 focos de calor en 2026; en un año normal, 152. Fechas de la SEDER para quemar en Oxkutzcab (zona 3): 10 de marzo al 3 de abril."
+  },
+  "panaba": {
+   "titulo": "Panabá: hubo menos fuego que en un año normal",
+   "descripcion": "85 focos de calor en 2026; en un año normal, 139. Fechas de la SEDER para quemar en Panabá (zona 4): 10 de marzo al 3 de abril."
+  },
+  "peto": {
+   "titulo": "Peto: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "73 focos de calor en 2026; en un año normal, 182. Fechas de la SEDER para quemar en Peto (zona 1): 1 de marzo al 15 de abril."
+  },
+  "progreso": {
+   "titulo": "Progreso: hubo la mitad del fuego que en un año normal",
+   "descripcion": "5 focos de calor en 2026; en un año normal, 11. Fechas de la SEDER para quemar en Progreso (zona 2): 20 de abril al 31 de mayo."
+  },
+  "quintana-roo": {
+   "titulo": "Quintana Roo: hubo menos fuego que en un año normal",
+   "descripcion": "18 focos de calor en 2026; en un año normal, 31. Fechas de la SEDER para quemar en Quintana Roo (zona 1): 1 de marzo al 15 de abril."
+  },
+  "rio-lagartos": {
+   "titulo": "Río Lagartos: hubo menos fuego que en un año normal",
+   "descripcion": "9 focos de calor en 2026; en un año normal, 16. Fechas de la SEDER para quemar en Río Lagartos (zona 4): 10 de marzo al 3 de abril."
+  },
+  "sacalum": {
+   "titulo": "Sacalum: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "7 focos de calor en 2026; en un año normal, 22. Fechas de la SEDER para quemar en Sacalum (zona 3): 10 de marzo al 3 de abril."
+  },
+  "samahil": {
+   "titulo": "Samahil: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "1 foco de calor en 2026; en un año normal, 17. Fechas de la SEDER para quemar en Samahil (zona 2): 20 de abril al 31 de mayo."
+  },
+  "san-felipe": {
+   "titulo": "San Felipe: hubo menos fuego que en un año normal",
+   "descripcion": "24 focos de calor en 2026; en un año normal, 33. Fechas de la SEDER para quemar en San Felipe (zona 4): 10 de marzo al 3 de abril."
+  },
+  "sanahcat": {
+   "titulo": "Sanahcat: casi nunca hay quemas, así que no hay con qué comparar",
+   "descripcion": "2 focos de calor en 2026; en un año normal, 3. Fechas de la SEDER para quemar en Sanahcat (zona 1): 1 de marzo al 15 de abril."
+  },
+  "santa-elena": {
+   "titulo": "Santa Elena: hubo la mitad del fuego que en un año normal",
+   "descripcion": "18 focos de calor en 2026; en un año normal, 39. Fechas de la SEDER para quemar en Santa Elena (zona 3): 10 de marzo al 3 de abril."
+  },
+  "seye": {
+   "titulo": "Seyé: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "6 focos de calor en 2026; en un año normal, 15. Fechas de la SEDER para quemar en Seyé (zona 2): 20 de abril al 31 de mayo."
+  },
+  "sinanche": {
+   "titulo": "Sinanché: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "0 focos de calor en 2026; en un año normal, 7. Fechas de la SEDER para quemar en Sinanché (zona 2): 20 de abril al 31 de mayo."
+  },
+  "sotuta": {
+   "titulo": "Sotuta: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "42 focos de calor en 2026; en un año normal, 168. Fechas de la SEDER para quemar en Sotuta (zona 1): 1 de marzo al 15 de abril."
+  },
+  "sucila": {
+   "titulo": "Sucilá: hubo la mitad del fuego que en un año normal",
+   "descripcion": "34 focos de calor en 2026; en un año normal, 63. Fechas de la SEDER para quemar en Sucilá (zona 4): 10 de marzo al 3 de abril."
+  },
+  "sudzal": {
+   "titulo": "Sudzal: hubo menos fuego que en un año normal",
+   "descripcion": "31 focos de calor en 2026; en un año normal, 51. Fechas de la SEDER para quemar en Sudzal (zona 1): 1 de marzo al 15 de abril."
+  },
+  "suma": {
+   "titulo": "Suma: casi nunca hay quemas, así que no hay con qué comparar",
+   "descripcion": "2 focos de calor en 2026; en un año normal, 4. Fechas de la SEDER para quemar en Suma (zona 2): 20 de abril al 31 de mayo."
+  },
+  "tahdziu": {
+   "titulo": "Tahdziú: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "13 focos de calor en 2026; en un año normal, 51. Fechas de la SEDER para quemar en Tahdziú (zona 1): 1 de marzo al 15 de abril."
+  },
+  "tahmek": {
+   "titulo": "Tahmek: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "2 focos de calor en 2026; en un año normal, 8. Fechas de la SEDER para quemar en Tahmek (zona 2): 20 de abril al 31 de mayo."
+  },
+  "teabo": {
+   "titulo": "Teabo: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "11 focos de calor en 2026; en un año normal, 45. Fechas de la SEDER para quemar en Teabo (zona 1): 1 de marzo al 15 de abril."
+  },
+  "tecoh": {
+   "titulo": "Tecoh: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "6 focos de calor en 2026; en un año normal, 33. Fechas de la SEDER para quemar en Tecoh (zona 2): 20 de abril al 31 de mayo."
+  },
+  "tekal-de-venegas": {
+   "titulo": "Tekal de Venegas: hubo la mitad del fuego que en un año normal",
+   "descripcion": "24 focos de calor en 2026; en un año normal, 53. Fechas de la SEDER para quemar en Tekal de Venegas (zona 2): 20 de abril al 31 de mayo."
+  },
+  "tekanto": {
+   "titulo": "Tekantó: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "1 foco de calor en 2026; en un año normal, 5. Fechas de la SEDER para quemar en Tekantó (zona 2): 20 de abril al 31 de mayo."
+  },
+  "tekax": {
+   "titulo": "Tekax: hubo la mitad del fuego que en un año normal",
+   "descripcion": "191 focos de calor en 2026; en un año normal, 390. Fechas de la SEDER para quemar en Tekax (zona 3): 10 de marzo al 3 de abril."
+  },
+  "tekit": {
+   "titulo": "Tekit: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "23 focos de calor en 2026; en un año normal, 63. Fechas probables para quemar en Tekit (zona 3): 10 de marzo al 3 de abril."
+  },
+  "tekom": {
+   "titulo": "Tekom: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "13 focos de calor en 2026; en un año normal, 68. Fechas de la SEDER para quemar en Tekom (zona 1): 1 de marzo al 15 de abril."
+  },
+  "telchac-pueblo": {
+   "titulo": "Telchac Pueblo: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "2 focos de calor en 2026; en un año normal, 7. Fechas de la SEDER para quemar en Telchac Pueblo (zona 2): 20 de abril al 31 de mayo."
+  },
+  "telchac-puerto": {
+   "titulo": "Telchac Puerto: casi nunca hay quemas, así que no hay con qué comparar",
+   "descripcion": "2 focos de calor en 2026; en un año normal, 4. Fechas de la SEDER para quemar en Telchac Puerto (zona 2): 20 de abril al 31 de mayo."
+  },
+  "temax": {
+   "titulo": "Temax: hubo la mitad del fuego que en un año normal",
+   "descripcion": "40 focos de calor en 2026; en un año normal, 74. Fechas de la SEDER para quemar en Temax (zona 2): 20 de abril al 31 de mayo."
+  },
+  "temozon": {
+   "titulo": "Temozón: hubo menos fuego que en un año normal",
+   "descripcion": "109 focos de calor en 2026; en un año normal, 152. Fechas de la SEDER para quemar en Temozón (zona 4): 10 de marzo al 3 de abril."
+  },
+  "tepakan": {
+   "titulo": "Tepakán: hubo menos fuego que en un año normal",
+   "descripcion": "9 focos de calor en 2026; en un año normal, 15. Fechas de la SEDER para quemar en Tepakán (zona 2): 20 de abril al 31 de mayo."
+  },
+  "tetiz": {
+   "titulo": "Tetiz: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "6 focos de calor en 2026; en un año normal, 14. Fechas de la SEDER para quemar en Tetiz (zona 2): 20 de abril al 31 de mayo."
+  },
+  "teya": {
+   "titulo": "Teya: hubo menos fuego que en un año normal",
+   "descripcion": "4 focos de calor en 2026; en un año normal, 7. Fechas de la SEDER para quemar en Teya (zona 2): 20 de abril al 31 de mayo."
+  },
+  "ticul": {
+   "titulo": "Ticul: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "20 focos de calor en 2026; en un año normal, 55. Fechas de la SEDER para quemar en Ticul (zona 3): 10 de marzo al 3 de abril."
+  },
+  "timucuy": {
+   "titulo": "Timucuy: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "3 focos de calor en 2026; en un año normal, 17. Fechas de la SEDER para quemar en Timucuy (zona 2): 20 de abril al 31 de mayo."
+  },
+  "tinum": {
+   "titulo": "Tinum: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "25 focos de calor en 2026; en un año normal, 88. Fechas de la SEDER para quemar en Tinum (zona 1): 1 de marzo al 15 de abril."
+  },
+  "tixcacalcupul": {
+   "titulo": "Tixcacalcupul: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "33 focos de calor en 2026; en un año normal, 78. Fechas de la SEDER para quemar en Tixcacalcupul (zona 1): 1 de marzo al 15 de abril."
+  },
+  "tixkokob": {
+   "titulo": "Tixkokob: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "7 focos de calor en 2026; en un año normal, 23. Fechas de la SEDER para quemar en Tixkokob (zona 2): 20 de abril al 31 de mayo."
+  },
+  "tixmehuac": {
+   "titulo": "Tixmehuac: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "24 focos de calor en 2026; en un año normal, 62. Fechas de la SEDER para quemar en Tixmehuac (zona 1): 1 de marzo al 15 de abril."
+  },
+  "tixpehual": {
+   "titulo": "Tixpéhual: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "0 focos de calor en 2026; en un año normal, 5. Fechas de la SEDER para quemar en Tixpéhual (zona 2): 20 de abril al 31 de mayo."
+  },
+  "tizimin": {
+   "titulo": "Tizimín: hubo menos fuego que en un año normal",
+   "descripcion": "402 focos de calor en 2026; en un año normal, 713. Fechas de la SEDER para quemar en Tizimín (zona 4): 10 de marzo al 3 de abril."
+  },
+  "tunkas": {
+   "titulo": "Tunkás: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "42 focos de calor en 2026; en un año normal, 104. Fechas de la SEDER para quemar en Tunkás (zona 1): 1 de marzo al 15 de abril."
+  },
+  "tzucacab": {
+   "titulo": "Tzucacab: hubo menos fuego que en un año normal",
+   "descripcion": "87 focos de calor en 2026; en un año normal, 152. Fechas de la SEDER para quemar en Tzucacab (zona 3): 10 de marzo al 3 de abril."
+  },
+  "uayma": {
+   "titulo": "Uayma: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "12 focos de calor en 2026; en un año normal, 43. Fechas de la SEDER para quemar en Uayma (zona 1): 1 de marzo al 15 de abril."
+  },
+  "ucu": {
+   "titulo": "Ucú: hubo casi el mismo fuego que en un año normal",
+   "descripcion": "12 focos de calor en 2026; en un año normal, 12. Fechas de la SEDER para quemar en Ucú (zona 2): 20 de abril al 31 de mayo."
+  },
+  "uman": {
+   "titulo": "Umán: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "14 focos de calor en 2026; en un año normal, 42. Fechas de la SEDER para quemar en Umán (zona 2): 20 de abril al 31 de mayo."
+  },
+  "valladolid": {
+   "titulo": "Valladolid: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "84 focos de calor en 2026; en un año normal, 251. Fechas de la SEDER para quemar en Valladolid (zona 1): 1 de marzo al 15 de abril."
+  },
+  "xocchel": {
+   "titulo": "Xocchel: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "3 focos de calor en 2026; en un año normal, 20. Fechas de la SEDER para quemar en Xocchel (zona 2): 20 de abril al 31 de mayo."
+  },
+  "yaxcaba": {
+   "titulo": "Yaxcabá: hubo menos de la mitad del fuego que en un año normal",
+   "descripcion": "122 focos de calor en 2026; en un año normal, 398. Fechas de la SEDER para quemar en Yaxcabá (zona 1): 1 de marzo al 15 de abril."
+  },
+  "yaxkukul": {
+   "titulo": "Yaxkukul: hubo la mitad del fuego que en un año normal",
+   "descripcion": "4 focos de calor en 2026; en un año normal, 8. Fechas de la SEDER para quemar en Yaxkukul (zona 2): 20 de abril al 31 de mayo."
+  },
+  "yobain": {
+   "titulo": "Yobaín: hubo menos fuego que en un año normal",
+   "descripcion": "5 focos de calor en 2026; en un año normal, 9. Fechas de la SEDER para quemar en Yobaín (zona 2): 20 de abril al 31 de mayo."
+  }
+ },
+ "inicio": {
+  "titulo": "K'áak': ¿se quema más de lo normal en tu municipio?",
+  "descripcion": "Focos de calor de 25 años en la península de Yucatán, vistos por satélite, para saber qué es normal en cada municipio."
+ }
+}
