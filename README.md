@@ -90,10 +90,15 @@ Each figure is traced to its source in [docs/01](docs/01-hechos-verificados.md).
 
 ## Use of AI (required disclosure for Space Apps)
 
-The research (source search, the scripts in `analisis/` and drafts of `docs/`) was done with the
-help of Claude (Anthropic), including the cross-check against CONAFOR
-records (`analisis/cruce_conafor.py`). Every figure was verified against the cited sources.
-Details will be in `entrega/uso-de-ia.md` and in the submission form.
+Space Apps calls AI tools "Super Intelligence" (SI) and asks every team to say where and how it
+used them, including in code and data. We used Claude (Anthropic) for research (source search,
+the scripts in `analisis/`, including the cross-check against CONAFOR records in
+`analisis/cruce_conafor.py`), to draft code that a team member reviewed, and to draft documents
+in `docs/`. The team chose the challenge, the users, the method and the design, and every figure
+was verified against the cited sources. The site says so at the foot of "How we measure it".
+
+The full disclosure, with what the AI did and did not do and each member's use, is in
+[entrega/uso-de-ia.md](entrega/uso-de-ia.md). No image on the site was generated with AI.
 
 ## License
 

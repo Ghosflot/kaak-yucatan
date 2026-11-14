@@ -347,5 +347,7 @@
   "mDescargaTitulo": "Download the series",
   "mDescarga1": "The complete harmonized series, with every week from 2001 to 2026 in {n} municipalities of the peninsula and the normal for each week. The boundaries we use do not yet include the three newest municipalities (Dzitbalché, Seybaplaya and Puerto Morelos), so their fire counts in the municipality they split from. It is a CSV table that Excel opens; the column names are in the first row.",
   "mDescargar": "Download the series (CSV, {mb} MB)",
-  "mPie": "Data: FIRMS (NASA), {a} to {b}, and CONAFOR wildfire records, {d} to {h}. Updated {f}."
+  "mPie": "Data: FIRMS (NASA), {a} to {b}, and CONAFOR wildfire records, {d} to {h}. Updated {f}.",
+  "mIA": "We built this project with the help of artificial intelligence (Claude, by Anthropic) for research, code and drafting. The team chose the method and checked every figure against its source.",
+  "mIAEnlace": "What the AI did and did not do"
 }
