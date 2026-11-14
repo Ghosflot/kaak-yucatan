@@ -417,8 +417,9 @@ def satelites(cuadritos: pd.DataFrame, factores: pd.DataFrame) -> dict:
         elif sat == armonizar.REFERENCIA:
             calibracion = None  # es la escala: no lleva factor
         else:
-            # El factor de NOAA-20 se calculó con todos los años en que coincide con S-NPP.
-            calibracion = [anios[0]["y"], anios[-1]["y"]]
+            # El factor de NOAA-20 se calculó con todos los días en que coincide con S-NPP
+            # (armonizar.PERIODO_NOAA20, 1 abr 2018 a 1 nov 2026): no hay años independientes.
+            calibracion = [armonizar.PERIODO_NOAA20[0].year, armonizar.PERIODO_NOAA20[1].year]
         sale.append({"sat": sat, "sensor": sensor, "anios": anios, "serie": en_serie,
                      "calibracion": calibracion,
                      "incompletos": [a["y"] for a in anios if primero > inicio_temporada(a["y"])]})

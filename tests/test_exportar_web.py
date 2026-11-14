@@ -245,6 +245,8 @@ def test_satelites_contra_la_serie(salida):
     assert sats["NOAA-20"]["serie"] == []
     assert sats["S-NPP"]["calibracion"] is None
     assert sats["Aqua"]["calibracion"] == [2013, 2020]
+    assert sats["Terra"]["calibracion"] == [2013, 2020]
+    assert sats["NOAA-20"]["calibracion"] == [2018, 2026]  # armonizar.PERIODO_NOAA20
     # S-NPP es la escala: calibrado y sin calibrar son lo mismo.
     assert all(a["cal"] == a["crudo"] for a in sats["S-NPP"]["anios"])
     # MODIS sin calibrar ve menos de la mitad que la serie; NOAA-20 en 2018 empieza en abril.
