@@ -174,7 +174,7 @@ lo damos a todo el estado.
 | *(5 min)* MODIS en retiro, S-NPP sin datos desde el 2 de nov, cuatro satélites | «Contexto» y «S-NPP deja de entregar datos» |
 | *(5 min)* Tekax: 89 incendios y 17,845 ha; 16 a 21 de abril de 2024, 332 focos el día 21 | «¿Hay muchos incendios…?» y «Lo que ve el satélite (FIRMS)» |
 | *(30 s)* Se quema para sembrar; cada comunidad conoce su temporada | «¿Hay muchos incendios…?» (causa: «quema para preparación de siembra») y «Lo que dice la gente del campo» |
-| *(30 s)* Unos satélites ven entre tres y cinco veces más fuego que otros | `salidas/factores.csv` (Aqua: de 2.8 a 5.3 según zona y época), lo acordado en #26. docs/01 todavía dice «unas 3 veces» |
+| *(30 s)* Unos satélites ven entre tres y cinco veces más fuego que otros | `salidas/factores.csv` (Aqua: de 2.8 a 5.3 según zona y época), lo acordado en #26 (docs/01, «El problema técnico del reto, con números») |
 | *(30 s)* Se actualiza 4 veces al día | docs/02, tarea 18 |
 | *(5 min)* Incendio del basurero de Yaxkukul (9–10 nov 2026), humo en Mérida | «El humo llega a Mérida» (basurero de Yaxkukul). Notas: [Diario de Yucatán, 10 nov](https://www.yucatan.com.mx/yucatan/2026/11/10/controlan-el-incendio-registrado-en-el-basurero-municipal-de-yaxkukul-el-humo-afecto-a-merida.html), [Diario de Yucatán, 9 nov](https://www.yucatan.com.mx/merida/2026/11/09/densa-humareda-sorprende-a-colonias-de-merida-huele-a-quemado-reportan.html) y [Por Esto, 10 nov](https://www.poresto.com/yucatan/merida/2026/11/10/humo-merida-noche-lunes-noviembre-ssp-explica-origen.html) |
 
