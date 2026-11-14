@@ -15,9 +15,9 @@ series. With it, state agencies, civil protection and rural communities can tell
 burning season in their municipality is worse than normal, when burning really happens, and
 where it recurs year after year.
 
-- **One series, four satellites.** MODIS (Terra, Aqua) and VIIRS (S-NPP, NOAA-20, NOAA-21) are
-  put on the VIIRS scale with a MODIS→VIIRS factor per burn zone and time of year, and
-  validated with four independent checks.
+- **One series, four satellites.** MODIS (Terra, Aqua) and VIIRS (S-NPP, NOAA-20) are put on
+  the VIIRS scale with a MODIS→VIIRS factor per burn zone and time of year, and validated with
+  four independent checks. NOAA-21 also observes the peninsula, but it is not part of the series.
 - **A calendar per municipality.** For each week, how today's season compares with the
   25-year normal.
 - **Official burn windows.** Fire detections are crossed with the state's official burning
