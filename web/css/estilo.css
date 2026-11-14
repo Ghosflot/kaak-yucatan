@@ -44,7 +44,20 @@ svg text.ley-conv { font-family: var(--texto); }
 /* Barra superior */
 .barra { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; height: var(--barra-alto); display: flex; align-items: center; gap: 40px; background: var(--papel); border-bottom: 1px solid var(--linea); padding-left: max(32px, env(safe-area-inset-left, 0px)); padding-right: max(32px, env(safe-area-inset-right, 0px)); }
 body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--papel); }
-.marca { display: flex; align-items: center; height: 100%; font-family: var(--display); font-size: 24px; letter-spacing: 0.01em; text-decoration: none; line-height: 1; }
+.marca { position: relative; display: flex; align-items: center; height: 100%; font-family: var(--display); font-size: 24px; letter-spacing: 0.01em; text-decoration: none; line-height: 1; }
+.marca-dice { position: absolute; left: 0; top: calc(100% - 8px); padding: 5px 9px; background: var(--tinta); color: var(--papel); font-family: var(--texto); font-size: 13px; font-weight: 700; letter-spacing: 0; white-space: nowrap; pointer-events: none; opacity: 0; transform: translateY(-4px); transition: opacity 0.18s ease, transform 0.18s ease; }
+.marca:hover .marca-dice, .marca:focus-visible .marca-dice, .marca.insinua .marca-dice { opacity: 1; transform: none; }
+/* Atajos de teclado (función escondida de la portada) */
+.atajos-boton { align-self: flex-start; min-height: 28px; padding: 0; border: 0; background: none; color: var(--tinta-2); font-size: 12.5px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.atajos-boton kbd, .atajos kbd { display: inline-block; min-width: 1.6em; padding: 1px 6px; border: 1px solid #BDB7AE; border-bottom-width: 2px; background: #FFFFFF; font-family: var(--mono); font-size: 12px; text-align: center; color: var(--tinta); }
+@media (hover: none), (max-width: 860px) { .atajos-boton { display: none; } }
+.atajos { width: min(520px, calc(100vw - 32px)); padding: 24px 26px 22px; border: 0; background: var(--papel); color: var(--tinta); box-shadow: 0 18px 48px rgba(0, 0, 0, 0.45); }
+.atajos::backdrop { background: rgba(5, 8, 13, 0.55); }
+.atajos h2 { margin: 0 40px 14px 0; font-size: 20px; font-weight: 800; }
+.atajos dl { display: grid; grid-template-columns: auto 1fr; gap: 9px 16px; margin: 0; font-size: 14.5px; }
+.atajos dt { white-space: nowrap; }
+.atajos dd { margin: 0; color: var(--tinta-2); }
+.atajos .cerrar { position: absolute; top: 8px; right: 8px; width: 44px; height: 44px; border: 0; background: none; font-size: 24px; line-height: 1; color: var(--tinta-2); cursor: pointer; }
 .nav { display: flex; gap: 28px; height: 100%; }
 .nav a { display: flex; align-items: center; height: 100%; text-decoration: none; font-size: 15px; color: var(--tinta-2); border-bottom: 3px solid transparent; padding-top: 3px; white-space: nowrap; }
 .nav a[aria-current="page"] { color: var(--tinta); font-weight: 700; border-bottom-color: var(--tinta); }
@@ -150,6 +163,8 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .volver:active { transform: scale(0.97); }
 /* Las notas del mapa hablan de 2026: con otro año en el mapa se esconden. */
 .otro-anio .nota-mapa:not(.enlace) { display: none; }
+#barras { touch-action: pan-y; -webkit-user-select: none; user-select: none; }
+#barras.barriendo { cursor: ew-resize; }
 #barras .toque { cursor: pointer; outline: none; }
 #barras .toque:hover, #barras .toque:focus-visible { fill: rgba(18, 18, 18, 0.05); }
 #barras .toque:focus-visible { stroke: var(--tinta); stroke-width: 1; }
@@ -223,6 +238,18 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .tarjeta .veredicto { display: flex; align-items: center; gap: 8px; margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--linea); font-size: 14px; font-weight: 700; }
 .tarjeta .veredicto i { width: 14px; height: 14px; flex-shrink: 0; }
 .tarjeta a { display: flex; align-items: center; min-height: 44px; margin: 2px 0 -10px; font-size: 14px; font-weight: 700; text-underline-offset: 3px; }
+.tarjeta .pista-historia { margin-top: 6px; font-size: 12.5px; color: var(--tinta-2); }
+.tarjeta .historia-titulo { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 10px; font-size: 12.5px; font-weight: 700; }
+.tarjeta .historia-titulo span { display: inline-flex; white-space: nowrap; align-items: center; gap: 5px; font-weight: 400; color: var(--tinta-2); }
+.tarjeta .historia-titulo i { width: 16px; border-top: 1.5px dashed var(--tinta); }
+.tarjeta .historia { width: 100%; height: auto; margin-top: 4px; overflow: visible; }
+.historia rect { fill: var(--barra); }
+.historia rect.este { fill: var(--rojo); }
+.historia .normal { stroke: var(--tinta); stroke-width: 1.2; stroke-dasharray: 4 3; }
+.historia .eje { stroke: var(--tinta); stroke-width: 1; }
+.historia text { font-size: 10px; fill: var(--tinta-2); }
+/* Mantener presionado un municipio no debe seleccionar texto ni abrir el menú del teléfono. */
+.mapa { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
 .tarjeta .cerrar { position: absolute; top: 2px; right: 2px; width: 44px; height: 44px; border: 0; background: none; font-size: 22px; line-height: 1; color: var(--tinta-2); cursor: pointer; }
 
 /* Panel de la respuesta */

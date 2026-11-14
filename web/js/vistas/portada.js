@@ -112,7 +112,13 @@ const PLANTILLA = `
   <p id="fechasNota"></p>
   <a class="ir" href="#/fechas" data-t="verCalendario"></a>
   <p class="pie" id="pie"></p>
-</aside>`;
+  <button type="button" class="atajos-boton" id="verAtajos" aria-haspopup="dialog"></button>
+</aside>
+<dialog class="atajos" id="atajos" aria-labelledby="atajosTitulo">
+  <h2 id="atajosTitulo" data-t="atajosTitulo"></h2>
+  <dl id="atajosLista"></dl>
+  <button type="button" class="cerrar" id="atajosCerrar" data-t-aria="cerrar">×</button>
+</dialog>`;
 
 export function montar(raiz) {
   raiz.innerHTML = PLANTILLA;
@@ -523,6 +529,11 @@ export function montar(raiz) {
     // El foco se queda en la barra: se avisa lo que cambió en el mapa.
     anunciar($('resultado').textContent + ' ' + $('pistaAnio').textContent);
   }
+  // Arrastrar sobre las barras pasa por los años; al soltar queda una sola entrada en el historial.
+  function barrerAnio(a) {
+    if (a === null) { guardar(true); anunciar($('resultado').textContent + ' ' + $('pistaAnio').textContent); return; }
+    if (a !== anio) ponerAnio(a);
+  }
   function volverA2026() {
     if (anio === ANIO) return;
     anio = ANIO;
@@ -584,7 +595,23 @@ export function montar(raiz) {
       $('encima').textContent = '';
       if (!seleccion) $('tarjeta').hidden = true;
     });
+    let presion = 0, tragarClic = false;
+    rel.addEventListener('pointerdown', (ev) => {
+      const id = ev.target.getAttribute('data-id');
+      if (modo !== 'final' || !id) return;
+      const x0 = ev.clientX, y0 = ev.clientY;
+      const fin = () => { clearTimeout(presion); rel.removeEventListener('pointermove', mover); window.removeEventListener('pointerup', fin); window.removeEventListener('pointercancel', fin); };
+      const mover = (e) => { if (Math.hypot(e.clientX - x0, e.clientY - y0) > 8) fin(); };
+      clearTimeout(presion);
+      presion = setTimeout(() => { fin(); tragarClic = true; abrirHistoria(id); }, 450);
+      rel.addEventListener('pointermove', mover);
+      window.addEventListener('pointerup', fin);
+      window.addEventListener('pointercancel', fin);
+    });
+    // Mantener presionado con el dedo no debe abrir el menú del navegador.
+    rel.addEventListener('contextmenu', (ev) => { if (modo === 'final') ev.preventDefault(); });
     rel.addEventListener('click', (ev) => {
+      if (tragarClic) { tragarClic = false; return; }
       // Tocar un municipio a media animación la interrumpe y abre su tarjeta. En la foto el mapa
       // de municipios no se ve: un toque ahí no debe saltar al cierre.
       if (modo === 'foto') return;
@@ -669,6 +696,37 @@ export function montar(raiz) {
   }
 
   /* ---------- Tarjeta de un municipio ---------- */
+  // Función escondida: mantener presionado un municipio (o Espacio en el mapa) abre sus 26 años en la tarjeta.
+  let historia = false;
+  const yaVioHistoria = () => { try { return localStorage.getItem('kaak-historia') === '1'; } catch { return false; } };
+  function graficaHistoria(id) {
+    const i = posicion.get(id);
+    const [, normal] = D.valores[id] || [0, 0];
+    const anios = D.porAnio.anios.map((a, k) => ({ y: a, v: i === undefined ? 0 : D.porAnio.v[i][k] }));
+    const W = 218, H = 58, base = H - 14;
+    const max = Math.max(...anios.map((a) => a.v), normal, 1);
+    const paso = W / anios.length;
+    const svg = el('svg', { viewBox: `0 0 ${W} ${H}`, class: 'historia', role: 'img' });
+    svg.setAttribute('aria-label', t('historiaAria', { m: munPorId.get(id).n, n: fmt(normal), a: anio, v: fmt(valoresDe(id)[0]) }));
+    anios.forEach((a, k) => {
+      const h = Math.max(a.v > 0 ? 1 : 0, (a.v / max) * (base - 4));
+      el('rect', { x: (k * paso + 0.5).toFixed(1), y: (base - h).toFixed(1), width: (paso - 1.5).toFixed(1), height: h.toFixed(1), class: a.y === anio ? 'este' : '' }, svg);
+    });
+    const yn = (base - (normal / max) * (base - 4)).toFixed(1);
+    el('line', { x1: 0, x2: W, y1: yn, y2: yn, class: 'normal' }, svg);
+    el('line', { x1: 0, x2: W, y1: base + 0.5, y2: base + 0.5, class: 'eje' }, svg);
+    el('text', { x: 0, y: H - 1 }, svg).textContent = String(anios[0].y);
+    el('text', { x: W, y: H - 1, 'text-anchor': 'end' }, svg).textContent = String(anios[anios.length - 1].y);
+    return svg;
+  }
+  function abrirHistoria(id) {
+    if (seleccion !== id) seleccionar(id, false);
+    historia = !historia || seleccion !== id;
+    try { localStorage.setItem('kaak-historia', '1'); } catch { /* sin almacenamiento: la pista vuelve a salir */ }
+    contenidoTarjeta(id, true);
+    ubicarTarjeta(id);
+    if (historia) anunciar($('tarjeta').querySelector('.historia').getAttribute('aria-label'));
+  }
   function contenidoTarjeta(id, fija) {
     const m = munPorId.get(id);
     const [v26, normal] = valoresDe(id);
@@ -687,6 +745,17 @@ export function montar(raiz) {
     const ver = span('veredicto');
     const i = document.createElement('i'); i.style.background = COLOR[c];
     ver.append(i, document.createTextNode(veredicto(v26, normal, c)));
+    if (fija && historia) {
+      const h = span('historia-titulo');
+      const ley = document.createElement('span');
+      const raya = document.createElement('i'); raya.setAttribute('aria-hidden', 'true');
+      ley.append(raya, t('loNormalCorto'));
+      h.append(t('historiaTitulo'), ley);
+      tj.appendChild(graficaHistoria(id));
+    } else if (!yaVioHistoria() && matchMedia('(hover: hover)').matches === !fija) {
+      // La pista sale hasta que se usa una vez: en la tarjeta al pasar con el mouse, o en la fija con el dedo.
+      span('pista-historia', t(fija ? 'pistaHistoriaDedo' : 'pistaHistoria'));
+    }
     if (fija) {
       const a = document.createElement('a');
       a.href = '#/municipio/' + encodeURIComponent(id);
@@ -730,6 +799,7 @@ export function montar(raiz) {
   }
   function seleccionar(id, desdeBuscador, nueva = true) {
     if (!munPorId.has(id)) return;
+    if (id !== seleccion) historia = false;
     if (modo !== 'final') { pausar(); t0 = ULTIMO; actualizarTiempo(); ponerModo('final'); }
     seleccion = id;
     const m = munPorId.get(id);
@@ -791,6 +861,9 @@ export function montar(raiz) {
     } else if (e.key === 'Enter' && seleccion) {
       e.preventDefault();
       location.hash = '#/municipio/' + encodeURIComponent(seleccion);
+    } else if (e.key === ' ' && seleccion) {
+      e.preventDefault();
+      abrirHistoria(seleccion);
     }
   });
 
@@ -800,7 +873,7 @@ export function montar(raiz) {
     const y = D.yuc;
     const anios = Object.keys(y.anios).map(Number).sort((a, b) => a - b).map((a) => ({ y: a, total: y.anios[a] }));
     barrasAnios($('barras'), {
-      anios, normal: y.normal, alTocar: elegirAnio, seleccionado: anio === ANIO ? null : anio,
+      anios, normal: y.normal, alTocar: elegirAnio, alBarrer: barrerAnio, seleccionado: anio === ANIO ? null : anio,
       aria: t('barrasAria', { n: fmt(y.normal), a: fmt(y.anios[ANIO]) }),
     });
   }
@@ -856,10 +929,55 @@ export function montar(raiz) {
     despejarRotulos(telefono());
     armarEscala();
     armarPanel();
+    armarAtajos();
     actualizarTiempo();
     descripcion();
     if (seleccion) { contenidoTarjeta(seleccion, true); ubicarTarjeta(seleccion); }
   }
+
+  /* ---------- Atajos de teclado (función escondida): «?» muestra la lista ---------- */
+  function armarAtajos() {
+    const b = $('verAtajos');
+    b.textContent = '';
+    const k = document.createElement('kbd'); k.textContent = '?';
+    b.append(t('atajosBoton') + ' ', k);
+    const dl = $('atajosLista');
+    dl.textContent = '';
+    for (const [teclas, que] of t('atajos')) {
+      const dt = document.createElement('dt');
+      teclas.split(' ').forEach((tecla, i) => {
+        if (i) dt.append(' ');
+        if (/^\[.*\]$/.test(tecla)) { const kb = document.createElement('kbd'); kb.textContent = tecla.slice(1, -1); dt.appendChild(kb); } else dt.append(tecla);
+      });
+      const dd = document.createElement('dd'); dd.textContent = que;
+      dl.append(dt, dd);
+    }
+  }
+  const verAtajos = () => { if (!$('atajos').open) $('atajos').showModal(); };
+  $('verAtajos').addEventListener('click', verAtajos);
+  $('atajosCerrar').addEventListener('click', () => $('atajos').close());
+  $('atajos').addEventListener('click', (e) => { if (e.target === $('atajos')) $('atajos').close(); }); // tocar fuera la cierra
+  function atajo(e) {
+    if (e.ctrlKey || e.metaKey || e.altKey || !D || $('atajos').open) return;
+    if (e.target.closest('input, textarea, select, [contenteditable]')) return;
+    if (e.key === '?') { e.preventDefault(); verAtajos(); return; }
+    if (e.key === '/') {
+      e.preventDefault();
+      const i = raiz.querySelector('.bloque:not([hidden]) .buscador input');
+      if (i) i.focus();
+      return;
+    }
+    // Lo que ya usa esas teclas (botones, deslizadores, el mapa, las barras) se queda con ellas.
+    if (e.target.closest('button, a, [role="slider"], [role="button"], [role="toolbar"], #capa, dialog')) return;
+    if (e.key === ' ') {
+      e.preventDefault();
+      if (modo === 'foto') { jugar(0); $('control').focus({ preventScroll: true }); } else $('control').click();
+    } else if ((e.key === 'ArrowRight' || e.key === 'ArrowLeft') && modo !== 'foto') {
+      e.preventDefault();
+      irADia(Math.round(t0) + (e.key === 'ArrowRight' ? 1 : -1));
+    }
+  }
+  document.addEventListener('keydown', atajo);
 
   /* ---------- Eventos ---------- */
   // El botón que se tocó desaparece: el foco pasa a lo que lo reemplaza.
@@ -954,7 +1072,7 @@ export function montar(raiz) {
       e.preventDefault();
     }
   });
-  const alEscape = (e) => { if (e.key === 'Escape' && seleccion) quitarSeleccion(true); };
+  const alEscape = (e) => { if (e.key === 'Escape' && seleccion && !$('atajos').open) quitarSeleccion(true); };
   document.addEventListener('keydown', alEscape);
   // «Atrás» y «Adelante» dentro de la portada: el enrutador no la vuelve a montar.
   const alAncla = () => { if (D && ruta().vista === 'portada') aplicar(leerEstado()); };
@@ -997,6 +1115,7 @@ export function montar(raiz) {
     clearTimeout(esperaFinal);
     observador.disconnect();
     document.removeEventListener('keydown', alEscape);
+    document.removeEventListener('keydown', atajo);
     window.removeEventListener('hashchange', alAncla);
     window.removeEventListener('idioma', textos);
     clearTimeout(esperaURL);

@@ -14,7 +14,7 @@ const mayuscula = (s) => s.charAt(0).toUpperCase() + s.slice(1);
  * anios: [{y, total}] en orden; los años hasta `convertidoHasta` son MODIS convertido (rayados).
  * alTocar(y), si se pasa, vuelve tocable cada año (clic, Enter o espacio).
  */
-export function barrasAnios(svg, { anios, normal, destacado = 2026, alto = 96, ancho = 316, convertidoHasta = 2011, alTocar = null, seleccionado = null, aria = '' }) {
+export function barrasAnios(svg, { anios, normal, destacado = 2026, alto = 96, ancho = 316, convertidoHasta = 2011, alTocar = null, alBarrer = null, seleccionado = null, aria = '' }) {
   // Si el foco estaba en un año, vuelve a ese año después de redibujar.
   const enfocado = svg.contains(document.activeElement) ? Number(document.activeElement.dataset.y) : null;
   svg.textContent = '';
@@ -95,11 +95,52 @@ export function barrasAnios(svg, { anios, normal, destacado = 2026, alto = 96, a
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); alTocar(anios[i].y); }
       else if (ir !== undefined) { e.preventDefault(); mover(i, Math.max(0, Math.min(toques.length - 1, ir))); }
     }));
+    if (alBarrer) barrer(svg, anios, alBarrer);
     const vuelve = toques.find((r) => Number(r.dataset.y) === enfocado);
     if (vuelve) { toques.forEach((r) => r.setAttribute('tabindex', r === vuelve ? '0' : '-1')); vuelve.focus({ preventScroll: true }); }
   }
   svg.setAttribute('role', alTocar ? 'toolbar' : 'img');
   svg.setAttribute('aria-label', aria);
+}
+
+/**
+ * Función escondida: arrastrar de lado sobre las barras recorre los años en el mapa.
+ * alBarrer(y) recibe cada año que se cruza y alBarrer(null) al soltar. Un toque sin arrastrar sigue siendo un clic.
+ * Las barras se vuelven a dibujar al cambiar de año; los eventos van en el svg, que no cambia.
+ */
+function barrer(svg, anios, alBarrer) {
+  svg._barrer = { anios, alBarrer };
+  if (svg._barrerListo) return;
+  svg._barrerListo = true;
+  let inicio = null, barriendo = false, ultimo = null, tragarClic = false;
+  const anioEn = (x) => {
+    const { anios: a } = svg._barrer;
+    const r = svg.getBoundingClientRect(), vb = svg.viewBox.baseVal;
+    const ux = ((x - r.left) / r.width) * vb.width;
+    const ancho = vb.width - 44; // el viewBox deja 44 de aire a la derecha para la cifra del año destacado
+    return a[Math.max(0, Math.min(a.length - 1, Math.floor((ux / ancho) * a.length)))].y;
+  };
+  svg.addEventListener('pointerdown', (e) => { inicio = { x: e.clientX, y: e.clientY, id: e.pointerId }; barriendo = false; ultimo = null; });
+  svg.addEventListener('pointermove', (e) => {
+    if (!inicio || e.pointerId !== inicio.id) return;
+    const dx = Math.abs(e.clientX - inicio.x), dy = Math.abs(e.clientY - inicio.y);
+    if (!barriendo) {
+      if (dx < 8 || dx < dy) { if (dy > 8) inicio = null; return; }
+      barriendo = true;
+      svg.setPointerCapture(e.pointerId);
+      svg.classList.add('barriendo');
+    }
+    const y = anioEn(e.clientX);
+    if (y !== ultimo) { ultimo = y; svg._barrer.alBarrer(y); }
+  });
+  const soltar = () => {
+    if (barriendo) { tragarClic = true; svg.classList.remove('barriendo'); svg._barrer.alBarrer(null); setTimeout(() => { tragarClic = false; }, 0); }
+    inicio = null; barriendo = false;
+  };
+  svg.addEventListener('pointerup', soltar);
+  svg.addEventListener('pointercancel', soltar);
+  // El clic que llega al soltar un barrido no debe volver a tocar el año (lo regresaría a 2026).
+  svg.addEventListener('click', (e) => { if (tragarClic) { e.stopPropagation(); tragarClic = false; } }, true);
 }
 
 /**

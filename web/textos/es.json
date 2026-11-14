@@ -2,7 +2,7 @@
   "tituloPagina": "K'áak': ¿se quema más de lo normal en tu municipio?",
   "descripcionPagina": "Focos de calor de 25 años en la península de Yucatán, vistos por satélite, para saber qué es normal en cada municipio.",
   "saltar": "Ir al contenido",
-  "marcaAria": "K'áak', inicio",
+  "marcaAria": "K'áak', fuego en maya. Inicio",
   "navAria": "Secciones",
   "navTemporada": "Temporada",
   "navFechas": "Fechas de quema",
@@ -119,6 +119,52 @@
   "descRepaso": "La temporada de 2026 día por día sobre el mapa de la península.",
   "descFinal": "Mapa de los municipios de Yucatán coloreados según su fuego de {a} contra lo normal.",
   "mapaTeclado": "Con el teclado, las flechas pasan de un municipio al de al lado y Enter abre su página.",
+  "historiaTitulo": "Sus 26 años",
+  "loNormalCorto": "lo normal",
+  "historiaAria": "Focos de calor de {m} de marzo a mayo, cada año de 2001 a 2026. Lo normal es {n}; en {a} hubo {v}.",
+  "pistaHistoria": "Mantén presionado para ver sus 26 años.",
+  "pistaHistoriaDedo": "Mantén presionado un municipio para ver sus 26 años.",
+  "marcaDice": "fuego, en maya",
+  "atajosBoton": "Atajos de teclado",
+  "atajosTitulo": "Atajos de teclado",
+  "atajos": [
+    [
+      "[Espacio]",
+      "Empezar o pausar la temporada"
+    ],
+    [
+      "[←] [→]",
+      "Un día atrás o adelante"
+    ],
+    [
+      "[/]",
+      "Buscar un municipio"
+    ],
+    [
+      "[↑] [↓] [←] [→]",
+      "En el mapa del final, pasar al municipio de al lado"
+    ],
+    [
+      "[Enter]",
+      "En el mapa, abrir la página del municipio"
+    ],
+    [
+      "[Espacio]",
+      "En el mapa, ver los 26 años del municipio"
+    ],
+    [
+      "Arrastrar",
+      "Sobre las barras de los años, recorrerlos en el mapa"
+    ],
+    [
+      "Mantener",
+      "Sobre un municipio, ver sus 26 años"
+    ],
+    [
+      "[Esc]",
+      "Cerrar la tarjeta o esta lista"
+    ]
+  ],
   "barrasAria": "Focos de marzo a mayo en Yucatán por año, de 2001 a 2026. Lo normal son {n}; en 2026 hubo {a}.",
   "anioEnMapa": "El mapa muestra {a}. Toca su barra otra vez para volver a 2026.",
   "tocaAnioMapa": "Toca un año para verlo en el mapa.",

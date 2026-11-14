@@ -2,7 +2,7 @@
   "tituloPagina": "K'áak': is your municipality burning more than usual?",
   "descripcionPagina": "25 years of satellite hot spots on the Yucatán Peninsula, to know what is normal in each municipality.",
   "saltar": "Skip to content",
-  "marcaAria": "K'áak', home",
+  "marcaAria": "K'áak', fire in Maya. Home",
   "navAria": "Sections",
   "navTemporada": "Season",
   "navFechas": "Burning dates",
@@ -119,6 +119,52 @@
   "descRepaso": "The 2026 season day by day on the map of the peninsula.",
   "descFinal": "Map of Yucatán’s municipalities colored by their {a} fire compared with normal.",
   "mapaTeclado": "With the keyboard, the arrow keys move to the next municipality and Enter opens its page.",
+  "historiaTitulo": "Its 26 years",
+  "loNormalCorto": "normal",
+  "historiaAria": "Hot spots in {m} from March to May, each year from 2001 to 2026. Normal is {n}; {a} had {v}.",
+  "pistaHistoria": "Press and hold to see its 26 years.",
+  "pistaHistoriaDedo": "Press and hold a municipality to see its 26 years.",
+  "marcaDice": "fire, in Maya",
+  "atajosBoton": "Keyboard shortcuts",
+  "atajosTitulo": "Keyboard shortcuts",
+  "atajos": [
+    [
+      "[Space]",
+      "Start or pause the season"
+    ],
+    [
+      "[←] [→]",
+      "One day back or forward"
+    ],
+    [
+      "[/]",
+      "Search for a municipality"
+    ],
+    [
+      "[↑] [↓] [←] [→]",
+      "On the final map, move to the next municipality"
+    ],
+    [
+      "[Enter]",
+      "On the map, open the municipality’s page"
+    ],
+    [
+      "[Space]",
+      "On the map, see the municipality’s 26 years"
+    ],
+    [
+      "Drag",
+      "Across the year bars, go through them on the map"
+    ],
+    [
+      "Hold",
+      "On a municipality, see its 26 years"
+    ],
+    [
+      "[Esc]",
+      "Close the card or this list"
+    ]
+  ],
   "barrasAria": "Hot spots from March to May in Yucatán by year, 2001 to 2026. Normal is {n}; 2026 had {a}.",
   "anioEnMapa": "The map shows {a}. Tap its bar again to go back to 2026.",
   "tocaAnioMapa": "Tap a year to see it on the map.",
