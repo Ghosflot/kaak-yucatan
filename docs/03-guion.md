@@ -1,7 +1,8 @@
 # Guion del pitch (tarea 23)
 
-Falta: reparto de partes y suplentes, cronometrar con el demo
-real y que Nico revise las cifras (cada una sale de docs/01).
+**Presenta Nico; Leo es el suplente** (decisión de Guille, 14 nov, #8).
+
+Falta: cronometrar con el demo real y que Nico revise las cifras (cada una sale de docs/01).
 
 ## Versión de 30 segundos (video del demo)
 
