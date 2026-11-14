@@ -54,8 +54,8 @@
         "en": "graficas/validacion-salto-2012-en.png"
       },
       "huella_grafica": {
-        "es": "sha256:869ff19740ac7b5481a0e858e572621b4248cbe709c76306cc46a363ca8ac404",
-        "en": "sha256:f5ed306ce6048f01b01dc039b1991280e9f9436f13bce9ed3377a5152712fd41"
+        "es": "sha256:05943f2a7ad829bfe9a257f98ab4ab907134b1d28b296c0a5d9e6da8fc0a9313",
+        "en": "sha256:25bb849275bfe39da5bad9652d93f54b78ecd2e0bd9250cf9743123f05946168"
       },
       "metricas": {
         "peninsula": {
@@ -132,7 +132,7 @@
                   2022,
                   2024
                 ],
-                "razon": 1.0287985886784357
+                "razon": 1.0625866448928993
               },
               {
                 "antes": [
@@ -143,7 +143,7 @@
                   2023,
                   2025
                 ],
-                "razon": 1.090407751994111
+                "razon": 1.1246133222314736
               }
             ]
           },
@@ -201,7 +201,7 @@
           "reduccion": 0.9270753607329215,
           "rango_natural": {
             "min": 0.7597572498001308,
-            "max": 0.9557645252602791,
+            "max": 0.9744839802331718,
             "ventanas": [
               {
                 "antes": [
@@ -267,7 +267,7 @@
                   2022,
                   2024
                 ],
-                "razon": 0.9557645252602791
+                "razon": 0.9744839802331718
               },
               {
                 "antes": [
@@ -278,7 +278,7 @@
                   2023,
                   2025
                 ],
-                "razon": 0.9418275911639274
+                "razon": 0.9605237241841967
               }
             ]
           },
@@ -379,8 +379,8 @@
         "en": "graficas/validacion-aqua-2021-2025-en.png"
       },
       "huella_grafica": {
-        "es": "sha256:21e4a09a5a3d9b23c6867f4600ab0d2b0d07213f646ab92e28f541ec4a4d2d47",
-        "en": "sha256:f652fd9d5736421ad977ca431c5a6dcb7a628cb832d6036e6bd285d378497494"
+        "es": "sha256:3d88319f54a65818c8f3c77184352958bc74edeebf03d908e8f0dcef41f7217e",
+        "en": "sha256:f703b31c7f0eec546ee58bb62c4d25defb49edb2bb9dc5003a9f0e90fea8818e"
       },
       "metricas": {
         "wape_zona_epoca": 0.11254543765114507,
@@ -559,8 +559,8 @@
         "en": "graficas/validacion-conafor-en.png"
       },
       "huella_grafica": {
-        "es": "sha256:c91a25362b80ffdf6e441adeab2c23584677f68497d185f872962bfd6881bf01",
-        "en": "sha256:5399c7074d9e57b6c77c35544fb8c4b8f661545c07832016a1f2580ca0ba455f"
+        "es": "sha256:be278453e99e0c340ce2850b6380a445a1c994c6c9724ffd1c163ae318afcb4a",
+        "en": "sha256:a8df7750af143eeb85d294acab2227447cee1f4719bbdcb33d1b1d3f39c8b5ad"
       },
       "metricas": {
         "incendios": 1222,
@@ -674,8 +674,8 @@
         "en": "graficas/validacion-viirs-en.png"
       },
       "huella_grafica": {
-        "es": "sha256:4215474bf2b6d87c38c921778027c24cc2aae8fd6d595841f0ed292b33b1e27e",
-        "en": "sha256:e0ac075af6b9f532498b57bab1699d3d0518b3fb3ef7cb22c1ffd5b593e4ce08"
+        "es": "sha256:0a6a7b5ae9dd18ed97e9f75635d77763a77c64783c53bd07bc27e14a1bbfddb0",
+        "en": "sha256:75d8b0d7e772cc1ee9224f250e1e4c1cc77d327dca0a2e690e8f6eb907ffbb7c"
       },
       "metricas": {
         "NOAA-20": {
