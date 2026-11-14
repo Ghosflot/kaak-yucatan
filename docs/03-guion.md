@@ -5,7 +5,7 @@ real y que Nico revise las cifras (cada una sale de docs/01).
 
 ## Versión de 3 minutos
 
-Son unas 410 palabras; a ritmo de pitch (140–150 por minuto) dan cerca de 2:50. Hay que
+Son unas 425 palabras; a ritmo de pitch (140–150 por minuto) dan cerca de 2:55. Hay que
 cronometrarla con el demo real.
 
 **[0:00–0:35] El abuelo**
