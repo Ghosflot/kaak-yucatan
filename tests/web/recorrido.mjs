@@ -117,7 +117,7 @@ async function pasosPortada({ page, espera, sub, centro }) {
   await sub('Al pasar el mouse por un municipio se ve su tarjeta.', 3500);
   await page.mouse.move(60, 880, { steps: 8 });
   await page.click('#busca2');
-  await page.keyboard.type('Tekax', { delay: 140 });
+  await page.keyboard.type('Umán', { delay: 140 });
   await sub('O se busca por nombre.', 1800);
   await page.keyboard.press('Enter');
   await sub('La tarjeta dice los focos de 2026, lo normal y el veredicto, y lleva al detalle.', 5000);
@@ -145,7 +145,7 @@ async function pasosPortada({ page, espera, sub, centro }) {
   await page.click('[data-idioma="es"]');
   await page.fill('#busca2', '');
   await page.click('#busca2');
-  await page.keyboard.type('Tekax', { delay: 100 });
+  await page.keyboard.type('Umán', { delay: 100 });
   await page.keyboard.press('Enter');
   await espera(800);
   await page.click('.tarjeta.fija a');
@@ -160,7 +160,7 @@ async function portada() {
   await grabar('telefono', TELEFONO, '#/', '#rellenos path', async ({ page, espera, sub }) => {
     await sub('En el teléfono: la pregunta, el buscador y el mapa en la primera pantalla.', 4500);
     await page.tap('#buscador1 .ejemplo button');
-    await sub('Con «Por ejemplo, Tekax» el mapa se colorea y la tarjeta queda debajo del mapa.', 5000);
+    await sub('Con «Por ejemplo, Umán» el mapa se colorea y la tarjeta queda debajo del mapa.', 5000);
     await page.evaluate(() => window.scrollBy({ top: 620, behavior: 'smooth' }));
     await sub('Abajo, la línea de tiempo y la respuesta del estado.', 4000);
     await page.evaluate(() => window.scrollBy({ top: 700, behavior: 'smooth' }));
@@ -172,24 +172,24 @@ async function portada() {
   });
 }
 
-// La portada sigue en la página de Tekax; el comisario abre el enlace en su teléfono.
+// La portada sigue en la página de Umán; el comisario abre el enlace en su teléfono.
 async function temporada() {
   await grabar('escritorio', ESCRITORIO, '#/', '#rellenos path', async (c) => {
     const { page, sub } = c;
     await pasosPortada(c);
     await page.waitForSelector('#ficha');
-    await sub('La página de Tekax: el veredicto en una frase, sus años y cuándo se quema.', 5000);
+    await sub('La página de Umán: el veredicto en una frase, sus años y cuándo se quema.', 5000);
     await page.mouse.wheel(0, 260);
-    await sub('Hubo la mitad del fuego que en un año normal; la barra roja es 2026.', 4000);
-    await page.click('#barrasMun .toque[aria-label^="2003"]');
-    await sub('Tocar un año muestra cómo se repartió su fuego contra un año normal.', 5000);
+    await sub('En 2026 hubo una tercera parte del fuego de un año normal; la barra roja es 2026.', 4000);
+    await page.click('#barrasMun .toque[aria-label^="2025"]');
+    await sub('En 2025, la segunda temporada más tranquila del registro, Umán tuvo 1.5 veces su fuego normal.', 5000);
     await page.click('#barrasMun .toque[aria-label^="2026"]');
     await sub('En 2026 también: la llave dice qué parte cayó después de las fechas permitidas.', 5000);
     await page.click('#verNormal');
     await sub('A la derecha, la ficha para mandar por WhatsApp, la imagen y los datos en CSV.', 5000);
   });
-  await grabar('telefono', TELEFONO, '#/municipio/tekax', '#ficha', async ({ page, espera, sub }) => {
-    await sub('El comisario abre el enlace de Tekax: arriba, el veredicto y las cifras.', 5000);
+  await grabar('telefono', TELEFONO, '#/municipio/uman', '#ficha', async ({ page, espera, sub }) => {
+    await sub('El comisario abre el enlace de Umán: arriba, el veredicto y las cifras.', 5000);
     await page.evaluate(() => window.scrollBy({ top: 420, behavior: 'smooth' }));
     await sub('Cada año desde 2001; la barra roja es 2026.', 4000);
     await page.tap('#barrasMun .toque[aria-label^="2026"]');
@@ -354,7 +354,7 @@ async function revision() {
     await page.keyboard.press('Enter');
     await sub('Con Enter se ve 2003. El foco se queda en la barra, y la pista dice qué año muestra el mapa.', 5500);
     await page.click('#volver');
-    await sub('«Volver a 2026» regresa también la línea de tiempo y deja el foco en el resultado. «Tekax», en el mapa, ya va en claro.', 5000);
+    await sub('«Volver a 2026» regresa también la línea de tiempo y deja el foco en el resultado. «Umán», en el mapa, ya va en claro.', 5000);
     await page.click('.nav a[data-vista="fechas"]');
     await page.waitForSelector('#almanaque tr[data-id="dzan"]');
     await page.locator('#almanaque tr[data-id="dzan"]').scrollIntoViewIfNeeded();
@@ -465,12 +465,12 @@ async function repaso() {
     // La tarjeta que entrega functions/_middleware.js, encima de la página (el servidor local no corre Functions).
     await page.evaluate(() => new Promise((listo) => {
       const fondo = Object.assign(document.createElement('div'), { style: 'position:fixed;inset:0;z-index:40;background:#E9E4DC;display:flex;align-items:center;justify-content:center' });
-      const img = Object.assign(document.createElement('img'), { src: '/og/tekax.png', style: 'width:min(900px,90vw);box-shadow:0 12px 40px rgba(0,0,0,.35)' });
+      const img = Object.assign(document.createElement('img'), { src: '/og/uman.png', style: 'width:min(900px,90vw);box-shadow:0 12px 40px rgba(0,0,0,.35)' });
       img.onload = listo;
       fondo.appendChild(img);
       document.body.appendChild(fondo);
     }));
-    await sub('Al compartir kaak.pages.dev/tekax, WhatsApp muestra esta tarjeta.', 4000);
+    await sub('Al compartir kaak.pages.dev/uman, WhatsApp muestra esta tarjeta.', 4000);
   });
   await grabar('telefono', TELEFONO, '#/', '#rellenos path', async ({ page, espera, sub }) => {
     const cdp = await page.context().newCDPSession(page);

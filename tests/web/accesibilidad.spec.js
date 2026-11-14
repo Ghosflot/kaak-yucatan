@@ -134,10 +134,10 @@ test.describe('con el teclado', () => {
     await abrir(page, '#/', { reducir: true });
     await page.locator('#capa').focus();
     await page.keyboard.press('ArrowRight');
-    await expect(page.locator('#tarjeta .nombre')).toHaveText('Tekax'); // la primera flecha empieza en el ejemplo
+    await expect(page.locator('#tarjeta .nombre')).toHaveText('Umán'); // la primera flecha empieza en el ejemplo
     await page.keyboard.press('ArrowUp');
     const otro = await page.locator('#tarjeta .nombre').textContent();
-    expect(otro).not.toBe('Tekax');
+    expect(otro).not.toBe('Umán');
     expect(await enfocado(page)).toBe('capa'); // el foco se queda en el mapa
     await expect(page.locator('#anuncio')).toContainText(otro);
     await page.keyboard.press('Enter');
