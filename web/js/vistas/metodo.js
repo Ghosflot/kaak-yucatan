@@ -1,7 +1,8 @@
 // Cómo lo medimos (#/metodo): qué es un foco de calor, cómo se unieron los satélites (con el salto
 // de 2012), ¿se puede confiar? y la descarga de la serie. Spec, «Cómo lo medimos».
 // Las cifras salen de web/datos/metodo.json y validacion.json, que escribe pipeline/exportar_web.py.
-// «¿Se puede confiar?» muestra cada prueba de la validación (tarea 7) con la frase de su caso.
+// «¿Se puede confiar?» muestra cada prueba de la validación (tarea 7) con la frase de su caso y,
+// debajo, cada satélite contra la serie (satelites.json, #32).
 import { t, traducir, idioma } from '../textos.js';
 import { fmt, fechaDiaAnio, el, datos, reducirMovimiento } from '../comun.js';
 
@@ -10,6 +11,8 @@ const GRIS = '#8F877D'; // el mismo gris de las barras de la portada
 const TINTA = '#121212';
 const TINTA_2 = '#4A4743';
 const CAMBIO = 2012; // el primer año de S-NPP
+const ROJO = '#D7261E';
+const BANDA = '#EFECE6'; // los años con que se calculó el factor
 
 const PLANTILLA = `
 <article class="pagina metodo">
@@ -39,7 +42,29 @@ const PLANTILLA = `
   <section id="mConfiar" aria-labelledby="mConfiarT">
     <h2 id="mConfiarT" data-t="mConfiarTitulo"></h2>
     <p data-t="mConfiarIntro"></p>
+    <h3 class="m-sub" data-t="mPruebasTitulo"></h3>
     <div class="m-pruebas" id="mPruebas"></div>
+    <div class="m-sat" id="mSat" hidden>
+      <h3 class="m-sub" data-t="mSatTitulo"></h3>
+      <p data-t="mSatIntro"></p>
+      <div class="m-sat-controles">
+        <div class="m-grupo">
+          <span class="m-grupo-t" id="mSatGrupoT" data-t="mSatGrupo"></span>
+          <div class="alm-botones m-sat-chips" role="group" aria-labelledby="mSatGrupoT" id="mSatChips"></div>
+        </div>
+        <div class="m-grupo">
+          <span class="m-grupo-t" id="mSatEscalaT" data-t="mSatEscala"></span>
+          <div class="alm-botones" role="group" aria-labelledby="mSatEscalaT" id="mSatEscala">
+            <button type="button" data-esc="crudo" data-t="mVerCrudo"></button>
+            <button type="button" data-esc="cal" data-t="mVerArmonizado"></button>
+          </div>
+        </div>
+      </div>
+      <ul class="m-sat-ley" id="mSatLey" aria-hidden="true"></ul>
+      <div class="m-sat-caja"><svg id="mSatSvg" role="img"></svg></div>
+      <div class="m-sat-lectura" id="mSatLectura" aria-live="polite"></div>
+      <p class="m-nota" data-t="mSatNota"></p>
+    </div>
   </section>
   <section id="mDescarga" aria-labelledby="mDescargaT">
     <h2 id="mDescargaT" data-t="mDescargaTitulo"></h2>
@@ -90,6 +115,11 @@ function tarjeta(p) {
   const f = rellenar(p.clave, p.valores);
   if (f === p.clave) { frase.className = 'm-pendiente'; frase.textContent = t('mValPendiente'); } else texto(frase, f);
   art.append(h3, cifra, frase);
+  // La gráfica y las limitaciones van plegadas: las cuatro tarjetas miden casi lo mismo.
+  const det = document.createElement('details');
+  const sum = document.createElement('summary');
+  sum.textContent = t('mValVer');
+  det.append(sum);
   const ruta = p.grafica[idioma()] || p.grafica.es;
   if (ruta) {
     const img = document.createElement('img');
@@ -97,19 +127,95 @@ function tarjeta(p) {
     img.alt = t('mValGrafica', { n: nombre });
     img.loading = 'lazy';
     img.decoding = 'async';
-    art.append(img);
+    det.append(img);
   }
   const lim = rellenar(base + 'Limitaciones', p.valores);
   if (Array.isArray(lim) && lim.length) {
-    const det = document.createElement('details');
-    const sum = document.createElement('summary');
-    sum.textContent = t('mValLimitaciones');
     const ul = document.createElement('ul');
     ul.append(...lim.map((s) => { const li = document.createElement('li'); texto(li, s); return li; }));
-    det.append(sum, ul);
-    art.append(det);
+    det.append(ul);
   }
+  art.append(det);
   return art;
+}
+
+const mediana = (xs) => { const a = [...xs].sort((p, q) => p - q), m = a.length >> 1; return a.length % 2 ? a[m] : (a[m - 1] + a[m]) / 2; };
+
+/**
+ * Un satélite (línea roja, punteada sin calibrar) sobre la serie de la página (barras grises).
+ * La banda marca los años con que se calculó su factor; la raya de 2012, el cambio a VIIRS.
+ */
+function armarSat(svg, M, S, campo) {
+  svg.textContent = '';
+  const anios = M.anios;
+  const ancho = Math.max(300, Math.round(svg.parentNode.clientWidth || 680));
+  const izq = 54, arriba = 22, alto = Math.round(Math.min(230, ancho * 0.5)), base = arriba + alto;
+  svg.setAttribute('viewBox', '0 0 ' + ancho + ' ' + (base + 24));
+  const dS = Object.fromEntries(S.anios.map((a) => [a.y, a]));
+  const max = Math.max(...anios.map((a) => a.armonizado), ...S.anios.map((a) => Math.max(a.crudo, a.cal))) * 1.05;
+  const paso = (ancho - izq) / anios.length, bw = paso - 3;
+  const X = (y) => izq + anios.findIndex((a) => a.y === y) * paso;
+  const Y = (v) => base - (v / max) * alto;
+  if (S.calibracion) {
+    const [a, b] = S.calibracion;
+    el('rect', { x: X(a) - 1.5, y: arriba - 8, width: X(b) - X(a) + paso, height: alto + 8, fill: BANDA }, svg);
+  }
+  const marca = max > 12000 ? 5000 : 2500;
+  for (let v = 0; v <= max; v += marca) {
+    el('line', { x1: izq, x2: ancho, y1: Y(v), y2: Y(v), stroke: '#E4E1DC', 'stroke-width': 1 }, svg);
+    el('text', { x: izq - 6, y: Y(v) + 4, 'font-size': 11, fill: TINTA_2, 'text-anchor': 'end' }, svg).textContent = fmt(v);
+  }
+  for (const a of anios) {
+    const r = el('rect', { x: X(a.y).toFixed(1), y: Y(a.armonizado).toFixed(1), width: bw.toFixed(1), height: (base - Y(a.armonizado)).toFixed(1), fill: GRIS }, svg);
+    const v = dS[a.y];
+    el('title', {}, r).textContent = t('mSatAnio', { y: a.y, v: fmt(a.armonizado), s: S.sat, w: v ? fmt(v[campo]) : '—' });
+  }
+  el('line', { x1: izq, x2: ancho, y1: base + 0.5, y2: base + 0.5, stroke: TINTA, 'stroke-width': 1 }, svg);
+  const x12 = X(CAMBIO) - 1.5;
+  el('line', { x1: x12, x2: x12, y1: 12, y2: base, stroke: TINTA, 'stroke-width': 1.2, 'stroke-dasharray': '3 3' }, svg);
+  const rotulo = el('text', { x: x12 + 5, y: 10, 'font-size': 12, 'font-weight': 700, fill: TINTA }, svg);
+  rotulo.textContent = t('mCambio');
+  // Si no cabe a la derecha de la raya (teléfono), va centrado sobre ella sin salirse del dibujo.
+  const largo = rotulo.getComputedTextLength ? rotulo.getComputedTextLength() : 0;
+  if (x12 + 5 + largo > ancho) {
+    rotulo.setAttribute('x', Math.min(Math.max(x12, largo / 2 + 2), ancho - largo / 2 - 2).toFixed(1));
+    rotulo.setAttribute('text-anchor', 'middle');
+  }
+  const ultimo = anios[anios.length - 1].y;
+  for (const [y, an] of [[anios[0].y, 'start'], [CAMBIO, 'middle'], [ultimo, 'end']]) {
+    const x = an === 'start' ? X(y) : an === 'end' ? X(y) + bw : X(y) + bw / 2;
+    el('text', { x: x.toFixed(1), y: base + 17, 'font-size': 12, fill: TINTA_2, 'text-anchor': an }, svg).textContent = String(y);
+  }
+  const pts = S.anios.map((a) => [X(a.y) + bw / 2, Y(a[campo])]);
+  el('polyline', {
+    points: pts.map(([x, y]) => x.toFixed(1) + ',' + y.toFixed(1)).join(' '), fill: 'none', stroke: ROJO,
+    'stroke-width': 2.5, 'stroke-linejoin': 'round', 'stroke-dasharray': campo === 'cal' ? 'none' : '6 4',
+  }, svg);
+  for (const [x, y] of pts) el('circle', { cx: x.toFixed(1), cy: y.toFixed(1), r: 3.2, fill: campo === 'cal' ? ROJO : '#FFFFFF', stroke: ROJO, 'stroke-width': 1.8 }, svg);
+  svg.setAttribute('aria-label', t('mSatAria', { a: anios[0].y, b: ultimo, s: t(campo === 'cal' ? 'mSatLeyCal' : 'mSatLeyCrudo', { s: S.sat }) }));
+}
+
+// Qué tanto se aleja el satélite de la serie: la mediana de |satélite / serie − 1|, en %.
+function lecturaSat(M, S) {
+  const serie = Object.fromEntries(M.anios.map((a) => [a.y, a.armonizado]));
+  const desde = S.anios[0].y, hasta = S.anios[S.anios.length - 1].y;
+  const bloque = (marca, etiqueta, cifra, frase) => ({ marca, etiqueta, cifra, frase });
+  const anios = S.incompletos.length
+    ? t('mSatIncompleto', { s: S.sat, a: S.incompletos.join(', ') })
+    : t('mSatAniosT', { s: S.sat });
+  const sale = [bloque('m-anios', t('mSatAnios'), desde + '–' + hasta, anios)];
+  if (!S.calibracion) {
+    sale.push(bloque('m-cal', t('mSatReferencia'), '×1', t('mSatReferenciaT', { a: desde, b: hasta, s: S.sat })));
+    return sale;
+  }
+  const [c0, c1] = S.calibracion;
+  const libres = S.anios.filter((a) => serie[a.y] && !S.serie.includes(a.y) && !(a.y >= c0 && a.y <= c1) && !S.incompletos.includes(a.y));
+  const usados = libres.length ? libres : S.anios.filter((a) => serie[a.y] && !S.incompletos.includes(a.y));
+  const dif = (c) => Math.round(mediana(usados.map((a) => Math.abs(a[c] / serie[a.y] - 1) * 100)));
+  const frase = libres.length ? t('mSatDifIndep', { n: libres.length }) : t('mSatDifMismos', { a: usados[0].y, b: usados[usados.length - 1].y });
+  sale.push(bloque('m-crudo', t('mVerCrudo'), t('mPct', { n: dif('crudo') }), frase));
+  sale.push(bloque('m-cal', t('mVerArmonizado'), t('mPct', { n: dif('cal') }), frase));
+  return sale;
 }
 
 /**
@@ -178,7 +284,8 @@ function armarSalto(svg, M) {
 }
 
 export function montar(raiz) {
-  let M = null, P = null, V = null, nMun = 0, vivo = true;
+  let M = null, P = null, V = null, SAT = null, nMun = 0, vivo = true;
+  let sat = 'Aqua', escala = 'cal', anchoSat = 0;
   // Se abre sin calibrar; al llegar a la gráfica, se calibra sola una vez (si nadie la tocó antes).
   let vista = reducirMovimiento() ? 'armonizado' : 'crudo', tocado = false, verSalto = null, espera = 0, observador = null, medida = null, anchoCaja = 0;
   const $ = (s) => raiz.querySelector('#' + s);
@@ -198,12 +305,57 @@ export function montar(raiz) {
 
     // Si la validación no carga, la sección se queda con su título y su introducción.
     $('mPruebas').replaceChildren(...(V ? V.pruebas.map(tarjeta) : []));
+    $('mSat').hidden = !SAT;
+    if (SAT) {
+      $('mSatChips').replaceChildren(...SAT.satelites.map((x) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.dataset.sat = x.sat;
+        b.textContent = x.sat;
+        return b;
+      }));
+      pintarSat();
+    }
 
     const c = M.conafor;
 
     $('mDescarga1').textContent = t('mDescarga1', { n: nMun });
     $('serie').textContent = t('mDescargar', { mb: M.serieMB });
     $('pie').textContent = t('mPie', { a: M.anios[0].y, b: M.anios[M.anios.length - 1].y, d: c.desde, h: c.hasta, f: fechaDiaAnio(P.actualizado) });
+  }
+
+  function pintarSat() {
+    const S = SAT.satelites.find((x) => x.sat === sat) || SAT.satelites[0];
+    sat = S.sat;
+    raiz.querySelectorAll('[data-sat]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.sat === sat)));
+    raiz.querySelectorAll('[data-esc]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.esc === escala)));
+    const ley = [['m-ley-barra', t('mSatLeySerie')], [escala === 'cal' ? 'm-ley-cal' : 'm-ley-crudo', t(escala === 'cal' ? 'mSatLeyCal' : 'mSatLeyCrudo', { s: sat })]];
+    if (S.calibracion) ley.push(['m-ley-banda', t('mSatLeyFactor')]);
+    $('mSatLey').replaceChildren(...ley.map(([c, txt]) => {
+      const li = document.createElement('li');
+      const i = document.createElement('i');
+      i.className = c;
+      li.append(i, document.createTextNode(txt));
+      return li;
+    }));
+    anchoSat = $('mSatSvg').parentNode.clientWidth;
+    armarSat($('mSatSvg'), M, S, escala);
+    $('mSatLectura').replaceChildren(...lecturaSat(M, S).map((b) => {
+      const d = document.createElement('div');
+      d.className = 'm-sat-bloque';
+      const e = document.createElement('span');
+      e.className = 'm-sat-que';
+      const i = document.createElement('i');
+      i.className = b.marca;
+      e.append(i, document.createTextNode(b.etiqueta));
+      const c = document.createElement('b');
+      c.className = 'cifra';
+      c.textContent = b.cifra;
+      const p = document.createElement('p');
+      texto(p, b.frase);
+      d.append(e, c, p);
+      return d;
+    }));
   }
 
   // Al pintar, al cambiar de idioma o de ancho, la gráfica se rehace sin animarse.
@@ -235,8 +387,18 @@ export function montar(raiz) {
       tocado = true;
       ver(b.dataset.ver);
     });
-    medida = new ResizeObserver(() => { if ($('salto') && $('salto').parentNode.clientWidth !== anchoCaja) dibujarSalto(); });
+    raiz.querySelector('#mSat').addEventListener('click', (e) => {
+      const b = e.target.closest('[data-sat], [data-esc]');
+      if (!b) return;
+      if (b.dataset.sat) sat = b.dataset.sat; else escala = b.dataset.esc;
+      pintarSat();
+    });
+    medida = new ResizeObserver(() => {
+      if ($('salto') && $('salto').parentNode.clientWidth !== anchoCaja) dibujarSalto();
+      if (SAT && $('mSatSvg') && $('mSatSvg').parentNode.clientWidth !== anchoSat) pintarSat();
+    });
     medida.observe(raiz.querySelector('.m-salto-caja'));
+    medida.observe(raiz.querySelector('.m-sat-caja'));
     if (vista !== 'crudo' || !('IntersectionObserver' in window)) return;
     observador = new IntersectionObserver((entradas) => {
       if (!entradas.some((x) => x.isIntersecting)) { clearTimeout(espera); return; }
@@ -258,7 +420,7 @@ export function montar(raiz) {
       return;
     }
     if (!vivo) return;
-    V = await datos('validacion.json').catch(() => null);
+    [V, SAT] = await Promise.all([datos('validacion.json').catch(() => null), datos('satelites.json').catch(() => null)]);
     if (!vivo) return;
     nMun = lista.length;
     raiz.innerHTML = PLANTILLA;

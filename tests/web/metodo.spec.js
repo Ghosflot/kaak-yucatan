@@ -6,6 +6,7 @@ const { abrir } = require('./ayudas');
 
 const M = JSON.parse(fs.readFileSync('web/datos/metodo.json', 'utf8'));
 const V = JSON.parse(fs.readFileSync('web/datos/validacion.json', 'utf8'));
+const SAT = JSON.parse(fs.readFileSync('web/datos/satelites.json', 'utf8'));
 const ES = JSON.parse(fs.readFileSync('web/textos/es.json', 'utf8'));
 const uno = (n) => n.toFixed(1);
 
@@ -80,6 +81,29 @@ test('¿Se puede confiar?: una tarjeta por prueba, con la frase de su caso', asy
   await conafor.locator('summary').click();
   await expect(conafor.locator('details li').first()).toBeVisible();
   await expect(conafor).toContainText('no quemas agrícolas');
+});
+
+test('cada satélite contra la serie: se elige el satélite y la escala', async ({ page }) => {
+  await abrir(page, '#/metodo');
+  const caja = page.locator('#mSat');
+  await expect(caja).toBeVisible();
+  await expect(caja.locator('[data-sat]')).toHaveCount(SAT.satelites.length);
+  // Abre con Aqua calibrado: la línea es continua.
+  await expect(caja.locator('[data-sat="Aqua"]')).toHaveAttribute('aria-pressed', 'true');
+  await expect(caja.locator('[data-esc="cal"]')).toHaveAttribute('aria-pressed', 'true');
+  await expect(caja.locator('polyline')).toHaveAttribute('stroke-dasharray', 'none');
+  await expect(caja.locator('circle')).toHaveCount(SAT.satelites.find((x) => x.sat === 'Aqua').anios.length);
+  await caja.locator('[data-esc="crudo"]').click();
+  await expect(caja.locator('polyline')).toHaveAttribute('stroke-dasharray', '6 4');
+  await expect(caja.locator('#mSatLey')).toContainText('Aqua sin calibrar');
+  // S-NPP es la escala: no lleva factor ni banda.
+  await caja.locator('[data-sat="S-NPP"]').click();
+  await expect(caja.locator('#mSatLectura')).toContainText('×1');
+  await expect(caja.locator('#mSatLey')).not.toContainText('factor');
+  // NOAA-20: su factor sale de los mismos años, y la página lo dice.
+  await caja.locator('[data-sat="NOAA-20"]').click();
+  await expect(caja.locator('#mSatLectura')).toContainText('no es una comprobación independiente');
+  await expect(caja.locator('#mSatLectura')).toContainText('En 2018 le falta el principio');
 });
 
 test('¿Se puede confiar? en inglés usa la gráfica en inglés', async ({ page }) => {

@@ -220,3 +220,25 @@ def test_validacion_para_la_pagina(salida):
         textos = json.loads((ew.RAIZ / "web" / "textos" / f"{idioma}.json").read_text(encoding="utf-8"))
         for p in v["pruebas"]:
             assert textos.get(p["clave"]), f"{idioma}:{p['clave']}"
+
+
+def test_satelites_contra_la_serie(salida):
+    """El selector (#32): cada satélite solo, contado como la serie de la página."""
+    sats = {x["sat"]: x for x in _json(salida, "satelites.json")["satelites"]}
+    assert list(sats) == ["Terra", "Aqua", "S-NPP", "NOAA-20"]
+    serie = {a["y"]: a["armonizado"] for a in _json(salida, "metodo.json")["anios"]}
+    # En los años en que la serie usa un satélite (sin días de respaldo), coinciden.
+    for s, anios in (("Terra", [2001, 2002]), ("S-NPP", [2013, 2015, 2020])):
+        cal = {a["y"]: a["cal"] for a in sats[s]["anios"]}
+        for y in anios:
+            assert cal[y] == pytest.approx(serie[y], rel=0.01), (s, y)
+    assert sats["Terra"]["serie"] == [2001, 2002]
+    assert sats["Aqua"]["serie"] == list(range(2003, 2012))
+    assert sats["NOAA-20"]["serie"] == []
+    assert sats["S-NPP"]["calibracion"] is None
+    assert sats["Aqua"]["calibracion"] == [2013, 2020]
+    # S-NPP es la escala: calibrado y sin calibrar son lo mismo.
+    assert all(a["cal"] == a["crudo"] for a in sats["S-NPP"]["anios"])
+    # MODIS sin calibrar ve menos de la mitad que la serie; NOAA-20 en 2018 empieza en abril.
+    assert all(a["crudo"] < 0.5 * serie[a["y"]] for a in sats["Aqua"]["anios"])
+    assert sats["NOAA-20"]["incompletos"] == [2018]

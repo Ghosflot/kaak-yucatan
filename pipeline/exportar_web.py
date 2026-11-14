@@ -17,6 +17,8 @@ Escribe:
 - web/datos/validacion.json y web/datos/validacion/*.png: el resultado de cada prueba de la
   validación (tarea 7, salidas/validacion.json) y sus gráficas, para «¿Se puede confiar?». Solo
   van el caso y los números: la frase de cada caso está en web/textos (claves val…).
+- web/datos/satelites.json: cada satélite por su cuenta (Yucatán en temporada, sin calibrar y
+  calibrado) contra la serie unida, para el selector de «¿Se puede confiar?» (#32).
 - web/datos/serie_armonizada.csv: copia de salidas/serie_armonizada.csv, para descargarla.
   Es el único archivo que pasa de 2 MB: la página no lo carga, solo lo enlaza.
 - La tabla CSV de cada municipio la arma la página con su JSON.
@@ -27,6 +29,7 @@ lo escribe este script: no se edita a mano.
 """
 from __future__ import annotations
 
+import functools
 import json
 import re
 import shutil
@@ -350,6 +353,56 @@ def validacion(salida: Path) -> dict:
     return {"pruebas": pruebas}
 
 
+SATELITES = {"Terra": "MODIS", "Aqua": "MODIS", "S-NPP": "VIIRS", "NOAA-20": "VIIRS"}
+
+
+def satelites(cuadritos: pd.DataFrame, factores: pd.DataFrame) -> dict:
+    """Cada satélite contado solo (nunca sumado a otro), sin calibrar y calibrado, en Yucatán.
+
+    Se cuenta igual que la serie de la página (cuadritos únicos por día, temporada de marzo a
+    mayo) para poder ponerlo encima de ella. Por satélite van:
+    - serie: los años en que la serie de la página usa ese satélite (en temporada);
+    - calibracion: los años con que se calculó su factor. Los que no están en ninguna de las
+      dos listas sirven de comprobación independiente;
+    - incompletos: años cuya temporada empieza antes del primer dato del satélite en FIRMS.
+    """
+    import serie
+    import armonizar
+
+    yuc = cuadritos[(cuadritos["estado"] == "Yucatán") & cuadritos["satelite"].isin(list(SATELITES))]
+    cal = serie.aplicar_factores(yuc, factores)
+    inicio_temporada = lambda a: date(a, 3, 1)  # noqa: E731 (la temporada de dw.temporada)
+    sale = []
+    for sat, sensor in SATELITES.items():
+        de_sat = cal[cal["satelite"] == sat]
+        if de_sat.empty:
+            continue
+        todos = pd.Series(True, index=de_sat.index)
+        dias_cal = dw.unicos(de_sat, todos)
+        dias_crudo = dw.unicos(de_sat.assign(eq=1.0), todos)
+        primero = cuadritos.loc[cuadritos["satelite"] == sat, "dia_local"].min().date()
+        anios = []
+        for a in list(ANIOS_BASE) + [ANIO]:
+            crudo = float(dw.temporada(dias_crudo, a).sum())
+            if crudo > 0:
+                anios.append({"y": a, "crudo": round(crudo, 1),
+                              "cal": round(float(dw.temporada(dias_cal, a).sum()), 1)})
+        en_serie = [a["y"] for a in anios
+                    if any(s == sat and d <= date(a["y"], 5, 31) and (h is None or h >= inicio_temporada(a["y"]))
+                           for s, d, h in serie.PERIODOS)]
+        if sat in serie.MODIS:
+            calibracion = [armonizar.PERIODO_MODIS[0].year, armonizar.PERIODO_MODIS[1].year]
+        elif sat == armonizar.REFERENCIA:
+            calibracion = None  # es la escala: no lleva factor
+        else:
+            # El factor de NOAA-20 se calculó con todos los años en que coincide con S-NPP.
+            calibracion = [anios[0]["y"], anios[-1]["y"]]
+        sale.append({"sat": sat, "sensor": sensor, "anios": anios, "serie": en_serie,
+                     "calibracion": calibracion,
+                     "incompletos": [a["y"] for a in anios if primero > inicio_temporada(a["y"])]})
+    return {"satelites": sale}
+
+
 def por_anio(ids: list[str], yuc_ids: list[str], totales: dict, valores: dict, anios: list[int]) -> dict:
     """Cada año de cada municipio contra su normal, para pintar el mapa y la tarjeta de ese año.
 
@@ -368,12 +421,18 @@ def por_anio(ids: list[str], yuc_ids: list[str], totales: dict, valores: dict, a
     return {"anios": anios, "ids": ids, "clases": clases, "cuenta": cuenta, "v": [totales[i] for i in ids]}
 
 
-def cargar_elegidos() -> pd.DataFrame:
-    import serie
+@functools.lru_cache(maxsize=1)
+def cargar_cuadritos() -> pd.DataFrame:
     from cargar import cargar_focos
     from rejilla import cuadritos_dia
 
-    return dw.elegidos_con_factor(cuadritos_dia(cargar_focos()), serie.leer_factores())
+    return cuadritos_dia(cargar_focos())
+
+
+def cargar_elegidos() -> pd.DataFrame:
+    import serie
+
+    return dw.elegidos_con_factor(cargar_cuadritos(), serie.leer_factores())
 
 
 def exportar(salida: Path = SALIDA, elegidos: pd.DataFrame | None = None) -> dict:
@@ -430,6 +489,8 @@ def exportar(salida: Path = SALIDA, elegidos: pd.DataFrame | None = None) -> dic
     escribir(salida / "zonas.json", zonas_yucatan(elegidos, mun))
     escribir(salida / "metodo.json", metodo(elegidos))
     escribir(salida / "validacion.json", validacion(salida))
+    import serie
+    escribir(salida / "satelites.json", satelites(cargar_cuadritos(), serie.leer_factores()))
     shutil.copyfile(SERIE, salida / "serie_armonizada.csv")
     print(f"web/datos: {len(registros)} municipios; Yucatán 2026 {yuc['totales'][ANIO]:,.0f} "
           f"contra {yuc['normal']:,.0f}; {cuenta['menos']} de {cuenta['total']} con menos fuego")
