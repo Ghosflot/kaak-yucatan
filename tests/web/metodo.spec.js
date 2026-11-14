@@ -91,14 +91,23 @@ test('cada satélite contra la serie: se elige el satélite y la escala', async 
   const caja = page.locator('#mSat');
   await expect(caja).toBeVisible();
   await expect(caja.locator('[data-sat]')).toHaveCount(SAT.satelites.length);
+  await expect(caja.locator('[data-sat="Aqua"] small')).toHaveText('MODIS');
   // Abre con Aqua calibrado: la línea es continua.
   await expect(caja.locator('[data-sat="Aqua"]')).toHaveAttribute('aria-pressed', 'true');
   await expect(caja.locator('[data-esc="cal"]')).toHaveAttribute('aria-pressed', 'true');
   await expect(caja.locator('polyline')).toHaveAttribute('stroke-dasharray', 'none');
   await expect(caja.locator('circle')).toHaveCount(SAT.satelites.find((x) => x.sat === 'Aqua').anios.length);
   await caja.locator('[data-esc="crudo"]').click();
-  await expect(caja.locator('polyline')).toHaveAttribute('stroke-dasharray', '6 4');
-  await expect(caja.locator('#mSatLey')).toContainText('Aqua sin calibrar');
+  await expect(caja.locator('polyline')).toHaveAttribute('stroke-dasharray', '7 5');
+  await expect(caja.locator('#mSatLey')).toContainText('Aqua, sin calibrar');
+  // Al pasar por un año, la ventanita dice la serie y el satélite de ese año.
+  const serie2007 = M.anios.find((a) => a.y === 2007).armonizado;
+  await caja.locator('.m-sat-zona').nth(6).hover();
+  await expect(caja.locator('#mSatPunta')).toBeVisible();
+  await expect(caja.locator('#mSatPunta')).toContainText('2007');
+  await expect(caja.locator('#mSatPunta')).toContainText(Math.round(serie2007).toLocaleString('es-MX'));
+  await expect(caja.locator('#mSatPunta')).toContainText('Aqua sin calibrar');
+  await expect(caja.locator('svg')).toContainText('2012: cambia el satélite (MODIS → VIIRS)');
   // S-NPP es la escala: no lleva factor ni banda.
   await caja.locator('[data-sat="S-NPP"]').click();
   await expect(caja.locator('#mSatLectura')).toContainText('×1');
@@ -107,6 +116,10 @@ test('cada satélite contra la serie: se elige el satélite y la escala', async 
   await caja.locator('[data-sat="NOAA-20"]').click();
   await expect(caja.locator('#mSatLectura')).toContainText('no es una comprobación independiente');
   await expect(caja.locator('#mSatLectura')).toContainText('En 2018 le falta el principio');
+  await expect(caja.locator('.m-sat-nota')).toContainText('1 de abril de 2018');
+  // El teclado también abre la ventanita.
+  await caja.locator('.m-sat-zona').first().focus();
+  await expect(caja.locator('#mSatPunta')).toContainText('2001');
 });
 
 test('¿Se puede confiar? en inglés: las gráficas también', async ({ page }) => {
