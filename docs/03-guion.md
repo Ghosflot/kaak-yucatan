@@ -157,6 +157,20 @@ Respuestas cortas, con su fuente en docs/01.
   prueba pasa: 11 % de error en cinco años que no se usaron para calibrar.»
   Fuente: «2022: Aqua estuvo apagado 17 días y vio menos fuego de lo normal».
 
+- **«El reto pide elegir fechas, dibujar un área y descargar los focos. ¿Por qué no está?»**
+  «Son las partes opcionales del reto y las dejamos para después a propósito, pero cada una
+  tiene algo en su lugar. En vez de dibujar un área, eliges tu municipio o tocas "Usar mi
+  ubicación", que convierte tu latitud y longitud en tu municipio. En vez de un rango libre de
+  fechas, ves la temporada de marzo a mayo de cualquier año desde 2001, día por día, contra lo
+  normal. Y hay tres tablas para descargar: los focos de cada día de tu municipio, el calendario
+  de quemas por mes y la serie armonizada de toda la península, por semana, desde 2001. Lo
+  siguiente es escribir coordenadas a mano y dibujar un área.»
+  Si preguntan por qué no se hizo: para un área dibujada hay que sumar los cuadritos de 1 km que
+  caen dentro, y la página guarda los datos ya sumados por municipio. Escribir coordenadas es
+  más barato: «Usar mi ubicación» ya hace esa cuenta.
+  Fuente: la página. Municipio («Descargar los datos de … (tabla CSV)» y la tira de años),
+  Fechas («Descargar la tabla (CSV)») y Método (`serie_armonizada.csv`).
+
 ## Lo que no se dice
 
 - Que el fuego va en aumento: 2025 y 2026 fueron las temporadas más bajas del registro.
@@ -170,6 +184,8 @@ Respuestas cortas, con su fuente en docs/01.
   aire. Tampoco que fue un incendio forestal o una quema agrícola: fue el basurero municipal.
 - De 2022: por qué Aqua vio menos fuego ese año (no está confirmado), ni que fue por la deriva
   de su órbita (los datos no lo respaldan). Sí se puede decir lo del apagón de 17 días.
+- Que la página ya deja elegir cualquier rango de fechas, dibujar un área o escribir
+  coordenadas: no lo hace (#36).
 
 ## Pendientes de la v1
 
