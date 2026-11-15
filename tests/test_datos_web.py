@@ -120,3 +120,75 @@ def test_la_pagina_usa_el_respaldo_en_dias_sin_datos_como_la_serie():
     assert set(elegidos["satelite"]) == {"S-NPP", "NOAA-20"}
     assert elegidos.loc[elegidos["satelite"] == "NOAA-20", "eq"].sum() == 30   # 60 × 0.5
     assert elegidos["eq"].sum() == 31
+
+
+# ---------------------------------------------------------------------------
+# Hechos de cada municipio (datos_web.hechos) y sus piezas
+
+
+def test_rango_p25_p75():
+    assert dw.rango(range(1, 101)) == [25.8, 75.2]  # np.percentile, interpolación lineal
+
+
+def test_dia_del_anio_sin_29_de_febrero():
+    """El 1 de marzo es el día 59 en todos los años; el 29 de febrero cae en el 28."""
+    d = dw.dia_del_anio(pd.to_datetime(["2023-03-01", "2024-03-01", "2024-02-29", "2024-02-28",
+                                        "2024-01-01", "2024-12-31"]))
+    assert list(d) == [59, 59, 58, 58, 0, 364]
+    assert dw.mes_dia(59) == "03-01" and dw.mes_dia(0) == "01-01" and dw.mes_dia(364) == "12-31"
+
+
+def test_perfil_anual_suma_los_anios_pedidos():
+    dias = pd.Series([1.0, 2.0, 5.0], index=pd.to_datetime(["2001-01-01", "2002-01-01", "2026-01-01"]))
+    p = dw.perfil_anual(dias, range(2001, 2026))
+    assert p.shape == (365,) and p[0] == 3.0 and p.sum() == 3.0
+    assert dw.perfil_anual(pd.Series(dtype=float, index=pd.DatetimeIndex([])), range(2001, 2026)).sum() == 0
+
+
+def test_dia_con_fraccion():
+    p = np.zeros(365)
+    p[[10, 20, 30, 40]] = 1.0  # 25 % en cada uno
+    assert dw.dia_con_fraccion(p, 0.1) == 10
+    assert dw.dia_con_fraccion(p, 0.5) == 20  # el día en que se llega a la mitad, no el siguiente
+    assert dw.dia_con_fraccion(np.zeros(365), 0.5) is None
+
+
+def test_semana_pico_de_7_dias_y_la_52_con_el_dia_que_sobra():
+    p = np.zeros(365)
+    p[126:133] = 1.0  # del 7 al 13 de mayo (semana 19)
+    assert [dw.mes_dia(d) for d in dw.semana_pico(p)] == ["05-07", "05-13"]
+    q = np.zeros(365)
+    q[364] = 5.0
+    assert [dw.mes_dia(d) for d in dw.semana_pico(q)] == ["12-24", "12-31"]
+
+
+def test_puesto_desde_2012_de_menos_a_mas_y_racha():
+    totales = {a: 100.0 for a in range(2001, 2027)}
+    totales.update({2001: 1.0, 2024: 80.0, 2025: 50.0, 2026: 60.0})
+    # 2001 tiene menos, pero no cuenta: los puestos van desde 2012 (15 temporadas).
+    assert dw.puesto(totales, 2026, 2012) == (2, 15)
+    assert dw.racha_abajo(totales, 90.0, 2026) == 3
+    assert dw.racha_abajo(totales, 70.0, 2026) == 2
+    totales[2026] = 50.0  # empate con 2025: se queda con el peor lugar (no es «la de menos»)
+    assert dw.puesto(totales, 2026, 2012) == (2, 15)
+
+
+def _perfil_de(total: float) -> np.ndarray:
+    p = np.zeros(365)
+    p[59:151] = total / 92  # todo el fuego de marzo a mayo, parejo
+    return p
+
+
+def test_hechos_con_guardas():
+    totales = {a: 50.0 for a in range(2001, 2026)} | {2026: 10.0}
+    h = dw.hechos(totales, 50.0, _perfil_de(50.0), 2026, 70, (3, 106))
+    assert h == {"puesto26": 1, "temporadas": 15, "lugar": 3, "de": 106, "empieza": "03-10",
+                 "empiezaZona": "03-12", "semanaPico": ["03-05", "03-11"], "mitad": "04-15"}
+    # La racha solo con 3 o más: 2023, 2024 y 2025 también abajo.
+    totales.update({2023: 40.0, 2024: 40.0, 2025: 40.0})
+    assert dw.hechos(totales, 50.0, _perfil_de(50.0), 2026, None, (3, 106))["racha"] == 4
+    # Con lo normal entre 5 y 20, sin fechas.
+    h = dw.hechos(totales, 10.0, _perfil_de(10.0), 2026, 70, (50, 106))
+    assert set(h) == {"puesto26", "temporadas", "lugar", "de"}
+    # Con menos de 5 en un año normal, nada.
+    assert dw.hechos(totales, 4.0, _perfil_de(4.0), 2026, 70, (100, 106)) == {}
