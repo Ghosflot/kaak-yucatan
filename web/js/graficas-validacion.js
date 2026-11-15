@@ -12,9 +12,9 @@ const TINTA_2 = '#4A4743';
 const LINEA = '#E4E1DC';    // la rejilla
 const EJE = '#928D83';      // los ejes (3.3:1 sobre el papel)
 const GRIS = '#8F877D';     // sin calibrar, el azar, S-NPP en la prueba de Aqua
-// En toda la página el rojo es 2026 y nada más: aquí lo calibrado y lo que se mide van en tinta.
-const FUERTE = TINTA;       // calibrado / con su factor / lo que se mide
-const SUAVE = '#B9B2A8';    // el factor único, con puntos
+const ROJO = '#D7261E';     // el rojo de la página
+const FUERTE = ROJO;        // corregido / con su factor / lo que se mide
+const SUAVE = '#E9837D';    // el rojo claro de la página: el factor único, con puntos
 const BANDA = '#EFECE6';    // el umbral fijado de antemano
 const BANDA_2 = '#DCD6CC';  // el rango natural
 const BLANCO = '#FFFFFF';
@@ -101,6 +101,14 @@ function rayas(svg, id, color) {
   return `url(#${id})`;
 }
 
+// Lo que la corrección añade: rojo claro rayado, como en la gráfica del salto con que abre la página.
+function anadido(svg, id) {
+  const p = el('pattern', { id, width: 5, height: 5, patternUnits: 'userSpaceOnUse', patternTransform: 'rotate(45)' }, defs(svg));
+  el('rect', { width: 5, height: 5, fill: SUAVE }, p);
+  el('rect', { width: 2, height: 5, fill: BLANCO, 'fill-opacity': 0.55 }, p);
+  return `url(#${id})`;
+}
+
 function puntos(svg, id, fondo) {
   const p = el('pattern', { id, width: 5, height: 5, patternUnits: 'userSpaceOnUse' }, defs(svg));
   el('rect', { width: 5, height: 5, fill: fondo }, p);
@@ -157,10 +165,17 @@ function salto(svg, g, ancho, pre) {
     const u = anchoPanel / (a1 - a0 + 1.2);
     const X = (a) => x0 + (a - a0 + 0.6) * u;
     const relleno = rayas(svg, `${pre}-rayas-${campo}`, color);
+    const suma = campo === 'cal' ? anadido(svg, `${pre}-anadido`) : null;
     for (const a of g.anios) {
       const v = a[campo];
-      barra(svg, X(a.y) - 0.4 * u, Y(v), 0.8 * u, base, a.transicion ? relleno : color, `${a.y}: ${fmt(v)}`,
-        a.transicion ? { stroke: color, 'stroke-width': 1 } : {});
+      if (a.transicion) {
+        barra(svg, X(a.y) - 0.4 * u, Y(v), 0.8 * u, base, relleno, `${a.y}: ${fmt(v)}`, { stroke: color, 'stroke-width': 1 });
+      } else {
+        // Ya corregidos: en gris, lo que contó el satélite; encima, en rojo claro rayado, lo que la corrección añade.
+        const cuenta = campo === 'cal' ? Math.min(a.crudo, v) : v;
+        barra(svg, X(a.y) - 0.4 * u, Y(cuenta), 0.8 * u, base, GRIS, `${a.y}: ${fmt(v)}`);
+        if (v > cuenta) barra(svg, X(a.y) - 0.4 * u, Y(v), 0.8 * u, Y(cuenta), suma, `${a.y}: ${fmt(v)}`);
+      }
       texto(svg, X(a.y), base + 16, String(a.y), { ancla: 'middle' });
     }
     // El rótulo de la transición va después de las barras, para que ninguna lo tape.

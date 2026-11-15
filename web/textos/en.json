@@ -459,7 +459,7 @@
   "mFuera2": "Over the {n} years of the series, the satellite sent no data on {d} days; {r} of them were filled in with another satellite that passed the same day.",
   "mGrafTitulo": "Hot spots in Yucatán from March 1 to May 31 of each year. The dashed lines are the {a1}–{a2} and {d1}–{d2} averages.",
   "mCambio": "2012: the satellite changes",
-  "mRayas": "Hatched: the {a}–{b} years, seen by Terra and Aqua (MODIS), brought to today's scale.",
+  "mRayas": "Hatched red: what the correction adds to the {a}–{b} years, seen by Terra and Aqua (MODIS). Gray: what those satellites counted.",
   "mVerCrudo": "Uncorrected",
   "mVerArmonizado": "Corrected",
   "mAbreAria": "The 2012 jump",
