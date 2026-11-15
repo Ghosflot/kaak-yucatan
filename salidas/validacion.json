@@ -11,27 +11,27 @@
       "caso": "pasa_dentro",
       "clave": "valSalto2012PasaDentro",
       "nombre": {
-        "es": "El salto de 2012",
-        "en": "The 2012 jump"
+        "es": "¿Desaparece el salto de 2012?",
+        "en": "Does the 2012 jump go away?"
       },
       "numero": {
-        "es": "×3.26 → ×0.90",
-        "en": "×3.26 → ×0.90"
+        "es": "×3.26 sin corregir, ×0.90 corregido",
+        "en": "×3.26 uncorrected, ×0.90 corrected"
       },
       "frase": {
-        "es": "Pasa: sin calibrar, de 2009–2011 a 2013–2015 los focos de calor se multiplican por 3.26. Calibrados, quedan en 0.90 veces lo de antes (1 = sin salto). Eso cabe en la variación normal entre años (0.87 a 1.16). Los años de antes y de después de 2012 se pueden comparar.",
-        "en": "Pass: uncalibrated, hot spots multiply by 3.26 from 2009–2011 to 2013–2015. Calibrated, they come to 0.90 times the earlier level (1 = no jump). That is within normal year-to-year variation (0.87 to 1.16). Years before and after 2012 can be compared."
+        "es": "Sí. En la península entera y con el año completo, el fuego de 2013–2015 es 3.26 veces el de 2009–2011 sin corregir y 0.90 veces ya corregido (1 = sin salto), dentro de la variación normal entre años.",
+        "en": "Yes. For the whole peninsula over the full year, fire in 2013–2015 is 3.26 times the 2009–2011 level uncorrected and 0.90 times after correction (1 = no jump), within normal year-to-year variation."
       },
       "limitaciones": {
         "es": [
           "Solo revisamos el cambio de satélite de 2012, con promedios de tres años, no cada año de 2001 a 2011.",
           "La variación normal sale de comparar periodos de S-NPP de 2013 a 2025. Son siete y se enciman: es una referencia, no una prueba estadística.",
-          "Medimos la península entera y el año completo. En un municipio o en temporada, el salto puede ser otro: el estado de Yucatán va de ×3.06 a ×0.92."
+          "Medimos la península entera y el año completo. En un municipio o en una sola temporada, el salto puede ser otro."
         ],
         "en": [
-          "We only check the 2012 satellite change, using three-year averages, not each year from 2001 to 2011.",
-          "Normal variation comes from comparing S-NPP periods from 2013 to 2025. There are seven, and they overlap: a reference, not a statistical test.",
-          "We measure the whole peninsula over the whole year. A municipality or the burning season alone may differ: Yucatán state goes from ×3.06 to ×0.92."
+          "We only checked the 2012 satellite change, using three-year averages, not each year from 2001 to 2011.",
+          "Normal variation comes from comparing S-NPP periods between 2013 and 2025. There are seven and they overlap, so it is a reference point, not a statistical test.",
+          "We measured the whole peninsula over the full year. For a single municipality or a single season, the jump may differ."
         ]
       },
       "pendiente": [],
@@ -340,29 +340,29 @@
       "caso": "pasa_zona_epoca",
       "clave": "valAquaFueraMuestraPasaZonaEpoca",
       "nombre": {
-        "es": "Aqua en años fuera de la calibración",
-        "en": "Aqua in years outside the calibration"
+        "es": "¿Funciona en años que no usamos para calibrar?",
+        "en": "Does it hold up in held-out years?"
       },
       "numero": {
-        "es": "11 % de error (límite: 25 %)",
+        "es": "11 % de desvío (límite: 25 %)",
         "en": "11% error (limit: 25%)"
       },
       "frase": {
-        "es": "Pasa: probamos la calibración en 2021–2025, años que no usamos para calcularla. Convertido por zona y época, Aqua se desvió en promedio 11 % de S-NPP; con un solo factor, 13 %. El límite, fijado de antemano, era 25 %. Es lo que pueden desviarse los años de Aqua, de 2002 a 2011.",
-        "en": "Pass: we tested the calibration on 2021–2025, years we left out of it. Converted by zone and season, Aqua was off from S-NPP by 11% on average; with a single factor, by 13%. The limit, set in advance, was 25%. Aqua years, 2002 to 2011, may be off by about that much."
+        "es": "Sí. En 2021–2025, años que no usamos para calcular la corrección, Aqua corregido por zona y época se desvió en promedio 11 % de lo que vio S-NPP, por debajo del límite de 25 %.",
+        "en": "Yes. In 2021–2025, years held out of the calibration, Aqua corrected by zone and season was off from S-NPP by 11% on average, under the 25% limit."
       },
       "limitaciones": {
         "es": [
           "Comparamos contra S-NPP, que tampoco ve cada fuego: esto dice si los satélites cuadran entre sí, no cuánto fuego hubo.",
-          "El error junta cinco años y todas las zonas; la gráfica lo muestra año por año. En un municipio o en una semana puede ser mayor.",
+          "El desvío junta cinco años y todas las zonas; la gráfica lo muestra año por año. En un municipio o en una semana puede ser mayor.",
           "En 2022, Aqua pasó 17 días sin mandar datos por una falla que reportó la NASA; no los contamos. El resto de la temporada vio menos focos de lo usual frente a S-NPP, y Terra, su gemelo, no. Aún no sabemos por qué.",
           "Solo probamos Aqua. Terra, que cubre de 2001 a mediados de 2002, no tiene una prueba así."
         ],
         "en": [
-          "We compare against S-NPP, which also misses fires: this shows whether the satellites match, not how much fire there was.",
-          "The error pools five years and all zones; the chart shows it year by year. In one municipality or one week it can be larger.",
-          "In 2022, Aqua sent no data for 17 days after a failure reported by NASA; we leave those days out. The rest of the season it saw fewer hot spots than usual against S-NPP, while its twin Terra did not. We do not know why yet.",
-          "We only test Aqua. Terra, which covers 2001 to mid-2002, has no test like this."
+          "We compare against S-NPP, which does not see every fire either: this shows whether the satellites agree with each other, not how much fire there was.",
+          "The error pools five years and every zone; the chart breaks it down by year. For a single municipality or week it can be larger.",
+          "In 2022 Aqua went 17 days without sending data because of a fault NASA reported; we left those days out. For the rest of that season it saw fewer hot spots than usual relative to S-NPP, while Terra, its twin, did not. We do not know why yet.",
+          "We only tested Aqua. Terra, which covers 2001 to mid-2002, has no equivalent test."
         ]
       },
       "pendiente": [],
@@ -522,29 +522,29 @@
       "caso": "cumple",
       "clave": "valConaforCumple",
       "nombre": {
-        "es": "Incendios registrados por la CONAFOR",
-        "en": "Wildfires recorded by CONAFOR"
+        "es": "¿Ve los incendios que registró la CONAFOR?",
+        "en": "Does it catch the wildfires CONAFOR recorded?"
       },
       "numero": {
-        "es": "53 % contra 9 % por azar",
-        "en": "53% vs. 9% by chance"
+        "es": "84 de cada 100 incendios grandes",
+        "en": "84 in 100 large wildfires"
       },
       "frase": {
-        "es": "Cumple: de 1,222 incendios registrados por la CONAFOR, el 53 % tuvo focos de S-NPP cerca; por azar, el 9 %. De los de más de 100 hectáreas, el 84 %. La meta, fijada de antemano, era al menos el triple del azar y el 75 % de los grandes.",
-        "en": "Met: of 1,222 wildfires recorded by CONAFOR, 53% had S-NPP hot spots nearby; by chance, 9%. Of those over 100 hectares, 84%. The target, set in advance, was at least three times chance and 75% of the large ones."
+        "es": "Sí. S-NPP tuvo focos cerca de 84 de cada 100 incendios grandes, de más de 100 hectáreas, y de 53 de cada 100 contando todos, cuando por azar coincidirían 9.",
+        "en": "Yes. S-NPP had hot spots near 84 in 100 large wildfires (over 100 hectares) and near 53 in 100 of all of them, where 9 would be expected by chance."
       },
       "limitaciones": {
         "es": [
-          "Es informativa: revisa si el satélite detecta incendios, no la conversión entre satélites.",
+          "Esta pregunta solo revisa si el satélite detecta incendios; no dice nada de cómo se pasan los años de un satélite a otro.",
           "Los registros de la CONAFOR son incendios forestales de 2015 a 2024, no quemas agrícolas. Esto no dice nada de las fechas de quema.",
           "Contamos cualquier foco a menos de 2 km, de un día antes a un día después del incendio. Como en temporada hay fuego por todas partes, medimos también lo que coincidiría por azar.",
           "Los incendios chicos se escapan más: de los de 5 hectáreas o menos, el 18 % tuvo focos cerca."
         ],
         "en": [
-          "This test is informative: it checks whether the satellite detects fires, not the conversion between satellites.",
-          "CONAFOR's records are wildfires from 2015 to 2024, not agricultural burns. This says nothing about burning dates.",
-          "We count any hot spot within 2 km, from a day before to a day after the fire. Since there is fire everywhere in the season, we also measure what would match by chance.",
-          "Small fires slip past more often: of those of 5 hectares or less, 18% had hot spots nearby."
+          "This question only checks whether the satellite detects wildfires; it says nothing about how years are carried from one satellite to another.",
+          "CONAFOR's records are wildfires from 2015 to 2024, not agricultural burns, so this says nothing about the burn window.",
+          "We count any hot spot within 2 km, from one day before to one day after the fire. Since there is fire everywhere during the season, we also measured how much would match by chance.",
+          "Small fires are missed more often: of those of 5 hectares or less, 18% had hot spots nearby."
         ]
       },
       "pendiente": [],
@@ -638,16 +638,16 @@
       "caso": "pasa_noaa21_cumple",
       "clave": "valViirsPasaNoaa21Cumple",
       "nombre": {
-        "es": "El relevo de S-NPP",
-        "en": "The handover from S-NPP"
+        "es": "¿Puede seguir la serie con NOAA-20?",
+        "en": "Can NOAA-20 carry the series on?"
       },
       "numero": {
-        "es": "0.99 a 1.03 (meta: 0.90 a 1.10)",
-        "en": "0.99 to 1.03 (target: 0.90 to 1.10)"
+        "es": "NOAA-20: 0.99 a 1.03 por cada foco de S-NPP",
+        "en": "NOAA-20: 0.99 to 1.03 per S-NPP hot spot"
       },
       "frase": {
-        "es": "Pasa: de 2019 a 2025, NOAA-20 con su factor contó entre 0.99 y 1.03 por cada foco de S-NPP. La meta, fijada de antemano, era de 0.90 a 1.10 cada año. Así, la serie puede seguir con NOAA-20 sin un salto como el de 2012. NOAA-21, en sus dos años completos, también cumple la meta (0.93 a 0.99).",
-        "en": "Pass: from 2019 to 2025, NOAA-20 with its factor counted between 0.99 and 1.03 for each S-NPP hot spot. The target, set in advance, was 0.90 to 1.10 every year. So the series can continue with NOAA-20 without a jump like 2012's. NOAA-21, in its two full years, also meets the target (0.93 to 0.99)."
+        "es": "Sí. De 2019 a 2025, NOAA-20 con su factor contó entre 0.99 y 1.03 focos por cada uno de S-NPP, dentro de la meta de 0.90 a 1.10 cada año, así que la serie puede seguir sin un salto como el de 2012. NOAA-21 también queda en la meta en sus dos años completos (0.93 a 0.99).",
+        "en": "Yes. From 2019 to 2025, NOAA-20 with its factor counted between 0.99 and 1.03 hot spots per S-NPP hot spot, inside the 0.90–1.10 target every year, so the series can continue without a jump like 2012's. NOAA-21 also stays within the target in its two full years (0.93 to 0.99)."
       },
       "limitaciones": {
         "es": [
@@ -656,8 +656,8 @@
           "NOAA-21 está en FIRMS desde marzo de 2023, así que coincide con S-NPP solo dos años completos. Va sin factor y no entra en la serie."
         ],
         "en": [
-          "We calculated NOAA-20's factor from these same years, so the factor pulls the total difference (0.3%) toward zero. What tells us something is each year on its own.",
-          "We compare VIIRS with VIIRS: this shows whether the series jumps at a switch, not whether they see every fire.",
+          "We computed NOAA-20's factor from these same years, so the factor pulls the total difference (0.3%) toward zero. What tells you something is each year on its own.",
+          "We compare VIIRS satellites with each other: this shows whether the series jumps when the satellite changes, not whether they see every fire.",
           "NOAA-21 has been in FIRMS since March 2023, so it overlaps S-NPP for only two full years. It has no factor and is not part of the series."
         ]
       },
