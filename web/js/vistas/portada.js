@@ -185,7 +185,9 @@ export function montar(raiz) {
     const sy = (L.y0 + L.y1 - (R.y1 - R.y0) * k) / 2;
     return { k, cx: R.x0 + (W / 2 - sx) / k, cy: R.y0 + (H / 2 - sy) / k };
   }
-  const kFinal = () => encajar(conAire(YUC, 0.04), libre('final'), false).k;
+  // La escala del encuadre del cierre: se calcula una vez por tamaño de ventana (medir la pone en cero).
+  let kFin = 0;
+  const kFinal = () => kFin || (kFin = encajeFinal().k);
   const kMin = () => Math.max(W / (FOTO.x1 - FOTO.x0), H / (FOTO.y1 - FOTO.y0));
   const kMax = () => Math.max(kMin(), ACERCAR_MAX * kFinal());
   // La foto llena siempre el visor: la cámara no se sale de ella.
@@ -217,14 +219,15 @@ export function montar(raiz) {
     }
     return false;
   }
+  function encajeFinal() {
+    const R = conAire(YUC, 0.04), L = libre('final'), a = cajaAnios();
+    const completo = encajar(R, L, false);
+    if (!a || !tapaYucatan(completo, a)) return completo;
+    const izq = encajar(R, { ...L, x1: a.x0 - 16 }, false), arriba = encajar(R, { ...L, y1: a.y0 - 16 }, false);
+    return izq.k > arriba.k ? izq : arriba;
+  }
   function encuadre(tipo) {
-    if (tipo === 'final') {
-      const R = conAire(YUC, 0.04), L = libre('final'), a = cajaAnios();
-      const completo = limitar(encajar(R, L, false));
-      if (!a || !tapaYucatan(completo, a)) return completo;
-      const izq = encajar(R, { ...L, x1: a.x0 - 16 }, false), arriba = encajar(R, { ...L, y1: a.y0 - 16 }, false);
-      return limitar(izq.k > arriba.k ? izq : arriba);
-    }
+    if (tipo === 'final') return limitar(encajeFinal());
     return limitar(encajar(PENINSULA, libre('vista'), !telefono()));
   }
   // El mapa se acomoda con su posición y su tamaño, no con transform: así los bordes, los nombres y la
@@ -307,6 +310,7 @@ export function montar(raiz) {
   function medir() {
     W = visor.clientWidth; H = visor.clientHeight;
     if (!W || !H) return;
+    kFin = 0;
     cancelAnimationFrame(vuelo);
     cam = camAuto || !cam ? encuadre(modo === 'final' ? 'final' : 'vista') : limitar(cam);
     pintarCamara();
@@ -1222,8 +1226,7 @@ export function montar(raiz) {
     // Con la ubicación se va directo a la página del municipio, donde está su ficha.
     const alUbicar = (m) => { location.hash = '#/municipio/' + encodeURIComponent(m.id); };
     armarBuscador($('buscador1'), 1, { municipios: D.mun, alElegir, alUbicar });
-    // En el cierre no cabe: ahí el buscador va sin el botón de ubicación.
-    armarBuscador($('buscador2'), 2, { municipios: D.mun, alElegir });
+    armarBuscador($('buscador2'), 2, { municipios: D.mun, alElegir, alUbicar });
     armarRotulos();
     armarEscala();
     armarPanel();

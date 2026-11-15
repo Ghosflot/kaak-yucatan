@@ -900,13 +900,13 @@ h1, h2, h3 { scroll-margin-top: calc(var(--barra-alto) + 12px); }
   /* El mapa ocupa todo el ancho. La gráfica de los años va en una tarjeta, en la esquina que Yucatán deja libre. */
   .vista-portada { position: relative; grid-template-columns: minmax(0, 1fr); }
   .vista-portada .panel { position: absolute; z-index: 7; right: 16px; bottom: 16px; width: 320px; padding: 12px 14px 10px; gap: 6px; border: 0; overflow: visible; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4); }
-  .vista-portada .panel h2, .vista-portada .panel .escala-hoy > span, .vista-portada .panel .siguiente, .vista-portada .panel .atajos-boton { display: none; }
+  .vista-portada .panel h2, .vista-portada .panel .escala-hoy > span, .vista-portada .panel .atajos-boton { display: none; }
   .vista-portada .panel .grafica .titulo { font-size: 13px; }
-  .vista-portada .panel .tira-pista { font-size: 12.5px !important; line-height: 1.35; }
+  /* La pista reserva sus tres renglones: la tarjeta mide lo mismo con cualquier año en el mapa. */
+  .vista-portada .panel .tira-pista { font-size: 12.5px !important; line-height: 1.35; min-height: calc(1.35em * 3); }
+  .vista-portada .panel .siguiente { font-size: 13px; }
   .vista-portada .panel .escala-hoy { font-size: 12.5px !important; }
 }
-/* En ventanas bajas la tarjeta se queda con la gráfica y su pista: así no tapa el oriente de Yucatán. */
 @media (min-width: 861px) and (max-height: 700px) {
   .vista-portada .panel { padding: 10px 12px 8px; gap: 4px; }
-  .vista-portada .panel .escala-hoy { display: none; }
 }
