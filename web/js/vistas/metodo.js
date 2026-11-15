@@ -447,11 +447,11 @@ function pregunta(p, M) {
 // Lo que acompaña a la gráfica de cada prueba: la meta y el contexto, sin juicio (vale para cualquier caso).
 function detalle(p, M) {
   const g = p.grafica || {}, v = p.valores;
-  if (p.id === 'salto_2012' && g.meta) return t('mDetSalto2012', { ...v, m0: dec(g.meta[0], 2), m1: dec(g.meta[1], 2) });
+  if (p.id === 'salto_2012' && g.umbral) return t('mDetSalto2012', { ...v, m0: dec(g.umbral[0], 2), m1: dec(g.umbral[1], 2) });
   if (p.id === 'aqua_fuera_muestra') return t('mDetAqua', v);
   if (p.id === 'conafor') {
     const d = M.conafor.porDuracion || [];
-    const base = t('mDetConafor', { ...v, meta: g.metaGrandes, desde: M.conafor.desde, hasta: M.conafor.hasta });
+    const base = t('mDetConafor', { ...v, meta: Math.round(g.minimo), desde: M.conafor.desde, hasta: M.conafor.hasta });
     return d.length ? base + ' ' + t('mDetConaforDuracion', { d1: d[0].vistos, d4: d[d.length - 1].vistos }) : base;
   }
   return '';
@@ -503,6 +503,8 @@ export function montar(raiz) {
     raiz.querySelectorAll('.m-prueba details').forEach((d) => { if (abiertos.has(d.closest('.m-prueba').dataset.prueba + d.className)) d.open = true; });
     raiz.querySelectorAll('.m-det-graf').forEach((d) => d.addEventListener('toggle', () => { if (d.open) dibujarGrafica(d); }));
     dibujarGraficas();
+    // Las gráficas acomodan sus textos midiéndolos: se vuelven a dibujar con la letra ya cargada.
+    if (document.fonts) document.fonts.ready.then(() => { if (vivo) dibujarGraficas(); });
     $('mSat').hidden = !SAT;
     if (SAT) {
       $('mSatChips').replaceChildren(...SAT.satelites.map((x) => {

@@ -216,10 +216,11 @@ def test_validacion_para_la_pagina(salida):
     # Las gráficas dicen lo mismo que los números de la frase.
     vals = {p["id"]: p["valores"] for p in v["pruebas"]}
     assert f"{g['salto_2012']['razonCruda']:.2f}" == vals["salto_2012"]["razonCruda"]
-    assert [t["y"] for t in g["salto_2012"]["totales"]] == list(range(2009, 2016))
+    assert [t["y"] for t in g["salto_2012"]["anios"]] == list(range(2009, 2016))
     assert [a["y"] for a in g["aqua_fuera_muestra"]["anios"]] == list(range(2021, 2026))
-    assert g["conafor"]["real"] == vals["conafor"]["realSnpp"] and g["conafor"]["azar"] == vals["conafor"]["azarSnpp"]
-    assert g["conafor"]["tamanos"][-1]["pct"] == vals["conafor"]["grandesSnpp"]
+    assert round(g["conafor"]["real"]) == vals["conafor"]["realSnpp"]
+    assert round(max(g["conafor"]["controlAnio"], g["conafor"]["controlLugar"])) == vals["conafor"]["azarSnpp"]
+    assert round(g["conafor"]["tamanos"][-1]["pct"]) == vals["conafor"]["grandesSnpp"]
     completos = [a["razon"] for a in g["viirs"]["noaa20"] if a["completo"]]
     assert f"{min(completos):.2f}" == vals["viirs"]["razonMinNoaa20"]
     assert not (salida / "validacion").exists()  # ya no van las PNG
@@ -228,6 +229,37 @@ def test_validacion_para_la_pagina(salida):
         textos = json.loads((ew.RAIZ / "web" / "textos" / f"{idioma}.json").read_text(encoding="utf-8"))
         for p in v["pruebas"]:
             assert textos.get(p["clave"]), f"{idioma}:{p['clave']}"
+
+
+
+def test_graficas_de_la_validacion_como_sus_png(salida):
+    """Las gráficas de la página tienen lo mismo que las PNG de pipeline/validar.py: los mismos
+    textos (validar.ETIQUETAS) y los mismos datos (validar.tabla_grafica)."""
+    import validar
+
+    for idioma in ("es", "en"):
+        textos = json.loads((ew.RAIZ / "web" / "textos" / f"{idioma}.json").read_text(encoding="utf-8"))
+        for k, texto in validar.ETIQUETAS[idioma].items():
+            assert textos["mGv" + validar._camel(k)] == texto, (idioma, k)
+    original = {p["id"]: p for p in json.loads(ew.VALIDACION.read_text(encoding="utf-8"))["pruebas"]}
+    g = {p["id"]: p["grafica"] for p in _json(salida, "validacion.json")["pruebas"]}
+    t = {i: validar.tabla_grafica(p) for i, p in original.items()}
+    s = g["salto_2012"]
+    assert round(s["promAntes"]["crudo"]) == round(t["salto_2012"]["promedio_antes"]["crudo"]) == 8680
+    assert round(s["promAntes"]["cal"]) == 31295 and round(s["promDespues"]["cal"]) == 28281
+    assert [a["y"] for a in s["anios"] if a["transicion"]] == [2012]
+    assert (s["umbral"], s["pasa"]) == ([0.67, 1.5], True)
+    a = g["aqua_fuera_muestra"]
+    assert (round(a["error"]["zonaEpoca"]), round(a["error"]["unico"]), a["limite"], a["elegido"]) == (11, 13, 25, "zonaEpoca")
+    c = g["conafor"]
+    assert [x["t"] for x in c["tamanos"]] == ["0–5", "6–10", "11–20", "21–50", "51–100", "> 100"]
+    assert [x["n"] for x in c["tamanos"]] == [275, 126, 124, 167, 134, 395]
+    assert [x["grande"] for x in c["tamanos"]] == [False] * 5 + [True]
+    assert (round(c["metaAzar"]), c["sinRango"], c["minimo"]) == (26, 1, 75)
+    vi = g["viirs"]
+    assert vi["eje"] == [0.8, 1.2] and vi["banda"] == [0.9, 1.1]
+    assert all(p["cruda"] is not None for p in vi["noaa20"])
+    assert vi["cumple"] == {"noaa20": True, "noaa21": True}
 
 
 def test_satelites_contra_la_serie(salida):
