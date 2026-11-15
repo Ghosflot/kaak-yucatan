@@ -61,20 +61,26 @@ cdp.on('Page.screencastFrame', ({ data, metadata, sessionId }) => {
 });
 await cdp.send('Page.startScreencast', { format: 'jpeg', quality: 94, maxWidth: Math.round(ANCHO * ESCALA), maxHeight: Math.round(ALTO * ESCALA) });
 
-// El cursor se desliza con aceleración suave.
-let cx = 1000, cy = 300;
+// El cursor se mueve como una mano: rápido y sin rodeos, con una curva leve, frenando al llegar
+// (perfil de jerk mínimo) y con una duración que crece poco con la distancia (ley de Fitts). Entre una
+// acción y otra se queda quieto.
+let cx = 230, cy = 560;
 await page.mouse.move(cx, cy);
-const deslizar = async (x, y, ms) => {
-  const n = Math.max(1, Math.round(ms / 16)), x0 = cx, y0 = cy;
+const deslizar = async (x, y) => {
+  const x0 = cx, y0 = cy, d = Math.hypot(x - x0, y - y0);
+  const ms = Math.round(180 + 110 * Math.log2(1 + d / 30));
+  const n = Math.max(1, Math.round(ms / 16));
+  const curva = Math.min(26, d * 0.06), nx = -(y - y0) / (d || 1), ny = (x - x0) / (d || 1);
   for (let k = 1; k <= n; k++) {
-    const e = k / n, s = e < 0.5 ? 4 * e * e * e : 1 - (-2 * e + 2) ** 3 / 2;
-    cx = x0 + (x - x0) * s; cy = y0 + (y - y0) * s;
+    const e = k / n, s = 10 * e ** 3 - 15 * e ** 4 + 6 * e ** 5, b = Math.sin(Math.PI * s) * curva;
+    cx = x0 + (x - x0) * s + nx * b; cy = y0 + (y - y0) * s + ny * b;
     await page.mouse.move(cx, cy); await espera(8);
   }
 };
 const caja = async (loc) => { await loc.first().waitFor(); return loc.first().boundingBox(); };
-const hacia = async (loc, ms, dx = 0.5, dy = 0.5) => { const b = await caja(loc); await deslizar(b.x + b.width * dx, b.y + b.height * dy, ms); };
-// Desplazamiento suave a una altura fija (las cuentas de la página no cambian entre corridas).
+const hacia = async (loc, dx = 0.5, dy = 0.5) => { const b = await caja(loc); await deslizar(b.x + b.width * dx, b.y + b.height * dy); };
+const clic = async () => { await page.mouse.down(); await espera(70); await page.mouse.up(); };
+// Desplazamiento suave, como el de un trackpad: arranca y frena sin tirones.
 const desplazar = (y, ms) => page.evaluate(([y, ms]) => new Promise((listo) => {
   const y0 = scrollY, t0 = performance.now();
   const paso = (t) => {
@@ -90,60 +96,54 @@ const t0 = Date.now();
 const hasta = (ms) => espera(Math.max(0, ms - (Date.now() - t0)));
 const marca = (n) => console.log('  ', n, ((Date.now() - t0) / 1000).toFixed(1), 's');
 
-// «Esto es K'áak', fuego en maya. Así lo abriría la Protección Civil de Muna.»
+// «Esto es K'áak'… Así lo abriría la Protección Civil de Muna. [Abrir.]»
 marca('portada');
-await hasta(2500);
+await hasta(900);
 const entrada = page.locator('#buscador2 input');
-await hacia(entrada, 1800, 0.3);
-await hasta(4800);
-await page.mouse.down(); await page.mouse.up();
-await entrada.pressSequentially('Muna', { delay: 140 });
-await hasta(6300);
-// [Abrir.]
-await hacia(page.locator('#buscador2 li', { hasText: 'Muna' }), 700);
-await page.mouse.down(); await page.mouse.up();
+await hacia(entrada, 0.32);
+await clic();
+await entrada.pressSequentially('Muna', { delay: 95 });
+await hasta(2000);
+await hacia(page.locator('#buscador2 li', { hasText: 'Muna' }), 0.25);
+await clic();
 marca('Muna en el mapa');
 // La cámara vuela a Muna y abre su tarjeta; el enlace de la tarjeta lleva a su página.
 const enlace = page.locator('a[href="#/municipio/muna"]').filter({ visible: true });
-await hasta(8200);
-await hacia(enlace, 1100);
-await hasta(9600);
-await page.mouse.down(); await page.mouse.up();
+await enlace.first().waitFor();
+await hasta(3900);
+await hacia(enlace, 0.4);
+await hasta(4700);
+await clic();
 await page.waitForSelector('#barrasMun rect.toque', { state: 'attached' });
 await preparar();
 marca('Muna abierta');
-await hasta(11500);
+// El cursor se aparta al margen derecho para no tapar nada.
+await hasta(5600);
+await deslizar(1330, 330);
 
-// «Aquí está la respuesta: de cada 10 focos de un año normal, 8 aparecen después del 3 de abril.
-// (pausa) Mi abuelo tenía razón.»
+// «Aquí está la respuesta: de cada 10 focos de un año normal, 8 aparecen después del 3 de abril.»
 const cuando = page.locator('h2', { hasText: '¿Cuándo se quema' });
-await desplazar(await alturaDe(cuando, 120), 1600);
+await hasta(6600);
+await desplazar(await alturaDe(cuando, 150), 900);
 marca('8 de cada 10');
-await hacia(page.locator('text=aparecen después del 3 de abril'), 1600, 0.5, 2.6);
-await hasta(22000);
+await hasta(11300);
 
-// «Voy a tocar 2024. [Tocar.]»
-await desplazar(0, 1400);
-await hacia(page.locator('#barrasMun rect.toque[data-y="2024"]'), 1500, 0.5, 0.75);
-await hasta(24500);
-await page.mouse.down(); await page.mouse.up();
+// «Voy a tocar 2024. [Tocar.] … Muna tuvo 81 focos, casi 1.5 veces lo normal.»
+await desplazar(0, 900);
+await hacia(page.locator('#barrasMun rect.toque[data-y="2024"]'), 0.5, 0.7);
+await hasta(12900);
+await clic();
 marca('2024 tocado');
-// «Es el año con más hectáreas quemadas en Yucatán de la década. Muna tuvo 81 focos, casi 1.5 veces lo
-// normal. Así se ve una temporada que se sale de lo normal.»
-await hasta(31500);
-await desplazar(await alturaDe(cuando, 120), 1600);
-marca('2024, día por día');
-await hasta(38500);
+await hasta(16200);
 
-// «Todo cabe en una ficha que se reenvía por WhatsApp, y se actualiza sola cuatro veces al día.»
-await desplazar(0, 1400);
-await hacia(page.locator('#compartir'), 1600);
+// «Todo cabe en una ficha que se reenvía por WhatsApp.»
+await hacia(page.locator('#compartir'), 0.45, 0.55);
 marca('ficha');
-await hasta(47500);
+await hasta(19800);
 marca('fin');
 
 await cdp.send('Page.stopScreencast');
-const fin = cuadros[cuadros.length - 1][1] + 0.5;
+const fin = cuadros[0][1] + Math.min(20, cuadros[cuadros.length - 1][1] + 0.2 - cuadros[0][1]);
 await contexto.close();
 await navegador.close();
 
