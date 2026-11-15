@@ -293,8 +293,82 @@ test('territorio ganadero (#60): sale en los municipios de Yucatán, con su fuen
   await expect(page.locator('#ganaderia')).toBeHidden();
 });
 
+// El mapa del territorio ganadero (#60, fase 3): Yucatán por municipio, tres opciones y un solo tono.
+test('mapa ganadero: los 106 municipios con la clase de sus datos, la leyenda con los cortes y las tres opciones', async ({ page }) => {
+  const TONOS = ['#F0E9DA', '#DDC79B', '#BF9A55', '#8C6A2F', '#503A18'];
+  const G = JSON.parse(fs.readFileSync('web/datos/ganaderia.json', 'utf8'));
+  await abrir(page, '#/municipio/tizimin');
+  const relleno = (id) => page.locator(`#ganMapa a[data-id="${id}"] path`);
+  await expect(page.locator('#ganMapa a')).toHaveCount(106);
+  await expect(page.locator('#ganMapaTitulo')).toHaveText('Territorio ganadero de Yucatán');
+  await expect(page.locator('[data-gan="pastizal"]')).toHaveAttribute('aria-pressed', 'true');
+  // Tizimín: pastizal 3, bovinos 4 y focos 4; Mérida: 0, 1 y 0 (los valores que comprueba test_exportar_web.py).
+  await expect(relleno('tizimin')).toHaveAttribute('fill', TONOS[3]);
+  await expect(relleno('merida')).toHaveAttribute('fill', TONOS[0]);
+  await expect(page.locator('#ganLeyenda li')).toHaveText(['menos de 5 %', '5 a 15 %', '15 a 30 %', '30 a 50 %', '50 % o más']);
+  // El municipio de la página va con su contorno, y el mapa dice qué muestra.
+  await expect(page.locator('#ganMapa a.propio')).toHaveAttribute('data-id', 'tizimin');
+  await expect(page.locator('#ganMapa')).toHaveAttribute('aria-label', 'Mapa de Yucatán por municipio: Pastizal (% del municipio).');
+  await page.click('[data-gan="bovinos"]');
+  await expect(relleno('tizimin')).toHaveAttribute('fill', TONOS[4]);
+  await expect(relleno('merida')).toHaveAttribute('fill', TONOS[1]);
+  await expect(page.locator('#ganLeyenda li')).toHaveText(['menos de 2', '2 a 5', '5 a 10', '10 a 25', '25 o más']);
+  await page.click('[data-gan="focos"]');
+  await expect(page.locator('[data-gan="focos"]')).toHaveText('Focos de calor sobre pastizal (% de los del municipio, 2013–2025)');
+  await expect(relleno('tizimin')).toHaveAttribute('fill', TONOS[4]);
+  await expect(relleno('merida')).toHaveAttribute('fill', TONOS[0]);
+  // Cada municipio lleva el tono de la clase que traen los datos.
+  const mal = await page.locator('#ganMapa a').evaluateAll((as, { G, TONOS }) => as.filter((a) => {
+    const g = G.municipios.find((x) => x.id === a.dataset.id);
+    return a.querySelector('path').getAttribute('fill') !== TONOS[g.clases.focos];
+  }).map((a) => a.dataset.id), { G, TONOS });
+  expect(mal).toEqual([]);
+  // La fuente y el límite se ven junto al mapa.
+  await expect(page.locator('#ganaderia')).toContainText('Un foco sobre pastizal no dice quién quemó ni por qué.');
+  await expect(page.locator('#ganaderia')).toContainText('Fuente: INEGI');
+});
+
+test('mapa ganadero: pasar por un municipio dice sus cifras y tocarlo abre su página', async ({ page }) => {
+  await abrir(page, '#/municipio/tizimin');
+  const lectura = page.locator('#ganLectura');
+  await expect(lectura).toHaveText('Pasa por un municipio para ver sus cifras o tócalo para abrir su página.');
+  const panaba = page.locator('#ganMapa a[data-id="panaba"]');
+  await panaba.scrollIntoViewIfNeeded();
+  await panaba.hover();
+  await expect(lectura).toHaveText('El 79 % de Panabá es pastizal, y tiene 32,543 cabezas de ganado bovino (49 por km²).');
+  await page.click('[data-gan="focos"]');
+  await page.locator('#ganMapa a[data-id="panaba"]').hover();
+  await expect(lectura).toContainText(/^De los focos de calor de Panabá de 2013 a 2025, el \d+ % cayó sobre pastizal\.$/);
+  await page.locator('#ganMapa a[data-id="panaba"]').click();
+  await expect(page).toHaveURL(/#\/municipio\/panaba$/);
+  await expect(page.locator('h1')).toHaveText('Panabá');
+  await expect(page.locator('#ganMapa a.propio')).toHaveAttribute('data-id', 'panaba');
+});
+
+test('mapa ganadero en el teléfono: cabe sin desplazarse de lado y las opciones miden 44 px', async ({ page }) => {
+  await abrir(page, '#/municipio/tizimin', { ancho: 390, alto: 844 });
+  const desborde = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+  expect(desborde).toBeLessThanOrEqual(0);
+  const altos = await page.locator('[data-gan]').evaluateAll((bs) => bs.map((b) => b.getBoundingClientRect().height));
+  expect(Math.min(...altos)).toBeGreaterThanOrEqual(44);
+  const mapa = await page.locator('#ganMapa').boundingBox();
+  expect(mapa.width).toBeLessThanOrEqual(390 - 32);
+});
+
+test('mapa ganadero con pantalla táctil: la pista solo dice que se toca', async ({ browser, baseURL }) => {
+  // Sin puntero no se «pasa por» un municipio.
+  const ctx = await browser.newContext({ hasTouch: true, isMobile: true, viewport: { width: 390, height: 844 }, baseURL });
+  const p = await ctx.newPage();
+  await p.goto('/#/municipio/tizimin');
+  await expect(p.locator('#ganLectura')).toHaveText('Toca un municipio para abrir su página.');
+  await ctx.close();
+});
+
 test('territorio ganadero en inglés', async ({ page }) => {
   await abrir(page, '#/municipio/buctzotz', { query: '?lang=en' });
   await expect(page.locator('#ganaderia h2')).toHaveText('Cattle land');
   await expect(page.locator('#ganCifras')).toContainText('81 % of Buctzotz is pasture');
+  await expect(page.locator('#ganMapaTitulo')).toHaveText("Yucatán's cattle land");
+  await expect(page.locator('#ganLeyenda li').first()).toHaveText('under 5 %');
+  await expect(page.locator('#ganLectura')).toHaveText('Hover over a municipality to see its figures, or tap it to open its page.');
 });
