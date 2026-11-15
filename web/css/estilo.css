@@ -910,3 +910,7 @@ h1, h2, h3 { scroll-margin-top: calc(var(--barra-alto) + 12px); }
 @media (min-width: 861px) and (max-height: 700px) {
   .vista-portada .panel { padding: 10px 12px 8px; gap: 4px; }
 }
+/* En ventanas angostas la foto ya no deja mover el encuadre: la tarjeta se queda solo con la gráfica, bajo Yucatán. */
+@media (min-width: 861px) and (max-width: 1100px) {
+  .vista-portada .panel .tira-pista, .vista-portada .panel .escala-hoy, .vista-portada .panel .siguiente { display: none; }
+}

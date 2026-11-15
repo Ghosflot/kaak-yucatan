@@ -23,17 +23,6 @@ test('las barras de los años son una sola parada de Tab y se recorren con las f
   await expect(page.locator('#anuncio')).toContainText('El mapa muestra 2003');
 });
 
-test('el foco no se pierde cuando desaparece el botón que se tocó', async ({ page }) => {
-  await abrir(page, '#/');
-  await page.locator('#verTemporada').focus();
-  await page.keyboard.press('Enter');
-  expect(await enfocado(page)).toBe('control');
-  await page.keyboard.press('End');
-  await page.locator('#barras .toque[data-y="2003"]').click();
-  await page.click('#volver');
-  expect(await enfocado(page)).toBe('resultado');
-});
-
 test('al elegir con el buscador, la tarjeta se lee y queda justo después en el orden del Tab', async ({ page }) => {
   await abrir(page, '#/', { reducir: true });
   const antes = await page.evaluate(() => Boolean(document.getElementById('tarjeta').compareDocumentPosition(document.getElementById('instrumento')) & Node.DOCUMENT_POSITION_FOLLOWING));
@@ -44,68 +33,10 @@ test('al elegir con el buscador, la tarjeta se lee y queda justo después en el 
   await expect(page.locator('#anuncio')).toContainText('Focos de calor en 2026');
 });
 
-test('la línea de tiempo dice de qué año es', async ({ page }) => {
-  await abrir(page, '#/', { reducir: true });
-  await expect(page.locator('#tiempo')).toHaveAttribute('aria-label', 'Día de la temporada 2026');
-  await page.locator('#barras .toque[data-y="2003"]').click();
-  await expect(page.locator('#tiempo')).toHaveAttribute('aria-label', 'Día de la temporada 2003');
-});
-
-test('en la foto, tocar el mapa empieza la temporada y no salta al cierre', async ({ page }) => {
-  await abrir(page, '#/');
-  await page.locator('.rellenos path[data-id="tekax"]').click({ force: true });
-  await expect(page.locator('#escenario')).toHaveAttribute('data-modo', 'repaso');
-  await expect(page.locator('#tarjeta')).toBeHidden();
-  // El botón que se tocó desaparece: el foco pasa al control del repaso.
-  expect(await enfocado(page)).toBe('control');
-});
-
 test('«Tekax» en el mapa del cierre va en claro sobre el verde oscuro', async ({ page }) => {
   await abrir(page, '#/', { reducir: true });
   const color = await page.locator('.nota-mapa.enlace').evaluate((e) => getComputedStyle(e).color);
   expect(color).toBe('rgb(246, 244, 240)');
-});
-
-test.describe('con el dedo', () => {
-  test.use({ hasTouch: true, isMobile: true });
-
-  // Gestos de verdad (CDP), para que el navegador aplique touch-action como en un teléfono.
-  async function deslizar(page, desde, hasta, pasos = 8) {
-    const cdp = await page.context().newCDPSession(page);
-    const punto = (x, y) => [{ x: Math.round(x), y: Math.round(y) }];
-    await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: punto(...desde) });
-    for (let i = 1; i <= pasos; i++) {
-      const x = desde[0] + ((hasta[0] - desde[0]) * i) / pasos, y = desde[1] + ((hasta[1] - desde[1]) * i) / pasos;
-      await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: punto(x, y) });
-    }
-    await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
-  }
-
-  test('deslizar hacia arriba sobre la línea de tiempo desplaza la página y no mueve el repaso', async ({ page }) => {
-    await abrir(page, '#/', { ancho: 390, alto: 844 });
-    await page.click('#verTemporada');
-    await page.click('#control'); // pausa
-    await page.locator('#tiempo').scrollIntoViewIfNeeded();
-    const dia = await page.locator('#tiempo').getAttribute('aria-valuenow');
-    const r = await page.locator('#tiempo').boundingBox();
-    const y0 = await page.evaluate(() => scrollY);
-    await deslizar(page, [r.x + r.width * 0.8, r.y + r.height / 2], [r.x + r.width * 0.8, r.y + r.height / 2 - 200]);
-    await expect.poll(() => page.evaluate(() => scrollY)).toBeGreaterThan(y0 + 50);
-    expect(await page.locator('#tiempo').getAttribute('aria-valuenow')).toBe(dia);
-  });
-
-  test('deslizar de lado mueve el repaso, y un toque lleva al día tocado', async ({ page }) => {
-    await abrir(page, '#/', { ancho: 390, alto: 844 });
-    await page.click('#verTemporada');
-    await page.click('#control');
-    await page.locator('#tiempo').scrollIntoViewIfNeeded();
-    const r = await page.locator('#tiempo').boundingBox();
-    const y = r.y + r.height / 2;
-    await deslizar(page, [r.x + r.width * 0.1, y], [r.x + r.width * 0.6, y]);
-    expect(Number(await page.locator('#tiempo').getAttribute('aria-valuenow'))).toBe(Math.floor(0.6 * 92));
-    await page.touchscreen.tap(r.x + r.width * 0.3, y);
-    await expect(page.locator('#tiempo')).toHaveAttribute('aria-valuenow', String(Math.floor(0.3 * 92)));
-  });
 });
 
 test('#/fechas: cada mes es un encabezado que se puede recorrer', async ({ page }) => {
@@ -159,14 +90,6 @@ test.describe('con el teclado', () => {
     await expect(page.locator('#zLectura')).toHaveText(despues);
   });
 
-  test('con «reducir movimiento», «Repetir» lleva al primer día sin animar', async ({ page }) => {
-    await abrir(page, '#/', { reducir: true });
-    await page.locator('#control').click();
-    await expect(page.locator('#escenario')).toHaveAttribute('data-modo', 'repaso');
-    await page.waitForTimeout(400);
-    await expect(page.locator('#tiempo')).toHaveAttribute('aria-valuenow', '0');
-    await expect(page.locator('#control')).toHaveAttribute('aria-label', 'Seguir');
-  });
 });
 
 // axe-core no mide el contraste del foco (WCAG 1.4.11): el anillo es ámbar con una banda oscura por fuera,

@@ -89,17 +89,3 @@ test('compartir la ficha abre la hoja de compartir en el mismo clic (Safari lo e
   await page.click('#compartir');
   await expect.poll(() => page.evaluate(() => window.compartidoEnClic)).toBe(true);
 });
-
-test('al pausar el repaso, la cifra dice lo mismo que el lector de pantalla', async ({ page }) => {
-  await page.clock.install();
-  await abrir(page, '#/');
-  await page.click('#verTemporada');
-  // Pausa a medio camino entre dos días de abril, cuando el acumulado sube rápido.
-  for (let i = 0; i < 45; i++) await page.clock.runFor(100);
-  await page.clock.runFor(50);
-  await page.click('#control'); // pausa
-  const dia = Number(await page.locator('#tiempo').getAttribute('aria-valuenow'));
-  const acum = PORTADA.yuc.acum['2026'];
-  expect(acum[dia + 1]).toBeGreaterThan(acum[dia] + 1); // si no, la prueba no distingue nada
-  await expect(page.locator('#n26')).toHaveText(Math.round(acum[dia]).toLocaleString('es-MX'));
-});

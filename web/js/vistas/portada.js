@@ -580,19 +580,11 @@ export function montar(raiz) {
     aplicando = true;
     try {
       const a = D.porAnio.anios.includes(e.anio) ? e.anio : ANIO;
-      // La página abre en el mapa a color. La foto y el repaso día por día solo se abren por su dirección.
-      if (e.modo === 'repaso') irADia(Number.isFinite(e.t) ? e.t : 45);
-      else if (e.modo === 'foto' && !reducirMovimiento()) {
-        pausar();
-        volverA2026();
-        t0 = 0;
-        ponerModo('foto');
-      } else {
-        if (modo !== 'final') { pausar(); irFinal(); }
-        if (a !== anio) ponerAnio(a);
-        if (e.sel && munPorId.has(e.sel)) { if (e.sel !== seleccion) seleccionar(e.sel, { quedar: true, camara: 'volar' }); }
-        else if (seleccion) quitarSeleccion();
-      }
+      // La página abre siempre en el mapa a color; las direcciones viejas del repaso también.
+      if (modo !== 'final') { pausar(); irFinal(); }
+      if (a !== anio) ponerAnio(a);
+      if (e.sel && munPorId.has(e.sel)) { if (e.sel !== seleccion) seleccionar(e.sel, { quedar: true, camara: 'volar' }); }
+      else if (seleccion) quitarSeleccion();
     } finally { aplicando = false; abierto = true; }
   }
 
@@ -1156,7 +1148,7 @@ export function montar(raiz) {
     const y = D.yuc, svg = $('barras'), panel = svg.closest('.panel');
     anchoBarras = svg.parentNode.clientWidth;
     // En computadora la gráfica va en una tarjeta sobre el mapa: su alto depende del alto de la ventana.
-    altoBarras = telefono() ? 88 : H >= 700 ? 92 : H >= 520 ? 62 : 46;
+    altoBarras = telefono() ? 88 : W <= 1100 ? 46 : H >= 700 ? 92 : H >= 520 ? 62 : 46;
     const anios = Object.keys(y.anios).map(Number).sort((a, b) => a - b).map((a) => ({ y: a, total: y.anios[a] }));
     const dibujar = () => barrasAnios(svg, {
       anios, normal: y.normal, alTocar: elegirAnio, alBarrer: barrerAnio, seleccionado: anio === ANIO ? null : anio,

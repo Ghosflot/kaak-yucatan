@@ -149,14 +149,6 @@
   "atajosTitulo": "Atajos de teclado",
   "atajos": [
     [
-      "[Espacio]",
-      "Empezar o pausar la temporada"
-    ],
-    [
-      "[←] [→]",
-      "Un día atrás o adelante"
-    ],
-    [
       "[/]",
       "Buscar un municipio"
     ],
