@@ -677,7 +677,7 @@ export function montar(raiz) {
     resultado.append(antes, junto, despues);
     rodar(cifra, n, cifraVista);
     cifraVista = n;
-    $('pistaAnio').textContent = anio === ANIO ? t('tocaAnioMapa') : t('anioEnMapa', { a: anio, s: sateliteDe(anio) });
+    $('pistaAnio').textContent = anio === ANIO ? t('tocaAnioMapa') : t('anioEnMapa', { a: anio, s: sateliteDe(anio).replace('-', '\u2011') });
   }
   function rodar(caja, n, antes) {
     const nuevo = document.createElement('span');

@@ -301,8 +301,9 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .escala-hoy .ir { white-space: nowrap; }
 .ir { font-weight: 800; text-underline-offset: 4px; text-decoration-thickness: 2px; }
 /* La siguiente página, como una oración con su flecha. */
-.siguiente { align-self: flex-start; display: inline-flex; align-items: baseline; gap: 8px; font-size: 16px; line-height: 1.35; }
-.siguiente::after { content: "→"; text-decoration: none; }
+/* Va en bloque: si la pregunta se parte en dos renglones, la flecha sigue pegada a su última palabra. */
+.siguiente { display: block; font-size: 16px; line-height: 1.35; text-wrap: pretty; }
+.siguiente::after { content: "\00a0→"; }
 .pie { margin-top: auto; font-size: 11.5px !important; line-height: 1.45; color: var(--tinta-2); }
 /* Las pistas de lo que se puede tocar llevan un ícono y van en tinta, no en gris chico. */
 .tira-pista { display: flex; align-items: flex-start; gap: 8px; font-size: 13.5px !important; font-weight: 700; color: var(--tinta); }
@@ -345,6 +346,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
   .volver { min-height: 44px; }
   .idioma button { height: 44px; }
   .ir { display: inline-flex; align-items: center; min-height: 44px; }
+  .siguiente { display: block; min-height: 44px; padding-block: 10px; }
   .ley-normal { min-height: 44px; }
 }
 /* Pantallas bajas: todo el cartel tiene que caber arriba de la línea de tiempo. */
@@ -387,7 +389,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
   .grafica .titulo { font-size: 13px; }
   .siguiente { font-size: 14.5px; }
   .escala-color .rotulos-escala, .escala-color .poco { font-size: 12px; }
-  .escala-color .poco { max-width: 6.5em; }
+  .escala-color .poco { max-width: 5.6em; }
 }
 @media (min-width: 861px) {
   [data-modo="repaso"] .ciudad.sur, [data-modo="final"] .ciudad.sur { opacity: 0; }
