@@ -10,7 +10,8 @@ Melany.
 **Las diapositivas están en Canva:** <https://www.canva.com/design/DAHa_7xCM_k/edit>.
 
 **El ejemplo del demo es Muna**, el pueblo del abuelo, y es también el botón «Por ejemplo» de la
-página. En las diapositivas, el clip del demo busca «Muna» y el QR abre `kaak.pages.dev/muna`.
+página. En las diapositivas, el clip del demo busca «Muna» y el QR abre `kaak.pages.dev`, la
+portada, para que cada quien busque su municipio (#85).
 
 **En la portada de las diapositivas**, el equipo va con nombre y primer apellido, en orden
 alfabético por apellido: David Alcocer, Nicolás Moguel, Guillermo Peña, Leonardo Sanmartín, Melany Suárez y Gadiel Uicab. Así sale también al pie de
@@ -104,7 +105,7 @@ video de respaldo listo*
 > Lo que sigue es bajar a cada zona del municipio, a las semanas exactas en que se quema, y
 > probarlo en 2027 con Muna y con Tekax, el municipio con más hectáreas quemadas del estado.
 
-**D7 · 4:20–4:35 · Leo** · *QR (abre `kaak.pages.dev/muna`)*
+**D7 · 4:20–4:35 · Leo** · *QR (abre `kaak.pages.dev`, la portada con el buscador)*
 > Mi abuelo guarda en la cabeza 50 años de fuego de una parcela. K'áak' une 25 años de memoria
 > de cada municipio de Yucatán. Escaneen el código y busquen el suyo.
 
