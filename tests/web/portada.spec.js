@@ -72,6 +72,34 @@ test('«Saltar al mapa a color» salta el repaso y lleva al mapa a color', async
   await expect(page.locator('#resultado')).toBeFocused();
 });
 
+test('el botón para saltar es el de la página y va justo bajo el título, antes de la fecha', async ({ page }) => {
+  await abrir(page, '#/', { ancho: 1366, alto: 629 });
+  const b = page.locator('#saltarRepaso');
+  await expect(b).toHaveClass(/\bboton\b/);
+  const t = await page.locator('#titulo').boundingBox(), r = await b.boundingBox(), l = await page.locator('#leyendaDia').boundingBox();
+  expect(r.y).toBeGreaterThan(t.y + t.height);
+  expect(r.y - (t.y + t.height)).toBeLessThan(30);
+  expect(l.y).toBeGreaterThan(r.y + r.height);
+});
+
+// Al abrir se ve la península entera con mar y tierra alrededor, no pegada a las orillas del mapa.
+for (const [ancho, alto] of [[1366, 629], [1920, 1080], [1024, 768], [390, 844]]) {
+  test(`a ${ancho}×${alto} la península abre entera y con aire alrededor`, async ({ page }) => {
+    await abrir(page, '#/', { ancho, alto });
+    const m = await page.evaluate(() => {
+      const e = document.getElementById('mapa'), v = document.getElementById('visor');
+      return { k: parseFloat(e.style.width) / 825, x: parseFloat(e.style.left), y: parseFloat(e.style.top), W: v.clientWidth, H: v.clientHeight };
+    });
+    // El mapa empieza en y = −90 del lienzo; la tierra va de 0 a 825 y de 10 a 591.
+    const izq = m.x, der = m.x + 825 * m.k, arriba = m.y + 100 * m.k, abajo = m.y + 681 * m.k;
+    const aire = ancho > 860 ? 0.08 : 0.02;
+    expect(arriba).toBeGreaterThan(m.H * aire);
+    expect(abajo).toBeLessThan(m.H * (1 - aire));
+    expect(izq).toBeGreaterThan(0);
+    expect(der).toBeLessThan(m.W);
+  });
+}
+
 test('al volver a «Temporada» desde otra sección se ve el mapa a color, sin repetir el repaso', async ({ page }) => {
   await abrir(page, '#/');
   await page.locator('#saltarRepaso').click();
@@ -149,7 +177,7 @@ async function medirPortada(page) {
         }
         return false;
       })(),
-      foto: caja(document.getElementById('foto')),
+      foto: caja(document.querySelector('.mapa > .fondo')),
       visor: caja(document.getElementById('visor')),
     };
   });
@@ -168,7 +196,7 @@ test.describe('disposición sin choques', () => {
         expect(m.desplaza, 'la página no se desplaza').toBeLessThanOrEqual(0);
         expect(dentro(m.cartel, m.ventana), 'el texto cabe en la ventana').toBe(true);
         expect(dentro(m.respuesta, m.ventana) && dentro(m.barras, m.ventana), 'la respuesta y sus barras se ven').toBe(true);
-        expect(dentro(m.visor, m.foto), 'la foto cubre todo el escenario').toBe(true);
+        expect(dentro(m.visor, m.foto), 'la foto amplia cubre todo el escenario').toBe(true);
         expect(m.panelSobra, 'el panel cabe sin desplazarse').toBeLessThanOrEqual(1);
         expect(m.instrumento, 'no hay línea de tiempo').toBeNull();
         expect(dentro(m.zoom, m.ventana), 'los botones del mapa caben').toBe(true);
@@ -296,7 +324,8 @@ test('las cifras salen de web/datos y no están escritas en el código', async (
   expect(texto).toContain(fmt(PORTADA.diaMax.n));
 });
 
-test('la primera carga pesa menos de 1.5 MB', async ({ page }) => {
+// 1.7 MB desde la foto amplia de detrás (fondo.jpg), que deja abrir con la península entera y lo que la rodea.
+test('la primera carga pesa menos de 1.7 MB', async ({ page }) => {
   await abrir(page, '#/');
   const { bytes, archivos } = await page.evaluate(() => {
     const todos = [...performance.getEntriesByType('navigation'), ...performance.getEntriesByType('resource')];
@@ -304,7 +333,7 @@ test('la primera carga pesa menos de 1.5 MB', async ({ page }) => {
   });
   console.log('primera carga:', Math.round(bytes / 1024), 'KB en', archivos, 'archivos');
   expect(bytes).toBeGreaterThan(500 * 1024); // la foto y los datos tienen que estar contados
-  expect(bytes).toBeLessThan(1.5 * 1024 * 1024);
+  expect(bytes).toBeLessThan(1.7 * 1024 * 1024);
 });
 
 test('en el teléfono la barra se queda arriba al bajar', async ({ page }) => {
@@ -444,13 +473,21 @@ test.describe('funciones escondidas', () => {
     expect(await page.evaluate(() => history.length)).toBe(largo + 1);
   });
 
-  // Los años de cada municipio ya no se esconden tras mantener presionado: la tarjeta los muestra siempre.
-  test('la tarjeta muestra los años del municipio y su hecho propio', async ({ page }) => {
+  // Al pasar el mouse la tarjeta es breve, para no tapar el mapa; al elegir el municipio muestra sus años.
+  test('la tarjeta breve no tapa el mapa; la del municipio elegido muestra sus años y su hecho propio', async ({ page }) => {
     await abrir(page, '#/', { reducir: true });
     const v = await page.locator('.rellenos path[data-id="valladolid"]').boundingBox();
     await page.mouse.move(v.x + v.width / 2, v.y + v.height / 2);
-    await expect(page.locator('#tarjeta .historia > rect')).toHaveCount(26);
-    await expect(page.locator('#tarjeta .historia')).toHaveAttribute('aria-label', /Valladolid.*Lo normal es 251; en 2026 hubo 96/);
+    const breve = page.locator('.tarjeta.breve');
+    await expect(breve).toContainText('Valladolid');
+    await expect(breve).toContainText('2026: 96 focos · un año normal: 251');
+    await expect(breve.locator('.historia')).toHaveCount(0);
+    const caja = await breve.boundingBox();
+    expect(caja.width * caja.height).toBeLessThan(260 * 100);
+    await page.mouse.click(v.x + v.width / 2, v.y + v.height / 2);
+    await expect(page.locator('.tarjeta.fija .historia > rect')).toHaveCount(26);
+    await expect(page.locator('.tarjeta.fija .historia')).toHaveAttribute('aria-label', /Valladolid.*Lo normal es 251; en 2026 hubo 96/);
+    await page.keyboard.press('Escape');
     await page.fill('#busca2', 'Tizimín');
     await page.keyboard.press('Enter');
     await expect(page.locator('.tarjeta.fija .historia > rect')).toHaveCount(26);
@@ -529,7 +566,7 @@ test.describe('datos nuevos de portada.json', () => {
 test.describe('el mapa del cierre se acerca y se arrastra', () => {
   const ancho = () => (page) => page.$eval('#mapa', (e) => e.getBoundingClientRect().width);
   const cubre = (page) => page.evaluate(() => {
-    const f = document.getElementById('foto').getBoundingClientRect(), v = document.getElementById('visor').getBoundingClientRect();
+    const f = document.querySelector('.mapa > .fondo').getBoundingClientRect(), v = document.getElementById('visor').getBoundingClientRect();
     return f.left <= v.left + 0.5 && f.top <= v.top + 0.5 && f.right >= v.right - 0.5 && f.bottom >= v.bottom - 0.5;
   });
 
@@ -547,7 +584,7 @@ test.describe('el mapa del cierre se acerca y se arrastra', () => {
     expect(await w(page)).toBeLessThanOrEqual(inicio * 4 + 1);
     await page.keyboard.press('0');
     await expect.poll(() => w(page)).toBeLessThan(inicio);
-    // Alejar no deja ver el borde de la foto.
+    // Alejar no deja ver el borde de la foto amplia.
     for (let i = 0; i < 6; i++) await page.keyboard.press('-');
     await page.waitForTimeout(400);
     expect(await cubre(page)).toBe(true);

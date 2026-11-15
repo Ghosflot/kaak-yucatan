@@ -715,7 +715,7 @@ async function completo() {
 const PORTATIL_REPASO = { viewport: { width: 1366, height: 629 } };
 async function apertura() {
   await grabar('escritorio', PORTATIL_REPASO, '#/', '#rellenos path', async ({ page, espera, sub, centro }) => {
-    await sub('Al abrir, los focos de 2026 pasan día por día sobre la foto, sin colores y sin barra de tiempo. La fecha va bajo el título.', 3500);
+    await sub('Al abrir se ve la península entera, con el golfo, el Caribe y la tierra vecina; los focos de 2026 pasan día por día.', 3500);
     const v = await page.locator('#visor').boundingBox();
     const [ax, ay] = [v.x + v.width * 0.55, v.y + v.height * 0.55];
     await page.mouse.move(ax, ay, { steps: 12 });
@@ -727,18 +727,18 @@ async function apertura() {
     await sub('…y se arrastra. Los focos siguen pasando.', 1800);
     const [mx, my] = await centro('.rellenos path[data-id="tekax"]');
     await page.mouse.move(mx, my, { steps: 14 });
-    await sub('Al pasar por un municipio se ve su tarjeta.', 1800);
+    await sub('Al pasar por un municipio, una tarjeta breve que no tapa el mapa.', 1800);
     await page.mouse.move(v.x + v.width - 40, v.y + 30, { steps: 10 });
     await page.waitForSelector('#escenario[data-modo="final"]', { timeout: 20000 });
     await sub('Al terminar entran los colores sin mover el mapa de donde quedó, y bajo el titular una línea dice qué significan.', 5000);
   });
   await grabar('saltar', PORTATIL_REPASO, '#/', '#rellenos path', async ({ page, sub }) => {
-    await sub('Quien no quiera esperar tiene «Saltar al mapa a color», bajo la fecha.', 2500);
+    await sub('Bajo el título, el botón «Saltar al mapa a color» para quien no quiera esperar.', 2500);
     await page.click('#saltarRepaso');
     await sub('Lleva directo a los colores y a su explicación.', 3500);
   });
   await grabar('telefono', TELEFONO, '#/', '#rellenos path', async ({ page, sub }) => {
-    await sub('En el teléfono: la fecha bajo el título y el botón para saltar el repaso.', 4500);
+    await sub('En el teléfono: el botón para saltar va bajo el título, antes de la fecha.', 4500);
     await page.tap('#saltarRepaso');
     await sub('Con «Saltar al mapa a color» se pasa directo a los colores y su explicación.', 4500);
   });

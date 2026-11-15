@@ -124,6 +124,7 @@
   "tAnio": "Hot spots in {a}",
   "tNormal": "In a normal year",
   "periodo": "{e}, March to May",
+  "tarjetaCifras": "{a}: {n} hot spots · a normal year: {m}",
   "veredicto": [
     "Less than half of normal",
     "Half of normal",

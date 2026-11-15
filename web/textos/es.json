@@ -124,6 +124,7 @@
   "tAnio": "Focos de calor en {a}",
   "tNormal": "En un año normal",
   "periodo": "{e}, de marzo a mayo",
+  "tarjetaCifras": "{a}: {n} focos · un año normal: {m}",
   "veredicto": [
     "Menos de la mitad de lo normal",
     "La mitad de lo normal",
