@@ -35,6 +35,10 @@ los nombres que se escriben distinto (Dzán, Tixmehuac).
 **Filtro que usamos en las cifras de docs/01:** `type == 0` (o vacío en NRT) y confianza
 nominal o alta (VIIRS `n`/`h`, MODIS ≥ 30).
 
+El cálculo (`pipeline/cargar.py`) quita además los focos NRT sin `type` que caen en un cuadrito
+de 0.01° donde FIRMS marcó alguna vez `type` 2: son fuentes fijas que llegaron sin marca (desde
+julio de 2026 se colaban así las del suroeste de Mérida y las de Carmen).
+
 ## Cobertura por satélite
 
 | Satélite | Desde | Hasta |
