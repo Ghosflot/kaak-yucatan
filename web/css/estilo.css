@@ -20,7 +20,7 @@
   --texto: 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', system-ui, sans-serif;
   --mono: 'Atkinson Hyperlegible Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
   --barra-alto: 56px;
-  --panel: clamp(380px, 29vw, 480px);
+  --panel: clamp(380px, 29vw / var(--zoom, 1), 480px);
   color-scheme: light;
 }
 * { box-sizing: border-box; }
@@ -51,7 +51,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .atajos-boton { align-self: flex-start; min-height: 28px; padding: 0; border: 0; background: none; color: var(--tinta-2); font-size: 12.5px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 .atajos-boton kbd, .atajos kbd { display: inline-block; min-width: 1.6em; padding: 1px 6px; border: 1px solid #BDB7AE; border-bottom-width: 2px; background: #FFFFFF; font-family: var(--mono); font-size: 12px; text-align: center; color: var(--tinta); }
 @media (hover: none), (max-width: 860px) { .atajos-boton { display: none; } }
-.atajos { width: min(520px, calc(100vw - 32px)); padding: 24px 26px 22px; border: 0; background: var(--papel); color: var(--tinta); box-shadow: 0 18px 48px rgba(0, 0, 0, 0.45); }
+.atajos { width: min(520px, calc(100vw / var(--zoom, 1) - 32px)); padding: 24px 26px 22px; border: 0; background: var(--papel); color: var(--tinta); box-shadow: 0 18px 48px rgba(0, 0, 0, 0.45); }
 .atajos::backdrop { background: rgba(5, 8, 13, 0.55); }
 .atajos h2 { margin: 0 40px 14px 0; font-size: 20px; font-weight: 800; }
 .atajos dl { display: grid; grid-template-columns: auto 1fr; gap: 9px 16px; margin: 0; font-size: 14.5px; }
@@ -69,14 +69,14 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 
 /* Páginas de texto (municipio, fechas, método) */
 .pagina { max-width: 1120px; margin: 0 auto; padding: 40px max(32px, env(safe-area-inset-right, 0px)) 64px max(32px, env(safe-area-inset-left, 0px)); display: flex; flex-direction: column; gap: 16px; }
-.pagina h1 { font-size: clamp(30px, 3.2vw, 44px); color: var(--tinta); }
+.pagina h1 { font-size: clamp(30px, 3.2vw / var(--zoom, 1), 44px); color: var(--tinta); }
 .pagina p { margin: 0; max-width: 62ch; font-size: 17px; line-height: 1.5; }
 .pagina .sub { color: var(--tinta-2); }
 .pagina .ir { align-self: flex-start; }
 .aviso-error { margin: 24px; padding: 14px 16px; background: var(--papel); color: var(--tinta); border-left: 4px solid var(--rojo); }
 
 /* ---------- Portada ---------- */
-.vista-portada { display: grid; grid-template-columns: minmax(0, 1fr) var(--panel); height: calc(100vh - var(--barra-alto) - var(--subtitulos)); height: calc(100dvh - var(--barra-alto) - var(--subtitulos)); min-height: 620px; }
+.vista-portada { display: grid; grid-template-columns: minmax(0, 1fr) var(--panel); height: calc(100vh / var(--zoom, 1) - var(--barra-alto) - var(--subtitulos)); height: calc(100dvh / var(--zoom, 1) - var(--barra-alto) - var(--subtitulos)); min-height: 620px; }
 .escenario { --brillo: #FFFFFF; --halo: rgba(5, 8, 13, 0.9); --halo-2: rgba(5, 8, 13, 0.75); --trazo: #FFFFFF; --agua: #C9C2B6; --estado: rgba(246, 244, 240, 0.92); --scrim: rgba(5, 8, 13, 0.72); --scrim-0: rgba(5, 8, 13, 0); --acento: #F5A04C; --acento-2: #FCE38A; --eje: rgba(246, 244, 240, 0.35); --boton-borde: #FFFFFF; --pastilla: rgba(10, 14, 20, 0.72); --panel-mapa: rgba(10, 14, 20, 0.86); --normal-raya: rgba(246, 244, 240, 0.85); position: relative; overflow: hidden; background: var(--noche); color: var(--sobre); }
 .mapa { position: absolute; }
 .mapa > * { position: absolute; inset: 0; width: 100%; height: 100%; }
@@ -127,7 +127,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .cartel { position: absolute; z-index: 5; display: flex; flex-direction: column; gap: 18px; width: min(500px, 46%); pointer-events: none; }
 .cartel > * { pointer-events: auto; }
 .cartel::before { content: ""; position: absolute; inset: -60px -90px -60px -60px; z-index: -1; background: radial-gradient(closest-side, var(--scrim), var(--scrim-0)); pointer-events: none; }
-.cartel h1 { margin: 0; font-family: var(--display); font-weight: 400; font-size: clamp(30px, 2.9vw, 42px); line-height: 1.06; letter-spacing: -0.005em; text-wrap: balance; color: var(--brillo); }
+.cartel h1 { margin: 0; font-family: var(--display); font-weight: 400; font-size: clamp(30px, 2.9vw / var(--zoom, 1), 42px); line-height: 1.06; letter-spacing: -0.005em; text-wrap: balance; color: var(--brillo); }
 .pagina h1 { margin: 0; font-family: var(--display); font-weight: 400; line-height: 1.08; text-wrap: balance; }
 .bloque { display: flex; flex-direction: column; gap: 14px; max-width: 300px; animation: aparecer 0.32s ease-out both; }
 @keyframes aparecer { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
@@ -310,12 +310,13 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
   .ir { display: inline-flex; align-items: center; min-height: 44px; }
   .ley-normal { min-height: 44px; }
 }
-/* Pantallas bajas (1280 × 720): el cierre tiene que caber arriba de la línea de tiempo. */
-@media (min-width: 861px) and (max-height: 820px) {
-  .cartel { gap: 12px; }
-  .cartel h1 { font-size: clamp(28px, 2.5vw, 34px); }
-  #bloqueFinal { max-width: 340px; gap: 10px; }
-  .resultado { font-size: 22px; }
+/* Pantallas bajas: el cierre tiene que caber arriba de la línea de tiempo. «baja» la pone index.html cuando la
+   página, ya con la escala de la resolución, mide 820 px o menos de alto (una media query no ve la escala). */
+@media (min-width: 861px) {
+  .baja .cartel { gap: 12px; }
+  .baja .cartel h1 { font-size: clamp(28px, 2.5vw / var(--zoom, 1), 34px); }
+  .baja #bloqueFinal { max-width: 340px; gap: 10px; }
+  .baja .resultado { font-size: 22px; }
 }
 @media (min-width: 861px) {
   [data-modo="repaso"] .ciudad.sur, [data-modo="final"] .ciudad.sur { opacity: 0; }

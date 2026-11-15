@@ -24,6 +24,46 @@ for (const [ancho, alto] of [[1440, 900], [1280, 720]]) {
   });
 }
 
+// Resolución: en una pantalla de escritorio más chica que la de referencia (1470 × 850, una MacBook Air de 13"), la
+// página se escala y se ve igual. 1263 × 624 y 1366 × 657 son 1280 × 720 y 1366 × 768 con la barra del navegador.
+const quieta = (page) => page.evaluate(() => new Promise((listo) => requestAnimationFrame(() => requestAnimationFrame(listo))));
+
+for (const [ancho, alto] of [[1263, 624], [1366, 657], [983, 624]]) {
+  test(`a ${ancho}×${alto} la página se escala: la línea de tiempo se ve completa y no tapa el cierre ni el buscador`, async ({ page }) => {
+    await abrir(page, '#/?modo=repaso&t=70', { ancho, alto, reducir: true });
+    await quieta(page);
+    const enRepaso = await page.locator('#instrumento').boundingBox();
+    expect(enRepaso.y + enRepaso.height).toBeLessThanOrEqual(alto);
+
+    await abrir(page, '#/?modo=final', { ancho, alto, reducir: true });
+    await quieta(page);
+    expect(Number(await page.evaluate(() => document.documentElement.style.zoom))).toBeCloseTo(Math.min(alto / 850, ancho / 1280), 2);
+    const bloque = await page.locator('#bloqueFinal').boundingBox();
+    const instrumento = await page.locator('#instrumento').boundingBox();
+    expect(bloque.y + bloque.height).toBeLessThanOrEqual(instrumento.y);
+    expect(instrumento.y + instrumento.height).toBeLessThanOrEqual(alto);
+  });
+}
+
+test('en pantallas grandes y en el teléfono la página no se escala', async ({ page }) => {
+  for (const [ancho, alto] of [[1440, 900], [1920, 1080], [390, 844]]) {
+    await abrir(page, '#/', { ancho, alto });
+    expect(await page.evaluate(() => document.documentElement.style.zoom), `${ancho}×${alto}`).toBe('');
+  }
+});
+
+test('con la página escalada, la tarjeta sale junto al puntero', async ({ page }) => {
+  await abrir(page, '#/?modo=final', { ancho: 1263, alto: 624, reducir: true });
+  await quieta(page);
+  const caja = await page.locator('#rellenos path').nth(40).boundingBox();
+  const x = caja.x + caja.width / 2, y = caja.y + caja.height / 2;
+  await page.mouse.move(x, y);
+  const tarjeta = await page.locator('#tarjeta').boundingBox();
+  // 18 px de la página, a la escala de 624 / 850.
+  expect(tarjeta.x - x).toBeCloseTo(18 * 624 / 850, 0);
+  expect(tarjeta.y - y).toBeCloseTo(18 * 624 / 850, 0);
+});
+
 test('en el teléfono, el titular, el buscador y el mapa empiezan en la primera pantalla', async ({ page }) => {
   await abrir(page, '#/', { ancho: 390, alto: 844 });
   for (const sel of ['#titulo', '#busca1', '#mapa']) {

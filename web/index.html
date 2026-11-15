@@ -24,6 +24,28 @@
   <link rel="preload" href="/fuentes/AlfaSlabOne-400.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="preload" href="/fuentes/AtkinsonHyperlegibleNext-400.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="preload" href="/datos/portada.json" as="fetch" crossorigin>
+  <script>
+    // Resolución. La página se ve como en una MacBook Air de 13" (1470 × 850 de página en Safari). En una pantalla de
+    // escritorio con menos resolución (1366 × 768, 1280 × 720) se ve igual, más chica, como si se alejara el zoom del
+    // navegador: el diseño no cambia, solo su tamaño. El teléfono no cambia. Si la persona acerca o aleja el zoom del
+    // navegador durante la visita, se respeta. --zoom compensa la altura de la portada (estilo.css) y las coordenadas
+    // del puntero (escalaPagina, comun.js). «baja» es la página más baja que 820 px aun con la escala.
+    (function () {
+      var raiz = document.documentElement, dpr0 = window.devicePixelRatio || 1;
+      function escalar() {
+        var w = window.innerWidth, h = window.innerHeight, z = 1;
+        if (w > 860) {
+          z = Math.min(1, h / 850, w / 1280) * (window.devicePixelRatio || 1) / dpr0;
+          z = Math.round(Math.max(0.6, Math.min(1, z)) * 1000) / 1000;
+        }
+        raiz.style.zoom = z === 1 ? '' : String(z);
+        raiz.style.setProperty('--zoom', String(z));
+        raiz.classList.toggle('baja', w > 860 && h / z <= 820);
+      }
+      escalar();
+      window.addEventListener('resize', escalar);
+    })();
+  </script>
   <link rel="stylesheet" href="/css/estilo.css">
   <script type="module" src="/js/app.js"></script>
 </head>
