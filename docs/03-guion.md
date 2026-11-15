@@ -4,8 +4,8 @@
 que los dos se aprenden el pitch completo y lo practican. Si faltan los dos, cubren Gadiel y
 Melany.
 
-**El pitch dura 5 minutos:** se presenta la «Versión de 5 minutos». La de 3 minutos queda de
-respaldo.
+**El pitch dura 5 minutos:** se presenta la «Versión final de 5 minutos: El 3 de abril»
+(15 nov). La «Versión de 5 minutos» anterior y la de 3 minutos quedan de respaldo.
 
 **El ejemplo del demo es Muna**, el pueblo del abuelo, y es también el botón «Por ejemplo» de la
 página. En las diapositivas, el clip del demo busca «Muna» y el QR abre `kaak.pages.dev/muna`.
@@ -15,6 +15,176 @@ alfabético por apellido: David Alcocer, Nicolás Moguel, Guillermo Peña, Leona
 «Cómo lo medimos».
 
 Falta: cronometrar con el demo real y que Nico revise las cifras (cada una sale de docs/01).
+
+## Versión final de 5 minutos: «El 3 de abril»
+
+La armaron Gadiel y Nico el 15 de noviembre, enfocada en el product sense (el aterrizaje de
+docs/04) y pensada para un jurado que no sabe nada de fuego ni de satélites. Son unas 600
+palabras, cerca de 4:35 con el demo. Hay que cronometrarla.
+
+**Cómo está armada.** La estructura es la del cuento de Pixar («Había una vez… todos los días…
+hasta que… por eso… hasta que finalmente»), y va alternando, como propone Duarte, entre lo que es
+y lo que podría ser. La idea que une todo es «la memoria del fuego», que se tomó de la opción
+de Raskin. El gancho es un *cold open* (empezar en plena escena): una contradicción que deja una
+pregunta abierta, y esa pregunta se cierra en el demo. Las reglas que se siguieron:
+
+- Una idea y un número por diapositiva (Jobs, Kawasaki).
+- La tecnología se explica con una comparación (binoculares y telescopio), como Jobs con «1,000
+  canciones en tu bolsillo».
+- El problema se dice en una frase (Y Combinator).
+- Los límites se dicen antes de que pregunten.
+- El cierre regresa al inicio y pide algo concreto.
+
+**A y B** son los dos que presentan. Quien no sea Leo dice «el abuelo de Leo», nunca «mi
+abuelo».
+
+**D1 · 0:00–0:12 · A** · *Portada (de fondo, si se puede, la foto del abuelo)*
+> *[3 segundos de silencio, mirando al jurado.]*
+> En Muna, Yucatán, el permiso para quemar se cierra el 3 de abril. *(pausa)* Don Lorenzo, que
+> lleva 50 años sembrando ahí, dice que la quema empieza… en abril.
+
+**D2 · 0:12–0:45 · A · Había una vez** · *Foto del abuelo. «"En abril"» frente a «Permiso: hasta
+el 3 de abril»*
+> Él es Lorenzo de Jesús, el abuelo de Leo. Tiene 73 años y siembra su parcela desde los 15.
+> Para sembrar se quema: es la herramienta de trabajo del campo. Y él tiene en la cabeza el
+> calendario del fuego **DE SU** parcela.
+> ¿Qué pasa de verdad en Muna? Se lo preguntamos a los satélites de la NASA. La respuesta se las
+> enseño en dos minutos.
+
+*Cómo se dice «DE SU»:* más lento, marcando «de su», con una pausa corta antes de «parcela». Ese
+énfasis prepara la frase con que abre la D3: «Esto no pasa en una sola parcela».
+
+**D3 · 0:45–1:35 · A · Todos los días (el problema)** · *Titular: «Cuidar el fuego sin saber qué
+es normal»*
+> Esto no pasa en una sola parcela. En Yucatán, 4 de cada 10 hectáreas son campo. Cuando una
+> quema se escapa, pierde la misma gente: en Oxkutzcab, una quema que se salió de control acabó
+> con 15 hectáreas de limón.
+> Quien tiene que cuidar ese fuego es el municipio. La ley le pide autorizar cada quema y, al
+> cerrar la temporada, evaluarla y proponer mejoras. Pero hoy ningún municipio puede contestar
+> lo más básico: *(pausa)* ¿mi temporada va peor o mejor que lo normal?
+> Hay sistemas que ven el fuego de hoy. Ninguno lo compara con lo normal.
+
+**D4 · 1:35–2:45 · B · Hasta que (por qué es difícil y cómo se hizo)** · *La gráfica del salto de
+2012, con binoculares antes y telescopio después; los tres pasos en chico*
+> Para saber qué es normal hace falta memoria, y Yucatán la tiene: 25 años de satélites de la
+> NASA que miran el fuego cada día. Cada punto de calor que ven se llama foco.
+> Pero esa memoria está partida. Hasta 2012, el satélite veía como con binoculares. El nuevo ve
+> como con telescopio: fuegos más chicos, entre tres y cinco veces más. Si los juntas tal cual,
+> parece que en 2012 el fuego se triplicó. *(pausa)* No se triplicó. Cambió el satélite.
+> Nuestra solución fue de tres pasos.
+> Uno: tomamos ocho años en que los dos satélites miraron Yucatán al mismo tiempo, y contamos
+> cuántos focos ve el nuevo por cada uno que ve el viejo, en cada zona y temporada.
+> Dos: con eso tradujimos los años viejos. De 13 años de memoria pasamos a 25.
+> Tres: lo probamos en cinco años que no usamos. Se desvía 11 %; el límite, que fijamos antes
+> de ver el resultado, era 25 %.
+> Y es urgente: el 2 de noviembre, otro de esos satélites dejó de enviar datos. Cada uno que se
+> apaga agrega otra pieza a la memoria.
+
+**D5 · 2:45–3:40 · B · Por eso (demo, que cierra el gancho)** · *Demo en vivo de Muna, con el
+video de respaldo listo*
+> Esto es K'áak', fuego en maya. Voy a abrir Muna. *[Abrir.]* Aquí está la respuesta: de cada
+> 10 focos de un año normal, 8 aparecen después del 3 de abril. *(pausa)* El abuelo tenía razón.
+> Voy a tocar 2024. *[Tocar.]* Es el año con más hectáreas quemadas en Yucatán de la década.
+> Muna tuvo 81 focos, casi una vez y media lo normal. Así se ve una temporada que se sale de lo
+> normal.
+> Todo cabe en una ficha que se reenvía por WhatsApp, y se actualiza sola cuatro veces al día.
+
+**D6 · 3:40–4:20 · A · Hasta que finalmente (pruebas y pedido)** · *Grande: «84 %». Abajo:
+«Piloto 2027: Muna y Tekax»*
+> ¿Y si el satélite se equivoca? Lo comparamos con los incendios que registró la CONAFOR: vio
+> más de la mitad, y el 84 % de los de más de 100 hectáreas. Por azar coincidiría menos del
+> 10 %. No ve todo: que no haya focos no quiere decir que no hubo fuego. Y no predice incendios:
+> dice qué es normal.
+> Lo que sigue es bajar a cada zona del municipio, a las semanas exactas en que se quema, y
+> probarlo en 2027 con Muna y con Tekax, el municipio con más hectáreas quemadas del estado.
+
+**D7 · 4:20–4:35 · A** · *QR (abre `kaak.pages.dev/muna`)*
+> El abuelo guarda en la cabeza 50 años de fuego de una parcela. K'áak' une 25 años de memoria
+> de cada municipio de Yucatán. Escaneen el código y busquen el suyo.
+
+**Si se pasan de tiempo**, se quita en este orden: la frase de Oxkutzcab, «Así se ve una
+temporada que se sale de lo normal», y, si la D4 se alarga, el paso dos se dice en una sola línea.
+
+### Cómo se dice el gancho
+
+- Es lo único que se aprende palabra por palabra. Lo demás se dice con tarjetas de una palabra
+  por diapositiva («abril», «normal», «binoculares», «Muna», «84», «memoria»).
+- Antes de hablar, 3 segundos de silencio de pie, mirando al jurado. Sin «Buenos días, somos…»:
+  el nombre del equipo ya está en la portada.
+- Se dice más lento que el resto, con 2 a 3 segundos de silencio después de «…en abril».
+- Mientras se dice el gancho no se mira la pantalla.
+- El gancho tiene que cerrarse en el demo con «El abuelo tenía razón». Si no se cierra, es un
+  truco.
+- Por qué no se abre con una pregunta al público («Levanten la mano…»): cuesta unos 15 segundos.
+  Antes de quedarse con este gancho se pensaron otros cuatro:
+  - **«Según los satélites, en 2012 el fuego se triplicó. Es falso.»** Era el de la versión 2;
+    pone primero al satélite y no a la persona.
+  - **La cifra «187 permisos contra 8,757 focos».** Compara cosas distintas.
+  - **El humo de Yaxkukul.** Fue un basurero, no una quema del campo.
+  - **La pregunta al público.** Por el tiempo que cuesta.
+
+### Para un jurado que no sabe nada
+
+| En vez de | Di |
+|---|---|
+| MODIS / VIIRS | «el satélite viejo» / «el nuevo» (los nombres, solo si preguntan) |
+| Calibrar, armonizar | «traducir los años viejos a la escala del nuevo» |
+| «Lo resolvimos» | «Nuestra solución fue…» |
+| Ventana de quema | «el permiso para quemar se cierra el…» / «las fechas en que se permite quemar» |
+| Mediana de 25 años | «un año normal» |
+| Factor por zona y época | «cuántos focos ve el nuevo por cada uno del viejo, en cada zona y temporada» |
+| Validación fuera de muestra | «lo probamos en años que no usamos» |
+| Foco | se define una vez: «cada punto de calor que ven se llama foco» |
+
+### Dudas sembradas para las preguntas
+
+Son frases que dicen algo sin explicarlo, para que el jurado pregunte por lo que mejor sabemos
+contestar. Son cuatro como máximo: si se dejan más, parecen huecos. Para contestar: una frase de
+respuesta, un número, y de vuelta al mensaje («…por eso el municipio sabe qué es normal»).
+
+| Frase que siembra la duda | Pregunta que se busca | Respuesta (unos 20 s) |
+|---|---|---|
+| D4: «en cada zona y temporada» | «¿Cómo calibraron?» | «Seis zonas y dos épocas: la temporada de quema y el resto del año, porque la quema del campo se comporta distinto que un incendio forestal. Calibramos con 2013–2020 y probamos con 2021–2025: se desvía 11 %; con un solo factor para todo, 13 %. El límite que fijamos antes era 25 %.» |
+| D4: «el límite, que fijamos antes de ver el resultado» | «¿Qué otras pruebas hicieron?» | «Cuatro, todas con meta fijada antes. El salto de 2012 pasa de ×3.26 a ×0.90. El error en años no usados es 11 %. Con la CONAFOR, 53 % contra 9 % del azar. Y el satélite nuevo y su relevo, NOAA-20, coinciden entre 0.99 y 1.03.» |
+| D6: «No ve todo» | «¿Qué no ve?» | «Fuegos chicos o cortos, los que pasan entre una pasada y otra del satélite, y lo que tapan las nubes. Por eso ve más de la mitad del total, pero el 84 % de los grandes: entre más grande el incendio, más lo ve.» |
+| D6: «bajar a cada zona, a las semanas exactas» | «¿Qué es eso de las semanas?» | «En las zonas donde se quema cada año, las 4 semanas en que más se ha quemado atrapan el 49 % del fuego del año siguiente; la ventana oficial, el 23 %. Es el doble, y se repite cada año. La ventana dice cuándo está permitido quemar, no cuándo se quema.» |
+| *(De reserva)* D4: «otro de esos satélites dejó de enviar datos» | «¿Y ahora qué pasa?» o «¿cuánto cuesta mantenerlo?» | «El relevo, NOAA-20, ve lo mismo: entre 0.99 y 1.03. La serie sigue sin salto. La página se actualiza sola cuatro veces al día y mantenerla cuesta casi nada.» |
+
+**Preguntas que no conviene provocar:** si K'áak' habría visto el incendio de Yaxkukul, por qué
+Aqua vio menos fuego en 2022, o si el fuego va en aumento. Ninguna se toca en esta versión. Si las
+hacen, las respuestas están en «Preguntas probables del jurado» y en «Lo que no se dice».
+
+**Pregunta que seguro llega: «¿Un campesino va a usar esto?»** «No, y el abuelo nos lo dijo: "no
+se adaptan a la tecnología". Por eso el usuario es el municipio, y al pueblo le llega una ficha
+por WhatsApp, no una página.»
+
+**Si preguntan por «entre tres y cinco»** (la página, en temporada, muestra de 2.8 a 3.8):
+«Depende de la zona y la época: en temporada de quema es de 3 a 4; fuera de temporada, en el
+oriente, llega a 5.» Se queda «tres y cinco» porque así se dijo en el video.
+
+**Si preguntan por los permisos:** «En 2023 hubo 187 permisos y el satélite vio 8,757 focos. No
+todo foco es una quema, pero la diferencia es enorme.» No va en el pitch porque compara cosas
+distintas.
+
+### Qué cambió frente a la versión de 5 minutos anterior, y por qué
+
+- **El gancho.** Antes había 40 segundos de historia antes de llegar al problema. Ahora la
+  contradicción entre «el 3 de abril» y «en abril» plantea el problema en 12 segundos, y el demo
+  la cierra.
+- **El problema se dice en una frase:** «¿mi temporada va peor o mejor que lo normal?».
+- **Cómo se hizo:** tres pasos y la comparación de los binoculares, en vez de nombres de
+  satélites.
+- **La prueba de la calibración (11 %, con el límite fijado antes)** entra al pitch. Antes solo
+  estaba la de la CONAFOR, que prueba que el satélite ve el fuego, no que la traducción funcione.
+- **Se quitó:**
+  - el humo de Yaxkukul: costaba un minuto y fue un basurero;
+  - las hectáreas año por año;
+  - el 19 % dentro de la ventana: el 49 % contra 23 % se guarda para las preguntas;
+  - «1 permiso por cada 47 focos».
+- **El cierre pide algo concreto:** el piloto de 2027 con Muna y Tekax.
+- **De la opción B (Raskin) se tomaron** la idea de la memoria, la definición de foco y el cierre.
+  **No se tomó** «la memoria se apaga»: los datos quedan archivados en FIRMS y NOAA-20 sigue, así
+  que un juez lo puede desmentir. La memoria está partida, no apagada.
 
 ## Versión de 30 segundos (video del demo)
 
@@ -111,9 +281,9 @@ la temporada se sale de lo normal, hacia arriba o hacia abajo.
 Mi abuelo Jesús lleva 50 años aprendiendo el calendario del fuego de una parcela. Nosotros se
 lo damos a todo el estado.
 
-## Versión de 5 minutos
+## Versión de 5 minutos (anterior, de respaldo)
 
-Parte de la de 3 minutos y agrega el humo de Yaxkukul y Mérida, la variación de un año a otro,
+La reemplaza la «Versión final de 5 minutos: El 3 de abril». Parte de la de 3 minutos y agrega el humo de Yaxkukul y Mérida, la variación de un año a otro,
 la urgencia de los satélites y el ejemplo de Muna con sus fechas y los lugares donde el fuego se repite. Son unas 720
 palabras, cerca de 4:55 a ritmo de pitch sin contar el demo. Hay que cronometrarla.
 
@@ -250,6 +420,15 @@ SEDER y a los municipios para planear.»
 | *(30 s)* El fuego es una herramienta del campo; los 10 municipios que más arden siembran milpa o crían ganado | «Los municipios con más fuego viven del campo» y docs/04, secciones 1 y 2 (46 % de los incendios forestales empezaron por actividades del campo; los 10 tienen producción agropecuaria) |
 | *(30 s)* Unos satélites ven entre tres y cinco veces más fuego que otros | `salidas/factores.csv` (Aqua: de 2.8 a 5.3 según zona y época), lo acordado en #26 (docs/01, «El problema técnico del reto, con números») |
 | *(30 s)* Se actualiza 4 veces al día | docs/02, tarea 18 |
+| *(final)* Lorenzo de Jesús, 73 años, siembra desde los 15, Muna; «en abril»; el permiso en Muna se cierra el 3 de abril (zona 3: 10 mar–3 abr) | «Lo que dice la gente del campo» |
+| *(final)* Muna: 8 de cada 10 focos de un año normal después del 3 de abril; 81 focos en 2024 («arriba»), unos 56 en un año normal (casi una vez y media) | «Cifras de la página» (Muna) |
+| *(final)* 2024, el año con más hectáreas quemadas en Yucatán de la década | «¿Hay muchos incendios en Yucatán?» (CONAFOR 2015–2024: 20,334 ha en 2024) |
+| *(final)* Binoculares y telescopio: el nuevo ve fuegos más chicos | «El problema técnico del reto, con números» (VIIRS, píxeles de 375 m; MODIS, de 1 km) |
+| *(final)* Ocho años para calibrar; 13 años con VIIRS; 25 con los dos | docs/02, tarea 3 (se calibra con 2013–2020) y «El problema técnico del reto, con números» |
+| *(final)* Se desvía 11 % en cinco años no usados; límite fijado antes, 25 % | «2022: Aqua estuvo apagado 17 días…» (11 % de error en 2021–2025, límite 25 %) y `salidas/validacion.json` |
+| *(final)* Tekax, el municipio con más hectáreas quemadas | «¿Hay muchos incendios en Yucatán?» (municipios con más superficie quemada, 2015–2024: Tekax, 17,845 ha) |
+| *(preguntas)* ×3.26 → ×0.90; 53 % contra 9 %; NOAA-20 de 0.99 a 1.03; 13 % con un solo factor | `salidas/validacion.json` |
+| *(preguntas)* 49 % contra 23 % | «El calendario de cada zona atrapa el doble que la ventana oficial» |
 | *(5 min)* Incendio del basurero de Yaxkukul (9–10 nov 2026), humo en Mérida | «El humo llega a Mérida» (basurero de Yaxkukul). Notas: [Diario de Yucatán, 10 nov](https://www.yucatan.com.mx/yucatan/2026/11/10/controlan-el-incendio-registrado-en-el-basurero-municipal-de-yaxkukul-el-humo-afecto-a-merida.html), [Diario de Yucatán, 9 nov](https://www.yucatan.com.mx/merida/2026/11/09/densa-humareda-sorprende-a-colonias-de-merida-huele-a-quemado-reportan.html) y [Por Esto, 10 nov](https://www.poresto.com/yucatan/merida/2026/11/10/humo-merida-noche-lunes-noviembre-ssp-explica-origen.html) |
 
 ## Preguntas probables del jurado
@@ -309,6 +488,10 @@ Respuestas cortas, con su fuente en docs/01.
   de su órbita (los datos no lo respaldan). Sí se puede decir lo del apagón de 17 días.
 - Que la página ya deja elegir cualquier rango de fechas, dibujar un área o escribir
   coordenadas: no lo hace (#36).
+- Que «la memoria del fuego se apaga»: los datos quedan archivados en FIRMS y NOAA-20 sigue. Sí:
+  «está partida» y «cada satélite que se apaga agrega otra pieza».
+- «Mi abuelo», si quien lo cuenta no es Leo: se dice «el abuelo de Leo».
+- «1 permiso por cada 47 focos» como prueba del problema: un foco no es una quema.
 - De la ganadería (#60):
   - que es la segunda fuente de ingreso del estado: es falso (el sector primario es el 3.7 %
     del PIB de Yucatán);
@@ -318,6 +501,16 @@ Respuestas cortas, con su fuente en docs/01.
     censo de INEGI da 139,472 en 2022.
 
 ## Pendientes de la v1
+
+- **Versión final «El 3 de abril»:**
+  - cronometrarla con el demo real (meta: 4:35; tope: 5:00);
+  - revisar que la página de Muna diga «8 de cada 10 focos aparecen después del 3 de abril» y
+    que 2024 dé 81;
+  - grabar el video de respaldo de ese recorrido;
+  - tener el permiso del abuelo para su foto y su nombre;
+  - decidir quién es A y quién es B, y ensayar el relevo de la D3 a la D4 («…Ninguno lo compara
+    con lo normal. ¿Y por qué nadie lo había hecho? [B]»);
+  - probar el gancho con dos personas que no conozcan el proyecto.
 
 - **Datos del abuelo** (Jesús, Muna, más de 50 años, «abril»): anotarlos en docs/01, «Lo que
   dice la gente del campo», con la fuente. Docs/01 habla del abuelo de Leo; confirmar quién
