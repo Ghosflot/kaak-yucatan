@@ -29,7 +29,9 @@
     // escritorio con menos resolución (1366 × 768, 1280 × 720) se ve igual, más chica, como si se alejara el zoom del
     // navegador: el diseño no cambia, solo su tamaño. El teléfono no cambia. Si la persona acerca o aleja el zoom del
     // navegador durante la visita, se respeta. --zoom compensa la altura de la portada (estilo.css) y las coordenadas
-    // del puntero (escalaPagina, comun.js). «baja» es la página más baja que 820 px aun con la escala.
+    // del puntero (escalaPagina, comun.js). Las media queries miden la ventana sin la escala, así que los cortes de
+    // diseño que dependen de ella van como clases medidas con la escala: «baja» (820 px o menos de alto, en
+    // escritorio) y «angosta» (1100 px o menos de ancho; en el teléfono también).
     (function () {
       var raiz = document.documentElement, dpr0 = window.devicePixelRatio || 1;
       function escalar() {
@@ -41,6 +43,7 @@
         raiz.style.zoom = z === 1 ? '' : String(z);
         raiz.style.setProperty('--zoom', String(z));
         raiz.classList.toggle('baja', w > 860 && h / z <= 820);
+        raiz.classList.toggle('angosta', w / z <= 1100);
       }
       escalar();
       window.addEventListener('resize', escalar);

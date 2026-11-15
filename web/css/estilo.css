@@ -315,10 +315,10 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 /* Pantallas bajas: el cierre tiene que caber arriba de la línea de tiempo. «baja» la pone index.html cuando la
    página, ya con la escala de la resolución, mide 820 px o menos de alto (una media query no ve la escala). */
 @media (min-width: 861px) {
-  .baja .cartel { gap: 12px; }
-  .baja .cartel h1 { font-size: clamp(28px, 2.5vw / var(--zoom, 1), 34px); }
-  .baja #bloqueFinal { max-width: 340px; gap: 10px; }
-  .baja .resultado { font-size: 22px; }
+  :where(.baja) .cartel { gap: 12px; }
+  :where(.baja) .cartel h1 { font-size: clamp(28px, 2.5vw / var(--zoom, 1), 34px); }
+  :where(.baja) #bloqueFinal { max-width: 340px; gap: 10px; }
+  :where(.baja) .resultado { font-size: 22px; }
 }
 @media (min-width: 861px) {
   [data-modo="repaso"] .ciudad.sur, [data-modo="final"] .ciudad.sur { opacity: 0; }
@@ -397,10 +397,10 @@ body.con-subtitulos { --subtitulos: 72px; padding-bottom: var(--subtitulos); }
 .buscador.claro input { box-shadow: inset 0 0 0 1.5px var(--tinta); }
 .buscador.claro .ejemplo { color: var(--tinta-2); }
 .buscador.claro .ejemplo button { color: var(--tinta); }
-@media (max-width: 1100px) {
-  .municipio { grid-template-columns: minmax(0, 1fr); gap: 32px; }
-  .mun-lado { padding-top: 0; }
-}
+/* Pantalla angosta: 1100 px o menos de ancho, ya con la escala de la resolución. La clase «angosta» la pone index.html
+   (una media query no ve la escala); :where() deja la prioridad de las reglas igual que en una media query. */
+:where(.angosta) .municipio { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+:where(.angosta) .mun-lado { padding-top: 0; }
 @media (max-width: 860px) {
   .municipio { padding: 16px max(16px, env(safe-area-inset-right, 0px)) 32px max(16px, env(safe-area-inset-left, 0px)); }
   .mun-cabeza { flex-direction: column; gap: 12px; }
@@ -506,10 +506,9 @@ body.con-subtitulos { --subtitulos: 72px; padding-bottom: var(--subtitulos); }
 .alm-pie { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; margin-top: 6px; }
 .alm-pie p { margin: 0; font-size: 14px; color: var(--tinta-2); }
 .fechas > .pie { margin-top: 28px; }
-@media (max-width: 1100px) {
-  .fz { grid-template-columns: minmax(0, 1fr); grid-template-areas: "cabeza" "cal" "mapa"; grid-template-rows: none; }
-  .fz-lado-mapa { max-width: 440px; }
-}
+/* Pantalla angosta (1100 px o menos, ya con la escala): la clase «angosta» la pone index.html. */
+:where(.angosta) .fz { grid-template-columns: minmax(0, 1fr); grid-template-areas: "cabeza" "cal" "mapa"; grid-template-rows: none; }
+:where(.angosta) .fz-lado-mapa { max-width: 440px; }
 @media (max-width: 860px) {
   .fechas { padding: 16px max(16px, env(safe-area-inset-right, 0px)) 32px max(16px, env(safe-area-inset-left, 0px)); }
   .fz-cabeza h1 { font-size: 24px; }
