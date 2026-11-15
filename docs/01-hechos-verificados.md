@@ -73,6 +73,13 @@ municipio es de Yucatán (`analisis/municipios_zona.csv`); las cifras de Yucatá
 - **Los días con más focos en Yucatán en 2024 fueron del 16 al 21 de abril** (332 el día 21).
   Coinciden con incendios registrados por CONAFOR en Tekax (Tres Banderas, desde el 21 de
   abril, 2,428 ha; Ejido Kancab, desde el 14 de abril, 1,804 ha).
+- **Campeche es el estado de la península con más fuego.** En la serie calibrada de la página
+  (`web/datos/serie_armonizada.csv`, suma de `cuadritos_viirs_eq` por estado, promedio
+  2001–2025), Campeche tiene unos 14,900 cuadritos de 1 km con fuego al año, Yucatán unos 8,700
+  y Quintana Roo unos 4,600: Campeche, cerca de 1.7 veces Yucatán. Va arriba de Yucatán en 24
+  de los 25 años (todos menos 2001). Los cinco municipios de la península con más fuego son de Campeche
+  (Candelaria, Champotón, Hopelchén, Carmen y Escárcega); el primero de Yucatán, Tizimín, es
+  el décimo. CONAFOR apunta igual en 2025: 51,980 ha en Campeche contra 2,215 en Yucatán.
 
 ## El problema técnico del reto, con números
 
