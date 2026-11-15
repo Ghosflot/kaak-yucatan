@@ -1,8 +1,8 @@
 # El campo de Yucatán y el fuego: problema y solución
 
-*14 nov 2026. Aterrizaje de la problemática para el pitch y para implementar. Versión
-compartible: <https://claude.ai/artifact/1LPwT7wJLbeM7VE5JybiDD>. Las cifras propias se
-reproducen con `analisis/campo_y_fuego.py`; las demás, en docs/01, «El campo de Yucatán».*
+*14 nov 2026. Aterrizaje de la problemática para el pitch y para implementar. Versión en PDF:
+`docs/04-campo-y-fuego.pdf`. Las cifras propias se reproducen con `analisis/campo_y_fuego.py`;
+las demás, en docs/01, «El campo de Yucatán».*
 
 **En corto:** casi la mitad de Yucatán es campo, y ahí está el fuego: los 10 municipios con
 más focos viven de la milpa o del ganado. La ley obliga a cada municipio a autorizar las quemas
@@ -117,11 +117,41 @@ para la evidencia (21 fuegos largos en 8 de 15 años) y Muna para la historia de
 **Qué no hace:** no predice incendios, no avisa en tiempo real (llega horas después de la pasada
 del satélite) y no identifica parcelas ni personas: un cuadrito mide 1 km y abarca muchas.
 
-**Prototipo:** <https://claude.ai/artifact/4bGB2UsUcLfswvgx6vR1ff>, con datos reales.
+**Prototipo:** existe una vista de prueba con datos reales (mapa por municipio, zonas donde se
+repite el fuego, fuegos largos y lista diaria); todavía no está en el repo (tarea 7).
 
 ## 5. Bloque del campo para el pitch
 
-Va en docs/03-guion.md, «Bloque del campo».
+Unos 50 segundos, entre «El abuelo» y «El problema, a escala del estado» en la versión de 3
+minutos (docs/03-guion.md, «Bloque del campo»). Para no pasarse de tiempo, se dice solo la
+primera y la última frase de cada párrafo.
+
+**Qué es el campo.** En Yucatán, 4 de cada 10 hectáreas son campo. Ahí trabajan más de 53 mil
+productores, y más de 9 de cada 10 son indígenas mayas. De esa tierra sale la materia prima de lo
+que comemos: el maíz de la tortilla, el pasto del ganado, la leche, los cítricos y la carne, que
+es el segundo producto que Yucatán más vende al extranjero.
+
+**Dónde está el fuego.** Revisamos los 10 municipios con más fuego del estado. Los 10 viven del
+campo: el oriente ganadero, como Tizimín, Panabá y Buctzotz, y el sur milpero, como Tekax,
+Yaxcabá y Peto. No hay ni una ciudad. Esos 10 municipios suman casi 6 de cada 10 incendios
+forestales del estado.
+
+**Por qué prevenir.** Para sembrar se quema: es su herramienta de trabajo. Pero cuando el fuego
+se escapa, el que pierde es la misma gente del campo. En Oxkutzcab, una quema que se salió de
+control acabó con 15 hectáreas de limón de la parcela de al lado. Y es gente que no tiene con qué
+recuperarse: 8 de cada 10 hectáreas dependen de la lluvia, y solo 2 de cada 100 productores
+obtuvieron crédito.
+
+**Conclusión.** Prevenir un incendio en Yucatán no es solo cuidar el monte. Es cuidar el trabajo
+y la comida de miles de familias mayas, y la materia prima de toda la cadena alimentaria del
+estado.
+
+**El calendario, en una frase:** «El calendario oficial atina a 1 de cada 4 fuegos. El calendario
+de cada zona que arma K'áak' con 25 años de satélites atina a 1 de cada 2.»
+
+**En una línea:** K'áak' le dice a cada municipio de Yucatán dónde y en qué semanas se quema su
+territorio, con 25 años de datos de satélite, para que prevenga incendios en el lugar y el
+momento correctos.
 
 ## 6. Plan de implementación
 
