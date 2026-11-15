@@ -76,13 +76,22 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .aviso-error { margin: 24px; padding: 14px 16px; background: var(--papel); color: var(--tinta); border-left: 4px solid var(--rojo); }
 
 /* ---------- Portada ---------- */
-.vista-portada { display: grid; grid-template-columns: minmax(0, 1fr) var(--panel); height: calc(100vh - var(--barra-alto) - var(--subtitulos)); height: calc(100dvh - var(--barra-alto) - var(--subtitulos)); min-height: 620px; }
-.escenario { --brillo: #FFFFFF; --halo: rgba(5, 8, 13, 0.9); --halo-2: rgba(5, 8, 13, 0.75); --trazo: #FFFFFF; --agua: #C9C2B6; --estado: rgba(246, 244, 240, 0.92); --scrim: rgba(5, 8, 13, 0.72); --scrim-0: rgba(5, 8, 13, 0); --acento: #F5A04C; --acento-2: #FCE38A; --eje: rgba(246, 244, 240, 0.35); --boton-borde: #FFFFFF; --pastilla: rgba(10, 14, 20, 0.72); --panel-mapa: rgba(10, 14, 20, 0.86); --normal-raya: rgba(246, 244, 240, 0.85); position: relative; overflow: hidden; background: var(--noche); color: var(--sobre); }
-.mapa { position: absolute; }
+/* En escritorio la portada llena la ventana y no se desplaza: el escenario y el panel se reparten el ancho. */
+.vista-portada { display: grid; grid-template-columns: minmax(0, 1fr) var(--panel); height: calc(100vh - var(--barra-alto) - var(--subtitulos)); height: calc(100dvh - var(--barra-alto) - var(--subtitulos)); }
+/* --mg es el margen del texto y del instrumento; --instr, el alto del instrumento (lo pone portada.js). */
+.escenario { --mg: clamp(24px, 2.6vw, 56px); --instr: 64px; --brillo: #FFFFFF; --halo: rgba(5, 8, 13, 0.9); --halo-2: rgba(5, 8, 13, 0.75); --trazo: #FFFFFF; --agua: #C9C2B6; --estado: rgba(246, 244, 240, 0.92); --scrim: rgba(5, 8, 13, 0.72); --scrim-0: rgba(5, 8, 13, 0); --acento: #F5A04C; --acento-2: #FCE38A; --eje: rgba(246, 244, 240, 0.35); --boton-borde: #FFFFFF; --pastilla: rgba(10, 14, 20, 0.72); --panel-mapa: rgba(10, 14, 20, 0.86); --normal-raya: rgba(246, 244, 240, 0.85); position: relative; overflow: hidden; background: var(--noche); color: var(--sobre); }
+/* El visor es la ventana al mapa; la cámara mueve y escala el mapa dentro de él. */
+.visor { position: absolute; inset: 0; overflow: hidden; }
+.mapa { position: absolute; left: 0; top: 0; }
 .mapa > * { position: absolute; inset: 0; width: 100%; height: 100%; }
-.foto { object-fit: fill; -webkit-mask-image: radial-gradient(130% 120% at 50% 45%, #000 62%, transparent 100%); mask-image: radial-gradient(130% 120% at 50% 45%, #000 62%, transparent 100%); }
-#fuego { transition: opacity 0.35s ease; }
+/* La foto cubre más que el lienzo: de x −400 a 976 y de y −150 a 650 (el lienzo va de 0 a 825 y de −90 a 591). */
+.mapa > .foto { left: calc(-400 / 825 * 100%); top: calc(-60 / 681 * 100%); width: calc(1376 / 825 * 100%); height: calc(800 / 681 * 100%); max-width: none; object-fit: fill; }
+#fuego { transition: opacity 0.35s ease, visibility 0s linear 0s; }
 #capa { overflow: visible; }
+/* El mapa del cierre se recorre con las flechas: el contorno del foco va por dentro del visor,
+   porque el mapa acercado es más grande que lo que se ve. */
+#capa:focus-visible { outline: none; }
+.visor:has(#capa:focus-visible) { outline: 3px solid #F5A04C; outline-offset: -3px; }
 .velo { fill: #05080D; opacity: 0; transition: opacity 0.5s ease; }
 .rellenos path { fill-opacity: 0; stroke: none; transition: fill-opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1), fill 0.35s ease; cursor: pointer; }
 .limites path { fill: none; stroke: var(--trazo); stroke-opacity: 0.16; stroke-width: 0.6; vector-effect: non-scaling-stroke; pointer-events: none; transition: stroke-opacity 0.4s ease; }
@@ -92,17 +101,19 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .seleccion .halo { stroke: #05080D; stroke-width: 6; stroke-opacity: 0.7; }
 .seleccion .borde { stroke: #FFFFFF; stroke-width: 2.4; }
 .encima path { fill: none; stroke: #FFFFFF; stroke-width: 1.6; vector-effect: non-scaling-stroke; pointer-events: none; }
-/* Cierre: Yucatán a color; Campeche y Quintana Roo quedan como contexto. */
+/* Cierre: los tres estados a color con la misma escala; Yucatán, con contorno blanco. */
 [data-modo="final"] .velo { opacity: 0.5; }
-[data-modo="final"] #fuego { opacity: 0; }
+[data-modo="final"] #fuego { opacity: 0; visibility: hidden; transition: opacity 0.35s ease, visibility 0s linear 0.35s; }
 [data-modo="final"] .rellenos path { fill-opacity: 0.94; }
-[data-modo="final"] .rellenos path.fuera { fill-opacity: 0; }
 [data-modo="final"] .limites path { stroke: #05080D; stroke-opacity: 0.55; }
-[data-modo="final"] .limites path.fuera { stroke: var(--trazo); stroke-opacity: 0.18; }
-/* Las líneas de estado vienen de otra fuente y no calzan con los municipios; en el cierre las sustituye el borde del color. */
 [data-modo="final"] .estados path { stroke-opacity: 0; }
+[data-modo="final"] .estados path.yucatan { stroke: #FFFFFF; stroke-opacity: 1; stroke-width: 2; stroke-linejoin: round; }
+/* En el cierre el mapa se arrastra. */
+[data-modo="final"] .visor { cursor: grab; }
+[data-modo="final"] .visor.moviendo { cursor: grabbing; }
+[data-modo="final"] .visor.moviendo .rellenos path { cursor: grabbing; }
 /* La sombra del texto no debe tocar el mapa de Yucatán: oscurecería sus colores. */
-[data-modo="final"] .cartel::before { inset: -60px auto -60px -80px; width: 400px; background: linear-gradient(to right, rgba(5, 8, 13, 0.82) 62%, rgba(5, 8, 13, 0)); -webkit-mask-image: linear-gradient(to bottom, transparent, #000 70px, #000 calc(100% - 70px), transparent); mask-image: linear-gradient(to bottom, transparent, #000 70px, #000 calc(100% - 70px), transparent); }
+[data-modo="final"] .cartel::before { inset: -60px auto -60px -80px; width: 420px; background: linear-gradient(to right, rgba(5, 8, 13, 0.82) 62%, rgba(5, 8, 13, 0)); -webkit-mask-image: linear-gradient(to bottom, transparent, #000 70px, #000 calc(100% - 70px), transparent); mask-image: linear-gradient(to bottom, transparent, #000 70px, #000 calc(100% - 70px), transparent); }
 
 /* Rótulos del mapa */
 .rotulos { pointer-events: none; }
@@ -115,23 +126,30 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .ciudad .punto.capital { background: radial-gradient(circle, var(--sobre) 0 1.6px, transparent 2.2px); }
 .ciudad.grande { font-size: 14.5px; }
 .nota-mapa { font-size: 13.5px; font-weight: 700; color: var(--sobre); background: var(--pastilla); padding: 2px 7px; text-shadow: none; }
+.nota-mapa.arriba { transform: translate(-50%, -100%); }
 /* Va sobre el mapa: claro con halo, aunque .enlace (más abajo) sea oscuro para fondos claros. */
 .nota-mapa.enlace { pointer-events: auto; cursor: pointer; color: var(--sobre); font-size: 13.5px; text-decoration: underline; text-underline-offset: 3px; background: none; border: 0; padding: 4px; text-shadow: 0 0 2px var(--halo), 0 0 6px var(--halo-2), 0 1px 1px var(--halo); }
-.rotulo.tapado { opacity: 0 !important; }
 .solo-final { opacity: 0; visibility: hidden; transition: opacity 0.2s ease, visibility 0s linear 0.2s; }
 [data-modo="final"] .solo-final { opacity: 1; visibility: visible; transition: opacity 0.3s ease 0.5s, visibility 0s linear 0s; }
+.rotulos .rotulo.tapado { opacity: 0; visibility: hidden; }
 .escala { position: absolute; white-space: nowrap; display: flex; flex-direction: column; gap: 3px; font-family: var(--mono); font-size: 11px; color: var(--sobre-2); text-shadow: 0 0 3px #05080D; }
 .escala span:first-child { height: 5px; border: 1.5px solid var(--sobre-2); border-top: 0; }
 
-/* Cartel: la pregunta y lo que cambia en cada momento */
-.cartel { position: absolute; z-index: 5; display: flex; flex-direction: column; gap: 18px; width: min(500px, 46%); pointer-events: none; }
+/* Cartel: la pregunta y lo que cambia en cada momento. Va sobre el mar, alineado con el escenario. */
+.cartel { position: absolute; z-index: 7; left: var(--mg); top: calc(var(--mg) * 0.7); display: flex; flex-direction: column; gap: 16px; width: min(clamp(360px, 21vw, 440px), 44%); pointer-events: none; }
 .cartel > * { pointer-events: auto; }
 .cartel::before { content: ""; position: absolute; inset: -60px -90px -60px -60px; z-index: -1; background: radial-gradient(closest-side, var(--scrim), var(--scrim-0)); pointer-events: none; }
-.cartel h1 { margin: 0; font-family: var(--display); font-weight: 400; font-size: clamp(30px, 2.9vw, 42px); line-height: 1.06; letter-spacing: -0.005em; text-wrap: balance; color: var(--brillo); }
+.cartel h1 { margin: 0; font-family: var(--display); font-weight: 400; font-size: clamp(28px, 2.6vw, 42px); line-height: 1.06; letter-spacing: -0.005em; text-wrap: balance; color: var(--brillo); }
+/* En el cierre la pregunta ya no se repite: el titular es la respuesta (el lector de pantalla la sigue oyendo). */
+[data-modo="final"] .cartel h1 { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+[data-modo="final"] .cartel { width: min(clamp(320px, 19vw, 400px), 42%); }
+/* Escritorio angosto con una tarjeta abierta: la leyenda y el buscador se pliegan y la tarjeta va bajo el titular. */
+.estrecho.con-tarjeta #escalaColor, .estrecho.con-tarjeta #buscador2, .estrecho.con-tarjeta .volver { display: none; }
 .pagina h1 { margin: 0; font-family: var(--display); font-weight: 400; line-height: 1.08; text-wrap: balance; }
-.bloque { display: flex; flex-direction: column; gap: 14px; max-width: 300px; animation: aparecer 0.32s ease-out both; }
+.bloque { display: flex; flex-direction: column; gap: 14px; animation: aparecer 0.32s ease-out both; }
 @keyframes aparecer { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
-.bajada { margin: 0; font-size: 16px; line-height: 1.5; color: var(--sobre); }
+.fuera-temporada { margin: -4px 0 0; padding-left: 10px; border-left: 2px solid var(--acento); font-size: 14px; line-height: 1.45; color: var(--sobre); text-wrap: pretty; }
+.bajada { margin: 0; font-size: 16px; line-height: 1.5; color: var(--sobre); text-wrap: pretty; }
 .buscador { position: relative; display: flex; flex-direction: column; gap: 6px; }
 .buscador label { font-size: 14px; font-weight: 800; }
 .buscador input { width: 100%; height: 46px; padding: 0 14px 0 40px; border: 0; border-radius: 0; background: #FFFFFF url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24'%3E%3Ccircle cx='10.5' cy='10.5' r='6.5' fill='none' stroke='%234A4743' stroke-width='2.2'/%3E%3Cpath d='M15.5 15.5 L21 21' stroke='%234A4743' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E") 13px 50% no-repeat; color: var(--tinta); font-size: 16px; }
@@ -143,9 +161,11 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .aviso-ubicacion { margin: 0; font-size: 13px; line-height: 1.4; color: var(--sobre-2); }
 .aviso-ubicacion:empty { display: none; }
 .ejemplo button { border: 0; background: none; padding: 0; color: var(--sobre); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
-.opciones { position: absolute; top: 74px; left: 0; right: 0; z-index: 8; margin: 0; padding: 4px 0; list-style: none; background: #FFFFFF; color: var(--tinta); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35); }
+/* buscador.js la abre hacia donde quepa y le pone su alto máximo; si no cabe entera, se desplaza por dentro. */
+.opciones { position: absolute; top: 74px; left: 0; right: 0; z-index: 8; margin: 0; padding: 4px 0; list-style: none; overflow-y: auto; overscroll-behavior: contain; background: #FFFFFF; color: var(--tinta); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35); }
+.opciones.arriba { box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.35); }
 .opciones li { display: flex; justify-content: space-between; align-items: center; gap: 12px; min-height: 44px; padding: 9px 14px; font-size: 15px; cursor: pointer; }
-.opciones li span { color: var(--tinta-2); font-size: 13px; }
+.opciones li span { color: var(--tinta-2); font-size: 13px; text-align: right; }
 .opciones li[aria-selected="true"] { background: #F0EDE8; }
 .opciones .vacio { color: var(--tinta-2); cursor: default; }
 .leyenda-punto { display: flex; gap: 10px; align-items: flex-start; margin: 0; font-size: 13.5px; line-height: 1.45; color: var(--sobre); }
@@ -153,12 +173,15 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .boton { align-self: flex-start; display: inline-flex; align-items: center; gap: 10px; height: 46px; padding: 0 18px 0 14px; border: 0; background: #FFFFFF; color: var(--tinta); font-size: 15px; font-weight: 800; white-space: nowrap; cursor: pointer; transition: transform 0.12s ease; }
 .boton:active { transform: scale(0.97); }
 /* En la foto, el mapa también empieza la temporada: al pasar por él, el botón lo dice. */
-[data-modo="foto"] .mapa { cursor: pointer; }
-.boton:hover, [data-modo="foto"] .mapa:hover ~ .cartel .boton { background: #FFE9C2; }
+[data-modo="foto"] .visor { cursor: pointer; }
+.boton:hover, [data-modo="foto"] .visor:hover ~ .cartel .boton { background: #FFE9C2; }
 .boton svg { flex-shrink: 0; }
-.resultado { margin: 0; font-family: var(--display); font-weight: 400; font-size: 25px; line-height: 1.12; color: var(--brillo); text-wrap: balance; }
-.resultado .cifra { color: inherit; }
-.cierre { margin: 0; font-size: 14px; color: var(--sobre); }
+.resultado { margin: 0; font-family: var(--display); font-weight: 400; font-size: clamp(25px, 2.25vw, 34px); line-height: 1.1; color: var(--brillo); text-wrap: balance; }
+.resultado .junto { white-space: nowrap; }
+/* La cifra rueda al cambiar de año: la nueva entra mientras la vieja sale, dentro de su renglón. */
+.rueda { position: relative; display: inline-block; vertical-align: top; overflow: hidden; }
+.rueda > span { display: inline-block; }
+.rueda > .sale { position: absolute; left: 0; top: 0; }
 .volver { align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 0 12px; border: 1.5px solid var(--sobre); background: transparent; color: var(--sobre); font-size: 14px; font-weight: 800; cursor: pointer; transition: transform 0.12s ease; }
 .volver:active { transform: scale(0.97); }
 /* Las notas del mapa hablan de 2026: con otro año en el mapa se esconden. */
@@ -169,64 +192,75 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 #barras .toque:hover, #barras .toque:focus-visible { fill: rgba(18, 18, 18, 0.05); }
 #barras .toque:focus-visible { stroke: var(--tinta); stroke-width: 1; }
 /* La barra bajo el puntero se oscurece y dice su año: así se ve que se puede tocar. */
-.b-anio { transition: fill 0.12s ease; }
+.b-anio { transition: fill 0.12s ease; transform-box: fill-box; transform-origin: 50% 100%; }
 .b-anio.activa { fill: var(--tinta-2); }
 .b-anio.destacada.activa { fill: #A51C15; }
 .lectura-anio { font-size: 12px; font-weight: 700; fill: var(--tinta); pointer-events: none; }
-.escala-color { display: flex; flex-direction: column; gap: 6px; }
-.escala-color .tiras { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; height: 14px; }
-.escala-color .rotulos-escala { display: flex; justify-content: space-between; font-size: 13px; color: var(--sobre); }
-.escala-color .poco { display: flex; align-items: flex-start; gap: 8px; font-size: 13px; line-height: 1.35; color: var(--sobre); }
-.escala-color .poco i { width: 14px; height: 14px; margin-top: 2px; flex-shrink: 0; }
-.escala-color .nota { margin: 2px 0 0; font-size: 13px; line-height: 1.4; color: var(--sobre-2); }
+/* La franja de lo normal (la mitad de los años de 2001 a 2025) y quién vio cada periodo. */
+#barras .rango { fill: #ECE9E4; }
+#barras .periodo { fill: none; stroke: var(--tinta-2); stroke-width: 1; }
+#barras .periodo.sigue { stroke-dasharray: 2 2; }
+#barras .periodo-t { font-family: var(--texto); font-size: 11.5px; font-weight: 700; fill: var(--tinta); }
+#barras .periodo-t.sigue { font-weight: 400; fill: var(--tinta-2); }
+/* Leyenda: los cinco colores con sus tres rótulos y, al lado, el gris. */
+.escala-color { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 14px; row-gap: 5px; }
+.escala-color .tiras { grid-column: 1; grid-row: 1; display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; height: 12px; }
+.escala-color .rotulos-escala { grid-column: 1; grid-row: 2; display: flex; justify-content: space-between; gap: 6px; font-size: 12.5px; color: var(--sobre); white-space: nowrap; }
+/* «casi nunca hay fuego» se parte en dos renglones si no cabe junto a los cinco colores. */
+.escala-color .poco { grid-column: 2; grid-row: 1 / 3; display: flex; flex-direction: column; gap: 5px; max-width: 9.5em; font-size: 12.5px; line-height: 1.25; color: var(--sobre); }
+.escala-color .poco i { width: 34px; height: 12px; }
 
-/* Instrumento: fecha, cuentas y línea de tiempo */
-.instrumento { position: absolute; z-index: 5; display: grid; grid-template-columns: auto auto minmax(0, 1fr); align-items: end; gap: 18px 28px; padding: 14px 20px 12px; background: var(--panel-mapa); animation: aparecer 0.25s ease-out both; overflow-x: clip; }
-.control { width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; border: 1.5px solid var(--boton-borde); background: #FFFFFF; cursor: pointer; margin-bottom: 4px; transition: transform 0.12s ease; }
+/* Instrumento: botón, fecha, cuentas y línea de tiempo en una sola fila */
+.instrumento { position: absolute; z-index: 5; left: var(--mg); right: var(--mg); bottom: calc(var(--mg) * 0.6); height: var(--instr); display: grid; grid-template-columns: auto auto minmax(0, 1fr); align-items: center; gap: 0 22px; padding: 0 18px 0 12px; background: var(--panel-mapa); animation: aparecer 0.25s ease-out both; overflow-x: clip; }
+.control { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border: 1.5px solid var(--boton-borde); background: #FFFFFF; cursor: pointer; transition: transform 0.12s ease; }
 .control:active { transform: scale(0.94); }
-.lectura { display: flex; flex-direction: column; gap: 6px; width: 250px; }
-.fecha { font-family: var(--display); font-size: 30px; line-height: 1; color: var(--brillo); }
-.hasta { margin-top: 2px; font-size: 12.5px; color: var(--sobre-2); }
-/* Dos barras que crecen con la temporada: se comparan por largo, con la cifra al final. */
-.medidor { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; column-gap: 10px; row-gap: 4px; font-size: 13px; color: var(--sobre); }
-.medidor .pista { position: relative; height: 8px; }
-.medidor .pista i { position: absolute; inset: 0; transform-origin: 0 50%; transform: scaleX(0); will-change: transform; }
-.medidor .pista .a { background: var(--acento); }
-/* Lo normal es una línea blanca, igual que su silueta: el gris sólido es solo «casi nunca hay quemas». */
-.medidor .pista .n { top: 3px; bottom: 3px; background: var(--normal-raya); }
-.medidor b { font-family: var(--mono); font-size: 16px; font-weight: 700; text-align: right; min-width: 5.2ch; }
+.lectura { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.lectura p { margin: 0; }
+.dia { display: flex; align-items: baseline; gap: 10px; white-space: nowrap; }
+.fecha { font-family: var(--display); font-size: 22px; line-height: 1; color: var(--brillo); }
+.satelite { font-size: 12.5px; color: var(--sobre-2); }
+.satelite:empty { display: none; }
+/* Las cuentas al día: el cuadro naranja y la raya blanca son también la leyenda de la línea de tiempo. */
+.medidor { display: flex; align-items: center; gap: 16px; font-size: 12.5px; color: var(--sobre); white-space: nowrap; }
+.medidor > span { display: inline-flex; align-items: center; gap: 6px; }
+.medidor i { flex-shrink: 0; }
+.medidor .a { width: 9px; height: 9px; background: var(--acento); }
+/* Lo normal es una línea blanca, igual que su silueta: el gris sólido es solo «casi nunca hay fuego». */
+.medidor .n { width: 14px; height: 2px; background: var(--normal-raya); }
+.medidor b { font-family: var(--mono); font-size: 14px; font-weight: 700; }
 .medidor .c26 { color: var(--acento); }
 .medidor .cn { color: var(--sobre); }
 /* Arrastrar la línea de tiempo no debe seleccionar el texto de alrededor. */
 .instrumento { -webkit-user-select: none; user-select: none; }
-.tiempo { position: relative; height: 86px; touch-action: pan-y; cursor: pointer; }
+.tiempo { position: relative; align-self: stretch; touch-action: pan-y; cursor: pointer; }
 .tiempo.arrastrando { cursor: grabbing; }
-.tiempo svg { position: absolute; left: 0; right: 0; top: 4px; width: 100%; height: 60px; overflow: visible; }
+.tiempo svg { position: absolute; left: 0; right: 0; top: 9px; width: 100%; height: 34px; overflow: visible; }
 .tiempo .normal { fill: none; stroke: var(--normal-raya); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
 .tiempo .futuro { fill: var(--acento); opacity: 0.2; }
 .tiempo .pasado { fill: var(--acento); }
 .tiempo .hoy { fill: var(--acento-2); }
 .tiempo .eje { stroke: var(--eje); stroke-width: 1; vector-effect: non-scaling-stroke; }
-/* Leyenda de la línea de tiempo: arriba a la izquierda, donde marzo casi no tiene barras. */
-.tiempo .ley-dias { position: absolute; left: 0; top: -4px; display: flex; gap: 14px; font-size: 11.5px; color: var(--sobre-2); pointer-events: none; }
-.tiempo .ley-dias > span { display: inline-flex; align-items: center; gap: 5px; }
-.tiempo .ley-dias i { width: 10px; height: 10px; }
-.tiempo .ley-dias i.a { background: var(--acento); }
-.tiempo .ley-dias i.n { width: 14px; height: 2px; background: var(--normal-raya); }
-.tiempo .mes { position: absolute; bottom: 0; white-space: nowrap; font-family: var(--mono); font-size: 11.5px; color: var(--sobre-2); transform: translateX(-50%); }
+.tiempo .mes { position: absolute; bottom: 5px; white-space: nowrap; font-family: var(--mono); font-size: 11.5px; line-height: 1; color: var(--sobre-2); transform: translateX(-50%); }
 .tiempo .mes.primero { transform: none; }
 .tiempo .mes.ultimo { transform: translateX(-100%); }
 /* El cabezal y la lectura del mouse ocupan todo el ancho y se desplazan con transform: un porcentaje
    de su propio ancho es un porcentaje de la línea de tiempo, y moverlos así no reacomoda la página. */
-.tiempo .cabezal, .tiempo .fantasma { position: absolute; left: 0; right: 0; top: 0; height: 64px; pointer-events: none; will-change: transform; }
+.tiempo .cabezal, .tiempo .fantasma { position: absolute; left: 0; right: 0; top: 5px; height: 38px; pointer-events: none; will-change: transform; }
 .tiempo .cabezal::before { content: ""; position: absolute; left: -1px; top: 0; bottom: 0; width: 2px; background: #FFFFFF; }
-.tiempo .cabezal::after { content: ""; position: absolute; left: -7px; bottom: -7px; width: 14px; height: 14px; border-radius: 50%; background: #FFFFFF; box-shadow: 0 0 0 2px #05080D; transition: transform 0.12s ease; }
+.tiempo .cabezal::after { content: ""; position: absolute; left: -6px; bottom: -6px; width: 12px; height: 12px; border-radius: 50%; background: #FFFFFF; box-shadow: 0 0 0 2px #05080D; transition: transform 0.12s ease; }
 .tiempo.arrastrando .cabezal::after { transform: scale(1.25); }
 .tiempo .fantasma::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; border-left: 1px dashed rgba(246, 244, 240, 0.6); }
-.tiempo .fantasma span { position: absolute; left: 0; top: -2px; transform: translate(-50%, -100%); padding: 2px 6px; background: var(--noche); color: var(--sobre); font-family: var(--mono); font-size: 11.5px; white-space: nowrap; }
+.tiempo .fantasma span { position: absolute; left: 0; top: -6px; transform: translate(-50%, -100%); padding: 2px 6px; background: var(--noche); color: var(--sobre); font-family: var(--mono); font-size: 11.5px; white-space: nowrap; }
 .tiempo .fantasma[data-borde="izq"] span { transform: translate(0, -100%); }
 .tiempo .fantasma[data-borde="der"] span { transform: translate(-100%, -100%); }
-.tiempo:focus-visible { outline-offset: 6px; }
+.tiempo:focus-visible { outline-offset: 2px; }
+
+/* Botones para acercar, alejar y ver los tres estados */
+.zoom { position: absolute; z-index: 6; top: calc(var(--mg) * 0.7); right: 18px; display: flex; flex-direction: column; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35); animation: aparecer 0.3s ease-out both; }
+.zoom button { width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; border: 0; background: #FFFFFF; color: var(--tinta); cursor: pointer; }
+.zoom button + button { border-top: 1px solid var(--linea); }
+.zoom button:hover { background: #F0EDE8; }
+.zoom button:active svg { transform: scale(0.9); }
 
 /* Tarjeta de un municipio */
 .tarjeta { position: absolute; z-index: 9; width: 250px; padding: 14px 16px 15px; background: #FFFFFF; color: var(--tinta); box-shadow: 0 10px 28px rgba(0, 0, 0, 0.4); pointer-events: none; display: flex; flex-direction: column; gap: 3px; }
@@ -238,44 +272,43 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .tarjeta .veredicto { display: flex; align-items: center; gap: 8px; margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--linea); font-size: 14px; font-weight: 700; }
 .tarjeta .veredicto i { width: 14px; height: 14px; flex-shrink: 0; }
 .tarjeta a { display: flex; align-items: center; min-height: 44px; margin: 2px 0 -10px; font-size: 14px; font-weight: 700; text-underline-offset: 3px; }
-.tarjeta .pista-historia { margin-top: 6px; font-size: 12.5px; color: var(--tinta-2); }
 .tarjeta .historia-titulo { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 10px; font-size: 12.5px; font-weight: 700; }
 .tarjeta .historia-titulo span { display: inline-flex; white-space: nowrap; align-items: center; gap: 5px; font-weight: 400; color: var(--tinta-2); }
 .tarjeta .historia-titulo i { width: 16px; border-top: 1.5px dashed var(--tinta); }
 .tarjeta .historia { width: 100%; height: auto; margin-top: 4px; overflow: visible; }
-.historia rect { fill: var(--barra); }
+.tarjeta .hecho { margin-top: 6px; font-size: 13.5px; line-height: 1.4; text-wrap: pretty; }
+.historia rect, .historia .fondo-raya { fill: var(--barra); }
 .historia rect.este { fill: var(--rojo); }
 .historia .normal { stroke: var(--tinta); stroke-width: 1.2; stroke-dasharray: 4 3; }
 .historia .eje { stroke: var(--tinta); stroke-width: 1; }
-.historia text { font-size: 10px; fill: var(--tinta-2); }
-/* Mantener presionado un municipio no debe seleccionar texto ni abrir el menú del teléfono. */
+.historia text { font-size: 11px; fill: var(--tinta-2); }
+.historia text.este { fill: var(--rojo); font-weight: 700; }
 .mapa { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
 .tarjeta .cerrar { position: absolute; top: 2px; right: 2px; width: 44px; height: 44px; border: 0; background: none; font-size: 22px; line-height: 1; color: var(--tinta-2); cursor: pointer; }
 
-/* Panel de la respuesta */
-.panel { background: var(--papel); border-left: 1px solid var(--linea); padding-block: 26px 18px; padding-left: 32px; padding-right: max(32px, env(safe-area-inset-right, 0px)); display: flex; flex-direction: column; gap: 16px; overflow-y: auto; }
-.panel h2 { margin: 0; font-size: 23px; line-height: 1.2; font-weight: 800; letter-spacing: -0.01em; text-wrap: balance; }
-.panel h3 { margin: 0; font-size: 18px; line-height: 1.25; font-weight: 800; }
-.panel .respuesta-corta { font-size: 16px; line-height: 1.4; font-weight: 700; }
-.grafica { display: flex; flex-direction: column; gap: 4px; }
+/* Panel de la respuesta: una sola historia */
+.panel { background: var(--papel); border-left: 1px solid var(--linea); padding-block: 24px 16px; padding-left: 28px; padding-right: max(28px, env(safe-area-inset-right, 0px)); display: flex; flex-direction: column; gap: 14px; overflow-y: auto; }
+.panel h2 { margin: 0; font-size: 22px; line-height: 1.2; font-weight: 800; letter-spacing: -0.01em; text-wrap: balance; }
+.grafica { display: flex; flex-direction: column; gap: 2px; }
 .grafica .titulo { font-size: 14px; font-weight: 800; }
 .grafica svg { width: 100%; height: auto; margin-top: 6px; overflow: visible; }
-.ley-normal { align-self: flex-start; display: flex; align-items: center; gap: 8px; margin-top: 4px; padding: 4px 0; border: 0; background: none; font-family: var(--mono); font-size: 12px; font-weight: 700; cursor: pointer; }
+.ley-normal { align-self: flex-start; display: flex; align-items: center; gap: 8px; margin-top: 2px; padding: 4px 0; border: 0; background: none; font-family: var(--mono); font-size: 12px; font-weight: 700; cursor: pointer; }
 .ley-normal i { width: 22px; border-top: 2px dashed var(--tinta); }
 .ley-normal span { text-decoration: underline dotted; text-decoration-thickness: 1.5px; text-underline-offset: 4px; }
 .explica { font-size: 13.5px !important; color: var(--tinta-2); }
 .panel p { margin: 0; font-size: 15px; line-height: 1.48; }
-.separa { border: 0; border-top: 1px solid var(--linea); margin: 0; }
+.escala-hoy { font-size: 14.5px !important; line-height: 1.45 !important; text-wrap: pretty; }
+.escala-hoy .ir { white-space: nowrap; }
 .ir { font-weight: 800; text-underline-offset: 4px; text-decoration-thickness: 2px; }
+/* La siguiente página, como una oración con su flecha. */
+.siguiente { align-self: flex-start; display: inline-flex; align-items: baseline; gap: 8px; font-size: 16px; line-height: 1.35; }
+.siguiente::after { content: "→"; text-decoration: none; }
 .pie { margin-top: auto; font-size: 11.5px !important; line-height: 1.45; color: var(--tinta-2); }
-/* Las pistas de lo que se puede tocar llevan un ícono de toque y van en tinta, no en gris chico. */
+/* Las pistas de lo que se puede tocar llevan un ícono y van en tinta, no en gris chico. */
 .tira-pista { display: flex; align-items: flex-start; gap: 8px; font-size: 13.5px !important; font-weight: 700; color: var(--tinta); }
-.tira-pista::before { content: ""; flex-shrink: 0; width: 16px; height: 16px; margin-top: 2px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='3.2' fill='%23D7261E'/%3E%3Ccircle cx='8' cy='8' r='6.4' fill='none' stroke='%23D7261E' stroke-width='1.4'/%3E%3C/svg%3E") no-repeat center / contain; }
-#tira .toque { cursor: pointer; }
-#tira .guia-dia { stroke: var(--tinta); stroke-width: 1; pointer-events: none; }
-#tira .rotulo-dia { font-size: 11px; font-weight: 700; fill: var(--tinta); pointer-events: none; }
+.tira-pista::before { content: ""; flex-shrink: 0; width: 18px; height: 16px; margin-top: 2px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 16'%3E%3Cpath d='M1.5 8h15M5 4.5 1.5 8 5 11.5M13 4.5l3.5 3.5-3.5 3.5' fill='none' stroke='%23121212' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center / contain; }
 
-/* Teléfono */
+/* Teléfono: el mapa primero; debajo, la respuesta, la leyenda y el buscador. */
 @media (max-width: 860px) {
   .barra { gap: 12px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
   /* En el teléfono caben las tres secciones con su nombre corto; el idioma queda como un solo botón que cambia al otro. */
@@ -285,23 +318,27 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
   .nav .largo { display: none; }
   .nav .corto { display: inline; }
   .idioma button[aria-pressed="true"] { display: none; }
-  .vista-portada { display: block; height: auto; min-height: 0; }
+  .vista-portada { display: block; height: auto; }
   .escenario { display: flex; flex-direction: column; overflow: visible; }
-  .mapa { position: relative; width: 100%; aspect-ratio: 825 / 681; order: 2; overflow: hidden; }
-  .cartel { position: relative; order: 1; width: auto; padding-block: 22px 18px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  /* Un dedo desplaza la página; dos dedos mueven el mapa, y uno solo cuando el mapa ya está acercado. */
+  .visor { position: relative; inset: auto; order: 1; width: 100%; aspect-ratio: 825 / 681; touch-action: pan-y; scroll-margin-top: var(--barra-alto); }
+  .visor.acercado { touch-action: none; }
+  .tarjeta { position: relative; order: 2; width: auto; left: auto !important; top: auto !important; margin: 12px max(16px, env(safe-area-inset-left, 0px)) 4px; box-shadow: none; border: 1px solid var(--linea); }
+  .cartel { position: relative; order: 3; left: auto; top: auto; width: auto !important; padding-block: 20px 18px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  [data-modo="final"] .cartel { padding-top: 16px; }
   .cartel::before, [data-modo="final"] .cartel::before { display: none; }
-  .bloque { max-width: none; }
-  .instrumento { position: relative; order: 3; grid-template-columns: auto minmax(0, 1fr); padding-block: 14px 18px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
-  .tiempo { grid-column: 1 / -1; }
-  .lectura { width: auto; }
-  .control { margin-bottom: 0; }
+  .instrumento { position: relative; order: 4; left: auto; right: auto; bottom: auto; height: auto; grid-template-columns: auto minmax(0, 1fr); gap: 12px 16px; padding-block: 14px 16px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  /* En el repaso, la línea de tiempo va pegada al mapa. */
+  [data-modo="repaso"] .instrumento { order: 2; }
+  .control { width: 44px; height: 44px; }
+  .tiempo { grid-column: 1 / -1; height: 62px; }
+  .tiempo svg { top: 4px; height: 38px; }
+  .tiempo .cabezal, .tiempo .fantasma { top: 0; height: 42px; }
+  .zoom { top: 8px; right: 8px; }
+  .zoom button { width: 44px; height: 44px; }
   .agua, .estado, .nota-mapa.enlace { display: none; }
   .ciudad { font-size: 11.5px; }
-  /* En el teléfono la tarjeta va debajo del mapa: encima taparía la mitad. */
-  .mapa { scroll-margin-top: var(--barra-alto); }
-  .tarjeta { position: relative; order: 3; width: auto; left: auto !important; top: auto !important; margin: 12px max(16px, env(safe-area-inset-left, 0px)) 4px; box-shadow: none; }
-  .instrumento { order: 4; }
-  .panel { border-left: 0; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  .panel { border-left: 0; border-top: 1px solid var(--linea); padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
   .pagina { padding: 28px max(16px, env(safe-area-inset-right, 0px)) 48px max(16px, env(safe-area-inset-left, 0px)); }
   .ejemplo button { min-height: 44px; padding: 0 4px; }
   .ubicacion { min-height: 44px; }
@@ -310,12 +347,47 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
   .ir { display: inline-flex; align-items: center; min-height: 44px; }
   .ley-normal { min-height: 44px; }
 }
-/* Pantallas bajas (1280 × 720): el cierre tiene que caber arriba de la línea de tiempo. */
+/* Pantallas bajas: todo el cartel tiene que caber arriba de la línea de tiempo. */
 @media (min-width: 861px) and (max-height: 820px) {
   .cartel { gap: 12px; }
-  .cartel h1 { font-size: clamp(28px, 2.5vw, 34px); }
-  #bloqueFinal { max-width: 340px; gap: 10px; }
-  .resultado { font-size: 22px; }
+  .cartel h1 { font-size: clamp(26px, 2.3vw, 34px); }
+  .bloque { gap: 12px; }
+  .bajada { font-size: 15px; line-height: 1.45; }
+  .fuera-temporada { font-size: 13.5px; }
+  .panel { padding-top: 20px; gap: 11px; }
+}
+@media (min-width: 861px) and (max-height: 680px) {
+  .cartel h1 { font-size: clamp(25px, 2.1vw, 30px); }
+  .bloque { gap: 10px; }
+  .resultado { font-size: clamp(24px, 2vw, 29px); }
+  .leyenda-punto { font-size: 13px; line-height: 1.4; }
+  .buscador input { height: 44px; }
+  .panel h2 { font-size: 20px; }
+  /* La tarjeta, más compacta: tiene que caber entre el titular y la línea de tiempo. */
+  .tarjeta { padding: 10px 14px 11px; gap: 2px; }
+  .tarjeta .nombre { font-size: 16.5px; }
+  .tarjeta .edo { margin-bottom: 3px; }
+  .tarjeta .fila, .tarjeta .veredicto { font-size: 13.5px; }
+  .tarjeta .veredicto { margin-top: 5px; padding-top: 6px; }
+  .tarjeta .historia-titulo { margin-top: 6px; }
+  .tarjeta .hecho { margin-top: 3px; font-size: 13px; line-height: 1.35; }
+  .tarjeta a { min-height: 36px; margin: 0 0 -8px; }
+  /* En pantallas bajas el panel no cabe con el botón de los atajos: «?» los sigue mostrando. */
+  .atajos-boton { display: none; }
+  .panel { padding-top: 16px; gap: 9px; }
+}
+@media (min-width: 861px) and (max-width: 1100px) {
+  :root { --panel: 340px; }
+  .panel { padding-left: 22px; padding-right: 22px; gap: 8px; }
+  .panel h2 { font-size: 18.5px; line-height: 1.15; }
+  .pie { font-size: 11px !important; line-height: 1.4; }
+  .tira-pista { font-size: 13px !important; }
+  .ley-normal { padding: 2px 0; }
+  .panel p, .escala-hoy { font-size: 13.5px !important; line-height: 1.4 !important; }
+  .grafica .titulo { font-size: 13px; }
+  .siguiente { font-size: 14.5px; }
+  .escala-color .rotulos-escala, .escala-color .poco { font-size: 12px; }
+  .escala-color .poco { max-width: 6.5em; }
 }
 @media (min-width: 861px) {
   [data-modo="repaso"] .ciudad.sur, [data-modo="final"] .ciudad.sur { opacity: 0; }
@@ -415,6 +487,8 @@ body.con-subtitulos { --subtitulos: 72px; padding-bottom: var(--subtitulos); }
 
 /* ---------- Fechas de quema (tablero «Fechas») ---------- */
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+/* La zona viva va al final del body: fija arriba, para que su píxel no alargue la página. */
+#anuncio { position: fixed; top: 0; left: 0; }
 .fechas { max-width: 1400px; margin: 0 auto; padding: 24px max(32px, env(safe-area-inset-right, 0px)) 40px max(32px, env(safe-area-inset-left, 0px)); display: flex; flex-direction: column; }
 .fz { display: grid; grid-template-columns: minmax(0, 1fr) 400px; grid-template-areas: "cal cabeza" "cal mapa"; grid-template-rows: auto 1fr; gap: 18px 48px; align-items: start; }
 .fz-cabeza { grid-area: cabeza; display: flex; flex-direction: column; gap: 14px; }
@@ -626,5 +700,3 @@ h1, h2, h3 { scroll-margin-top: calc(var(--barra-alto) + 12px); }
   .metodo .m-salto { font-size: 18px; min-height: 4em; }
   .m-descargar { height: auto; min-height: 48px; }
 }
-/* El mapa del cierre se recorre con las flechas: el contorno del foco va por dentro del recuadro. */
-#capa:focus-visible { outline: 3px solid #F5A04C; outline-offset: -3px; }

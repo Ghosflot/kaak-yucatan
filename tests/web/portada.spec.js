@@ -24,6 +24,82 @@ for (const [ancho, alto] of [[1440, 900], [1280, 720]]) {
   });
 }
 
+// Disposición sin choques (diseño de la dirección visual, «Cómo se comprueba»): en cada tamaño de
+// escritorio y en cada momento, el texto no toca la línea de tiempo, nada se sale de la ventana,
+// la página no se desplaza y la foto cubre todo el escenario.
+const ESCRITORIOS = [[1024, 600], [1280, 720], [1366, 629], [1366, 768], [1536, 864], [1920, 1080], [2560, 1440]];
+const MOMENTOS = { foto: { query: '' }, repaso: { query: '?modo=repaso&t=45' }, cierre: { query: '?modo=final', reducir: true } };
+
+async function medirPortada(page) {
+  return page.evaluate(() => {
+    const caja = (e) => { const r = e.getBoundingClientRect(); return { x0: r.left, y0: r.top, x1: r.right, y1: r.bottom }; };
+    const visible = (e) => e && !e.hidden && !e.closest('[hidden]') && e.getClientRects().length > 0;
+    // El cartel es lo que se ve de él: el titular y el bloque del momento (su sombra no cuenta).
+    const partes = [...document.querySelectorAll('#titulo, #bloqueFoto, #bloqueFinal')].filter(visible).filter((e) => caja(e).x1 - caja(e).x0 > 2);
+    const cartel = partes.map(caja).reduce((a, b) => ({ x0: Math.min(a.x0, b.x0), y0: Math.min(a.y0, b.y0), x1: Math.max(a.x1, b.x1), y1: Math.max(a.y1, b.y1) }));
+    const instr = document.getElementById('instrumento');
+    const zoom = document.getElementById('zoom');
+    return {
+      ventana: { x0: 0, y0: 0, x1: innerWidth, y1: innerHeight },
+      desplaza: document.documentElement.scrollHeight - innerHeight,
+      cartel,
+      instrumento: visible(instr) ? caja(instr) : null,
+      zoom: visible(zoom) ? caja(zoom) : null,
+      respuesta: caja(document.getElementById('respuesta')),
+      panelSobra: (() => { const p = document.querySelector('.panel'); return p.scrollHeight - p.clientHeight; })(),
+      barras: caja(document.getElementById('barras')),
+      foto: caja(document.getElementById('foto')),
+      visor: caja(document.getElementById('visor')),
+    };
+  });
+}
+const dentro = (a, b) => a.x0 >= b.x0 - 0.5 && a.y0 >= b.y0 - 0.5 && a.x1 <= b.x1 + 0.5 && a.y1 <= b.y1 + 0.5;
+const tocan = (a, b) => a.x0 < b.x1 && a.x1 > b.x0 && a.y0 < b.y1 && a.y1 > b.y0;
+
+test.describe('disposición sin choques', () => {
+  for (const [ancho, alto] of ESCRITORIOS) {
+    for (const [momento, { query, reducir }] of Object.entries(MOMENTOS)) {
+      test(`${ancho}×${alto}, ${momento}`, async ({ page }) => {
+        await abrir(page, '#/', { ancho, alto, query, reducir });
+        await expect(page.locator('#escenario')).toHaveAttribute('data-modo', momento === 'cierre' ? 'final' : momento);
+        await page.waitForTimeout(150);
+        const m = await medirPortada(page);
+        expect(m.desplaza, 'la página no se desplaza').toBeLessThanOrEqual(0);
+        expect(dentro(m.cartel, m.ventana), 'el texto cabe en la ventana').toBe(true);
+        expect(dentro(m.respuesta, m.ventana) && dentro(m.barras, m.ventana), 'la respuesta y sus barras se ven').toBe(true);
+        expect(dentro(m.visor, m.foto), 'la foto cubre todo el escenario').toBe(true);
+        expect(m.panelSobra, 'el panel cabe sin desplazarse').toBeLessThanOrEqual(1);
+        if (momento !== 'foto') {
+          expect(dentro(m.instrumento, m.ventana), 'la línea de tiempo cabe').toBe(true);
+          expect(tocan(m.cartel, m.instrumento), 'el texto no toca la línea de tiempo').toBe(false);
+        }
+        if (momento === 'cierre') {
+          expect(dentro(m.zoom, m.ventana), 'los botones del mapa caben').toBe(true);
+          expect(tocan(m.zoom, m.cartel) || tocan(m.zoom, m.instrumento), 'los botones del mapa no tocan nada').toBe(false);
+        }
+      });
+    }
+    test(`${ancho}×${alto}, buscador abierto: sus opciones se pueden pulsar`, async ({ page }) => {
+      await abrir(page, '#/', { ancho, alto, query: '?modo=final', reducir: true });
+      await page.locator('#busca2').fill('ma');
+      const opciones = page.locator('#lista2 [role=option]');
+      await expect(opciones.first()).toBeVisible();
+      const n = await opciones.count();
+      expect(n).toBeGreaterThan(3);
+      for (let i = 0; i < n; i++) {
+        const o = opciones.nth(i);
+        await o.scrollIntoViewIfNeeded();
+        const r = await o.boundingBox();
+        expect(r.y >= 0 && r.y + r.height <= alto, `opción ${i} dentro de la ventana`).toBe(true);
+        const arriba = await page.evaluate(({ x, y }) => document.elementFromPoint(x, y)?.closest('[role=option]')?.id, { x: r.x + r.width / 2, y: r.y + r.height / 2 });
+        expect(arriba, `opción ${i} sin nada encima`).toBe(await o.getAttribute('id'));
+      }
+      await opciones.last().click();
+      await expect(page.locator('.tarjeta.fija')).toBeVisible();
+    });
+  }
+});
+
 test('en el teléfono, el titular, el buscador y el mapa empiezan en la primera pantalla', async ({ page }) => {
   await abrir(page, '#/', { ancho: 390, alto: 844 });
   for (const sel of ['#titulo', '#busca1', '#mapa']) {
@@ -48,11 +124,12 @@ test('con «reducir movimiento» abre directo en el cierre', async ({ page }) =>
   await expect(page.locator('#resultado')).toBeVisible();
 });
 
-test('el cierre pinta solo Yucatán', async ({ page }) => {
+// El diseño de la dirección visual pinta los tres estados con la misma escala (antes, solo Yucatán).
+test('el cierre pinta los tres estados, con Yucatán de contorno blanco', async ({ page }) => {
   await abrir(page, '#/', { reducir: true });
-  const opacidad = (sel) => page.$eval(sel, (e) => Number(getComputedStyle(e).fillOpacity));
-  expect(await opacidad('.rellenos path.fuera')).toBe(0);
-  expect(await opacidad('.rellenos path:not(.fuera)')).toBeGreaterThan(0.9);
+  const opacidad = (id) => page.$eval(`.rellenos path[data-id="${id}"]`, (e) => Number(getComputedStyle(e).fillOpacity));
+  for (const id of ['tekax', 'calakmul', 'benito-juarez']) expect(await opacidad(id)).toBeGreaterThan(0.9);
+  expect(await page.$eval('.estados path.yucatan', (e) => getComputedStyle(e).stroke)).toBe('rgb(255, 255, 255)');
 });
 
 test('buscar Tekax abre su tarjeta y «Ver detalle» lleva a su página (dos acciones)', async ({ page }) => {
@@ -109,15 +186,6 @@ test('la línea de tiempo se mueve con el teclado', async ({ page }) => {
   await expect(page.locator('#fecha')).toHaveText('12 de marzo');
   await page.keyboard.press('End');
   await expect(page.locator('#escenario')).toHaveAttribute('data-modo', 'final');
-});
-
-test('tocar un día de la tira lleva el repaso a ese día', async ({ page }) => {
-  await abrir(page, '#/');
-  const caja = await page.locator('#tira').boundingBox();
-  const dia = 90; // 1 de abril, contado desde el 1 de enero
-  await page.mouse.click(caja.x + ((dia + 0.5) / PORTADA.z2.dias.length) * caja.width, caja.y + caja.height * 0.5);
-  await expect(page.locator('#escenario')).toHaveAttribute('data-modo', 'repaso');
-  await expect(page.locator('#fecha')).toHaveText('1 de abril');
 });
 
 test('tocar «Lo normal» explica qué es', async ({ page }) => {
@@ -212,7 +280,7 @@ test('tocar un año del panel pinta ese año en el mapa; «Volver a 2026» regre
   await expect(page.locator('#resultado')).toHaveText(`En 2003, ${c.mas} de ${PORTADA.cuenta.total} municipios de Yucatán tuvieron más fuego que lo normal.`);
   await expect(page.locator('#filaAnio')).toHaveText('2003');
   // El panel sigue hablando de 2026; la pista dice qué año se ve en el mapa.
-  await expect(page.locator('#pistaAnio')).toHaveText('El mapa muestra 2003. Toca su barra otra vez para volver a 2026.');
+  await expect(page.locator('#pistaAnio')).toHaveText('El mapa muestra 2003, visto por el satélite Aqua. Toca su barra otra vez para volver a 2026.');
   const i = PORTADA.porAnio.ids.indexOf('tekax');
   const v = PORTADA.porAnio.v[i][PORTADA.porAnio.anios.indexOf(2003)];
   await page.locator('.rellenos path[data-id="tekax"]').click({ force: true });
@@ -222,7 +290,7 @@ test('tocar un año del panel pinta ese año en el mapa; «Volver a 2026» regre
   await page.click('#volver');
   await expect(page.locator('#resultado')).toHaveText(`${PORTADA.cuenta.menos} de ${PORTADA.cuenta.total} municipios de Yucatán tuvieron menos fuego que lo normal.`);
   await expect(page.locator('#volver')).toBeHidden();
-  await expect(page.locator('#pistaAnio')).toHaveText('Toca un año para verlo en el mapa.');
+  await expect(page.locator('#pistaAnio')).toHaveText('Toca un año para verlo en el mapa, o arrastra sobre las barras para recorrerlos.');
   // La línea de tiempo también vuelve: el acumulado es el de 2026, no el del año que se vio.
   await expect(page.locator('#filaAnio')).toHaveText('2026');
   await expect(page.locator('#n26')).toHaveText(Math.round(PORTADA.yuc.acum['2026'][91]).toLocaleString('es-MX'));
@@ -268,15 +336,16 @@ test('arrastrar la línea de tiempo no selecciona texto', async ({ page }) => {
   expect(await page.evaluate(() => String(getSelection()))).toBe('');
 });
 
-// Dudas de la prueba de cinco segundos.
-test('las barras rayadas dicen qué son, y la respuesta de las fechas permitidas va arriba de su gráfica', async ({ page }) => {
+// Dudas de la prueba de cinco segundos. Desde la dirección visual, la historia de las fechas
+// permitidas ya no está en el panel: queda el enlace a su página, escrito como pregunta.
+test('las barras dicen quién vio cada periodo, y el panel lleva al método y a las fechas', async ({ page }) => {
   await abrir(page, '#/');
-  await expect(page.locator('#barras text.ley-conv')).toHaveText('2001–2011: otro satélite, ajustado para comparar');
-  const z = PORTADA.z2, k = Math.round(((z.tot - z.dentro) / z.tot) * 10);
-  await expect(page.locator('#fechasRespuesta')).toHaveText(`En la zona 2, el centro y norte de Yucatán, de enero a junio de 2026, ${k} de cada 10 focos se vieron fuera de las fechas permitidas.`);
-  const respuesta = await page.locator('#fechasRespuesta').boundingBox();
-  const tira = await page.locator('#tira').boundingBox();
-  expect(respuesta.y + respuesta.height).toBeLessThan(tira.y);
+  await expect(page.locator('#barras text.ley-conv')).toHaveText('Terra y Aqua, pasados a la escala de hoy');
+  await expect(page.locator('#barras text.periodo-t')).toHaveText(['Terra', 'Aqua', 'S-NPP', 'NOAA-20']);
+  await expect(page.locator('#leyNormalTexto')).toHaveText(/^Lo normal: [\d,]+(, como \d{4})?$/);
+  await expect(page.locator('.panel a[href="#/metodo"]')).toHaveText('Ver cómo lo comprobamos');
+  await page.locator('.panel a[href="#/fechas"]').click();
+  await expect(page).toHaveURL(/#\/fechas$/);
 });
 
 test('el año normal de la línea de tiempo no es gris sólido como «casi nunca hay quemas»', async ({ page }) => {
@@ -359,26 +428,17 @@ test.describe('funciones escondidas', () => {
     expect(await page.evaluate(() => history.length)).toBe(largo + 1);
   });
 
-  test('mantener presionado un municipio abre sus 26 años; con el teclado, Espacio en el mapa', async ({ page }) => {
+  // Los años de cada municipio ya no se esconden tras mantener presionado: la tarjeta los muestra siempre.
+  test('la tarjeta muestra los años del municipio y su hecho propio', async ({ page }) => {
     await abrir(page, '#/', { reducir: true });
     const v = await page.locator('.rellenos path[data-id="valladolid"]').boundingBox();
     await page.mouse.move(v.x + v.width / 2, v.y + v.height / 2);
-    await expect(page.locator('#tarjeta .pista-historia')).toHaveText('Mantén presionado para ver sus 26 años.');
-    await page.mouse.down();
-    await page.waitForTimeout(650);
-    await page.mouse.up();
-    await expect(page.locator('#tarjeta .historia rect')).toHaveCount(26);
+    await expect(page.locator('#tarjeta .historia > rect')).toHaveCount(26);
     await expect(page.locator('#tarjeta .historia')).toHaveAttribute('aria-label', /Valladolid.*Lo normal es 251; en 2026 hubo 96/);
-    // Una vez usada, la pista ya no sale.
-    await page.locator('#tarjeta .cerrar').click();
-    await page.mouse.move(v.x + v.width / 2 + 2, v.y + v.height / 2);
-    await expect(page.locator('#tarjeta .pista-historia')).toHaveCount(0);
-    await page.locator('#capa').focus();
-    await page.keyboard.press('ArrowRight');
-    await page.keyboard.press(' ');
-    await expect(page.locator('#tarjeta .historia')).toBeVisible();
-    await page.keyboard.press(' ');
-    await expect(page.locator('#tarjeta .historia')).toHaveCount(0);
+    await page.fill('#busca2', 'Tizimín');
+    await page.keyboard.press('Enter');
+    await expect(page.locator('.tarjeta.fija .historia > rect')).toHaveCount(26);
+    await expect(page.locator('.tarjeta.fija .hecho')).toHaveText('La temporada con menos fuego desde 2012.');
   });
 
   test('«?» muestra los atajos, «/» lleva al buscador y Espacio empieza la temporada', async ({ page }) => {
