@@ -556,20 +556,76 @@ h1, h2, h3 { scroll-margin-top: calc(var(--barra-alto) + 12px); }
 #salto.quieto .m-barra, #salto.quieto .m-promedio { transition: none; }
 @media (prefers-reduced-motion: reduce) { #salto .m-barra, #salto .m-promedio { transition: none; } }
 .metodo .m-nota { font-size: 15px; color: var(--tinta-2); }
-.m-cifras { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px 32px; max-width: 1000px; margin-top: 10px; }
 .sin-corte { white-space: nowrap; }
-.m-cifra { display: flex; flex-direction: column; gap: 6px; }
-.m-cifra b { font-family: var(--display); font-weight: 400; font-size: 46px; line-height: 1; color: var(--tinta); }
-.metodo .m-cifra p { font-size: 16px; }
+/* ¿Se puede confiar?: primero las cuatro pruebas (tarjetas del mismo alto, gráfica plegada) y
+   después cada satélite contra la serie. */
+.metodo .m-sub { margin: 14px 0 0; font-size: 20px; font-weight: 800; text-wrap: balance; }
+.m-pruebas { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 40px; max-width: 1000px; }
+.m-prueba { display: flex; flex-direction: column; gap: 8px; min-width: 0; padding-top: 14px; border-top: 2px solid var(--tinta); }
+.m-prueba h3 { margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--tinta-2); }
+.m-prueba > b { font-family: var(--display); font-weight: 400; font-size: 30px; line-height: 1.1; color: var(--tinta); }
+.metodo .m-prueba p { font-size: 16px; }
+.metodo .m-prueba .m-pendiente { color: var(--tinta-2); font-style: italic; }
+.m-prueba details { margin-top: auto; border-top: 1px solid var(--linea); }
+.m-prueba summary { padding: 11px 0; font-size: 15px; font-weight: 700; cursor: pointer; }
+.m-prueba-graf { margin: 4px 0 0; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.m-prueba-graf svg { display: block; width: 100%; height: auto; }
+.m-prueba-graf .m-sat-ley { gap: 4px 14px; font-size: 13px; }
+.metodo .m-graf-t { font-size: 13px; font-weight: 700; color: var(--tinta); }
+/* El título de cada prueba va centrado sobre su gráfica, como en las PNG de la validación. */
+.m-prueba-graf .m-graf-t { font-size: 15px; font-weight: 400; text-align: center; text-wrap: balance; }
+.m-ley-cuadro { width: 12px; height: 12px; background: var(--c); border: 1px solid rgba(0, 0, 0, 0.12); }
+.m-ley-raya { width: 18px; height: 0; border-top: 2px dashed var(--c); }
+.m-ley-punto { width: 10px; height: 10px; border-radius: 50%; background: var(--c); }
+.m-ley-caja { width: 10px; height: 10px; background: var(--c); }
+.m-ley-hueco { width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--c); }
+.m-prueba details ul { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: 6px; font-size: 15px; color: var(--tinta-2); }
+.m-sat { display: flex; flex-direction: column; gap: 14px; max-width: 1000px; margin-top: 22px; padding-top: 22px; border-top: 1px solid var(--linea); }
+.m-sat > .m-sub { margin-top: 0; }
+.m-sat-controles { display: flex; flex-wrap: wrap; gap: 14px 28px; align-items: flex-end; }
+.m-grupo { display: flex; flex-direction: column; gap: 6px; }
+.m-grupo-t { font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--tinta-2); }
+.m-sat-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.m-chip { height: 44px; padding: 0 14px; border: 2px solid var(--tinta); background: var(--papel); color: var(--tinta); font-size: 15px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
+.m-chip small { font-family: var(--mono); font-size: 11px; font-weight: 400; color: var(--tinta-2); }
+.m-chip[aria-pressed="true"] { background: var(--tinta); color: var(--papel); }
+.m-chip[aria-pressed="true"] small { color: var(--sobre-2); }
+.m-chip:active { transform: scale(0.97); }
+#mSatEscala { border-width: 2px; }
+#mSatEscala button { height: 40px; padding: 0 14px; font-size: 15px; }
+#mSatEscala button + button { border-left-width: 0; }
+.m-sat-caja { position: relative; }
+#mSatSvg .m-sat-txt { font-family: var(--texto); }
+#mSatSvg .m-sat-zona:focus { outline: none; }
+#mSatSvg .m-sat-zona:focus-visible { fill: rgba(245, 160, 76, 0.18); }
+.m-sat-punta { position: absolute; pointer-events: none; background: var(--tinta); color: var(--papel); font-size: 13px; line-height: 1.4; padding: 8px 10px; white-space: nowrap; transform: translate(-50%, -100%); z-index: 2; }
+.m-sat-punta b { font-family: var(--mono); }
+@media (prefers-reduced-motion: no-preference) { #mSatSvg .m-sat-linea { transition: opacity 0.25s ease; } }
+.m-sat-ley { display: flex; flex-wrap: wrap; gap: 6px 22px; margin: 0; padding: 0; list-style: none; font-size: 14px; color: var(--tinta-2); }
+.m-sat-ley li { display: inline-flex; align-items: center; gap: 8px; }
+.m-sat-ley i, .m-sat-que i { display: inline-block; flex: none; }
+.m-ley-barra { width: 14px; height: 14px; background: var(--barra); }
+.m-ley-cal, .m-cal { width: 22px; height: 0; border-top: 3px solid var(--rojo); }
+.m-ley-crudo, .m-crudo { width: 22px; height: 0; border-top: 3px dashed var(--rojo); }
+.m-ley-banda { width: 14px; height: 14px; background: var(--sobre); border: 1px solid var(--linea); }
+.m-anios { width: 10px; height: 10px; border: 2px solid var(--tinta-2); }
+.m-sat-caja { max-width: 960px; }
+#mSatSvg { display: block; width: 100%; height: auto; }
+.m-sat-lectura { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px 32px; }
+.m-sat-bloque { display: flex; flex-direction: column; gap: 6px; min-width: 0; padding-top: 12px; border-top: 2px solid var(--tinta); }
+.m-sat-que { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--tinta-2); }
+.m-sat-bloque b { font-family: var(--display); font-weight: 400; font-size: 34px; line-height: 1; }
+.metodo .m-sat-bloque p { font-size: 15px; }
+.metodo .m-sat-nota { grid-column: 1 / -1; max-width: 75ch; padding-left: 12px; border-left: 3px solid var(--tinta); font-size: 15px; }
 .m-descargar { align-self: flex-start; text-decoration: none; }
 .metodo > .pie { margin-top: 28px; }
 /* La declaración del uso de IA va pegada al pie de datos, como parte del mismo bloque. */
 .metodo > .pie + .pie { margin-top: -8px; }
 @media (max-width: 860px) {
   .metodo h2 { font-size: 24px; }
-  .m-cifras { grid-template-columns: 1fr; }
+  .m-pruebas, .m-sat-lectura { grid-template-columns: minmax(0, 1fr); }
+  .m-prueba > b { font-size: 28px; }
   .metodo .m-salto { font-size: 18px; min-height: 4em; }
-  .m-cifra b { font-size: 40px; }
   .m-descargar { height: auto; min-height: 48px; }
 }
 /* El mapa del cierre se recorre con las flechas: el contorno del foco va por dentro del recuadro. */

@@ -153,6 +153,104 @@ y cada dato aparece en su nota; los que no aparecían se quitaron.
   Estatal del Programa de Prevención y Combate de Incendios Agrícolas y Forestales (Por Esto,
   26 feb 2026).
 
+### El campo de Yucatán: territorio, gente y materia prima
+Lo que representa el campo, para el pitch y para docs/04. Todo sale de los documentos de
+INEGI y de la Secretaría de Economía (abiertos el 14 nov 2026), salvo donde se dice otra fuente.
+
+- **Territorio:** Yucatán mide 4 millones de ha; la superficie con uso o vocación agropecuaria
+  es 1.6 millones de ha, el **42.3 %** (INEGI, Censo Agropecuario 2022, comunicado 698/23).
+- **Superficie agrícola:** 436,372 ha en todas las unidades de producción; 402,564 ha en las
+  58,036 unidades agropecuarias activas, de las que se sembraron 339,044 (Censo 2022). La
+  Encuesta Nacional Agropecuaria 2025 da **306,991 ha** en unidades activas (reporte 45/26,
+  cuadro 1, 7 oct 2026). Es una encuesta por muestra: no decir que el campo «bajó».
+- **Gente:** 58,036 unidades de producción activas. La mano de obra permanente es de 115,595
+  personas: 52,589 productores que trabajaron directamente en su unidad, 46,438 familiares y
+  16,568 trabajadores contratados; además hubo 57,273 puestos eventuales (comunicado 698/23).
+  **96 de cada 100 productores se consideraron indígenas** y, de ellos, 90.4 % habla alguna
+  lengua indígena (comunicado 698/23); 50.7 % tiene la primaria como nivel de estudios; solo el
+  2.0 % de las unidades obtuvo crédito (infografía del Censo 2022). Ojo: 53,630 son las cabezas
+  de ovinos, no los productores.
+- **Materia prima:** maíz grano blanco, principal cultivo anual (47.5 mil t); pasto cultivado,
+  principal perenne (946.1 mil t); 381,535 bovinos, 1,606,202 porcinos y 38,116,894 aves en
+  unidades de producción (con los de traspatio: 388,399 bovinos);
+  8.4 mil litros de leche de vaca al día; 81.3 % de la superficie agrícola es de temporal
+  (infografía del Censo 2022).
+- **Exportación:** la carne fue el 2.º sector exportado de Yucatán en 2023, con 329 millones de
+  dólares, después de perlas y piedras preciosas (Secretaría de Economía, ficha «Invierte en
+  Yucatán», con la Balanza Comercial 2023).
+- **Crecimiento:** el sector primario creció 9.3 % en el primer semestre de 2025, «el mayor
+  crecimiento desde el año 2004» (Por Esto, 24 nov 2025, con datos de INEGI).
+- **Causas de los incendios forestales (CONAFOR 2015–2024):** 220 de 481 (46 %) por
+  actividades agropecuarias, agrícolas o pecuarias; desde 2018 CONAFOR separa
+  «agropecuarias» en «agrícolas» y «pecuarias», así que se cuentan las tres. De ellos, 204 por
+  quema para preparación de siembra (`analisis/campo_y_fuego.py`).
+- **No se dice:** que el agropecuario es el segundo sector de la economía de Yucatán, ni «el
+  63 % de la economía alimenticia»: no encontramos fuente. El peso del campo en el PIB estatal
+  está en las tablas del PIB por entidad de INEGI y no lo pudimos leer.
+
+### Los municipios con más fuego viven del campo
+Por cuadritos-día al año con focos (VIIRS S-NPP, 2012–2025, `analisis/campo_y_fuego.py`). La
+actividad de cada municipio sale de su página de Wikipedia en español (población 2020 del
+INEGI y sección de economía) y, para la ganadería del oriente, del CICY («La ganadería», con
+datos de SAGARPA 2004). Tekax, Yaxcabá, Tzucacab, Buctzotz y Panabá no tienen sección de
+economía: los tres primeros se clasifican por las causas de CONAFOR y los dos últimos por el
+CICY.
+
+| # | Municipio | Fuego al año | Actividad | Incendios CONAFOR (por el campo) |
+|---|---|---|---|---|
+| 1 | Tizimín | 863 | Ganadero (carne, leche y queso); ciudad mediana | 65 (34) |
+| 2 | Tekax | 423 | Milpa | 89 (42) |
+| 3 | Yaxcabá | 347 | Milpa | 14 (9) |
+| 4 | Chemax | 268 | Maíz, frijol, bovinos y porcinos | 58 (32) |
+| 5 | Valladolid | 222 | Parcial: maíz, hortalizas y bovinos, más comercio y turismo | 14 (9) |
+| 6 | Peto | 214 | Maíz, frijol, chile y sandía; bovinos y porcinos | 0 |
+| 7 | Espita | 193 | Maíz y ganado bovino | 0 |
+| 8 | Tzucacab | 185 | Milpa | 43 (38) |
+| 9 | Buctzotz | 183 | Ganadero | 0 |
+| 10 | Panabá | 157 | Ganadero | 0 |
+
+- 9 viven por completo del campo y Valladolid, en parte. Suman el 44 % del fuego satelital,
+  el 59 % de los incendios forestales (283 de 481) y el 53 % de las hectáreas (35,524 de
+  67,512); el 58 % de esos incendios (164 de 283) empezó por el campo.
+- Mérida: lugar 19 en fuego total y 77 de 106 por km²; ninguno de sus 6 incendios de CONAFOR
+  fue por el campo. Sus 3 fuegos de 5 días o más son fuera de temporada (ver «Pendiente de
+  verificar»).
+
+### Lo que la ley pide al municipio
+Ley de Prevención y Combate de Incendios Agropecuarios y Forestales del Estado de Yucatán
+(D.O. 13 dic 2006, última reforma 31 jul 2019), leída completa el 14 nov 2026:
+- Art. 16: «Es facultad exclusiva de los Presidentes Municipales, expedir las autorizaciones
+  para efectuar quemas.»
+- Art. 18: el permiso exige guardarrayas de 3 m como mínimo y aviso por escrito a los
+  colindantes con 5 días de anticipación.
+- Art. 23: al final del calendario, el presidente municipal envía a SEDER un informe con «la
+  evaluación general de acciones, su impacto en el municipio y, en su caso, las propuestas de
+  mejora».
+- Art. 25: el periodo de quemas se establece cada año «tomando en cuenta la evaluación del
+  ciclo anterior y las propuestas de mejora».
+- Art. 39: en cada municipio debe integrarse un Comité Municipal con autoridades y
+  representantes de los pobladores.
+
+### El calendario de cada zona atrapa el doble que la ventana oficial
+Prueba hacia adelante, VIIRS S-NPP 2012–2025, 14 temporadas (`analisis/campo_y_fuego.py`). No
+usa la serie armonizada de 25 años: MODIS no ve los fuegos chicos (docs/02, tarea 6). Zona de quema = cuadrito con
+fuego en 30 % o más de los años anteriores; cada zona es una mancha de 3 o más cuadritos
+vecinos dentro de un municipio.
+- **Calendario:** el fuego de cada año (2019–2025) que cae en las 4 semanas más fuertes de la
+  historia de su zona: **49 %** (entre 45 y 55 % cada año). En la ventana oficial de SEDER de esa
+  zona: **23 %**. Se mide dentro de las zonas de quema, no en todo el fuego del estado (para todo
+  el estado: 19 % en 2025, «Hallazgo»). La ventana dice cuándo está permitido quemar, no cuándo
+  se quema; en las zonas 1 y 2 dura 46 y 42 días, más que las 4 semanas, y aun así atrapa menos.
+- **Dónde:** las zonas de quema reciben el 46 % de la quema de 1 a 2 días del año siguiente
+  (2018–2025) y ocupan el 23.5 % de la tierra. El 68 % de la tierra de Yucatán ha tenido fuego
+  alguna vez desde 2012.
+- **Fuego conectado** (cuadritos vecinos con fuego en días seguidos): fuegos de 5 días o más,
+  40 en 2024 contra 1 a 9 en los demás años salvo 2020 (17). De 2015 a 2024, 26 de 85 (31 %)
+  coinciden con un incendio de CONAFOR a 3 km o menos; los de 3 días o más, 62 de 734 (8 %).
+- **Zonas de escape:** 22 de 79 fuegos de 5 días o más (2019–2025) empezaron a 2 km o menos de
+  uno de años anteriores, en una franja que es el 6 % de la tierra; sin 2024, 7 de 39. Pocos
+  casos: no decir que predice dónde se escapa el fuego.
+
 ### El humo llega a Mérida
 - El 14 de mayo de 2024, Mérida estuvo entre las cinco ciudades más contaminadas de México,
   con un índice de calidad del aire de 151 a 162 («muy mala»), atribuido al humo de los
@@ -456,10 +554,15 @@ satélite» abajo).
   | 4 | 10 mar–3 abr | 96 % |
 
   Igual que en el hallazgo de 2025: no son «quemas ilegales».
-- **El salto de 2012** (prueba 1 de `salidas/validacion.json`, la misma cifra de
-  `web/datos/metodo.json`): en la península, con el año completo, el promedio de 2013–2015
-  entre el de 2009–2011 es ×3.26 sin calibrar y ×0.90 con el factor. En el estado de Yucatán va
-  de ×3.06 a ×0.92. NOAA-20 ve 0.99 focos por cada uno de S-NPP en temporada.
+- **El salto de 2012** tiene dos cifras en «Cómo lo medimos», y las dos son correctas:
+  - **La prueba 1** (`salidas/validacion.json`, en «¿Se puede confiar?»): en la península, con
+    el año completo, el promedio de 2013–2015 entre el de 2009–2011 es ×3.26 sin calibrar y
+    ×0.90 con el factor. En el estado de Yucatán va de ×3.06 a ×0.92. Es la que decide si la
+    prueba pasa.
+  - **La gráfica de arriba** (`web/datos/metodo.json`): en Yucatán, del 1 de marzo al 31 de
+    mayo, es ×3.0 sin calibrar y ×0.93 con el factor. La página dice que es Yucatán en temporada
+    y que la prueba con la península está abajo.
+  - NOAA-20 ve 0.99 focos por cada uno de S-NPP en temporada (prueba de los VIIRS).
 - **El factor de Aqua en temporada** (`salidas/factores.csv`, zonas de Yucatán): S-NPP ve entre
   2.8 y 3.8 focos por cada uno de Aqua (2.84 en la zona 1, 3.83 en la 2, 3.10 en la 3 y 3.84 en
   la 4). «Cómo lo medimos» muestra ese rango.
@@ -507,6 +610,16 @@ NOAA-20 por S-NPP y Terra por Aqua. Lista completa en `salidas/dias_sin_datos.cs
 - Cifras que **no** van al pitch porque chocan entre fuentes: Yucatán 2023 (765 o 760 ha),
   2024 (20,334 o 20,333 ha) y 2026 (3 incendios y 335.83 ha, u otro reporte de más de 400 ha).
 
+- **Campo:** el porcentaje del PIB de Yucatán que aportan las actividades primarias (tablas
+  del PIB por entidad de INEGI); que el sector pecuario genera más de 29 mil millones de pesos
+  (Diario de Yucatán, 4 ago 2026, según un especialista), y la detección de 2 h 7 min y la
+  llegada de brigadas de 4 h 26 min de 2026 (Por Esto): vienen de resúmenes de búsqueda y no se
+  abrieron las notas. La página del reto de Space Apps no abrió (error de certificado): no
+  decir que el reto pide un calendario.
+- **Mérida:** sus 3 fuegos de 5 días o más (jul 2025, ago y oct 2026) son fuera de temporada.
+  Falta comprobar si son fuentes de calor fijas que los focos recientes traen sin marca (docs/04,
+  tarea 5).
+
 - **Por qué Aqua vio menos fuego en 2022** («2022: Aqua estuvo apagado 17 días»). Lo
   comprobado: no son los fuegos de ese año (Terra sale normal) y empieza en marzo, antes del
   apagón. Lo que falta: buscar en los avisos de NASA (MCST, LAADS) si algo de Aqua cambió en
@@ -516,6 +629,19 @@ NOAA-20 por S-NPP y Terra por Aqua. Lista completa en `salidas/dias_sin_datos.cs
 
 ## Fuentes
 
+- INEGI, Censo Agropecuario 2022, resultados definitivos de Yucatán (comunicado 698/23): <https://www.inegi.org.mx/contenidos/saladeprensa/boletines/2023/CA_Def/CA_Def2022_Yuc.pdf>
+  e infografía de unidades de producción: <https://inegi.org.mx/contenidos/programas/ca/2022/doc/inf_up_agro_yuc_ca2022.pdf>
+- INEGI, Encuesta Nacional Agropecuaria 2025, reporte de resultados 45/26: <https://www.inegi.org.mx/contenidos/saladeprensa/boletines/2026/ena/ENA2025_RR.pdf>
+- Secretaría de Economía, ficha «Invierte en Yucatán» 2023: <https://ventanillaunica.economia.gob.mx/media/20230823%20Perfil%20_%20Entidades%20_%20Yucatan.pdf>
+- Por Esto, el sector primario crece 9.3 % (24 nov 2025): <https://www.poresto.com/yucatan/merida/2025/11/24/sector-primario-de-yucatan-crece-93-en-el-primer-semestre-del-2025-es-el-mayor-incremento-en-21-anos.html>
+- Ley de Prevención y Combate de Incendios Agropecuarios y Forestales del Estado de Yucatán: <https://www.yucatan.gob.mx/docs/regulaciones/wbungwc0.pdf>
+- CICY, «La ganadería» (datos de SAGARPA 2004): <https://www.cicy.mx/documentos/CICY/Sitios/Biodiversidad/pdfs/Cap2/17%20La%20ganaderia.pdf>
+- Wikipedia en español, municipios del top 10: <https://es.wikipedia.org/wiki/Municipio_de_Tizim%C3%ADn>,
+  <https://es.wikipedia.org/wiki/Municipio_de_Tekax>, <https://es.wikipedia.org/wiki/Municipio_de_Yaxcab%C3%A1>,
+  <https://es.wikipedia.org/wiki/Municipio_de_Chemax>, <https://es.wikipedia.org/wiki/Municipio_de_Valladolid_(M%C3%A9xico)>,
+  <https://es.wikipedia.org/wiki/Municipio_de_Peto>, <https://es.wikipedia.org/wiki/Municipio_de_Espita>,
+  <https://es.wikipedia.org/wiki/Municipio_de_Tzucacab>, <https://es.wikipedia.org/wiki/Municipio_de_Buctzotz>,
+  <https://es.wikipedia.org/wiki/Municipio_de_Panab%C3%A1>
 - NASA FIRMS, archivos anuales por país: <https://firms.modaps.eosdis.nasa.gov/data/country/>
   (MODIS C6.1 y VIIRS S-NPP 375 m; campo `type` 0 = presunto incendio de vegetación).
 - CONAFOR, base de incendios forestales 2015–2024: <https://www.datos.gob.mx/dataset/incendios_forestales>

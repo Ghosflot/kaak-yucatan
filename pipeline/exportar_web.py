@@ -11,10 +11,14 @@ Escribe:
 - web/datos/fechas.json: el fuego de un año normal por mes y municipio, para «Fechas de quema».
 - web/datos/zonas.json: cada zona de quema de Yucatán, con su ventana y el fuego de cada día de
   enero a junio de 2026 (el calendario de «Fechas de quema»).
-- web/datos/metodo.json: lo que usa «Cómo lo medimos»: la península cada año, sin calibrar y
-  calibrada (el salto de 2012), los satélites de cada periodo, los factores y el cruce con
-  CONAFOR. El salto, NOAA-20 y CONAFOR salen de salidas/validacion.json (tarea 7), para que la
-  página diga lo mismo que la validación.
+- web/datos/metodo.json: lo que usa «Cómo lo medimos»: Yucatán en temporada, cada año sin
+  calibrar y calibrado (el salto de 2012), los satélites de cada periodo, los factores y el
+  cruce con CONAFOR.
+- web/datos/validacion.json: el resultado de cada prueba de la validación (tarea 7,
+  salidas/validacion.json) y los datos de su gráfica, que la página dibuja (las mismas que las
+  PNG de salidas/graficas/). La frase de cada caso está en web/textos (claves val…).
+- web/datos/satelites.json: cada satélite por su cuenta (Yucatán en temporada, sin calibrar y
+  calibrado) contra la serie unida, para el selector de «¿Se puede confiar?» (#32).
 - web/datos/serie_armonizada.csv: copia de salidas/serie_armonizada.csv, para descargarla.
   Es el único archivo que pasa de 2 MB: la página no lo carga, solo lo enlaza.
 - La tabla CSV de cada municipio la arma la página con su JSON.
@@ -25,6 +29,7 @@ lo escribe este script: no se edita a mano.
 """
 from __future__ import annotations
 
+import functools
 import json
 import re
 import shutil
@@ -47,7 +52,6 @@ ESTADOS = RAIZ / "datos_peninsula" / "estados_peninsula.geojson"
 SERIE = RAIZ / "salidas" / "serie_armonizada.csv"
 FACTORES = RAIZ / "salidas" / "factores.csv"
 CRUCE_CONAFOR = RAIZ / "analisis" / "salidas" / "cruce_conafor.csv"
-CALENDARIO = RAIZ / "salidas" / "calendario.parquet"
 VALIDACION = RAIZ / "salidas" / "validacion.json"
 SALIDA = RAIZ / "web" / "datos"
 
@@ -66,10 +70,12 @@ TOPE_BYTES = 2 * 1024 * 1024
 # Archivos que solo se descargan (la página no los carga): no cuentan para TOPE_BYTES.
 DESCARGAS = {"serie_armonizada.csv"}
 
-# Cruce con CONAFOR: un incendio de más de GRANDE_HA hectáreas es «grande». Es el grupo de
-# tamaño TAMANO_GRANDE de la prueba de CONAFOR en salidas/validacion.json.
+# El salto de 2012 se mide como la prueba 1 de la validación (tarea 7): 2013–2015 contra 2009–2011.
+SALTO_ANTES = (2009, 2011)
+SALTO_DESPUES = (2013, 2015)
+# Cruce con CONAFOR: un incendio de más de GRANDE_HA hectáreas es «grande». Lo que coincidiría
+# por azar ya no va aquí: la página lo lee de la validación (azarSnpp en validacion.json).
 GRANDE_HA = 100
-TAMANO_GRANDE = "Mayor a 100 Hectáreas"
 
 
 def identificador(nombre: str) -> str:
@@ -288,84 +294,147 @@ def meses(dias: pd.Series) -> dict:
     return {"meses": r1(tabla.loc[list(ANIOS_BASE)].median(axis=0)), "meses26": r1(tabla.loc[ANIO])}
 
 
-class ValidacionVieja(ValueError):
-    """salidas/validacion.json no corresponde a la serie de ahora: hay que correr validar.py."""
+def salto(totales: dict[int, float]) -> float:
+    """Cuántas veces el fuego de SALTO_DESPUES es el de SALTO_ANTES (promedio de cada periodo)."""
+    def promedio(periodo):
+        return float(np.mean([totales[a] for a in range(periodo[0], periodo[1] + 1)]))
+    return round(promedio(SALTO_DESPUES) / promedio(SALTO_ANTES), 2)
 
 
-def leer_validacion(ruta: Path = VALIDACION) -> dict[str, dict]:
-    """Las pruebas de la tarea 7 (pipeline/validar.py), por id."""
-    if not ruta.is_file():
-        raise ValidacionVieja(f"Falta {ruta}: corre pipeline/validar.py antes de exportar la página")
-    return {p["id"]: p for p in json.loads(ruta.read_text(encoding="utf-8"))["pruebas"]}
-
-
-def anios_salto(calendario: pd.DataFrame, prueba: dict) -> list[dict]:
-    """Cada año de la península, sin calibrar y calibrado, con las cuentas de la Prueba 1.
-
-    Usa validar.totales_anuales, la misma función de la prueba, y comprueba que las razones que
-    salen de estas barras sean las de validacion.json: si no, el archivo está viejo.
-    """
-    import validar
-
-    totales = validar.totales_anuales(calendario)
-    p = prueba["metricas"]["peninsula"]
-    v = prueba["valores"]
-    antes, despues = (v["antesDesde"], v["antesHasta"]), (v["despuesDesde"], v["despuesHasta"])
-    for campo, guardada in (("crudo", p["razon_cruda"]), ("armonizado", p["razon_armonizada"])):
-        actual = validar.razon_periodos(totales[campo], antes, despues)
-        if not np.isclose(actual, guardada, rtol=1e-9):
-            raise ValidacionVieja(
-                f"El salto {campo} de la serie ({actual:.4f}) no es el de validacion.json "
-                f"({guardada:.4f}): corre pipeline/validar.py antes de exportar la página")
-    return [{"y": int(a), "crudo": round(float(f["crudo"]), 1), "armonizado": round(float(f["armonizado"]), 1)}
-            for a, f in totales.iterrows()]
-
-
-def conafor(prueba: dict) -> dict:
-    """El cruce con CONAFOR de la validación; los años del registro salen de su CSV."""
-    m = prueba["metricas"]
-    snpp = m["por_satelite"]["S-NPP"]
-    grandes = m["por_tamano"][TAMANO_GRANDE]
-    cruce = pd.read_csv(CRUCE_CONAFOR)
-    if len(cruce) != m["incendios"]:
-        raise ValidacionVieja(f"{CRUCE_CONAFOR.name} tiene {len(cruce)} incendios y validacion.json "
-                              f"{m['incendios']}: corre pipeline/validar.py")
-    return {"incendios": int(m["incendios"]), "desde": int(cruce["anio"].min()), "hasta": int(cruce["anio"].max()),
-            "vistos": round(snpp["real"]), "grandes": round(grandes["snpp"]), "nGrandes": int(grandes["incendios"]),
-            "ha": GRANDE_HA, "azar": round(snpp["azar_mayor"])}
-
-
-def metodo(validacion: dict[str, dict] | None = None, calendario: pd.DataFrame | None = None) -> dict:
-    """«Cómo lo medimos»: el salto de 2012, los periodos, los factores y CONAFOR.
-
-    El salto, NOAA-20 y CONAFOR son los de la validación (salidas/validacion.json): la península
-    y el año completo, como la Prueba 1.
-    """
+def metodo(elegidos: pd.DataFrame) -> dict:
+    """«Cómo lo medimos»: el salto de 2012 en Yucatán, los periodos, los factores y CONAFOR."""
     import serie
 
-    if validacion is None:
-        validacion = leer_validacion()
-    if calendario is None:
-        calendario = pd.read_parquet(CALENDARIO)
-    s = validacion["salto_2012"]
-    p, v = s["metricas"]["peninsula"], s["valores"]
+    en_yucatan = elegidos["estado"] == "Yucatán"
+    armonizado = resumen_temporada(dw.unicos(elegidos, en_yucatan))["totales"]
+    crudo = resumen_temporada(dw.unicos(elegidos.assign(eq=1.0), en_yucatan))["totales"]
 
     factores = pd.read_csv(FACTORES)
     temporada = factores["epoca"] == "temporada"
     aqua = factores[temporada & (factores["satelite"] == "Aqua") & factores["zona"].str.startswith("Yucatán")]
-    noaa20 = validacion["viirs"]["metricas"]["NOAA-20"]["factor"]["temporada"]
+
+    cruce = pd.read_csv(CRUCE_CONAFOR)
+    visto = cruce["n_snpp"] > 0
+    grande = cruce["Total_hectareas"] > GRANDE_HA
     return {
-        "anios": anios_salto(calendario, s),
-        "salto": {"antes": [v["antesDesde"], v["antesHasta"]], "despues": [v["despuesDesde"], v["despuesHasta"]],
-                  "crudo": round(p["razon_cruda"], 2), "armonizado": round(p["razon_armonizada"], 2)},
-        "periodos": [{"sat": sat, "desde": d.isoformat(), "hasta": h.isoformat() if h else None}
-                     for sat, d, h in serie.PERIODOS],
-        "factores": {"aqua": [round(float(aqua["factor"].min()), 1), round(float(aqua["factor"].max()), 1)],
-                     # El factor es S-NPP / NOAA-20; la página dice cuántos ve NOAA-20 por cada uno de S-NPP.
-                     "noaa20": round(1 / float(noaa20), 2)},
-        "conafor": conafor(validacion["conafor"]),
+        "anios": [{"y": a, "crudo": round(crudo[a], 1), "armonizado": round(armonizado[a], 1)}
+                  for a in sorted(armonizado)],
+        "salto": {"antes": list(SALTO_ANTES), "despues": list(SALTO_DESPUES),
+                  "crudo": salto(crudo), "armonizado": salto(armonizado)},
+        "periodos": [{"sat": s, "desde": d.isoformat(), "hasta": h.isoformat() if h else None}
+                     for s, d, h in serie.PERIODOS],
+        # NOAA-20 contra S-NPP ya no va aquí: lo cuenta la prueba «viirs» de la validación.
+        "factores": {"aqua": [round(float(aqua["factor"].min()), 1), round(float(aqua["factor"].max()), 1)]},
+        "conafor": {"incendios": len(cruce), "desde": int(cruce["anio"].min()), "hasta": int(cruce["anio"].max()),
+                    "vistos": round(100 * float(visto.mean())),
+                    "grandes": round(100 * float(visto[grande].mean())), "nGrandes": int(grande.sum()), "ha": GRANDE_HA},
         "serieMB": round(SERIE.stat().st_size / 1e6),
     }
+
+
+def grafica_validacion(p: dict) -> dict:
+    """Lo que dibuja la página para cada prueba: lo mismo que su PNG en salidas/graficas/.
+
+    Sale de validar.tabla_grafica, la misma tabla con que se hacen las PNG, para que la página
+    tenga cada barra, cada promedio, cada meta y cada ✓ que tiene la imagen.
+    """
+    import validar
+
+    g = validar.tabla_grafica(p)
+    r2 = lambda x: round(float(x), 4)  # noqa: E731 (la página redondea al mostrar, como las PNG)
+    if p["id"] == "salto_2012":
+        return {"anios": [{"y": f["anio"], "crudo": r2(f["crudo"]), "cal": r2(f["armonizado"]),
+                           "transicion": bool(f["transicion"])} for f in g["anios"]],
+                "antes": list(validar.ANIOS_ANTES), "despues": list(validar.ANIOS_DESPUES),
+                "promAntes": {"crudo": r2(g["promedio_antes"]["crudo"]), "cal": r2(g["promedio_antes"]["armonizado"])},
+                "promDespues": {"crudo": r2(g["promedio_despues"]["crudo"]),
+                                "cal": r2(g["promedio_despues"]["armonizado"])},
+                "razonCruda": r2(g["razon_cruda"]), "razonCal": r2(g["razon_armonizada"]),
+                "natural": [r2(v) for v in g["rango_natural"]], "umbral": list(g["umbral"]), "pasa": g["pasa"]}
+    if p["id"] == "aqua_fuera_muestra":
+        return {"anios": [{"y": f["anio"], "snpp": r2(f["observado"]), "zonaEpoca": r2(f["zona_epoca"]),
+                           "unico": r2(f["unico"])} for f in g["anios"]],
+                "error": {"zonaEpoca": r2(100 * g["wape"]["zona_epoca"]), "unico": r2(100 * g["wape"]["unico"])},
+                "elegido": "zonaEpoca" if g["elegido"] == "zona_epoca" else "unico",
+                "limite": r2(100 * g["umbral"]), "pasa": g["pasa"]}
+    if p["id"] == "conafor":
+        s = g["snpp"]
+        return {"real": r2(s["real"]), "controlAnio": r2(s["control_anio"]), "controlLugar": r2(s["control_lugar"]),
+                "metaAzar": r2(g["meta_azar"]), "superaAzar": bool(g["supera_azar"]),
+                "tamanos": [{"t": validar._tamano_corto(f["tamano"]).removesuffix(" ha"), "n": int(f["incendios"]),
+                             "pct": r2(f["snpp"]), "grande": f["tamano"] == g["grandes"]} for f in g["tamanos"]],
+                "sinRango": int(g["sin_rango"]), "minimo": r2(g["umbral_grandes"]), "veGrandes": bool(g["ve_grandes"])}
+    if p["id"] == "viirs":
+        sats = g["satelites"]
+        punto = lambda f: {"y": f["anio"], "razon": None if f["razon"] is None else r2(f["razon"]),  # noqa: E731
+                           "cruda": None if f["razon_cruda"] is None else r2(f["razon_cruda"]),
+                           "completo": bool(f["completo"])}
+        return {"noaa20": [punto(f) for f in sats["NOAA-20"]], "noaa21": [punto(f) for f in sats["NOAA-21"]],
+                "banda": list(g["banda"]), "eje": [r2(v) for v in g["eje"]],
+                "cumple": {"noaa20": g["cumple"]["NOAA-20"], "noaa21": g["cumple"]["NOAA-21"]}}
+    raise ValueError(f"prueba sin gráfica: {p['id']}")
+
+
+def validacion() -> dict:
+    """«¿Se puede confiar?»: el caso, los números y los datos de la gráfica de cada prueba.
+
+    La página arma cada frase con t(clave, valores), igual que pipeline/validar.py; aquí no se
+    escribe ningún texto.
+    """
+    v = json.loads(VALIDACION.read_text(encoding="utf-8"))
+    return {"pruebas": [{"id": p["id"], "estado": p["estado"], "caso": p["caso"], "clave": p["clave"],
+                         "valores": p["valores"], "grafica": grafica_validacion(p)} for p in v["pruebas"]]}
+
+
+SATELITES = {"Terra": "MODIS", "Aqua": "MODIS", "S-NPP": "VIIRS", "NOAA-20": "VIIRS"}
+
+
+def satelites(cuadritos: pd.DataFrame, factores: pd.DataFrame) -> dict:
+    """Cada satélite contado solo (nunca sumado a otro), sin calibrar y calibrado, en Yucatán.
+
+    Se cuenta igual que la serie de la página (cuadritos únicos por día, temporada de marzo a
+    mayo) para poder ponerlo encima de ella. Por satélite van:
+    - serie: los años en que la serie de la página usa ese satélite (en temporada);
+    - calibracion: los años con que se calculó su factor. Los que no están en ninguna de las
+      dos listas sirven de comprobación independiente;
+    - incompletos: años cuya temporada empieza antes del primer dato del satélite en FIRMS.
+    """
+    import serie
+    import armonizar
+
+    yuc = cuadritos[(cuadritos["estado"] == "Yucatán") & cuadritos["satelite"].isin(list(SATELITES))]
+    cal = serie.aplicar_factores(yuc, factores)
+    inicio_temporada = lambda a: date(a, 3, 1)  # noqa: E731 (la temporada de dw.temporada)
+    sale = []
+    for sat, sensor in SATELITES.items():
+        de_sat = cal[cal["satelite"] == sat]
+        if de_sat.empty:
+            continue
+        todos = pd.Series(True, index=de_sat.index)
+        dias_cal = dw.unicos(de_sat, todos)
+        dias_crudo = dw.unicos(de_sat.assign(eq=1.0), todos)
+        primero = cuadritos.loc[cuadritos["satelite"] == sat, "dia_local"].min().date()
+        anios = []
+        for a in list(ANIOS_BASE) + [ANIO]:
+            crudo = float(dw.temporada(dias_crudo, a).sum())
+            if crudo > 0:
+                anios.append({"y": a, "crudo": round(crudo, 1),
+                              "cal": round(float(dw.temporada(dias_cal, a).sum()), 1)})
+        en_serie = [a["y"] for a in anios
+                    if any(s == sat and d <= date(a["y"], 5, 31) and (h is None or h >= inicio_temporada(a["y"]))
+                           for s, d, h in serie.PERIODOS)]
+        if sat in serie.MODIS:
+            calibracion = [armonizar.PERIODO_MODIS[0].year, armonizar.PERIODO_MODIS[1].year]
+        elif sat == armonizar.REFERENCIA:
+            calibracion = None  # es la escala: no lleva factor
+        else:
+            # El factor de NOAA-20 se calculó con todos los días en que coincide con S-NPP
+            # (armonizar.PERIODO_NOAA20, 1 abr 2018 a 1 nov 2026): no hay años independientes.
+            calibracion = [armonizar.PERIODO_NOAA20[0].year, armonizar.PERIODO_NOAA20[1].year]
+        sale.append({"sat": sat, "sensor": sensor, "anios": anios, "serie": en_serie,
+                     "calibracion": calibracion,
+                     "incompletos": [a["y"] for a in anios if primero > inicio_temporada(a["y"])]})
+    return {"satelites": sale}
 
 
 def por_anio(ids: list[str], yuc_ids: list[str], totales: dict, valores: dict, anios: list[int]) -> dict:
@@ -386,12 +455,18 @@ def por_anio(ids: list[str], yuc_ids: list[str], totales: dict, valores: dict, a
     return {"anios": anios, "ids": ids, "clases": clases, "cuenta": cuenta, "v": [totales[i] for i in ids]}
 
 
-def cargar_elegidos() -> pd.DataFrame:
-    import serie
+@functools.lru_cache(maxsize=1)
+def cargar_cuadritos() -> pd.DataFrame:
     from cargar import cargar_focos
     from rejilla import cuadritos_dia
 
-    return dw.elegidos_con_factor(cuadritos_dia(cargar_focos()), serie.leer_factores())
+    return cuadritos_dia(cargar_focos())
+
+
+def cargar_elegidos() -> pd.DataFrame:
+    import serie
+
+    return dw.elegidos_con_factor(cargar_cuadritos(), serie.leer_factores())
 
 
 def exportar(salida: Path = SALIDA, elegidos: pd.DataFrame | None = None) -> dict:
@@ -446,7 +521,10 @@ def exportar(salida: Path = SALIDA, elegidos: pd.DataFrame | None = None) -> dic
     }
     escribir(salida / "portada.json", portada)
     escribir(salida / "zonas.json", zonas_yucatan(elegidos, mun))
-    escribir(salida / "metodo.json", metodo())
+    escribir(salida / "metodo.json", metodo(elegidos))
+    escribir(salida / "validacion.json", validacion())
+    import serie
+    escribir(salida / "satelites.json", satelites(cargar_cuadritos(), serie.leer_factores()))
     shutil.copyfile(SERIE, salida / "serie_armonizada.csv")
     print(f"web/datos: {len(registros)} municipios; Yucatán 2026 {yuc['totales'][ANIO]:,.0f} "
           f"contra {yuc['normal']:,.0f}; {cuenta['menos']} de {cuenta['total']} con menos fuego")

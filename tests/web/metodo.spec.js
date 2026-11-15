@@ -5,6 +5,9 @@ const { test, expect } = require('@playwright/test');
 const { abrir } = require('./ayudas');
 
 const M = JSON.parse(fs.readFileSync('web/datos/metodo.json', 'utf8'));
+const V = JSON.parse(fs.readFileSync('web/datos/validacion.json', 'utf8'));
+const SAT = JSON.parse(fs.readFileSync('web/datos/satelites.json', 'utf8'));
+const ES = JSON.parse(fs.readFileSync('web/textos/es.json', 'utf8'));
 const uno = (n) => n.toFixed(1);
 
 test('explica qué es un foco de calor y qué no es', async ({ page }) => {
@@ -57,16 +60,113 @@ test('con «reducir movimiento» abre ya calibrado', async ({ page }) => {
   await expect(page.locator('[data-ver="armonizado"]')).toHaveAttribute('aria-pressed', 'true');
 });
 
-test('¿Se puede confiar?: el cruce con CONAFOR y los dos satélites de ahora', async ({ page }) => {
+test('¿Se puede confiar?: una tarjeta por prueba, con la frase de su caso', async ({ page }) => {
   await abrir(page, '#/metodo');
   const c = page.locator('#mConfiar');
   await expect(c.locator('h2')).toHaveText('¿Se puede confiar?');
-  await expect(c).toContainText(M.conafor.vistos + ' %');
-  await expect(c).toContainText('1,222');
-  await expect(c).toContainText(M.conafor.azar + ' %');
-  await expect(c).toContainText(M.conafor.grandes + ' %');
-  await expect(c).toContainText(M.factores.noaa20.toFixed(2));
-  await expect(c).toContainText('no quemas agrícolas');
+  const tarjetas = c.locator('.m-prueba');
+  await expect(tarjetas).toHaveCount(V.pruebas.length);
+  for (const p of V.pruebas) {
+    const tj = c.locator(`.m-prueba[data-prueba="${p.id}"]`);
+    // La frase del caso que salió, con sus números (como t() en web/js/textos.js).
+    const frase = ES[p.clave].replace(/\{(\w+)\}/g, (m, k) => String(p.valores[k]));
+    await expect(tj.locator('p').first()).toHaveText(frase);
+    // La gráfica se dibuja en la página (ya no es una imagen).
+    await expect(tj.locator('img')).toHaveCount(0);
+    await expect(tj.locator('.m-prueba-graf svg')).toHaveAttribute('role', 'img');
+    expect(await tj.locator('.m-prueba-graf svg > *').count()).toBeGreaterThan(5);
+    await expect(tj.locator('.m-pendiente')).toHaveCount(0);
+  }
+  // Ya no dice que los satélites coinciden sin la prueba, ni una cifra de azar fija.
+  await expect(c).not.toContainText('Los satélites de ahora coinciden');
+  const conafor = c.locator('.m-prueba[data-prueba="conafor"]');
+  await expect(conafor).toContainText(V.pruebas.find((p) => p.id === 'conafor').valores.azarSnpp + ' %');
+  await conafor.locator('summary').click();
+  await expect(conafor.locator('details li').first()).toBeVisible();
+  await expect(conafor).toContainText('no quemas agrícolas');
+});
+
+test('cada satélite contra la serie: se elige el satélite y la escala', async ({ page }) => {
+  await abrir(page, '#/metodo');
+  const caja = page.locator('#mSat');
+  await expect(caja).toBeVisible();
+  await expect(caja.locator('[data-sat]')).toHaveCount(SAT.satelites.length);
+  await expect(caja.locator('[data-sat="Aqua"] small')).toHaveText('MODIS');
+  // Abre con Aqua calibrado: la línea es continua.
+  await expect(caja.locator('[data-sat="Aqua"]')).toHaveAttribute('aria-pressed', 'true');
+  await expect(caja.locator('[data-esc="cal"]')).toHaveAttribute('aria-pressed', 'true');
+  await expect(caja.locator('polyline')).toHaveAttribute('stroke-dasharray', 'none');
+  await expect(caja.locator('circle')).toHaveCount(SAT.satelites.find((x) => x.sat === 'Aqua').anios.length);
+  await caja.locator('[data-esc="crudo"]').click();
+  await expect(caja.locator('polyline')).toHaveAttribute('stroke-dasharray', '7 5');
+  await expect(caja.locator('#mSatLey')).toContainText('Aqua, sin calibrar');
+  // Al pasar por un año, la ventanita dice la serie y el satélite de ese año.
+  const serie2007 = M.anios.find((a) => a.y === 2007).armonizado;
+  await caja.locator('.m-sat-zona').nth(6).hover();
+  await expect(caja.locator('#mSatPunta')).toBeVisible();
+  await expect(caja.locator('#mSatPunta')).toContainText('2007');
+  await expect(caja.locator('#mSatPunta')).toContainText(Math.round(serie2007).toLocaleString('es-MX'));
+  await expect(caja.locator('#mSatPunta')).toContainText('Aqua sin calibrar');
+  await expect(caja.locator('svg')).toContainText('2012: cambia el satélite (MODIS → VIIRS)');
+  // S-NPP es la escala: no lleva factor ni banda.
+  await caja.locator('[data-sat="S-NPP"]').click();
+  await expect(caja.locator('#mSatLectura')).toContainText('×1');
+  await expect(caja.locator('#mSatLey')).not.toContainText('factor');
+  // NOAA-20: su factor sale de los mismos años, y la página lo dice.
+  await caja.locator('[data-sat="NOAA-20"]').click();
+  await expect(caja.locator('#mSatLectura')).toContainText('no es una comprobación independiente');
+  await expect(caja.locator('#mSatLectura')).toContainText('En 2018 le falta el principio');
+  await expect(caja.locator('.m-sat-nota')).toContainText('1 de abril de 2018');
+  // El teclado también abre la ventanita.
+  await caja.locator('.m-sat-zona').first().focus();
+  await expect(caja.locator('#mSatPunta')).toContainText('2001');
+});
+
+test('las gráficas de las pruebas dicen lo mismo que sus PNG, en el mismo orden', async ({ page }) => {
+  await abrir(page, '#/metodo');
+  const c = page.locator('#mConfiar');
+  const tj = (id) => c.locator(`.m-prueba[data-prueba="${id}"]`);
+  // El título de cada gráfica es el de su PNG y la leyenda va dentro del dibujo.
+  await expect(tj('salto_2012').locator('figcaption')).toHaveText('Prueba 1 · Salto de 2012 · Península de Yucatán');
+  await expect(tj('viirs').locator('figcaption')).toHaveText('Prueba 4 · NOAA-20 y NOAA-21 contra S-NPP');
+  await expect(c.locator('.m-prueba-graf .m-sat-ley')).toHaveCount(0);
+  const textos = async (id) => (await tj(id).locator('svg').evaluate((s) => s.textContent)).replace(/\s+/g, ' ');
+  const enOrden = (todo, partes) => {
+    let i = -1;
+    for (const p of partes) { const j = todo.indexOf(p, i + 1); expect(j, p).toBeGreaterThan(i); i = j; }
+  };
+  enOrden(await textos('salto_2012'), ['Cuadritos-día por año, sin calibrar', 'promedio 8,680', 'promedio 28,281',
+    'Cuadritos-día por año, calibrada', 'promedio 31,295', 'Promedio 2013–15 ÷ promedio 2009–11', 'umbral',
+    'rango natural 0.87–1.16', 'Sin calibrar: 3.26', 'Calibrada: 0.90', '✓', '(sin salto)']);
+  enOrden(await textos('aqua_fuera_muestra'), ['Cuadritos-día por año', 'S-NPP (observado)', 'Aqua × factor por zona y época',
+    'Aqua × factor único', 'Error de Aqua contra S-NPP (%)', '11 %', '✓', 'Por zona', '(elegido)', '13 %', 'Único', 'límite 25 %']);
+  enOrden(await textos('conafor'), ['Incendios de CONAFOR', 'Azar: mismo lugar, otro año', 'Azar: mismas fechas, a 20 km',
+    'Incendios con un foco de S-NPP cerca (%)', 'a menos de 2 km, ±1 día', '53 %', '✓', '9 %', '9 %', '3 × el azar mayor = 26 %',
+    'Incendios que vio S-NPP,', 'según su tamaño (%)', '0–5', '(275)', '84', '✓', 'mínimo 75 %', '> 100', '(395)',
+    'Tamaño del incendio en hectáreas (cuántos hay)', 'Incendios sin rango de tamaño, no se muestran: 1']);
+  enOrden(await textos('viirs'), ['umbral 0.90–1.10', 'Focos de NOAA ÷ focos de S-NPP', '(1 = cuentan lo mismo)',
+    'NOAA-20 con su factor', '✓', 'NOAA-21 sin factor (informativa)', '✓', 'año completo', 'año parcial (no decide)', 'NOAA-20 sin factor']);
+  // Ningún texto de las gráficas se sale de su dibujo, tampoco en el teléfono.
+  for (const ancho of [1280, 390]) {
+    await page.setViewportSize({ width: ancho, height: 900 });
+    await page.waitForTimeout(300);
+    const fuera = await c.locator('.m-prueba-graf svg').evaluateAll((svgs) => svgs.flatMap((s) => {
+      const caja = s.getBoundingClientRect(); // en pantalla: cuenta el rótulo girado del eje
+      return [...s.querySelectorAll('text')].filter((t) => {
+        const r = t.getBoundingClientRect();
+        return r.left < caja.left - 1 || r.right > caja.right + 1 || r.top < caja.top - 1 || r.bottom > caja.bottom + 1;
+      }).map((t) => t.textContent);
+    }));
+    expect(fuera, `${ancho}px`).toEqual([]);
+  }
+});
+
+test('¿Se puede confiar? en inglés: las gráficas también', async ({ page }) => {
+  await abrir(page, '#/metodo', { query: '?lang=en' });
+  await expect(page.locator('#mConfiar h2')).toHaveText('Can it be trusted?');
+  await expect(page.locator('.m-prueba[data-prueba="viirs"] figcaption')).toHaveText('Test 4 · NOAA-20 and NOAA-21 against S-NPP');
+  await expect(page.locator('.m-prueba[data-prueba="viirs"] svg')).toContainText('NOAA-20 with its factor');
+  await expect(page.locator('.m-prueba[data-prueba="salto_2012"] svg')).toContainText('Calibrated: 0.90');
 });
 
 test('el pie dice el periodo de cada fuente', async ({ page }) => {

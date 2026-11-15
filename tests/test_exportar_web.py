@@ -170,40 +170,23 @@ def test_zonas_dia_por_dia_de_2026(salida):
 
 
 def test_metodo_salto_de_2012(salida):
-    """«Cómo lo medimos»: la península cada año, sin calibrar y calibrada, como la Prueba 1."""
+    """«Cómo lo medimos»: Yucatán en temporada, cada año sin calibrar y calibrado."""
     m = _json(salida, "metodo.json")
     assert [a["y"] for a in m["anios"]] == list(range(2001, 2027))
-    # Desde 2012 lo ve S-NPP, sin factor: las dos coinciden. Los días sin datos de S-NPP (H1)
-    # se cuentan con NOAA-20 × su factor, así que algunos años difieren un poco.
+    # Lo calibrado es la misma serie que la portada.
+    p = _json(salida, "portada.json")
+    assert {str(a["y"]): a["armonizado"] for a in m["anios"]} == p["yuc"]["anios"]
+    # Desde 2012 la temporada la ve S-NPP, sin factor: las dos coinciden. Los días sin datos
+    # de S-NPP (H1) se cuentan con NOAA-20 × 1.0077, así que en 2024 y 2026 difieren un poco.
     assert all(a["armonizado"] == pytest.approx(a["crudo"], rel=0.01)
-               for a in m["anios"] if a["y"] >= 2013)
+               for a in m["anios"] if a["y"] >= 2012)
+    assert sum(a["crudo"] != a["armonizado"] for a in m["anios"] if a["y"] >= 2012) <= 2
     # Antes, MODIS ve menos que la escala de VIIRS.
     assert all(0 < a["crudo"] < a["armonizado"] for a in m["anios"] if a["y"] < 2012)
-    # El salto es el de la validación (salidas/validacion.json): la península, el año completo.
+    # El salto, con los periodos de la prueba 1 de la validación: 2009–2011 contra 2013–2015.
     s = m["salto"]
-    prueba = ew.leer_validacion()["salto_2012"]
-    pen, v = prueba["metricas"]["peninsula"], prueba["valores"]
-    assert (s["antes"], s["despues"]) == ([v["antesDesde"], v["antesHasta"]], [v["despuesDesde"], v["despuesHasta"]])
-    assert (s["crudo"], s["armonizado"]) == (round(pen["razon_cruda"], 2), round(pen["razon_armonizada"], 2))
-    assert (f"{s['crudo']:.2f}", f"{s['armonizado']:.2f}") == (v["razonCruda"], v["razonArmonizada"])
-    # Las barras dan ese mismo salto: las líneas de promedio de la gráfica cuadran con la frase.
-    def promedio(r):
-        return sum(a["armonizado"] for a in m["anios"] if r[0] <= a["y"] <= r[1]) / (r[1] - r[0] + 1)
-    assert promedio(s["despues"]) / promedio(s["antes"]) == pytest.approx(s["armonizado"], abs=0.005)
-
-
-def test_metodo_se_niega_con_una_validacion_vieja():
-    """Si validacion.json no es de la serie de ahora, el exportador se detiene."""
-    validacion = ew.leer_validacion()
-    vieja = json.loads(json.dumps(validacion))
-    vieja["salto_2012"]["metricas"]["peninsula"]["razon_armonizada"] = 0.93
-    with pytest.raises(ew.ValidacionVieja, match="validar.py"):
-        ew.metodo(validacion=vieja)
-
-
-def test_metodo_sin_validacion(tmp_path):
-    with pytest.raises(ew.ValidacionVieja, match="validar.py"):
-        ew.leer_validacion(tmp_path / "validacion.json")
+    assert (s["antes"], s["despues"]) == ([2009, 2011], [2013, 2015])
+    assert s["crudo"] > 2.5 and 0.7 < s["armonizado"] < 1.3
 
 
 def test_metodo_satelites_factores_y_conafor(salida):
@@ -213,17 +196,91 @@ def test_metodo_satelites_factores_y_conafor(salida):
     assert m["periodos"][3]["hasta"] is None
     f = m["factores"]
     assert 2 < f["aqua"][0] < f["aqua"][1] < 5  # Aqua en temporada, zonas de Yucatán
-    # El factor es S-NPP / NOAA-20 (pipeline/armonizar.py); la página dice cuántos focos ve
-    # NOAA-20 por cada uno de S-NPP, así que usa el inverso.
-    # Es el de la prueba de los VIIRS (validacion.json), que es el de salidas/factores.csv.
-    validacion = ew.leer_validacion()
-    fac = pd.read_csv(ew.FACTORES)
-    noaa = fac[(fac["satelite"] == "NOAA-20") & (fac["epoca"] == "temporada")]["factor"].iloc[0]
-    assert validacion["viirs"]["metricas"]["NOAA-20"]["factor"]["temporada"] == pytest.approx(noaa)
-    assert f["noaa20"] == round(1 / noaa, 2)
-    # Las cifras de docs/01, «Validación con CONAFOR», que son las de la prueba de la validación.
+    assert "noaa20" not in f  # lo cuenta la prueba «viirs» de la validación
+    # Las cifras de docs/01, «Validación con CONAFOR».
     c = m["conafor"]
     assert (c["incendios"], c["desde"], c["hasta"]) == (1222, 2015, 2024)
-    assert (c["vistos"], c["grandes"], c["nGrandes"], c["azar"]) == (53, 84, 395, 9)
-    v = validacion["conafor"]["valores"]
-    assert (c["vistos"], c["azar"], c["grandes"]) == (v["realSnpp"], v["azarSnpp"], v["grandesSnpp"])
+    assert (c["vistos"], c["grandes"], c["nGrandes"]) == (53, 84, 395)
+    assert "azar" not in c  # sale de la validación (azarSnpp), no de una cifra fija
+
+
+def test_validacion_para_la_pagina(salida):
+    """«¿Se puede confiar?» lee el caso, los números y los datos de cada gráfica de la validación."""
+    v = _json(salida, "validacion.json")
+    original = json.loads(ew.VALIDACION.read_text(encoding="utf-8"))
+    assert [p["id"] for p in v["pruebas"]] == [p["id"] for p in original["pruebas"]]
+    for p, o in zip(v["pruebas"], original["pruebas"]):
+        assert set(p) == {"id", "estado", "caso", "clave", "valores", "grafica"}
+        assert (p["caso"], p["clave"], p["valores"]) == (o["caso"], o["clave"], o["valores"])
+    g = {p["id"]: p["grafica"] for p in v["pruebas"]}
+    # Las gráficas dicen lo mismo que los números de la frase.
+    vals = {p["id"]: p["valores"] for p in v["pruebas"]}
+    assert f"{g['salto_2012']['razonCruda']:.2f}" == vals["salto_2012"]["razonCruda"]
+    assert [t["y"] for t in g["salto_2012"]["anios"]] == list(range(2009, 2016))
+    assert [a["y"] for a in g["aqua_fuera_muestra"]["anios"]] == list(range(2021, 2026))
+    assert round(g["conafor"]["real"]) == vals["conafor"]["realSnpp"]
+    assert round(max(g["conafor"]["controlAnio"], g["conafor"]["controlLugar"])) == vals["conafor"]["azarSnpp"]
+    assert round(g["conafor"]["tamanos"][-1]["pct"]) == vals["conafor"]["grandesSnpp"]
+    completos = [a["razon"] for a in g["viirs"]["noaa20"] if a["completo"]]
+    assert f"{min(completos):.2f}" == vals["viirs"]["razonMinNoaa20"]
+    assert not (salida / "validacion").exists()  # ya no van las PNG
+    # Cada caso tiene su frase en los dos idiomas.
+    for idioma in ("es", "en"):
+        textos = json.loads((ew.RAIZ / "web" / "textos" / f"{idioma}.json").read_text(encoding="utf-8"))
+        for p in v["pruebas"]:
+            assert textos.get(p["clave"]), f"{idioma}:{p['clave']}"
+
+
+
+def test_graficas_de_la_validacion_como_sus_png(salida):
+    """Las gráficas de la página tienen lo mismo que las PNG de pipeline/validar.py: los mismos
+    textos (validar.ETIQUETAS) y los mismos datos (validar.tabla_grafica)."""
+    import validar
+
+    for idioma in ("es", "en"):
+        textos = json.loads((ew.RAIZ / "web" / "textos" / f"{idioma}.json").read_text(encoding="utf-8"))
+        for k, texto in validar.ETIQUETAS[idioma].items():
+            assert textos["mGv" + validar._camel(k)] == texto, (idioma, k)
+    original = {p["id"]: p for p in json.loads(ew.VALIDACION.read_text(encoding="utf-8"))["pruebas"]}
+    g = {p["id"]: p["grafica"] for p in _json(salida, "validacion.json")["pruebas"]}
+    t = {i: validar.tabla_grafica(p) for i, p in original.items()}
+    s = g["salto_2012"]
+    assert round(s["promAntes"]["crudo"]) == round(t["salto_2012"]["promedio_antes"]["crudo"]) == 8680
+    assert round(s["promAntes"]["cal"]) == 31295 and round(s["promDespues"]["cal"]) == 28281
+    assert [a["y"] for a in s["anios"] if a["transicion"]] == [2012]
+    assert (s["umbral"], s["pasa"]) == ([0.67, 1.5], True)
+    a = g["aqua_fuera_muestra"]
+    assert (round(a["error"]["zonaEpoca"]), round(a["error"]["unico"]), a["limite"], a["elegido"]) == (11, 13, 25, "zonaEpoca")
+    c = g["conafor"]
+    assert [x["t"] for x in c["tamanos"]] == ["0–5", "6–10", "11–20", "21–50", "51–100", "> 100"]
+    assert [x["n"] for x in c["tamanos"]] == [275, 126, 124, 167, 134, 395]
+    assert [x["grande"] for x in c["tamanos"]] == [False] * 5 + [True]
+    assert (round(c["metaAzar"]), c["sinRango"], c["minimo"]) == (26, 1, 75)
+    vi = g["viirs"]
+    assert vi["eje"] == [0.8, 1.2] and vi["banda"] == [0.9, 1.1]
+    assert all(p["cruda"] is not None for p in vi["noaa20"])
+    assert vi["cumple"] == {"noaa20": True, "noaa21": True}
+
+
+def test_satelites_contra_la_serie(salida):
+    """El selector (#32): cada satélite solo, contado como la serie de la página."""
+    sats = {x["sat"]: x for x in _json(salida, "satelites.json")["satelites"]}
+    assert list(sats) == ["Terra", "Aqua", "S-NPP", "NOAA-20"]
+    serie = {a["y"]: a["armonizado"] for a in _json(salida, "metodo.json")["anios"]}
+    # En los años en que la serie usa un satélite (sin días de respaldo), coinciden.
+    for s, anios in (("Terra", [2001, 2002]), ("S-NPP", [2013, 2015, 2020])):
+        cal = {a["y"]: a["cal"] for a in sats[s]["anios"]}
+        for y in anios:
+            assert cal[y] == pytest.approx(serie[y], rel=0.01), (s, y)
+    assert sats["Terra"]["serie"] == [2001, 2002]
+    assert sats["Aqua"]["serie"] == list(range(2003, 2012))
+    assert sats["NOAA-20"]["serie"] == []
+    assert sats["S-NPP"]["calibracion"] is None
+    assert sats["Aqua"]["calibracion"] == [2013, 2020]
+    assert sats["Terra"]["calibracion"] == [2013, 2020]
+    assert sats["NOAA-20"]["calibracion"] == [2018, 2026]  # armonizar.PERIODO_NOAA20
+    # S-NPP es la escala: calibrado y sin calibrar son lo mismo.
+    assert all(a["cal"] == a["crudo"] for a in sats["S-NPP"]["anios"])
+    # MODIS sin calibrar ve menos de la mitad que la serie; NOAA-20 en 2018 empieza en abril.
+    assert all(a["crudo"] < 0.5 * serie[a["y"]] for a in sats["Aqua"]["anios"])
+    assert sats["NOAA-20"]["incompletos"] == [2018]

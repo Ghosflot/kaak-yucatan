@@ -1,6 +1,8 @@
 # Guion del pitch (tarea 23)
 
-**Presenta Nico; Leo es el suplente** (decisión de Guille, 14 nov, #8).
+**Presentan Leo y Nico, en español** (acordado con Guille, #8). Cada uno es suplente del otro, así
+que los dos se aprenden el pitch completo y lo practican. Si faltan los dos, cubren Gadiel y
+Melany.
 
 Falta: cronometrar con el demo real y que Nico revise las cifras (cada una sale de docs/01).
 
@@ -158,6 +160,45 @@ arriba o hacia abajo.
 Mi abuelo Jesús lleva 50 años aprendiendo el calendario del fuego de una parcela. Nosotros se
 lo damos a todo el estado.
 
+## Bloque del campo (propuesta para la versión de 3 minutos)
+
+Va entre «El abuelo» y «El problema, a escala del estado». Son unos 50 segundos: para no pasarse
+de 3 minutos, se dice solo la primera y la última frase de cada párrafo (unos 25 segundos). La
+versión de 3 minutos ya va en unos 2:55: al cronometrar (#9) hay que decidir qué sale.
+Cifras en docs/01, «El campo de Yucatán», «Los municipios con más fuego viven del campo» y «El
+calendario de cada zona atrapa el doble que la ventana oficial». Detalle en docs/04.
+
+**Qué es el campo.** En Yucatán, 4 de cada 10 hectáreas son campo. Ahí trabajan de planta más
+de 115 mil personas, y más de 9 de cada 10 productores se consideran indígenas. De esa tierra
+sale la materia prima de lo que comemos: el maíz de la tortilla, el pasto del ganado, la leche, los cítricos y la carne, que
+es el segundo producto que Yucatán más vende al extranjero.
+
+**Dónde está el fuego.** Revisamos los 10 municipios con más fuego del estado. Los 10 viven del
+campo: el oriente ganadero, como Tizimín, Panabá y Buctzotz, y el sur milpero, como Tekax,
+Yaxcabá y Peto. Ninguno es una ciudad como Mérida. Esos 10 municipios suman casi 6 de cada 10 incendios
+forestales del estado.
+
+**Por qué prevenir.** Para sembrar se quema: es su herramienta de trabajo. Pero cuando el fuego
+se escapa, el que pierde es la misma gente del campo. En Oxkutzcab, una quema de maleza que se salió
+de control acabó con 15 hectáreas de limón persa. Y es gente que no tiene con qué
+recuperarse: 8 de cada 10 hectáreas dependen de la lluvia, y solo 2 de cada 100 unidades de
+producción obtuvieron crédito.
+
+**Conclusión.** Prevenir un incendio en Yucatán no es solo cuidar el monte. Es cuidar el trabajo
+y la comida de la gente del campo, que en su gran mayoría se considera indígena, y la materia
+prima de toda la cadena alimentaria del estado.
+
+**El calendario, en una frase** (para «Pruebas» o el cierre): «En las zonas donde se quema cada año, solo 1 de cada 4 fuegos
+cae en la ventana oficial; la mitad cae en 4 semanas que se repiten año con año. Eso le sirve a
+SEDER y a los municipios para planear.»
+
+| En vez de | Di |
+|---|---|
+| «9 de cada 10 personas que trabajan en el campo son indígenas» | «Más de 9 de cada 10 productores se consideran indígenas» |
+| «El campo es el segundo sector de la economía» | «La carne es el segundo producto que más exporta Yucatán» |
+| «Los incendios los causan los campesinos» | «El fuego es su herramienta de trabajo; cuando se escapa, ellos son los primeros que pierden» |
+| «Todos los municipios del top son rurales» | «Los 10 tienen producción agropecuaria; 9 viven por completo del campo» |
+
 ## De dónde sale cada cifra (docs/01)
 
 | Se dice | Fuente en docs/01 |
@@ -171,6 +212,11 @@ lo damos a todo el estado.
 | Umán: 42 focos en un año normal y 63 en 2025; 2025, segundo año más tranquilo | «Cifras de la página» (Umán) y «Las temporadas 2025 y 2026 fueron las más tranquilas del registro» |
 | Más de la mitad y 84 % de los de más de 100 ha; azar menos del 10 % | «Validación con CONAFOR» |
 | 19 % dentro de la ventana de su zona (2025) | «Hallazgo: la mayor parte del fuego cae fuera de la ventana» |
+| *(campo)* 4 de cada 10 hectáreas son campo; más de 115 mil personas de planta; más de 9 de cada 10 productores se consideran indígenas; carne, 2.ª exportación | «El campo de Yucatán: territorio, gente y materia prima» |
+| *(campo)* Los 10 municipios con más fuego viven del campo; casi 6 de cada 10 incendios forestales | «Los municipios con más fuego viven del campo» |
+| *(campo)* 8 de cada 10 hectáreas de temporal; 2 de cada 100 unidades de producción con crédito | «El campo de Yucatán: territorio, gente y materia prima» |
+| *(campo)* Oxkutzcab: 15 ha de limón | «Lo que viven Protección Civil y SEDER» (Casos) |
+| *(calendario)* En las zonas donde se quema cada año, 1 de cada 4 fuegos cae en la ventana oficial; la mitad, en 4 semanas que se repiten | «El calendario de cada zona atrapa el doble que la ventana oficial» |
 | *(5 min)* 765 ha en 2023, 20,334 en 2024 y 2,215 en 2025 | «¿Hay muchos incendios en Yucatán?» (CONAFOR) |
 | *(5 min)* Mérida entre las cinco ciudades más contaminadas, mayo de 2024 | «El humo llega a Mérida» |
 | *(5 min)* MODIS en retiro, S-NPP sin datos desde el 2 de nov, cuatro satélites | «Contexto» y «S-NPP deja de entregar datos» |
@@ -221,6 +267,13 @@ Respuestas cortas, con su fuente en docs/01.
 - «Quemas ilegales»: un foco fuera de su ventana puede tener otras causas.
 - Que K'áak' predice incendios, que es un sistema oficial de alerta o que el satélite ve todo
   el fuego.
+- Que el agropecuario es el segundo sector de la economía de Yucatán, o «el 63 % de la economía
+  alimenticia»: no hay fuente. Sí: la carne es el segundo producto que más exporta.
+- «Medio millón de hectáreas agrícolas» (son 300 a 436 mil) ni que el campo «bajó» de 2022 a
+  2025 (el censo y la encuesta miden distinto).
+- Que el reto pide un calendario: no pudimos abrir la página del reto para confirmarlo.
+- Que la ventana de SEDER «se equivoca» o «atina»: dice cuándo está permitido quemar, no cuándo
+  se quema. Tampoco «25 años» para el calendario de cada zona: son 14 años de VIIRS.
 - Nada sobre si Protección Civil informa o no a la gente: no está en docs/01 y es un usuario
   principal del proyecto.
 - Del humo de Yaxkukul: que se esparció por otros municipios del norte o que afectó la salud
