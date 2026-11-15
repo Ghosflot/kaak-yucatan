@@ -625,32 +625,33 @@ async function demo() {
     const t0 = Date.now();
     const hasta = (ms) => espera(Math.max(0, ms - (Date.now() - t0)));
     // 0–6, el gancho: la temporada empieza a encenderse.
-    await sub('In May 2024, wildfire smoke made Mérida one of the five most polluted cities in Mexico.', 900);
+    await sub('In 2024, wildfire smoke put Mérida among Mexico’s most polluted cities.', 900);
     await page.click('#verTemporada');
     await hasta(6000);
-    // 6–12, el problema en el campo: al cierre, un solo municipio.
-    await sub('In Yucatán, farmers burn to plant their milpa, and each town knows its own fire season, but only its own.', 0);
+    // 6–12, el problema en el campo: el fuego de la temporada y, al cierre, cada municipio.
+    await sub('Here, fire is a farming tool: the ten most-burned towns grow milpa or raise cattle.', 0);
     await page.waitForSelector('#escenario[data-modo="final"]', { timeout: 30000 });
-    await page.click('#buscador2 .ejemplo button');
     await hasta(12000);
     // 12–18, el problema técnico: el salto de 2012, sin corregir y corregido.
     await page.click('.nav a[data-vista="metodo"]');
     await page.waitForSelector('#mSwitch');
-    await sub('And the satellites don’t agree: some see three to five times more fire than others.', 0);
+    await sub('But satellites disagree: some see three to five times more fire.', 0);
     await hasta(15200);
     await page.click('#mSwitch');
     await hasta(18000);
-    // 18–26, la solución: un municipio y su calendario.
-    await page.evaluate(() => { location.hash = '#/municipio/muna'; });
-    await page.waitForSelector('#hechos li');
-    await sub('K’áak’ calibrates them into 25 comparable years and tells you whether your municipality’s season is running above or below normal.', 0);
-    await hasta(22000);
-    await page.evaluate(() => document.querySelector('#diasBarras').scrollIntoView({ behavior: 'smooth', block: 'center' }));
+    // 18–26, la solución: el mapa con un municipio y, después, sus fechas de quema.
+    await page.evaluate(() => { location.hash = '#/?modo=final'; });
+    await page.waitForSelector('#escenario[data-modo="final"]', { timeout: 30000 });
+    await sub('K’áak’ calibrates 25 years and shows where and when Yucatán has historically burned most, town by town.', 0);
+    await page.click('#buscador2 .ejemplo button');
+    await hasta(22300);
+    await page.evaluate(() => { location.hash = '#/fechas/3'; });
+    await page.waitForSelector('.fz-dia');
     await hasta(26000);
     // 26–30, el cierre: la marca y la dirección.
     await page.evaluate(() => { location.hash = '#/'; });
     await page.waitForSelector('#rellenos path');
-    await sub('For Civil Protection, SEDER and anyone: K’áak’, Yucatán’s fire calendar. kaak.pages.dev', 0);
+    await sub('For Civil Protection, SEDER and every town: K’áak’, Yucatán’s fire calendar. kaak.pages.dev', 0);
     await hasta(28400);
   });
 }
