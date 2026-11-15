@@ -6,9 +6,12 @@ import { armarBuscador, EJEMPLO } from '../buscador.js';
 import { ruta } from '../app.js';
 
 const W0 = 825, H0 = 681, Y0 = -90;
-// Lo que cubre la foto (web/img/mosaico.jpg, ver FOTO en pipeline/mosaico.py), en unidades del lienzo:
-// más que el lienzo, con mar y tierra vecina, para que nunca se vea su borde.
-const FOTO = { x0: -400, x1: 976, y0: -150, y1: 650 };
+// Lo que cubre la foto amplia de detrás (web/img/fondo.jpg, ver FONDO en pipeline/mosaico.py), en unidades
+// del lienzo: de Veracruz a Cuba y de Honduras a Florida, para que nunca se vea su borde. Encima va la foto
+// detallada de la península (mosaico.jpg, FOTO), que el CSS coloca.
+const FONDO = { x0: -800, x1: 1500, y0: -500, y1: 1100 };
+// Al abrir, la península se ve entera con el mar y la tierra que la rodean: este aire a cada lado.
+const AIRE = 0.17, AIRE_TELEFONO = 0.06;
 const PENINSULA = { x0: 0, x1: 825, y0: 10, y1: 591 }; // la tierra de los tres estados, sin el arrecife Alacranes
 const YUC = { x0: 302, x1: 708, y0: 31, y1: 330 }; // Yucatán en el lienzo, sin el arrecife Alacranes
 const ACERCAR_MAX = 4; // veces el encuadre de Yucatán
@@ -29,15 +32,20 @@ const ICONO_MAS = '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="
 const ICONO_MENOS = '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14" stroke="currentColor" stroke-width="2.4" fill="none"/></svg>';
 const ICONO_TODO = '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" stroke="currentColor" stroke-width="2.2" fill="none"/></svg>';
 
+// La portada abre con el repaso de la temporada una sola vez por visita: al volver a «Temporada» desde
+// otra sección ya se ve el mapa a color.
+let repasoVisto = false;
+
 const PLANTILLA = `
 <section class="escenario" id="escenario" data-modo="foto">
   <div class="visor" id="visor">
     <div class="mapa" id="mapa">
+      <img class="fondo" src="/img/fondo.jpg" alt="" width="1840" height="1280" decoding="async">
       <img class="foto" id="foto" src="/img/mosaico.jpg" alt="" width="3440" height="2000" decoding="async">
       <canvas id="fuego" aria-hidden="true"></canvas>
       <svg id="capa" viewBox="0 -90 825 681" preserveAspectRatio="none" role="img" aria-labelledby="capaDesc">
         <desc id="capaDesc"></desc>
-        <rect class="velo" x="-400" y="-150" width="1376" height="800"></rect>
+        <rect class="velo" x="-800" y="-500" width="2300" height="1600"></rect>
         <g class="rellenos" id="rellenos"></g>
         <g class="limites" id="limites"></g>
         <g class="estados" id="estados"></g>
@@ -51,6 +59,13 @@ const PLANTILLA = `
 
   <div class="cartel" id="cartel">
     <h1 id="titulo"></h1>
+    <div class="repaso-dia" id="repasoDia" hidden>
+      <button type="button" class="boton" id="saltarRepaso">
+        <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5 L15.5 12 L5 19 Z M17 5 H20 V19 H17 Z" fill="#121212"></path></svg>
+        <span data-t="verMapaYa"></span>
+      </button>
+      <p class="leyenda-punto pasan" id="leyendaDia"><i aria-hidden="true"></i><span><span data-t="puntosPasan"></span> <b id="ambFecha" aria-hidden="true"></b></span></p>
+    </div>
     <div class="bloque" id="bloqueFoto" hidden>
       <p class="fuera-temporada" id="fueraTemporada" hidden></p>
       <p class="bajada" data-t="bajada"></p>
@@ -63,9 +78,9 @@ const PLANTILLA = `
     </div>
     <div class="bloque" id="bloqueFinal" hidden>
       <p class="resultado" id="resultado" tabindex="-1"></p>
+      <p class="explica-color" id="explicaColor"></p>
       <button type="button" class="volver" id="volver" hidden><span aria-hidden="true">←</span> <span data-t="volver2026"></span></button>
       <div class="escala-color" id="escalaColor"></div>
-      <p class="leyenda-punto pasan" id="leyendaDia"><i aria-hidden="true"></i><span><span data-t="puntosPasan"></span> <b id="ambFecha" aria-hidden="true"></b></span></p>
       <div class="buscador" id="buscador2"></div>
       <p class="pie" id="pie"></p>
     </div>
@@ -155,13 +170,12 @@ export function montar(raiz) {
   const mg = () => cartel.offsetLeft; // margen del escenario (--mg en el CSS)
   // En el cierre no hay instrumento: el mapa usa todo el alto.
   const arribaInstr = () => H - Math.round(mg() * 0.6) - (modo === 'final' ? 0 : INSTR);
-  // Lo que queda libre de texto en el visor. El instrumento ocupa su lugar aunque esté escondido:
-  // así la foto y el repaso tienen el mismo encuadre y empezar no mueve el mapa.
+  // Lo que queda libre de texto en el visor. Al abrir, la península va centrada entre el cartel y los
+  // botones del mapa.
   function libre(tipo) {
     if (telefono()) return { x0: 6, x1: W - 6, y0: 6, y1: H - 6 };
-    const abajo = arribaInstr() - 14;
-    if (tipo === 'final') return { x0: cartel.offsetLeft + cartel.offsetWidth + 32, x1: W - 72, y0: 18, y1: abajo };
-    return { x0: 0, x1: W - mg(), y0: Math.round(mg() * 0.6), y1: abajo };
+    if (tipo === 'final') return { x0: cartel.offsetLeft + cartel.offsetWidth + 32, x1: W - 72, y0: 18, y1: arribaInstr() - 14 };
+    return { x0: cartel.offsetLeft + cartel.offsetWidth + 24, x1: W - 72, y0: 16, y1: H - 16 };
   }
   // En escritorio angosto (1024 de ancho) no caben el texto, el municipio y su tarjeta lado a lado: con una
   // tarjeta abierta, la leyenda y el buscador se pliegan y la tarjeta va debajo del titular.
@@ -177,24 +191,24 @@ export function montar(raiz) {
     return { ...L, tarjeta: telefono() ? 0 : TARJETA + 24 };
   }
   const conAire = (r, f) => ({ x0: r.x0 - (r.x1 - r.x0) * f, x1: r.x1 + (r.x1 - r.x0) * f, y0: r.y0 - (r.y1 - r.y0) * f, y1: r.y1 + (r.y1 - r.y0) * f });
-  // Un recuadro del lienzo dentro de un recuadro del visor. En escritorio, la península se pega a la
-  // derecha: el texto queda sobre el mar.
-  function encajar(R, L, derecha) {
+  // Un recuadro del lienzo, centrado dentro de un recuadro del visor.
+  function encajar(R, L) {
     const k = Math.min((L.x1 - L.x0) / (R.x1 - R.x0), (L.y1 - L.y0) / (R.y1 - R.y0));
-    const sx = derecha ? L.x1 - (R.x1 - R.x0) * k : (L.x0 + L.x1 - (R.x1 - R.x0) * k) / 2;
+    const sx = (L.x0 + L.x1 - (R.x1 - R.x0) * k) / 2;
     const sy = (L.y0 + L.y1 - (R.y1 - R.y0) * k) / 2;
     return { k, cx: R.x0 + (W / 2 - sx) / k, cy: R.y0 + (H / 2 - sy) / k };
   }
   // La escala del encuadre del cierre: se calcula una vez por tamaño de ventana (medir la pone en cero).
   let kFin = 0;
   const kFinal = () => kFin || (kFin = encajeFinal().k);
-  const kMin = () => Math.max(W / (FOTO.x1 - FOTO.x0), H / (FOTO.y1 - FOTO.y0));
+  const kVista = () => encuadre('vista').k;
+  const kMin = () => Math.max(W / (FONDO.x1 - FONDO.x0), H / (FONDO.y1 - FONDO.y0));
   const kMax = () => Math.max(kMin(), ACERCAR_MAX * kFinal());
   // La foto llena siempre el visor: la cámara no se sale de ella.
   function limitar(c) {
     const k = limitarA(c.k, kMin(), kMax());
     const mx = W / 2 / k, my = H / 2 / k;
-    return { k, cx: limitarA(c.cx, FOTO.x0 + mx, FOTO.x1 - mx), cy: limitarA(c.cy, FOTO.y0 + my, FOTO.y1 - my) };
+    return { k, cx: limitarA(c.cx, FONDO.x0 + mx, FONDO.x1 - mx), cy: limitarA(c.cy, FONDO.y0 + my, FONDO.y1 - my) };
   }
   // La tarjeta de los años va en la esquina de abajo a la derecha, la que Yucatán deja libre. Si con el
   // encuadre completo taparía parte del estado, Yucatán se encuadra a su izquierda o arriba de ella,
@@ -205,30 +219,40 @@ export function montar(raiz) {
     const r = p.getBoundingClientRect(), e = visor.getBoundingClientRect();
     return { x0: r.left - e.left, y0: r.top - e.top, x1: r.right - e.left, y1: r.bottom - e.top };
   }
-  function tapaYucatan(c, a) {
-    const yuc = $('estados').querySelector('.yucatan');
-    if (!yuc || !yuc.isPointInFill) return false;
+  // ¿La tarjeta de los años (a) taparía tierra con la cámara c? Con sel = 'path', la de cualquiera de los tres estados.
+  function tapaYucatan(c, a, sel = '.yucatan') {
+    const tierra = [...$('estados').querySelectorAll(sel)];
+    if (!tierra.length || !tierra[0].isPointInFill) return false;
     const pt = $('capa').createSVGPoint();
     for (let i = 0; i <= 10; i++) {
       // Puntos a lo largo del borde de arriba y del borde izquierdo de la tarjeta, con 10 px de aire.
       for (const [sx, sy] of [[a.x0 - 10 + ((a.x1 - a.x0) * i) / 10, a.y0 - 10], [a.x0 - 10, a.y0 - 10 + ((a.y1 - a.y0) * i) / 10]]) {
         pt.x = c.cx + (sx - W / 2) / c.k;
         pt.y = c.cy + (sy - H / 2) / c.k;
-        if (yuc.isPointInFill(pt)) return true;
+        if (tierra.some((e) => e.isPointInFill(pt))) return true;
       }
     }
     return false;
   }
   function encajeFinal() {
     const R = conAire(YUC, 0.04), L = libre('final'), a = cajaAnios();
-    const completo = encajar(R, L, false);
+    const completo = encajar(R, L);
     if (!a || !tapaYucatan(completo, a)) return completo;
-    const izq = encajar(R, { ...L, x1: a.x0 - 16 }, false), arriba = encajar(R, { ...L, y1: a.y0 - 16 }, false);
+    const izq = encajar(R, { ...L, x1: a.x0 - 16 }), arriba = encajar(R, { ...L, y1: a.y0 - 16 });
     return izq.k > arriba.k ? izq : arriba;
   }
+  // Al abrir: la península entera con aire alrededor. Si la tarjeta de los años taparía tierra, la península
+  // va a su izquierda, con menos aire a los lados y el mismo arriba y abajo.
+  function encajeVista() {
+    if (telefono()) return encajar(conAire(PENINSULA, AIRE_TELEFONO), libre('vista'));
+    const R = conAire(PENINSULA, AIRE), L = libre('vista'), a = cajaAnios();
+    const completo = encajar(R, L);
+    if (!a || !tapaYucatan(completo, a, 'path')) return completo;
+    const lados = (PENINSULA.x1 - PENINSULA.x0) * 0.04;
+    return encajar({ ...R, x0: PENINSULA.x0 - lados, x1: PENINSULA.x1 + lados }, { ...L, x1: a.x0 - 16 });
+  }
   function encuadre(tipo) {
-    if (tipo === 'final') return limitar(encajeFinal());
-    return limitar(encajar(PENINSULA, libre('vista'), !telefono()));
+    return limitar(tipo === 'final' ? encajeFinal() : encajeVista());
   }
   // El mapa se acomoda con su posición y su tamaño, no con transform: así los bordes, los nombres y la
   // tarjeta se redibujan nítidos en cada cuadro.
@@ -238,7 +262,7 @@ export function montar(raiz) {
     Object.assign(mapa.style, { left: x.toFixed(1) + 'px', top: y.toFixed(1) + 'px', width: w.toFixed(1) + 'px', height: h.toFixed(1) + 'px' });
     caja = { x, y, w, h };
     // Con el mapa acercado, un dedo lo mueve; si no, desplaza la página.
-    visor.classList.toggle('acercado', modo === 'final' && cam.k > kFinal() * 1.02);
+    visor.classList.toggle('acercado', modo !== 'foto' && cam.k > (modo === 'final' ? kFinal() : kVista()) * 1.02);
   }
   const enVisor = (ux, uy) => ({ x: caja.x + (ux / W0) * caja.w, y: caja.y + ((uy - Y0) / H0) * caja.h });
   let vuelo = 0;
@@ -260,7 +284,9 @@ export function montar(raiz) {
   function seguirMapa(fin) {
     if (seleccion) ubicarTarjeta(seleccion);
     clearTimeout(esperaQuieto);
-    if (fin) despejarRotulos(); else esperaQuieto = setTimeout(() => despejarRotulos(), 160);
+    // Con el mapa quieto, los focos del repaso se vuelven a dibujar nítidos a la nueva escala.
+    const quieto = () => { despejarRotulos(); if (modo === 'repaso' && cam) ajustarLienzo(cam.k); };
+    if (fin) quieto(); else esperaQuieto = setTimeout(quieto, 160);
   }
   function zoomEn(f, sx, sy, animar) {
     if (!cam) return;
@@ -320,13 +346,19 @@ export function montar(raiz) {
     if (seleccion) { escenario.classList.toggle('estrecho', estrecho()); ubicarTarjeta(seleccion); }
   }
   // El fuego se dibuja al tamaño en que se va a ver. En el cierre no se ve: no se agranda con el mapa.
+  // El lienzo de los focos no pasa de 1.6 veces el encuadre de la península (más grande pesaría demasiado
+  // con el mapa muy acercado); si el mapa se acerca más, el lienzo se estira y los puntos se dibujan más
+  // chicos para que en pantalla crezcan poco.
+  let kPuntos = 0;
   function ajustarLienzo(k) {
     if (modo === 'final') return;
     dpr = Math.min(2, window.devicePixelRatio || 1);
-    const w = Math.round(W0 * k * dpr), h = Math.round(H0 * k * dpr);
-    if (w === lienzo.width && h === lienzo.height) return;
-    lienzo.width = w; lienzo.height = h;
-    hacerSprites();
+    const kc = Math.min(k, kVista() * 1.6);
+    const w = Math.round(W0 * kc * dpr), h = Math.round(H0 * kc * dpr);
+    if (w === lienzo.width && h === lienzo.height && Math.abs(k - kPuntos) < 1e-3) return;
+    kPuntos = k;
+    if (w !== lienzo.width || h !== lienzo.height) { lienzo.width = w; lienzo.height = h; }
+    hacerSprites(k, kc);
     if (D) prepararDias();
     dibujar();
   }
@@ -378,8 +410,11 @@ export function montar(raiz) {
     g.fill();
     return c;
   }
-  function hacerSprites() {
-    const r = Math.max(1.6, 3.1 * (lienzo.width / dpr / 1022)) * dpr;
+  // El radio en pantalla es el del encuadre de la península y crece con la raíz del acercamiento; en el
+  // lienzo se divide entre lo que el lienzo se estira (k / kc).
+  function hacerSprites(k = kVista(), kc = k) {
+    const base = kVista();
+    const r = Math.max(2, 3.1 * ((W0 * base) / 1022)) * Math.sqrt(Math.max(1, k / base)) * dpr * (kc / k);
     sprites = [];
     for (let i = 0; i < TONOS; i++) {
       const e = (i / (TONOS - 1)) * VIDA;
@@ -440,10 +475,10 @@ export function montar(raiz) {
   }
   function ambCuadro(ahora) {
     ambId = requestAnimationFrame(ambCuadro);
-    const activo = modo === 'final' && anio === ANIO && !!D && !!caja && amb.width > 0 && !reducirMovimiento();
+    // Los focos pasan en el repaso, sobre la foto; sobre el mapa a color, no: los colores se leen solos.
+    const activo = false;
     if (activo !== ambActivo) {
       ambActivo = activo;
-      $('leyendaDia').style.visibility = activo ? '' : 'hidden';
       if (!activo) actx.clearRect(0, 0, amb.width, amb.height);
       ambAntes = ahora;
     }
@@ -521,6 +556,7 @@ export function montar(raiz) {
     if (dia === diaPintado) return;
     diaPintado = dia;
     poner('fecha', fechaDia(diaDeTemporada(dia)));
+    poner('ambFecha', fechaDia(diaDeTemporada(dia)));
     const sat = sateliteDelDia(dia);
     poner('satelite', sat ? t('vistoPor', { s: sat }) : '');
     $('hastaRect').setAttribute('width', String((dia + 1) * 10));
@@ -580,7 +616,14 @@ export function montar(raiz) {
     aplicando = true;
     try {
       const a = D.porAnio.anios.includes(e.anio) ? e.anio : ANIO;
-      // La página abre siempre en el mapa a color; las direcciones viejas del repaso también.
+      // La primera vez, los focos de 2026 pasan día por día sobre la foto, sin colores, y al terminar
+      // entran los colores. Una dirección que pide otra cosa (un año, un municipio o ?modo=…) o
+      // «reducir movimiento» abren directo en el mapa a color.
+      if (!abierto && !repasoVisto && !e.modo && !e.sel && a === ANIO && !reducirMovimiento()) {
+        repasoVisto = true;
+        jugar(0);
+        return;
+      }
       if (modo !== 'final') { pausar(); irFinal(); }
       if (a !== anio) ponerAnio(a);
       if (e.sel && munPorId.has(e.sel)) { if (e.sel !== seleccion) seleccionar(e.sel, { quedar: true, camara: 'volar' }); }
@@ -599,8 +642,9 @@ export function montar(raiz) {
     escenario.dataset.modo = m;
     $('bloqueFoto').hidden = m !== 'foto';
     $('bloqueFinal').hidden = m !== 'final';
-    $('instrumento').hidden = m !== 'repaso';
-    $('zoom').hidden = m !== 'final';
+    $('instrumento').hidden = true; // sin barra de tiempo: la fecha del repaso va en el cartel
+    $('repasoDia').hidden = m !== 'repaso';
+    $('zoom').hidden = m === 'foto'; // también durante el repaso: el mapa se mueve y se acerca mientras pasan los focos
     // En el cierre, el mapa se recorre con las flechas: es una parada de Tab.
     if (m === 'final') $('capa').setAttribute('tabindex', '0'); else $('capa').removeAttribute('tabindex');
     descripcion();
@@ -608,7 +652,8 @@ export function montar(raiz) {
     if (m !== 'final') quitarSeleccion(false, true); // la entrada la escribe quien cambió el momento
     if (!seleccion) { $('tarjeta').hidden = true; $('encima').textContent = ''; }
     if (m === 'final' && !barrasSubieron && D) { barrasSubieron = true; subirCuandoSeVea(); }
-    if (cambiaEncuadre && W) {
+    // Si la persona movió el mapa durante el repaso, al entrar los colores la cámara se queda donde la dejó.
+    if (cambiaEncuadre && W && (camAuto || m !== 'final')) {
       camAuto = true;
       const destino = encuadre(m === 'final' ? 'final' : 'vista');
       ajustarLienzo(destino.k);
@@ -762,6 +807,7 @@ export function montar(raiz) {
     resultado.append(antes, junto, despues);
     rodar(cifra, n, cifraVista);
     cifraVista = n;
+    $('explicaColor').textContent = t('explicaColor', { a: anio });
     $('pistaAnio').textContent = anio === ANIO ? t('tocaAnioMapa') : t('anioEnMapa', { a: anio, s: sateliteDe(anio).replace('-', '\u2011') });
   }
   function rodar(caja, n, antes) {
@@ -793,7 +839,7 @@ export function montar(raiz) {
     for (const e of D.estados) el('path', { d: e.d, class: e.n === 'Yucatán' ? 'yucatan' : '' }, est);
     rel.addEventListener('pointermove', (ev) => {
       // En la foto los municipios todavía no se ven: no hay tarjeta al pasar.
-      if (seleccion || jugando || modo === 'foto' || ev.pointerType === 'touch' || visor.classList.contains('moviendo')) return;
+      if (seleccion || modo === 'foto' || ev.pointerType === 'touch' || visor.classList.contains('moviendo')) return;
       const id = ev.target.getAttribute('data-id');
       if (id) mostrarTarjeta(id, ev);
     });
@@ -920,6 +966,8 @@ export function montar(raiz) {
     if (n === hoy - desde + 1) return t('hechoRachaTodas', { a: DESDE_MUNICIPIO });
     return n >= 3 ? t('hechoRacha', { n }) : '';
   }
+  // Al pasar el mouse, la tarjeta es breve (nombre, veredicto y cifras) para no tapar el mapa; al tocar el
+  // municipio se abre entera, con sus temporadas y el enlace a su página.
   function contenidoTarjeta(id, fija) {
     const m = munPorId.get(id);
     const [v26, normal] = valoresDe(id);
@@ -927,6 +975,16 @@ export function montar(raiz) {
     const tj = $('tarjeta');
     tj.textContent = '';
     const span = (cls, texto) => { const s = document.createElement('span'); s.className = cls; if (texto !== undefined) s.textContent = texto; tj.appendChild(s); return s; };
+    if (!fija) {
+      const n = span('nombre', m.n);
+      const e = document.createElement('span'); e.className = 'edo'; e.textContent = m.e;
+      n.appendChild(e);
+      const ver = span('veredicto');
+      const i = document.createElement('i'); i.style.background = COLOR[c];
+      ver.append(i, document.createTextNode(veredicto(v26, normal, c)));
+      span('cifras cifra', t('tarjetaCifras', { a: anio, n: fmt(v26), m: fmt(normal) }));
+      return;
+    }
     span('nombre', m.n);
     span('edo', t('periodo', { e: m.e }));
     for (const [k, v] of [['tAnio', v26], ['tNormal', normal]]) {
@@ -977,7 +1035,7 @@ export function montar(raiz) {
   }
   function mostrarTarjeta(id, ev) {
     const tj = $('tarjeta');
-    tj.className = 'tarjeta';
+    tj.className = 'tarjeta breve';
     contenidoTarjeta(id, false);
     tj.hidden = false;
     marcarEncima(id);
@@ -1084,7 +1142,7 @@ export function montar(raiz) {
   /* ---------- Acercar y arrastrar el mapa del cierre ---------- */
   // Rueda y pellizco del panel táctil acercan donde está el puntero. En el teléfono la rueda desplaza la página.
   visor.addEventListener('wheel', (e) => {
-    if (modo !== 'final' || !cam || (telefono() && !e.ctrlKey)) return;
+    if (modo === 'foto' || !cam || (telefono() && !e.ctrlKey)) return;
     e.preventDefault();
     const r = visor.getBoundingClientRect();
     const delta = e.deltaY * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? H : 1);
@@ -1095,7 +1153,7 @@ export function montar(raiz) {
   const dedos = new Map();
   let gesto = null, arrastro = false, tragarClic = false;
   visor.addEventListener('pointerdown', (e) => {
-    if (modo !== 'final' || !cam || (e.pointerType === 'mouse' && e.button !== 0)) return;
+    if (modo === 'foto' || !cam || (e.pointerType === 'mouse' && e.button !== 0)) return;
     dedos.set(e.pointerId, { x: e.clientX, y: e.clientY, tipo: e.pointerType });
     gesto = null;
     if (dedos.size === 1) arrastro = false;
@@ -1262,7 +1320,7 @@ export function montar(raiz) {
       return;
     }
     // +, − y 0 acercan, alejan y muestran los tres estados en el mapa del cierre.
-    if (modo === 'final' && ['+', '=', '-', '_', '0'].includes(e.key)) {
+    if (modo !== 'foto' && ['+', '=', '-', '_', '0'].includes(e.key)) {
       e.preventDefault();
       if (e.key === '0') verTodo(); else zoomBoton(e.key === '+' || e.key === '=' ? PASO_ZOOM : 1 / PASO_ZOOM);
       return;
@@ -1285,6 +1343,7 @@ export function montar(raiz) {
   $('verTemporada').addEventListener('click', () => { jugar(0); $('control').focus({ preventScroll: true }); });
   // En la foto, tocar el mapa también empieza la temporada: es lo primero que se toca.
   visor.addEventListener('click', () => { if (modo === 'foto' && D) { jugar(0); $('control').focus({ preventScroll: true }); } });
+  $('saltarRepaso').addEventListener('click', () => { irFinal(); $('resultado').focus({ preventScroll: true }); });
   $('volver').addEventListener('click', () => { volverA2026(); descripcion(); guardar(true); $('resultado').focus({ preventScroll: true }); });
   $('control').addEventListener('click', () => {
     // Con «reducir movimiento», «Repetir» lleva al primer día sin animar: se avanza con la línea de tiempo.

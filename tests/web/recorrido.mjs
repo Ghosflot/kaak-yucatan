@@ -711,6 +711,39 @@ async function completo() {
   });
 }
 
+// La portada vuelve al repaso sobre la foto, sin barra de tiempo, y al terminar entran los colores.
+const PORTATIL_REPASO = { viewport: { width: 1366, height: 629 } };
+async function apertura() {
+  await grabar('escritorio', PORTATIL_REPASO, '#/', '#rellenos path', async ({ page, espera, sub, centro }) => {
+    await sub('Al abrir se ve la península entera, con el golfo, el Caribe y la tierra vecina; los focos de 2026 pasan día por día.', 3500);
+    const v = await page.locator('#visor').boundingBox();
+    const [ax, ay] = [v.x + v.width * 0.55, v.y + v.height * 0.55];
+    await page.mouse.move(ax, ay, { steps: 12 });
+    for (let i = 0; i < 4; i++) { await page.mouse.wheel(0, -120); await espera(160); }
+    await sub('Mientras pasan los focos, el mapa ya se acerca con la rueda o con los botones…', 1800);
+    await page.mouse.down();
+    await page.mouse.move(ax - 160, ay - 60, { steps: 25 });
+    await page.mouse.up();
+    await sub('…y se arrastra. Los focos siguen pasando.', 1800);
+    const [mx, my] = await centro('.rellenos path[data-id="tekax"]');
+    await page.mouse.move(mx, my, { steps: 14 });
+    await sub('Al pasar por un municipio, una tarjeta breve que no tapa el mapa.', 1800);
+    await page.mouse.move(v.x + v.width - 40, v.y + 30, { steps: 10 });
+    await page.waitForSelector('#escenario[data-modo="final"]', { timeout: 20000 });
+    await sub('Al terminar entran los colores sin mover el mapa de donde quedó, y bajo el titular una línea dice qué significan.', 5000);
+  });
+  await grabar('saltar', PORTATIL_REPASO, '#/', '#rellenos path', async ({ page, sub }) => {
+    await sub('Bajo el título, el botón «Saltar al mapa a color» para quien no quiera esperar.', 2500);
+    await page.click('#saltarRepaso');
+    await sub('Lleva directo a los colores y a su explicación.', 3500);
+  });
+  await grabar('telefono', TELEFONO, '#/', '#rellenos path', async ({ page, sub }) => {
+    await sub('En el teléfono: el botón para saltar va bajo el título, antes de la fecha.', 4500);
+    await page.tap('#saltarRepaso');
+    await sub('Con «Saltar al mapa a color» se pasa directo a los colores y su explicación.', 4500);
+  });
+}
+
 // El mapa del territorio ganadero (#60, fase 3), en la página de Tizimín: computadora y teléfono.
 async function ganadero() {
   await grabar('escritorio', PORTATIL, '#/municipio/tizimin', '#ganMapa a', async ({ page, espera, sub, centro }) => {
@@ -767,6 +800,6 @@ async function pie() {
   }
 }
 
-await ({ portada, temporada, fechas, pulido, revision, repaso, ia, direccion, demo, ganadero, pie, completo })[RECORRIDO]();
+await ({ portada, temporada, fechas, pulido, revision, repaso, ia, direccion, demo, ganadero, pie, completo, apertura })[RECORRIDO]();
 await navegador.close();
 process.exit(0);

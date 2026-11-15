@@ -59,6 +59,7 @@
   "ubicacionFuera": "Your location is outside the Yucatán Peninsula. Search for a municipality by name.",
   "ubicacionError": "Your location could not be found. Search for your municipality by name.",
   "puntosPasan": "The dots are each day’s hot spots in 2026:",
+  "verMapaYa": "Skip to the colored map",
   "leyendaPunto": "Each dot is a hot spot seen on {f}, the day with the most fire this season: {n} across the peninsula.",
   "verTemporada": "Watch the season day by day",
   "filaNormal": "Normal year",
@@ -71,6 +72,7 @@
   "repetir": "Replay the season",
   "diaTemporada": "Day of the {a} season",
   "resultado": "{n} of {t} municipalities in Yucatán had less fire than normal.",
+  "explicaColor": "Each municipality’s color compares its {a} fire with its normal year.",
   "resultadoMasAnio": "In {a}, {n} of {t} municipalities in Yucatán had more fire than normal.",
   "resultadoMenosAnio": "In {a}, {n} of {t} municipalities in Yucatán had less fire than normal.",
   "volver2026": "Back to 2026",
@@ -122,6 +124,7 @@
   "tAnio": "Hot spots in {a}",
   "tNormal": "In a normal year",
   "periodo": "{e}, March to May",
+  "tarjetaCifras": "{a}: {n} hot spots · a normal year: {m}",
   "veredicto": [
     "Less than half of normal",
     "Half of normal",

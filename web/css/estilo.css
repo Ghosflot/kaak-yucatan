@@ -88,8 +88,12 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .visor { position: absolute; inset: 0; overflow: hidden; }
 .mapa { position: absolute; left: 0; top: 0; }
 .mapa > * { position: absolute; inset: 0; width: 100%; height: 100%; }
-/* La foto cubre más que el lienzo: de x −400 a 976 y de y −150 a 650 (el lienzo va de 0 a 825 y de −90 a 591). */
-.mapa > .foto { left: calc(-400 / 825 * 100%); top: calc(-60 / 681 * 100%); width: calc(1376 / 825 * 100%); height: calc(800 / 681 * 100%); max-width: none; object-fit: fill; }
+/* La foto cubre más que el lienzo: de x −400 a 976 y de y −150 a 650 (el lienzo va de 0 a 825 y de −90 a 591).
+   Sus orillas se desvanecen sobre la foto amplia de detrás, que va de x −800 a 1500 y de y −500 a 1100. */
+.mapa > .foto { left: calc(-400 / 825 * 100%); top: calc(-60 / 681 * 100%); width: calc(1376 / 825 * 100%); height: calc(800 / 681 * 100%); max-width: none; object-fit: fill;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 4%, #000 96%, transparent), linear-gradient(to bottom, transparent, #000 5%, #000 95%, transparent);
+  -webkit-mask-composite: source-in; mask-image: linear-gradient(to right, transparent, #000 4%, #000 96%, transparent), linear-gradient(to bottom, transparent, #000 5%, #000 95%, transparent); mask-composite: intersect; }
+.mapa > .fondo { left: calc(-800 / 825 * 100%); top: calc(-410 / 681 * 100%); width: calc(2300 / 825 * 100%); height: calc(1600 / 681 * 100%); max-width: none; object-fit: fill; }
 #fuego { transition: opacity 0.35s ease, visibility 0s linear 0s; }
 #capa { overflow: visible; }
 /* El mapa del cierre se recorre con las flechas: el contorno del foco va por dentro del visor,
@@ -291,6 +295,13 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .historia text { font-size: 11px; fill: var(--tinta-2); }
 .historia text.este { fill: var(--rojo); font-weight: 700; }
 .mapa { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
+/* Al pasar el mouse: solo el nombre, el veredicto y las cifras, para que se siga viendo el mapa. */
+.tarjeta.breve { width: auto; max-width: 260px; padding: 8px 12px 9px; gap: 3px; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35); }
+.tarjeta.breve .nombre { display: block; padding-right: 0; font-size: 15.5px; }
+.tarjeta.breve .nombre .edo { margin: 0 0 0 7px; font-size: 12.5px; font-weight: 400; }
+.tarjeta.breve .veredicto { margin: 0; padding: 0; border: 0; font-size: 13.5px; line-height: 1.3; }
+.tarjeta.breve .veredicto i { width: 12px; height: 12px; }
+.tarjeta.breve .cifras { font-size: 12.5px; color: var(--tinta-2); white-space: nowrap; }
 .tarjeta .cerrar { position: absolute; top: 2px; right: 2px; width: 44px; height: 44px; border: 0; background: none; font-size: 22px; line-height: 1; color: var(--tinta-2); cursor: pointer; }
 
 /* Panel de la respuesta: una sola historia */
@@ -914,5 +925,7 @@ h1, h2, h3 { scroll-margin-top: calc(var(--barra-alto) + 12px); }
 @media (min-width: 861px) and (max-width: 1100px) {
   .vista-portada .panel .tira-pista, .vista-portada .panel .escala-hoy, .vista-portada .panel .siguiente { display: none; }
 }
-/* La portada ya no pasa por la foto con los focos del día de más fuego: al abrir solo entran los colores. */
-.vista-portada #fuego { opacity: 0; visibility: hidden; transition: none; }
+
+/* El repaso al abrir: bajo el título, el botón para ir directo al mapa a color y la fecha que pasa. */
+.repaso-dia { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; }
+.explica-color { margin: 6px 0 12px; font-size: 14px; line-height: 1.45; color: var(--sobre); }
