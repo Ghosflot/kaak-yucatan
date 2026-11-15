@@ -16,7 +16,8 @@ Qué hace, en este orden:
 3. Los agrega a datos_peninsula/focos_recientes.parquet, con las mismas columnas y tipos que
    focos_peninsula.parquet, sin repetir focos: ni los que ya estaban en el historial ni los
    que ya se habían bajado otro día.
-4. Escribe salidas/actualizacion.json con la fecha de «datos hasta» que muestra la página.
+4. Escribe salidas/actualizacion.json con la fecha de «datos hasta» que muestra la página, y
+   web/datos/revision.json con la hora de esta revisión, que la página muestra en su pie.
 
 S-NPP no se pide: dejó de enviar datos el 2 nov 2026. Lo lee pipeline/cargar.py (tarea 2),
 que es la única puerta de entrada de los focos para el resto del cálculo.
@@ -44,6 +45,7 @@ RECIENTES = RAIZ / "datos_peninsula" / "focos_recientes.parquet"
 MUNICIPIOS = RAIZ / "datos_peninsula" / "municipios_peninsula.geojson"
 ESTADOS = RAIZ / "datos_peninsula" / "estados_peninsula.geojson"
 ACTUALIZACION = RAIZ / "salidas" / "actualizacion.json"
+REVISION_WEB = RAIZ / "web" / "datos" / "revision.json"
 
 BASE = "https://firms.modaps.eosdis.nasa.gov/api/area/csv"
 CAJA = "-92.6,17.7,-86.6,21.8"  # oeste,sur,este,norte: la misma de analisis/
@@ -283,6 +285,8 @@ def actualizar(clave: str, leer: Callable[[str], str] = leer_url, hoy: date | No
         "actualizado": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
     }
     escribir_actualizacion(resumen, ACTUALIZACION)
+    # La página dice cuándo se revisaron los datos por última vez, aunque no haya focos nuevos.
+    escribir_actualizacion({"revisado": resumen["actualizado"]}, REVISION_WEB)
     return resumen
 
 

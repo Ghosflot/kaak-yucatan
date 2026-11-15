@@ -5,7 +5,7 @@
 // validacion.json y satelites.json, que escribe pipeline/exportar_web.py.
 // El estado del interruptor va en la dirección: #/metodo (sin corregir) o #/metodo/corregido.
 import { t, traducir, idioma } from '../textos.js';
-import { fmt, fechaDiaAnio, el, datos, anunciar } from '../comun.js';
+import { fmt, fechaDiaAnio, el, datos, anunciar, pieDatos } from '../comun.js';
 import { dibujarPrueba } from '../graficas-validacion.js';
 
 const SENSOR = { Terra: 'MODIS', Aqua: 'MODIS', 'S-NPP': 'VIIRS', 'NOAA-20': 'VIIRS' };
@@ -534,7 +534,7 @@ export function montar(raiz) {
     const c = M.conafor;
     $('mDescarga1').textContent = t('mDescarga1', { n: nMun });
     $('serie').textContent = t('mDescargar', { mb: M.serieMB });
-    $('pie').textContent = t('mPie', { a: M.anios[0].y, b: M.anios[M.anios.length - 1].y, d: c.desde, h: c.hasta, f: fechaDiaAnio(P.actualizado) });
+    $('pie').textContent = pieDatos('mPie', { a: M.anios[0].y, b: M.anios[M.anios.length - 1].y, d: c.desde, h: c.hasta, f: fechaDiaAnio(P.actualizado) });
   }
 
   function dibujarPaso() {

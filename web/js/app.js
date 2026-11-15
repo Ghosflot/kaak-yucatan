@@ -1,6 +1,7 @@
 // Enrutador de la página: #/ (temporada), #/municipio/<id>, #/fechas[/<zona>] y #/metodo.
 // Cada vista exporta montar(raiz, params) y devuelve su limpieza.
 import { cargarTextos, cambiarIdioma, idioma, t, traducir } from './textos.js';
+import { cargarRevision } from './comun.js';
 
 const VISTAS = {
   portada: () => import('./vistas/portada.js'),
@@ -79,7 +80,7 @@ function prepararSubtitulos() {
 
 async function arrancar() {
   prepararSubtitulos();
-  await cargarTextos();
+  await Promise.all([cargarTextos(), cargarRevision()]);
   pintarIdioma();
   window.addEventListener('idioma', pintarIdioma);
   document.querySelectorAll('[data-idioma]').forEach((b) => b.addEventListener('click', () => cambiarIdioma(b.dataset.idioma)));

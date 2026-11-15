@@ -2,7 +2,7 @@
 // prueba de 26 años y el mapa para elegir otra; después, el calendario día por día y el de cada municipio por mes.
 // El calendario cubre de enero a junio, igual que la tira de la portada: las dos dicen la misma cifra.
 import { t, traducir, idioma } from '../textos.js';
-import { fmt, sinAcentos, fechaDia, fechaDiaAnio, fechaCorta, deMesDia, el, datos, reducirMovimiento, visita } from '../comun.js';
+import { fmt, sinAcentos, fechaDia, fechaDiaAnio, fechaCorta, deMesDia, el, datos, reducirMovimiento, visita, pieDatos } from '../comun.js';
 import { ruta } from '../app.js';
 import { descargar } from '../ficha.js';
 import { armarBuscador } from '../buscador.js';
@@ -492,7 +492,7 @@ export function montar(raiz, params) {
     leyendaAlmanaque();
     cabeceraAlmanaque();
     renglones();
-    $('pie').textContent = t('fechasPie', { f: fechaDiaAnio(Z.actualizado) });
+    $('pie').textContent = pieDatos('fechasPie', { f: fechaDiaAnio(Z.actualizado) });
   }
 
   function escuchar() {

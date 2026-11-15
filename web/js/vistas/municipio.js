@@ -1,6 +1,6 @@
 // Página de un municipio (#/municipio/<id>): veredicto, años, cuándo se quema y la ficha para WhatsApp.
 import { t, traducir } from '../textos.js';
-import { fmt, frase, cifras, fechaDia, fechaCorta, fechaDiaAnio, deMesDia, el, datos, visita } from '../comun.js';
+import { fmt, frase, cifras, fechaDia, fechaCorta, fechaDiaAnio, deMesDia, el, datos, visita, pieDatos } from '../comun.js';
 import { hechosDe } from '../hechos.js';
 import { barrasAnios } from '../graficas.js';
 import { armarBuscador } from '../buscador.js';
@@ -578,7 +578,7 @@ export function montar(raiz, { id }) {
     $('csv').textContent = t('descargarCsv', { m: m.nombre });
     $('csvFocos').textContent = t('descargarCsvFocos', { m: m.nombre });
     $('csvFocos').hidden = !m.focos26.length;
-    $('pie').textContent = t('pie', { f: fechaDiaAnio(P.actualizado) });
+    $('pie').textContent = pieDatos('pie', { f: fechaDiaAnio(P.actualizado) });
     minimapa();
     hechos();
     grafBarras();

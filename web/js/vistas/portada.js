@@ -1,6 +1,6 @@
 // Portada: la temporada en tres momentos (foto, repaso y cierre) y el panel con la respuesta.
 import { t, traducir } from '../textos.js';
-import { $, fmt, fechaDia, fechaDiaAnio, fechaCorta, COLOR, ESCALA, veredicto, el, reducirMovimiento, datos, anunciar, visita } from '../comun.js';
+import { $, fmt, fechaDia, fechaDiaAnio, fechaCorta, COLOR, ESCALA, veredicto, el, reducirMovimiento, datos, anunciar, visita, pieDatos } from '../comun.js';
 import { barrasAnios, subirBarras } from '../graficas.js';
 import { armarBuscador, EJEMPLO } from '../buscador.js';
 import { ruta } from '../app.js';
@@ -1229,7 +1229,7 @@ export function montar(raiz) {
     const como = anios.find((a) => a.y < ANIO && Math.round(a.total) === Math.round(y.normal));
     $('leyNormalTexto').textContent = como ? t('loNormalComo', { n: fmt(y.normal), a: como.y }) : t('loNormal', { n: fmt(y.normal) });
     $('explicaNormal').textContent = t('explicaNormal') + (y.rango ? ' ' + t('explicaRango', { a: fmt(y.rango[0]), b: fmt(y.rango[1]) }) : '');
-    $('pie').textContent = t('pie', { f: fechaDiaAnio(D.actualizado) });
+    $('pie').textContent = pieDatos('pie', { f: fechaDiaAnio(D.actualizado) });
     barrasPanel();
   }
 
