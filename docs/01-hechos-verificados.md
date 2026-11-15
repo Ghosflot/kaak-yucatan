@@ -403,6 +403,49 @@ Focos VIIRS de 2025 en Yucatán, cruzados con la zona de su municipio
 - Limitaciones: se aplicaron las ventanas de 2025 al año 2025 únicamente, y los límites
   municipales son aproximados (geoBoundaries).
 
+### Ganadería: el pastizal y el ganado están en el oriente, y ahí cae mucho fuego (#60)
+Cruce de los focos con dos fuentes de INEGI (`analisis/preparar_ganaderia.py` y
+`analisis/cifras_ganaderia.py`; datos en `datos_peninsula/ganaderia_municipios.csv` y
+`datos_peninsula/pastizal_yucatan.geojson`). Focos S-NPP de 2013 a 2025 en Yucatán, con los
+filtros de `analisis/cifras_yucatan.py`.
+
+- **Pastizal:** el pastizal cultivado e inducido, que es el de uso ganadero, ocupa unos
+  **6,800 km², el 17.2 % de Yucatán** (INEGI, Uso del Suelo y Vegetación 1:250 000, Serie VII,
+  año base 2018). El pastizal halófilo, pasto natural de la costa, no se cuenta.
+- **Ganado bovino:** **388,399 cabezas** en el estado al 15 de septiembre de 2022: 381,535 en
+  unidades de producción y 6,864 en traspatio (INEGI, Censo Agropecuario 2022, cuadro
+  ca2022_gan02). Tizimín tiene **139,472, el 35.9 %**.
+- **Dónde:** Buctzotz (81 % de pastizal, 51 bovinos por km²), Panabá (79 %, 49 por km²),
+  Sucilá (61 %, 36 por km²) y Tizimín (44 %, 36 por km²). Donde hay más pastizal hay más
+  ganado: la correlación entre las dos fuentes, municipio por municipio, es 0.81.
+- **Fuego sobre pastizal:** el **29.2 %** de los focos (36,134 de 123,545) cae sobre pastizal,
+  que es el 17.2 % de la superficie. Cada año va de 19.1 a 35.3 %.
+- **El noreste:** Tizimín, Panabá, Sucilá, Buctzotz, Cenotillo, Río Lagartos y San Felipe
+  tienen el **22.4 %** de los focos (27,734) en el **17.2 %** de la superficie, el 61.3 % del
+  ganado y el 53.3 % del pastizal. Tizimín solo: 16,177 focos (13.1 %) en el 9.7 % de la
+  superficie.
+- **Ventana de quema, 2025:** en esos 7 municipios, solo el **5.8 %** de los focos cayó dentro
+  de la ventana de su zona, contra 18.9 % en todo Yucatán. Sobre pastizal, 14.4 %; fuera de
+  pastizal, 20.9 %.
+- **CONAFOR 2015–2024:** solo 1 incendio forestal de Yucatán fue por «quema para pastoreo»
+  (Tizimín, 2023, 3.4 ha). En Campeche fueron 7, con 5,612 ha.
+- **El sector:** el PIB primario es el 3.7 % del PIB de Yucatán (secundario 23.9 %, terciario
+  66.5 %); en 2024 creció 14.4 %, y la cría y explotación de animales, 16.2 % (Por Esto, 6 dic
+  2025, con datos de INEGI). Yucatán produjo 241,488 t de carne de cerdo en 2024, tercer lugar
+  nacional (Por Esto, 24 oct 2026, con el Panorama Agroalimentario 2025). Hay al menos 13,441
+  unidades de producción de bovinos y la carne de bovino vale 2,800 millones de pesos al año
+  (CIAD, *Estudios Sociales* 36(67), 2026, con INEGI y SADER 2024); el mismo artículo cita
+  más de 52,000 empleos directos e indirectos, con un dato del Gobierno del Estado de 2018.
+- **Casos:** en Panabá, un incendio quemó decenas de hectáreas de pasto, postes y alambre, y
+  más de 6 ha de cocos del rancho San Isidro (Diario de Yucatán, 13 abr 2025). En Xcampepén,
+  Valladolid, una mujer murió al rescatar a su padre de la quema de su parcela, que se salió de
+  control (Por Esto, 31 may 2024; las notas no coinciden en su edad). Los ganaderos del oriente
+  abren guardarrayas antes del estiaje (Por Esto, 11 feb 2026).
+- **Límites:** la Serie VII es una foto de 2018 a escala 1:250 000 (los potreros chicos no
+  aparecen); los límites municipales son aproximados (geoBoundaries); el pastizal del geojson
+  está simplificado a 50 m. **Un foco sobre pastizal no dice quién quemó ni por qué**: el
+  satélite no ve la causa.
+
 ### Las temporadas 2025 y 2026 fueron las más tranquilas del registro
 Focos de vegetación en Yucatán de marzo a mayo (confianza nominal o alta). Los datos de 2026
 se bajaron por la API de FIRMS (`analisis/descargar_firms_api.py`).
@@ -687,6 +730,16 @@ NOAA-20 por S-NPP y Terra por Aqua. Lista completa en `salidas/dias_sin_datos.cs
   Diario de Yucatán, «Alarma en Umán por incendio cerca de dos fraccionamientos» (Carolina Uc Quintal, 25 mar 2025): <https://www.yucatan.com.mx/yucatan/2025/03/25/alarma-en-uman-incendio-cerca-de-dos-fraccionamientos.html>;
   Por Esto, «Quemas agrícolas y calor extremo elevan riesgo de incendios en Yucatán» (José Borges, 6 abr 2026): <https://www.poresto.com/yucatan/2026/4/6/quemas-agricolas-y-calor-extremo-elevan-riesgo-de-incendios-en-yucatan.html>;
   Por Esto, «Instalan el Comité del Programa de Prevención y Combate de Incendios Agrícolas y Forestales en Yucatán» (Omar Xool, 26 feb 2026): <https://www.poresto.com/yucatan/merida/2026/2/26/instalan-el-comite-del-programa-de-prevencion-y-combate-de-incendios-agricolas-y-forestales-en-yucatan.html>.
+- Ganadería (#60):
+  INEGI, Uso del Suelo y Vegetación 1:250 000, Serie VII, conjunto nacional: <https://www.inegi.org.mx/programas/usyv/>
+  (ficha: <https://www.inegi.org.mx/contenidos/temas/usosuelo/doc/USV_250K_SVII.pdf>);
+  INEGI, Censo Agropecuario 2022, cuadro ca2022_gan02 («Existencias ganaderas según principal especie pecuaria por entidad federativa, municipio y tipo de unidad de observación»): <https://www.inegi.org.mx/programas/ca/2022/>;
+  Por Esto, PIB de Yucatán 2024 (6 dic 2025): <https://www.poresto.com/yucatan/2025/12/6/producto-interno-bruto-de-yucatan-crece-y-coloca-al-estado-por-encima-del-desempeno-nacional.html>;
+  Por Esto, carne de cerdo (Israel Olguín, 24 oct 2026): <https://www.poresto.com/yucatan/2026/10/24/yucatan-lidera-crecimiento-produccion-carne-cerdo-mexico-aumento-agricultura.html>;
+  CIAD, Nava-Navarrete et al., «Estrategias de sostenibilidad y cadena de valor en la ganadería bovina extensiva en Yucatán, México», *Estudios Sociales* 36(67), 2026: <https://doi.org/10.24836/es.v36i67.1724>;
+  Diario de Yucatán, «Devastador incendio en Panabá» (13 abr 2025): <https://www.yucatan.com.mx/yucatan/2025/04/13/devastador-incendio-en-panaba.html>;
+  Por Esto, Xcampepén (Víctor Ku, 31 may 2024): <https://www.poresto.com/yucatan/sucesos/2024/5/31/mujer-muere-calcinada-tras-rescatar-a-su-padre-del-incendio-en-su-parcela-en-valladolid.html>;
+  Por Esto, guardarrayas de los ganaderos (Efraín Valencia, 11 feb 2026): <https://www.poresto.com/yucatan/2026/2/11/productores-pecuarios-de-yucatan-refuerzan-medidas-contra-incendios-ante-temporada-de-sequia.html>.
 - geoBoundaries, municipios de México (CC BY 4.0): <https://www.geoboundaries.org>
 - Lista de los 106 municipios de Yucatán: Wikipedia, «Anexo:Municipios de Yucatán».
 - NASA Earthdata, FIRMS y su latencia: <https://www.earthdata.nasa.gov/learn/articles/nasa-firms-helps-fight-wildland-fires-in-near-real-time>
