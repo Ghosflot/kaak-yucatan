@@ -40,6 +40,13 @@ const PLANTILLA = `
       <div class="dias-fechas" id="diasFechas" aria-hidden="true"></div>
       <p class="mun-nota" id="notaFechas"></p>
     </section>
+    <section class="mun-bloque" id="ganaderia" aria-labelledby="ganTitulo" hidden>
+      <h2 id="ganTitulo" data-t="ganTitulo"></h2>
+      <p class="mun-sub" id="ganCifras"></p>
+      <p class="mun-sub" id="ganFocos"></p>
+      <p class="mun-nota" data-t="ganLimite"></p>
+      <p class="pie" data-t="ganFuente"></p>
+    </section>
   </div>
   <aside class="mun-lado" aria-labelledby="fichaTitulo">
     <h2 id="fichaTitulo"></h2>
@@ -62,7 +69,7 @@ const NO_EXISTE = `
 </article>`;
 
 export function montar(raiz, { id }) {
-  let m = null, P = null, anio = null, vivo = true, observador = null, cargando = true;
+  let m = null, P = null, G = null, anio = null, vivo = true, observador = null, cargando = true;
   // La imagen de la ficha se prepara antes del clic: Safari solo abre la hoja de compartir
   // si se pide en el mismo gesto, sin esperar a generar el PNG.
   let blobFicha = null, turnoFicha = 0;
@@ -206,6 +213,21 @@ export function montar(raiz, { id }) {
     if (mio === turnoFicha) blobFicha = b;
   }
 
+  // Territorio ganadero (#60): solo los municipios de Yucatán vienen en ganaderia.json; si no carga, el bloque no sale.
+  function ganaderia() {
+    const g = G && G.municipios.find((x) => x.id === m.id);
+    $('ganaderia').hidden = !g;
+    if (!g) return;
+    $('ganCifras').textContent = t('ganCifras', { m: m.nombre, p: fmt(g.pctPastizal), b: fmt(g.bovinos), k: fmt(g.bovinosKm2) });
+    const [d, h] = G.periodo, y = G.yucatan;
+    $('ganFocos').hidden = !g.focos;
+    if (g.focos) {
+      $('ganFocos').textContent = t('ganFocos', {
+        d, h, f: fmt((100 * g.focosPastizal) / g.focos), pe: fmt(y.pctPastizal), fe: fmt(y.pctFocosPastizal),
+      });
+    }
+  }
+
   function pintar() {
     if (!m) return;
     traducir(raiz);
@@ -227,6 +249,7 @@ export function montar(raiz, { id }) {
     minimapa();
     grafBarras();
     grafDias();
+    ganaderia();
     pintarFicha();
   }
 
@@ -244,7 +267,8 @@ export function montar(raiz, { id }) {
   async function arrancar() {
     if (!/^[a-z0-9-]+$/.test(id)) { cargando = false; noExiste(); return; }
     try {
-      [m, P] = await Promise.all([datos('municipio/' + id + '.json'), datos('portada.json')]);
+      [m, P, G] = await Promise.all([datos('municipio/' + id + '.json'), datos('portada.json'),
+        datos('ganaderia.json').catch(() => null)]);
     } catch {
       cargando = false;
       if (vivo) noExiste();

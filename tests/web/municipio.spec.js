@@ -98,3 +98,24 @@ test('en inglés, la página y la ficha cambian de idioma', async ({ page }) => 
   await expect(page.locator('#llave')).toContainText('8 in 10 hot spots');
   await expect(page.locator('#ficha')).toHaveAttribute('aria-label', /Tekax’s card/);
 });
+
+test('territorio ganadero (#60): sale en los municipios de Yucatán, con su fuente, y no en Campeche', async ({ page }) => {
+  await abrir(page, '#/municipio/tizimin');
+  const g = page.locator('#ganaderia');
+  await expect(g).toBeVisible();
+  await expect(g.locator('h2')).toHaveText('Territorio ganadero');
+  await expect(page.locator('#ganCifras')).toHaveText('El 44 % de Tizimín es pastizal, y tiene 139,472 cabezas de ganado bovino (36 por km²).');
+  await expect(page.locator('#ganFocos')).toContainText('de 2013 a 2025, el 58 % cayó sobre pastizal');
+  await expect(page.locator('#ganFocos')).toContainText('el pastizal es el 17 % de la tierra y recibe el 29 % de los focos');
+  await expect(g).toContainText('Un foco sobre pastizal no dice quién quemó ni por qué.');
+  await expect(g).toContainText('INEGI');
+  await abrir(page, '#/municipio/calakmul');
+  await expect(page.locator('h1')).toHaveText('Calakmul');
+  await expect(page.locator('#ganaderia')).toBeHidden();
+});
+
+test('territorio ganadero en inglés', async ({ page }) => {
+  await abrir(page, '#/municipio/buctzotz', { query: '?lang=en' });
+  await expect(page.locator('#ganaderia h2')).toHaveText('Cattle land');
+  await expect(page.locator('#ganCifras')).toContainText('81 % of Buctzotz is pasture');
+});
