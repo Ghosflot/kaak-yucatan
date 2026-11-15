@@ -575,7 +575,19 @@ satélite» abajo).
   en medio cambia de un día a otro, salían días en cero y saltos (Tekax tenía 20 focos el 31 de
   mayo después de cinco días en cero). Con la corrección, la frase «k de cada 10 focos aparecen
   después de…» cambió en 35 municipios (Dzitas pasó de 9 a 5); Tekax y los totales no cambian.
-- **Umán, el municipio de ejemplo de la página** (`web/datos/municipio/uman.json`; issue #30):
+- **Muna, el municipio de ejemplo de la página y del pitch desde el 15 de noviembre**
+  (`web/datos/municipio/muna.json`): 56 focos en un año normal (55.8) y 24 en 2026, menos de la
+  mitad (0.43 veces); 2026 fue su temporada con menos fuego de las 15 que van de 2012 a 2026.
+  En 2024 tuvo 81 («arriba») y en 2025, 57. Por su fuego en un año normal ocupa el lugar 33 de
+  los 106 municipios de Yucatán. Está en la zona 3 de SEDER, cuya ventana va del 10 de marzo al
+  3 de abril: en un año normal, 8 de cada 10 focos (82 %) aparecen después del 3 de abril. Su
+  fuego empieza (10 % del año) el 19 de marzo, la mitad llega el 20 de abril y su semana con más
+  fuego va del 16 al 22 de abril. En 31 cuadritos de 1 km hubo fuego en 5 o más de las 14
+  temporadas de 2012 a 2025 (`repetidos`). Reemplaza a Umán porque es el pueblo del abuelo con
+  que abre el pitch, y lo que él dice («en abril») es lo que muestra la página. La CONAFOR no
+  registra incendios forestales en Muna de 2015 a 2024
+  (`datos_peninsula/incendios_conafor_2015_2024.csv`), así que el ejemplo ya no lleva esa parte.
+- **Umán, el ejemplo anterior** (`web/datos/municipio/uman.json`; issue #30):
   42 focos en un año normal. En 2025, la segunda temporada más tranquila del registro, tuvo 63 (1.5 veces
   lo normal, «arriba»), y en 2024, 54 («arriba»); en 2026, 19 (antes de contar los días sin
   datos de S-NPP con NOAA-20 eran 14). Se ve al tocar 2025 en sus barras. Lo respalda CONAFOR: 5 incendios forestales en 2015–2024, todos en selva y 4 de ellos
@@ -585,8 +597,7 @@ satélite» abajo).
   el satélite no ve todos los incendios (ver «Validación con CONAFOR»). Reemplaza a Tekax como
   ejemplo porque muestra un año malo (2025) cuando el resto del estado estuvo tranquilo. Con los
   datos actuales Tekax 2024 también sale «arriba» (617 contra 390), no «dentro de lo normal».
-  Desde el 14 de noviembre también es el ejemplo del demo en el guion (docs/03), para que el
-  pitch muestre lo mismo que el botón «Por ejemplo» de la página.
+  El 14 de noviembre fue también el ejemplo del demo en el guion (docs/03); desde el 15 lo es Muna.
 - **Focos fuera de las fechas permitidas, de enero a junio de 2026** (`web/datos/zonas.json`):
 
   | Zona | Fechas permitidas | Fuera de fecha |

@@ -79,10 +79,11 @@ calibrar, parece que el fuego se triplicó en 2012. No se triplicó: cambió el 
 solo hay 13 años. Calibrados juntos, son 25.
 
 **[1:45–2:15] Demo**
-Esto es K'áak', fuego en maya. Elegimos Umán. En un año normal tiene 42 focos de marzo a mayo.
-En 2025, el segundo año más tranquilo del estado, tuvo 63: una vez y media lo normal. *[Tocar
-2025 en sus barras. Decir lo que la pantalla muestre ese día.]* Y la ficha cabe en un WhatsApp:
-el comisario la reenvía al pueblo.
+Esto es K'áak', fuego en maya. Elegimos Muna, donde siembra mi abuelo. En un año normal tiene
+56 focos de marzo a mayo. En 2026 tuvo 24: menos de la mitad, su temporada con menos fuego desde
+2012. Y ahí también el fuego llega en abril: 8 de cada 10 focos aparecen después del 3 de
+abril. *[Buscar Muna. Decir lo que la pantalla muestre ese día.]* Y la ficha cabe en un
+WhatsApp: el comisario la reenvía al pueblo.
 
 **[2:15–2:40] Pruebas**
 ¿Cómo sabemos que funciona? De los incendios que CONAFOR registró en la península, el satélite
@@ -102,7 +103,7 @@ lo damos a todo el estado.
 ## Versión de 5 minutos
 
 Parte de la de 3 minutos y agrega el humo de Yaxkukul y Mérida, la variación de un año a otro,
-la urgencia de los satélites y el ejemplo de Umán con lo que registró CONAFOR. Son unas 720
+la urgencia de los satélites y el ejemplo de Muna con sus fechas y los lugares donde el fuego se repite. Son unas 720
 palabras, cerca de 4:55 a ritmo de pitch sin contar el demo. Hay que cronometrarla.
 
 **[0:00–0:40] El abuelo**
@@ -148,12 +149,13 @@ Y es urgente: MODIS se está retirando y S-NPP dejó de enviar datos el 2 de nov
 años quedan repartidos entre cuatro satélites.
 
 **[3:00–3:40] Demo**
-Esto es K'áak', fuego en maya. Elegimos Umán. En un año normal tiene 42 focos de marzo a mayo.
-En 2025, el segundo año más tranquilo del estado, tuvo 63: una vez y media lo normal. Y no lo
-dice solo el satélite: según cifras preliminares de la CONAFOR, ese año se quemaron 264
-hectáreas de selva en Umán, y en marzo un incendio llegó junto a dos fraccionamientos. *[Tocar
-2025 en sus barras. Decir lo que la pantalla muestre ese día.]* Y la ficha cabe en un WhatsApp:
-el comisario la reenvía al pueblo.
+Esto es K'áak', fuego en maya. Elegimos Muna, donde siembra mi abuelo. En un año normal tiene
+56 focos de marzo a mayo. En 2026 tuvo 24: menos de la mitad, su temporada con menos fuego desde
+2012. Y ahí también el fuego llega en abril: las fechas para quemar cierran el 3 de abril, y
+8 de cada 10 focos aparecen después; su semana con más fuego va del 16 al 22 de abril. La
+página también dice dónde: en 31 lugares de Muna el fuego se ha repetido en 5 o más temporadas.
+*[Buscar Muna y bajar a «¿Dónde se quema?». Decir lo que la pantalla muestre ese día.]* Y la
+ficha cabe en un WhatsApp: el comisario la reenvía al pueblo.
 
 **[3:40–4:25] Pruebas**
 ¿Cómo sabemos que funciona? De los incendios que CONAFOR registró en la península, el satélite
@@ -222,7 +224,7 @@ SEDER y a los municipios para planear.»
 | 89 % entre marzo y mayo; pico en abril | «Lo que ve el satélite (FIRMS)» (unos 4,100 focos en abril) |
 | CONABIO no compara contra lo normal | «Lo que ya existe» |
 | VIIRS ve entre 3 y 5 veces más que MODIS; 13 años con VIIRS; 25 con los dos | «El problema técnico del reto, con números» |
-| Umán: 42 focos en un año normal y 63 en 2025; 2025, segundo año más tranquilo | «Cifras de la página» (Umán) y «Las temporadas 2025 y 2026 fueron las más tranquilas del registro» |
+| Muna: 56 focos en un año normal y 24 en 2026; su temporada con menos fuego desde 2012; 8 de cada 10 focos después del 3 de abril | «Cifras de la página» (Muna) y «Lo que dice la gente del campo» (el abuelo: «en abril») |
 | Más de la mitad y 84 % de los de más de 100 ha; azar menos del 10 % | «Validación con CONAFOR» |
 | 19 % dentro de la ventana de su zona (2025) | «Hallazgo: la mayor parte del fuego cae fuera de la ventana» |
 | *(campo)* 4 de cada 10 hectáreas son campo; más de 115 mil personas de planta; más de 9 de cada 10 productores se consideran indígenas; carne, 2.ª exportación | «El campo de Yucatán: territorio, gente y materia prima» |
@@ -233,7 +235,7 @@ SEDER y a los municipios para planear.»
 | *(5 min)* 765 ha en 2023, 20,334 en 2024 y 2,215 en 2025 | «¿Hay muchos incendios en Yucatán?» (CONAFOR) |
 | *(5 min)* Mérida entre las cinco ciudades más contaminadas, mayo de 2024 | «El humo llega a Mérida» |
 | *(5 min)* MODIS en retiro, S-NPP sin datos desde el 2 de nov, cuatro satélites | «Contexto» y «S-NPP deja de entregar datos» |
-| *(5 min)* Umán: 264 ha de selva en 2025 y el incendio junto a dos fraccionamientos (marzo de 2025) | «Casos» y «Cifras de la página» (Umán) |
+| *(5 min)* Muna: las fechas cierran el 3 de abril; su semana con más fuego va del 16 al 22 de abril; 31 cuadritos de 1 km con fuego en 5 o más temporadas | «Cifras de la página» (Muna) |
 | *(30 s)* El fuego es una herramienta del campo; los 10 municipios que más arden siembran milpa o crían ganado | «Los municipios con más fuego viven del campo» y docs/04, secciones 1 y 2 (46 % de los incendios forestales empezaron por actividades del campo; los 10 tienen producción agropecuaria) |
 | *(30 s)* Unos satélites ven entre tres y cinco veces más fuego que otros | `salidas/factores.csv` (Aqua: de 2.8 a 5.3 según zona y época), lo acordado en #26 (docs/01, «El problema técnico del reto, con números») |
 | *(30 s)* Se actualiza 4 veces al día | docs/02, tarea 18 |
