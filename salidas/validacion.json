@@ -131,7 +131,7 @@
                   2022,
                   2024
                 ],
-                "razon": 1.0625866448928993
+                "razon": 1.062590187500745
               },
               {
                 "antes": [
@@ -142,7 +142,7 @@
                   2023,
                   2025
                 ],
-                "razon": 1.1246133222314736
+                "razon": 1.1246169086148017
               }
             ]
           },
@@ -200,7 +200,7 @@
           "reduccion": 0.9270753607329215,
           "rango_natural": {
             "min": 0.7597572498001308,
-            "max": 0.9744839802331718,
+            "max": 0.9744861008492057,
             "ventanas": [
               {
                 "antes": [
@@ -266,7 +266,7 @@
                   2022,
                   2024
                 ],
-                "razon": 0.9744839802331718
+                "razon": 0.9744861008492057
               },
               {
                 "antes": [
@@ -277,7 +277,7 @@
                   2023,
                   2025
                 ],
-                "razon": 0.9605237241841967
+                "razon": 0.9605258421582251
               }
             ]
           },
@@ -676,14 +676,14 @@
         "en": "graficas/validacion-viirs-en.png"
       },
       "huella_grafica": {
-        "es": "sha256:4215474bf2b6d87c38c921778027c24cc2aae8fd6d595841f0ed292b33b1e27e",
-        "en": "sha256:e0ac075af6b9f532498b57bab1699d3d0518b3fb3ef7cb22c1ffd5b593e4ce08"
+        "es": "sha256:c4a872f14bbe5c0ecf822648efab843a30edc0b5ce2a44cb13535b7d766618e1",
+        "en": "sha256:1321856a419031ee7e124c880be1f5446944aab0ee1df7477edb5136bd4a0695"
       },
       "metricas": {
         "NOAA-20": {
           "factor": {
             "temporada": 1.0077,
-            "resto": 0.9812
+            "resto": 0.9814
           },
           "anios_enteros": [
             2019,
@@ -701,12 +701,12 @@
               "dias": 264,
               "cuadritos_snpp": 15179,
               "cuadritos_otro": 15078,
-              "cuadritos_otro_ajustado": 15116.5881,
+              "cuadritos_otro_ajustado": 15117.1731,
               "razon_cruda": 0.9933460702286053,
-              "razon": 0.9958882732722841,
+              "razon": 0.995926813360564,
               "por_epoca": {
                 "temporada": 0.9941211218443056,
-                "resto": 1.0035
+                "resto": 1.0037045454545455
               }
             },
             {
@@ -715,12 +715,12 @@
               "dias": 350,
               "cuadritos_snpp": 33029,
               "cuadritos_otro": 32573,
-              "cuadritos_otro_ajustado": 32669.9796,
+              "cuadritos_otro_ajustado": 32671.140600000006,
               "razon_cruda": 0.986193950770535,
-              "razon": 0.9891301462351266,
+              "razon": 0.9891652971630993,
               "por_epoca": {
                 "temporada": 0.9898394040585665,
-                "resto": 0.9857850467289719
+                "resto": 0.9859859813084112
               }
             },
             {
@@ -729,12 +729,12 @@
               "dias": 322,
               "cuadritos_snpp": 31774,
               "cuadritos_otro": 31665,
-              "cuadritos_otro_ajustado": 31843.4185,
+              "cuadritos_otro_ajustado": 31843.9121,
               "razon_cruda": 0.996569522250897,
-              "razon": 1.0021847579782213,
+              "razon": 1.0022002926921383,
               "por_epoca": {
                 "temporada": 0.9959317886399026,
-                "resto": 1.084946953405018
+                "resto": 1.085168100358423
               }
             },
             {
@@ -743,12 +743,12 @@
               "dias": 339,
               "cuadritos_snpp": 17809,
               "cuadritos_otro": 17815,
-              "cuadritos_otro_ajustado": 17869.6015,
+              "cuadritos_otro_ajustado": 17870.224700000002,
               "razon_cruda": 1.0003369083047897,
-              "razon": 1.0034028581054524,
+              "razon": 1.0034378516480433,
               "por_epoca": {
                 "temporada": 0.9893255610472884,
-                "resto": 1.0776944659851955
+                "resto": 1.0779141346492775
               }
             },
             {
@@ -757,12 +757,12 @@
               "dias": 332,
               "cuadritos_snpp": 19141,
               "cuadritos_otro": 19164,
-              "cuadritos_otro_ajustado": 19239.2443,
+              "cuadritos_otro_ajustado": 19239.7901,
               "razon_cruda": 1.0012016091113316,
-              "razon": 1.0051326628702784,
+              "razon": 1.005161177576929,
               "por_epoca": {
                 "temporada": 0.9928391283496192,
-                "resto": 1.0884938211382114
+                "resto": 1.0887156910569107
               }
             },
             {
@@ -771,12 +771,12 @@
               "dias": 349,
               "cuadritos_snpp": 33303,
               "cuadritos_otro": 34265,
-              "cuadritos_otro_ajustado": 34357.2265,
+              "cuadritos_otro_ajustado": 34358.5217,
               "razon_cruda": 1.0288862865207338,
-              "razon": 1.0316556015974536,
+              "razon": 1.0316944929886196,
               "por_epoca": {
                 "temporada": 1.0404226379342374,
-                "resto": 0.9947168440826548
+                "resto": 0.9949195992485912
               }
             },
             {
@@ -785,12 +785,12 @@
               "dias": 316,
               "cuadritos_snpp": 33619,
               "cuadritos_otro": 33408,
-              "cuadritos_otro_ajustado": 33541.9371,
+              "cuadritos_otro_ajustado": 33542.8677,
               "razon_cruda": 0.9937237871441744,
-              "razon": 0.9977077575180702,
+              "razon": 0.997735438293822,
               "por_epoca": {
                 "temporada": 1.0084715657954268,
-                "resto": 0.9344092509209989
+                "resto": 0.9345997134670485
               }
             },
             {
@@ -799,31 +799,31 @@
               "dias": 349,
               "cuadritos_snpp": 23172,
               "cuadritos_otro": 22898,
-              "cuadritos_otro_ajustado": 22968.6061,
+              "cuadritos_otro_ajustado": 22969.4039,
               "razon_cruda": 0.9881753840842395,
-              "razon": 0.9912224279302607,
+              "razon": 0.9912568574141205,
               "por_epoca": {
                 "temporada": 0.9840726798533286,
-                "resto": 1.0275680756103964
+                "resto": 1.0277775269099503
               }
             },
             {
               "anio": 2026,
               "completo": false,
-              "dias": 293,
-              "cuadritos_snpp": 17228,
-              "cuadritos_otro": 16964,
-              "cuadritos_otro_ajustado": 16990.9283,
-              "razon_cruda": 0.9846761086603204,
-              "razon": 0.9862391629904805,
+              "dias": 290,
+              "cuadritos_snpp": 17083,
+              "cuadritos_otro": 16815,
+              "cuadritos_otro_ajustado": 16845.4823,
+              "razon_cruda": 0.9843118890124686,
+              "razon": 0.9860962535854358,
               "por_epoca": {
                 "temporada": 0.9796999925506554,
-                "resto": 1.009315352260778
+                "resto": 1.00956261273572
               }
             }
           ],
-          "razon_agregada": 1.0033517000526462,
-          "diferencia_agregada": 0.003351700052646178,
+          "razon_agregada": 1.003382178506831,
+          "diferencia_agregada": 0.0033821785068310906,
           "fallas": [],
           "cumple_umbral": true,
           "estado": "pasa",
@@ -1025,7 +1025,9 @@
             "2026-07-15",
             "2026-07-16",
             "2026-08-03",
-            "2026-10-19"
+            "2026-08-18",
+            "2026-10-18",
+            "2026-11-01"
           ],
           "misma_muestra_que_el_factor": true
         },
@@ -1081,15 +1083,15 @@
             {
               "anio": 2026,
               "completo": false,
-              "dias": 296,
-              "cuadritos_snpp": 17228,
-              "cuadritos_otro": 15943,
-              "cuadritos_otro_ajustado": 15943.0,
-              "razon_cruda": 0.9254121198049686,
-              "razon": 0.9254121198049686,
+              "dias": 289,
+              "cuadritos_snpp": 17083,
+              "cuadritos_otro": 15762,
+              "cuadritos_otro_ajustado": 15762.0,
+              "razon_cruda": 0.9226716618860856,
+              "razon": 0.9226716618860856,
               "por_epoca": {
                 "temporada": 0.89623063170441,
-                "resto": 1.028391167192429
+                "resto": 1.0196775075157147
               }
             }
           ],
@@ -1178,13 +1180,11 @@
             "2026-06-01",
             "2026-06-02",
             "2026-06-11",
-            "2026-07-07",
             "2026-07-11",
             "2026-07-12",
             "2026-07-13",
             "2026-07-14",
             "2026-07-15",
-            "2026-07-16",
             "2026-10-19"
           ],
           "misma_muestra_que_el_factor": false

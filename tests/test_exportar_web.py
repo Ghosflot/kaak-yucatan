@@ -252,3 +252,134 @@ def test_satelites_contra_la_serie(salida):
     # MODIS sin calibrar ve menos de la mitad que la serie; NOAA-20 en 2018 empieza en abril.
     assert all(a["crudo"] < 0.5 * serie[a["y"]] for a in sats["Aqua"]["anios"])
     assert sats["NOAA-20"]["incompletos"] == [2018]
+
+
+# ---------------------------------------------------------------------------
+# Contrato de datos de la dirección visual (docs/superpowers/specs/2026-11-15-direccion-visual-design.md)
+
+
+def test_estados_son_la_union_de_sus_municipios():
+    """Sin huecos ni astillas, y con sus islas: cada parte de un municipio de 1 km² o más
+    (Cozumel, Isla Mujeres, Holbox, Arrecife Alacranes…) queda dentro del contorno de su estado."""
+    mun = ew.tabla_municipios()
+    geo = ew.formas(mun)
+    for estado in ew.ORDEN_ESTADOS:
+        de_estado = [g for e, g in geo.values() if e == estado]
+        c = ew.contorno_estado(de_estado)
+        partes = ew._partes(c)
+        assert all(len(p.interiors) == 0 for p in partes)
+        assert all(ew.km2(p) >= ew.ASTILLA_KM2 for p in partes)
+        holgura = c.buffer(ew.CIERRE)
+        for g in de_estado:
+            for p in ew._partes(g):
+                if ew.km2(p) >= 1:
+                    assert holgura.contains(p.representative_point()), (estado, p.representative_point())
+    # Cozumel (Quintana Roo) es una parte aparte.
+    from shapely.geometry import Point
+    qroo = ew.contorno_estado([g for e, g in geo.values() if e == "Quintana Roo"])
+    assert any(p.contains(Point(-86.93, 20.42)) and ew.km2(p) > 400 for p in ew._partes(qroo))
+
+
+def test_portada_estados_reciente_satdia_datohasta(salida):
+    p = _json(salida, "portada.json")
+    assert [e["n"] for e in p["estados"]] == ["Quintana Roo", "Campeche", "Yucatán"]
+    assert all(e["d"].startswith("M") for e in p["estados"])
+    r = p["reciente"]
+    assert r["dias"] == 7 and r["hasta"] == p["actualizado"]
+    assert (date.fromisoformat(r["hasta"]) - date.fromisoformat(r["desde"])).days == 6
+    assert 0 <= r["yuc"] <= r["peninsula"]
+    # El 30 de abril de 2026 (día 60) S-NPP no mandó datos: lo cuenta NOAA-20.
+    assert p["satDia"]["base"] == "S-NPP" and p["satDia"]["otros"]["60"] == "NOAA-20"
+    assert all(0 <= int(d) <= 91 for d in p["satDia"]["otros"])
+    assert set(p["datoHasta"]) == {"S-NPP", "NOAA-20", "MODIS"}
+    assert p["datoHasta"]["S-NPP"] == "2026-11-02"
+    lo, hi = p["yuc"]["rango"]
+    anios = [v for a, v in p["yuc"]["anios"].items() if int(a) < 2026]
+    assert lo < p["yuc"]["normal"] < hi
+    assert sum(lo <= v <= hi for v in anios) == 13  # la mitad central de los 25 años
+
+
+def test_municipio_rango_focos26_repetidos_caja(salida):
+    t = _json(salida, "municipio/tekax.json")
+    lo, hi = t["rango"]
+    assert lo <= t["normal"] <= hi
+    # focos26: un renglón por cuadrito-día de 2026, todo el año; los de marzo a mayo suman v26
+    # (S-NPP vale 1; los días de NOAA-20 llevan su factor, por eso «aprox»).
+    assert all(len(f) == 4 and f[3] in ("S-NPP", "NOAA-20") for f in t["focos26"])
+    temporada = [f for f in t["focos26"] if "03-01" <= f[2] <= "05-31"]
+    assert len(temporada) == pytest.approx(t["v26"], rel=0.01)
+    assert any(f[2] > "06-01" for f in t["focos26"]) and any(f[2] < "03-01" for f in t["focos26"])
+    lon0, lat0, lon1, lat1 = t["caja"]
+    assert all(lon0 - 0.01 <= f[0] <= lon1 + 0.01 and lat0 - 0.01 <= f[1] <= lat1 + 0.01 for f in t["focos26"])
+    assert t["repetidos"] and all(5 <= n <= 14 for _, _, n in t["repetidos"])
+    assert [n for *_, n in t["repetidos"]] == sorted((n for *_, n in t["repetidos"]), reverse=True)
+
+
+def test_ni_repetidos_ni_focos_nrt_en_cuadritos_de_fuente_fija(salida):
+    """La fuga de NRT: de agosto a noviembre de 2026 (los datos NRT, sin `type`) Mérida ya no
+    tiene focos en los cuadritos con historial de `type` 2, y esos cuadritos tampoco cuentan
+    como «repetidos». Antes de agosto los datos son definitivos (SP) y traen su `type`: los
+    pocos que FIRMS marcó como vegetación (`type` 0) en esos cuadritos se quedan."""
+    fijas = {(round(a, 2), round(o, 2)) for a, o in ew.celdas_fuente_fija(ew.cargar_crudos()).itertuples(index=False)}
+    m = _json(salida, "municipio/merida.json")
+    assert not [f for f in m["focos26"] if f[2] >= "08-01" and (f[1], f[0]) in fijas]
+    for i in ("merida", "campeche", "carmen"):
+        assert not [r for r in _json(salida, f"municipio/{i}.json")["repetidos"] if (r[1], r[0]) in fijas]
+
+
+def test_hechos_de_municipios_conocidos(salida):
+    h = {i: _json(salida, f"municipio/{i}.json")["hechos"] for i in ("muna", "tizimin", "merida", "calakmul", "baca")}
+    # Muna: la mitad de su fuego llega el 20 de abril; 2026, su temporada con menos fuego desde 2012.
+    assert h["muna"]["mitad"] == "04-20"
+    assert (h["muna"]["puesto26"], h["muna"]["temporadas"]) == (1, 15)
+    # Tizimín es el de más fuego de Yucatán; su zona (la 4) empieza el 1 de abril.
+    assert (h["tizimin"]["lugar"], h["tizimin"]["de"]) == (1, 106)
+    assert h["tizimin"]["empiezaZona"] == "04-01"
+    assert h["merida"]["empieza"] == "02-22"
+    assert h["calakmul"]["de"] == 11
+    # Baca tiene menos de 5 focos en un año normal: no se dice nada.
+    assert h["baca"] == {}
+    for i in ("muna", "tizimin", "merida", "calakmul"):
+        assert len(h[i]["semanaPico"]) == 2 and h[i]["semanaPico"][0] < h[i]["semanaPico"][1]
+        assert h[i].get("racha", 3) >= 3
+
+
+def test_zonas_cada_anio_lo_tipico_y_el_lugar(salida):
+    z = {x["n"]: x for x in _json(salida, "zonas.json")["zonas"]}
+    for x in z.values():
+        assert list(x["porAnio"]) == [str(a) for a in range(2001, 2027)]
+        assert all(abs(sum(v) - 1) < 0.002 for v in x["porAnio"].values() if v)
+        assert len(x["tipico"]) == 3 and 0 < x["minFuera"] < 1
+        assert x["minFuera"] == min(round(1 - v[1], 3) for v in x["porAnio"].values() if v)
+    assert [z[n]["lugar"] for n in "1234"] == ["el sur y oriente", "el centro y norte", "el sur", "el norte y oriente"]
+    assert z["4"]["lugarEn"] == "the north and east"
+    # Zona 4: en un año típico, 9 de cada 10 focos aparecen después de que cierran las fechas;
+    # ningún año baja de 6 de cada 10 fuera de ellas.
+    assert round(z["4"]["tipico"][2] * 10) == 9 and z["4"]["minFuera"] > 0.6
+    # La de 2026 es la misma cifra que el calendario de la zona.
+    x = z["2"]
+    assert x["porAnio"]["2026"][1] == pytest.approx(x["dentro"] / x["tot"], abs=0.001)
+
+
+def test_metodo_paso_dias_sin_datos_fuente_fija_y_conafor(salida):
+    m = _json(salida, "metodo.json")
+    paso = m["paso"]
+    assert set(paso) == {"Terra", "Aqua", "S-NPP"}
+    # Terra pasaba hacia las 10:45; con la deriva de su órbita, en 2026 pasa antes de las 9:30.
+    assert "10:30" <= paso["Terra"]["2001"].zfill(5) <= "11:00" and paso["Terra"]["2026"].zfill(5) < "09:30"
+    assert paso["Aqua"]["2026"] > "14:00" and "13:00" <= paso["S-NPP"]["2020"] <= "13:30"
+    assert m["sinDatos"] == {"dias": 47, "rellenados": 12}
+    f = m["fuenteFija"]
+    assert f["municipio"] == "Mérida" and f["fijas"] == 7494 and f["detecciones"] >= 12870
+    assert [d["dias"] for d in m["conafor"]["porDuracion"]] == ["1", "2–3", "4–7", ">7"]
+    assert [d["vistos"] for d in m["conafor"]["porDuracion"]] == [16, 39, 66, 85]
+    assert sum(d["n"] for d in m["conafor"]["porDuracion"]) == m["conafor"]["incendios"]
+    assert m["nocturnos"] == pytest.approx(0.056, abs=0.005)
+
+
+def test_metodo_salto_sale_de_la_validacion(salida):
+    """Una sola fuente: el salto de Yucatán de «Cómo lo medimos» es el de validacion.json."""
+    s = _json(salida, "metodo.json")["salto"]
+    v = next(p for p in _json(salida, "validacion.json")["pruebas"] if p["id"] == "salto_2012")["valores"]
+    assert (f"{s['crudo']:.2f}", f"{s['armonizado']:.2f}") == (v["razonCrudaYucatan"], v["razonArmonizadaYucatan"])
+    assert (s["antes"], s["despues"]) == ([v["antesDesde"], v["antesHasta"]], [v["despuesDesde"], v["despuesHasta"]])
