@@ -63,6 +63,7 @@ export function el(tag, attrs, padre) {
 
 export const reducirMovimiento = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+
 // Carga JSON de web/datos/ una sola vez por visita.
 const cache = new Map();
 export function datos(nombre) {

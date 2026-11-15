@@ -168,3 +168,17 @@ test.describe('con el teclado', () => {
     await expect(page.locator('#control')).toHaveAttribute('aria-label', 'Seguir');
   });
 });
+
+// axe-core no mide el contraste del foco (WCAG 1.4.11): el anillo es ámbar con una banda oscura por fuera,
+// para que uno de los dos pase 3:1 tanto sobre el papel blanco como sobre la foto.
+test('el foco se ve sobre el papel blanco: anillo ámbar con banda oscura', async ({ page }) => {
+  await abrir(page, '#/metodo');
+  await page.keyboard.press('Tab');
+  const estilo = await page.evaluate(() => {
+    const s = getComputedStyle(document.activeElement);
+    return { outline: s.outlineColor, ancho: s.outlineWidth, sombra: s.boxShadow };
+  });
+  expect(estilo.outline).toBe('rgb(245, 160, 76)');
+  expect(estilo.ancho).toBe('3px');
+  expect(estilo.sombra).toContain('rgb(10, 14, 20)');
+});

@@ -10,7 +10,7 @@ import { fmt, el } from './comun.js';
 const TINTA = '#121212';
 const TINTA_2 = '#4A4743';
 const LINEA = '#E4E1DC';    // la rejilla
-const EJE = '#C3BDB3';      // los ejes
+const EJE = '#928D83';      // los ejes (3.3:1 sobre el papel)
 const GRIS = '#8F877D';     // sin calibrar, el azar, S-NPP en la prueba de Aqua
 // En toda la página el rojo es 2026 y nada más: aquí lo calibrado y lo que se mide van en tinta.
 const FUERTE = TINTA;       // calibrado / con su factor / lo que se mide

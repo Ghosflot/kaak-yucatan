@@ -251,3 +251,27 @@ test('en teléfono el mapa cabe, no hay desplazamiento de lado y la ficha va ant
   const ficha = await page.locator('#ficha').boundingBox(), cierre = await page.locator('.mun-cierre').boundingBox();
   expect(ficha.y).toBeLessThan(cierre.y);
 });
+
+// Más rojo, sin salir de la paleta: los años con más fuego que lo normal en rojo claro y 2026 en rojo.
+test('los años sobre lo normal van en rojo claro, los demás en gris y 2026 en rojo', async ({ page }) => {
+  await abrir(page, '#/municipio/tekax');
+  const barra = (y) => page.locator('#barrasMun rect.b-anio').nth(y - 2001);
+  await expect(barra(2024)).toHaveAttribute('fill', '#E9837D');
+  expect(await barra(2024).getAttribute('stroke')).toBeNull();
+  await expect(barra(2014)).toHaveAttribute('fill', '#8F877D');
+  await expect(barra(2026)).toHaveAttribute('fill', '#D7261E');
+  await expect(page.locator('#cifras .c2026')).toHaveText('213');
+  await expect(page.locator('#cifras .c2026')).toHaveCSS('color', 'rgb(215, 38, 30)');
+  // Los días, en un solo rojo oscuro: la altura dice la cantidad.
+  const fondos = await page.locator('#diasBarras span').evaluateAll((es) => [...new Set(es.map((e) => getComputedStyle(e).backgroundColor))]);
+  expect(fondos).toEqual(['rgb(153, 107, 102)']);
+});
+
+test('compartir por WhatsApp va en verde con letra de tinta y un globo de mensaje', async ({ page }) => {
+  await abrir(page, '#/municipio/tekax');
+  const b = page.locator('#compartir');
+  await expect(b).toHaveText('Compartir por WhatsApp');
+  await expect(b).toHaveCSS('background-color', 'rgb(37, 211, 102)');
+  await expect(b).toHaveCSS('color', 'rgb(18, 18, 18)');
+  await expect(b.locator('svg')).toHaveCount(1);
+});

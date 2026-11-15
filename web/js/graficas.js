@@ -15,7 +15,9 @@ const TINTA_2 = '#4A4743';
  * periodos: [[desde, hasta, satélite], …] dibuja bajo los años quién vio cada periodo, y `sigue`
  * nombra al satélite que viene después. `leyenda` cambia el texto de la leyenda del rayado.
  */
-export function barrasAnios(svg, { anios, normal, destacado = 2026, alto = 96, ancho = 316, convertidoHasta = 2011, alTocar = null, alBarrer = null, seleccionado = null, aria = '', rango = null, periodos = null, sigue = '', leyenda = null }) {
+// sobreNormal: si se da un color (página del municipio), los años con más fuego que lo normal van en ese rojo claro,
+// sin borde, como en «Cómo lo medimos»: la altura y la línea de lo normal ya dicen que está por encima.
+export function barrasAnios(svg, { anios, normal, destacado = 2026, alto = 96, ancho = 316, convertidoHasta = 2011, alTocar = null, alBarrer = null, seleccionado = null, aria = '', rango = null, periodos = null, sigue = '', leyenda = null, sobreNormal = null }) {
   // Si el foco estaba en un año, vuelve a ese año después de redibujar.
   const enfocado = svg.contains(document.activeElement) ? Number(document.activeElement.dataset.y) : null;
   svg.textContent = '';
@@ -32,9 +34,17 @@ export function barrasAnios(svg, { anios, normal, destacado = 2026, alto = 96, a
   el('rect', { width: 4, height: 4, fill: GRIS }, pat);
   el('rect', { width: 1.6, height: 4, fill: '#FFFFFF', 'fill-opacity': 0.55 }, pat);
   if (rango) el('rect', { x: 0, y: Y(rango[1]).toFixed(1), width: ancho - 3, height: (Y(rango[0]) - Y(rango[1])).toFixed(1), class: 'rango' }, svg);
+  if (sobreNormal) {
+    const pr = el('pattern', { id: id + '-sobre', width: 4, height: 4, patternUnits: 'userSpaceOnUse', patternTransform: 'rotate(45)' }, defs);
+    el('rect', { width: 4, height: 4, fill: sobreNormal }, pr);
+    el('rect', { width: 1.6, height: 4, fill: '#FFFFFF', 'fill-opacity': 0.55 }, pr);
+  }
   const barras = anios.map((a, i) => {
     const x = i * paso;
-    const relleno = a.y === destacado ? ROJO : a.y <= convertidoHasta ? 'url(#' + id + ')' : GRIS;
+    const sobre = sobreNormal && a.total > normal;
+    const relleno = a.y === destacado ? ROJO
+      : a.y <= convertidoHasta ? 'url(#' + id + (sobre ? '-sobre' : '') + ')'
+      : sobre ? sobreNormal : GRIS;
     const b = el('rect', { x: x.toFixed(1), y: Y(a.total).toFixed(1), width: bw.toFixed(1), height: (base - Y(a.total)).toFixed(1), fill: relleno, class: 'b-anio' + (a.y === destacado ? ' destacada' : '') }, svg);
     if (a.y === seleccionado) { b.setAttribute('stroke', TINTA); b.setAttribute('stroke-width', 1.5); }
     if (!alTocar) el('title', {}, b).textContent = a.y + ': ' + fmt(a.total);

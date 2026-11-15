@@ -16,7 +16,7 @@
   --fuego: #C2570C;
   --noche: #0A0E14;
   --sobre: #F6F4F0;
-  --sobre-2: #C5CAD2;
+  --sobre-2: #CEC9C1;
   --barra: #8F877D;
   --display: 'Alfa Slab One', 'Rockwell', Georgia, serif;
   --texto: 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', system-ui, sans-serif;
@@ -34,7 +34,9 @@ body { background: var(--papel); color: var(--tinta); font-family: var(--texto);
 body[data-vista="portada"] { background: var(--noche); }
 button, input { font: inherit; color: inherit; }
 a { color: inherit; }
-:focus-visible { outline: 3px solid #F5A04C; outline-offset: 2px; }
+/* Foco de dos tonos (técnica C40 de WCAG): el ámbar y la banda oscura tienen 9.22:1 entre sí, así que uno de los dos
+   pasa 3:1 sobre cualquier fondo, del papel blanco a la foto. Es un outline de verdad para que no se pierda con colores forzados. */
+:focus-visible { outline: 3px solid #F5A04C; outline-offset: 0; box-shadow: 0 0 0 6px #0A0E14; }
 #vista:focus { outline: none; }
 .cifra { font-variant-numeric: tabular-nums lining-nums; }
 svg text { font-family: var(--mono); }
@@ -93,7 +95,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 /* El mapa del cierre se recorre con las flechas: el contorno del foco va por dentro del visor,
    porque el mapa acercado es más grande que lo que se ve. */
 #capa:focus-visible { outline: none; }
-.visor:has(#capa:focus-visible) { outline: 3px solid #F5A04C; outline-offset: -3px; }
+.visor:has(#capa:focus-visible) { outline: 3px solid #F5A04C; outline-offset: -3px; box-shadow: inset 0 0 0 6px #0A0E14; }
 .velo { fill: #05080D; opacity: 0; transition: opacity 0.5s ease; }
 .rellenos path { fill-opacity: 0; stroke: none; transition: fill-opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1), fill 0.35s ease; cursor: pointer; }
 .limites path { fill: none; stroke: var(--trazo); stroke-opacity: 0.16; stroke-width: 0.6; vector-effect: non-scaling-stroke; pointer-events: none; transition: stroke-opacity 0.4s ease; }
@@ -275,7 +277,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .tarjeta .fila { display: flex; justify-content: space-between; gap: 12px; font-size: 14px; }
 .tarjeta .fila b { font-family: var(--mono); }
 .tarjeta .veredicto { display: flex; align-items: center; gap: 8px; margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--linea); font-size: 14px; font-weight: 700; }
-.tarjeta .veredicto i { width: 14px; height: 14px; flex-shrink: 0; }
+.tarjeta .veredicto i { width: 14px; height: 14px; flex-shrink: 0; border: 1px solid var(--tinta-2); }
 .tarjeta a { display: flex; align-items: center; min-height: 44px; margin: 2px 0 -10px; font-size: 14px; font-weight: 700; text-underline-offset: 3px; }
 .tarjeta .historia-titulo { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 10px; font-size: 12.5px; font-weight: 700; }
 .tarjeta .historia-titulo span { display: inline-flex; white-space: nowrap; align-items: center; gap: 5px; font-weight: 400; color: var(--tinta-2); }
@@ -430,6 +432,7 @@ body.con-subtitulos { --subtitulos: 72px; padding-bottom: var(--subtitulos); }
 .mun-titulo h1 { margin: 0; font-family: var(--display); font-weight: 400; font-size: 56px; line-height: 1; overflow-wrap: anywhere; }
 .mun-frase { margin: 6px 0 0; font-size: 30px; line-height: 1.15; font-weight: 800; letter-spacing: -0.01em; text-wrap: balance; }
 .mun-cifras { margin: 0; font-size: 19px; line-height: 1.35; }
+.mun-cifras .c2026 { color: var(--rojo); font-weight: 800; }
 .mun-def { margin: 2px 0 0; font-size: 15px; line-height: 1.4; color: var(--tinta-2); }
 /* Los hechos propios del municipio: oraciones cortas, cada una con su marca. */
 .mun-hechos { display: flex; flex-direction: column; gap: 6px; max-width: 640px; margin: 10px 0 0; padding: 12px 0 0; border-top: 1px solid var(--linea); list-style: none; font-size: 16px; line-height: 1.4; }
@@ -462,10 +465,10 @@ body.con-subtitulos { --subtitulos: 72px; padding-bottom: var(--subtitulos); }
 .dias-llave .corchete { align-self: stretch; height: 8px; margin: 0 4px; border: 2px solid var(--tinta); border-bottom: 0; }
 .llave-texto { margin-top: 6px; padding: 0 6px; text-align: center; font-size: 17px; line-height: 1.25; }
 .dias-barras { position: absolute; left: 0; right: 0; bottom: 0; height: 132px; display: flex; align-items: flex-end; gap: 2px; border-bottom: 1.5px solid var(--tinta); }
-.dias-barras span { flex: 1; background: #8A857E; }
+.dias-barras span { flex: 1; background: #996B66; }
 .dias-barras.con-anio span { position: relative; align-self: stretch; background: none; }
 .dias-barras.con-anio i { position: absolute; bottom: 0; }
-.dias-barras.con-anio .n { left: 0; right: 0; background: #D3CEC6; }
+.dias-barras.con-anio .n { left: 0; right: 0; background: #928D85; }
 .dias-barras.con-anio .a { left: 18%; right: 18%; }
 .dias-fechas { position: relative; height: 18px; font-family: var(--mono); font-size: 13px; color: var(--tinta-2); }
 .dias-fechas span { position: absolute; transform: translateX(-50%); white-space: nowrap; }
@@ -517,9 +520,17 @@ body.con-subtitulos { --subtitulos: 72px; padding-bottom: var(--subtitulos); }
 .mun-lado { display: flex; flex-direction: column; gap: 10px; padding-top: 30px; min-width: 0; }
 .mun-lado h2 { margin: 0; font-size: 18px; font-weight: 800; }
 .ficha { display: block; width: 100%; max-width: 392px; height: auto; margin-top: 6px; border: 1px solid var(--linea); }
-.mun-botones { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
+.mun-botones { display: flex; flex-wrap: nowrap; align-items: stretch; gap: 10px; margin-top: 8px; }
+/* Compartir y descargar van en la misma fila y con el mismo alto; si no cabe el texto, se parte en dos renglones en los dos. */
+.mun-botones > button { flex: 1 1 auto; height: auto; min-height: 46px; justify-content: center; padding: 6px 12px; font-size: 14px; line-height: 1.2; text-align: center; }
+.mun-botones .b-whatsapp { gap: 6px; padding-left: 10px; }
+.mun-botones .b-whatsapp svg { width: 18px; height: 18px; flex: none; }
 .b-negro, .b-borde { height: 46px; display: inline-flex; align-items: center; padding: 0 14px; border: 2px solid var(--tinta); font-size: 15px; font-weight: 800; cursor: pointer; }
 .b-negro { background: var(--tinta); color: #FFFFFF; }
+/* Compartir: el verde de WhatsApp con letra de tinta (9.45:1) y un globo de mensaje genérico, no el logo. */
+.b-whatsapp { height: 46px; display: inline-flex; align-items: center; gap: 8px; padding: 0 16px 0 13px; border: 2px solid #1A8D4A; background: #25D366; color: var(--tinta); font-size: 15px; font-weight: 800; cursor: pointer; }
+.b-whatsapp:hover { background: #2FE072; }
+.b-whatsapp:active { transform: scale(0.97); }
 .b-borde { background: #FFFFFF; color: var(--tinta); font-weight: 700; }
 .b-negro:active, .b-borde:active { transform: scale(0.97); }
 .mun-lado .pie { margin-top: 18px; }
@@ -552,7 +563,7 @@ body.con-subtitulos { --subtitulos: 72px; padding-bottom: var(--subtitulos); }
   .dias-barras { gap: 1px; }
   .dias-ventana > span { font-size: 12px; }
   .llave-texto { font-size: 14.5px; }
-  .b-negro, .b-borde { height: 48px; }
+  .b-negro, .b-borde, .b-whatsapp { height: 48px; }
 }
 
 /* ---------- Fechas de quema (tablero «Fechas») ---------- */
@@ -799,7 +810,7 @@ h1, h2, h3 { scroll-margin-top: calc(var(--barra-alto) + 12px); }
 /* El título de cada prueba va centrado sobre su gráfica, como en las PNG de la validación. */
 .m-prueba-graf .m-graf-t { font-size: 15px; font-weight: 400; text-align: center; text-wrap: balance; }
 .metodo .m-det { margin-top: 12px; font-size: 15px; color: var(--tinta-2); }
-.m-ley-cuadro { width: 12px; height: 12px; background: var(--c); border: 1px solid rgba(0, 0, 0, 0.12); }
+.m-ley-cuadro { width: 12px; height: 12px; background: var(--c); border: 1px solid var(--tinta-2); }
 .m-ley-hueco-cuadro { width: 12px; height: 12px; border: 1.5px solid var(--c); background: #FFFFFF; }
 .m-ley-rayado { width: 12px; height: 12px; background: repeating-linear-gradient(45deg, var(--c) 0 3px, #C8C3BB 3px 5px); }
 .m-ley-raya { width: 18px; height: 0; border-top: 2px dashed var(--c); }
@@ -826,7 +837,7 @@ h1, h2, h3 { scroll-margin-top: calc(var(--barra-alto) + 12px); }
 #mSatSvg { display: block; width: 100%; height: auto; }
 #mSatSvg .m-sat-txt { font-family: var(--texto); }
 #mSatSvg .m-sat-zona:focus { outline: none; }
-#mSatSvg .m-sat-zona:focus-visible { fill: rgba(245, 160, 76, 0.18); }
+#mSatSvg .m-sat-zona:focus-visible { fill: rgba(18, 18, 18, 0.06); stroke: var(--tinta); stroke-width: 2; }
 .m-sat-punta { position: absolute; pointer-events: none; background: var(--tinta); color: var(--papel); font-size: 13px; line-height: 1.4; padding: 8px 10px; white-space: nowrap; transform: translate(-50%, -100%); z-index: 2; }
 .m-sat-punta b { font-family: var(--mono); }
 .m-sat-ley { display: flex; flex-wrap: wrap; gap: 6px 22px; margin: 0; padding: 0; list-style: none; font-size: 14px; color: var(--tinta-2); }

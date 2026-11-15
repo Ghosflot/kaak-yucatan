@@ -7,6 +7,7 @@ export const ANCHO = 1080, ALTO = 1350;
 export const SITIO = 'kaak.pages.dev';
 const M = 64; // margen de los lados
 const PAPEL = '#FAFAF7', TINTA = '#141414', GRIS = '#8F877D', ROJO = '#D7261E', FRANJA = '#ECE9E4';
+const ROJO_CLARO = '#E9837D'; // el rojo claro de la página: años con más fuego que lo normal
 const CONVERTIDO_HASTA = 2011; // hasta ese año las barras son de MODIS, pasadas a la escala de hoy: van rayadas
 const DISPLAY = '"Alfa Slab One", Rockwell, Georgia, serif';
 const TEXTO = '"Atkinson Hyperlegible Next", system-ui, sans-serif';
@@ -36,11 +37,11 @@ function renglones(ctx, texto, ancho) {
 }
 
 // El rayado de las barras de MODIS, igual que en la página: gris con rayas claras en diagonal.
-function rayado(ctx, paso) {
+function rayado(ctx, paso, color = GRIS) {
   const c = document.createElement('canvas');
   c.width = c.height = paso;
   const x = c.getContext('2d');
-  x.fillStyle = GRIS;
+  x.fillStyle = color;
   x.fillRect(0, 0, paso, paso);
   x.strokeStyle = 'rgba(255,255,255,0.55)';
   x.lineWidth = paso * 0.3;
@@ -117,7 +118,21 @@ export async function dibujarFicha(canvas, m) {
   for (const l of renglones(ctx, frase(m), util)) { y += 66; ctx.fillText(l, M, y); }
   ctx.font = `400 40px ${TEXTO}`;
   y += 8;
-  for (const l of renglones(ctx, cifras('fCifras', m), util)) { y += 52; ctx.fillText(l, M, y); }
+  // La cifra de 2026 en rojo, como en la página.
+  const a26 = fmt(m.v26);
+  let pendiente = true;
+  for (const l of renglones(ctx, cifras('fCifras', m), util)) {
+    y += 52;
+    const k = pendiente ? l.indexOf(a26) : -1;
+    if (k < 0) { ctx.fillText(l, M, y); continue; }
+    pendiente = false;
+    const antes = l.slice(0, k);
+    ctx.fillText(antes, M, y);
+    let x = M + ctx.measureText(antes).width;
+    ctx.font = `800 40px ${TEXTO}`; ctx.fillStyle = ROJO; ctx.fillText(a26, x, y);
+    x += ctx.measureText(a26).width;
+    ctx.font = `400 40px ${TEXTO}`; ctx.fillStyle = TINTA; ctx.fillText(l.slice(k + a26.length), x, y);
+  }
   // Su hecho propio (cómo quedó 2026 entre sus temporadas), si lo hay y cabe en dos renglones.
   const hecho = hechosDe(m).find((h) => h.tipo === 'temporada');
   if (hecho) {
@@ -150,10 +165,10 @@ export async function dibujarFicha(canvas, m) {
     ctx.fillStyle = FRANJA;
     ctx.fillRect(M, ya, util, yb - ya);
   }
-  const rayas = rayado(ctx, 14);
+  const rayas = rayado(ctx, 14), rayasSobre = rayado(ctx, 14, ROJO_CLARO);
   anios.forEach((a, i) => {
     const h = Math.max(4, (a.total / tope) * (alto - 8));
-    ctx.fillStyle = a.y === 2026 ? ROJO : a.y <= CONVERTIDO_HASTA ? rayas : GRIS;
+    ctx.fillStyle = a.y === 2026 ? ROJO : a.y <= CONVERTIDO_HASTA ? (a.total > m.normal ? rayasSobre : rayas) : a.total > m.normal ? ROJO_CLARO : GRIS;
     ctx.fillRect(M + i * (bw + hueco), base - h, bw, h);
   });
   ctx.setLineDash([]);
@@ -267,10 +282,10 @@ export async function dibujarTarjeta(canvas, m) {
   const anios = m.anios;
   const tope = Math.max(...anios.map((a) => a.total), m.normal, 1);
   const hueco = 5, bw = (gw - hueco * (anios.length - 1)) / anios.length;
-  const rayas = rayado(ctx, 10);
+  const rayas = rayado(ctx, 10), rayasSobre = rayado(ctx, 10, ROJO_CLARO);
   anios.forEach((a, i) => {
     const h = Math.max(3, (a.total / tope) * alto);
-    ctx.fillStyle = a.y === 2026 ? ROJO : a.y <= CONVERTIDO_HASTA ? rayas : GRIS;
+    ctx.fillStyle = a.y === 2026 ? ROJO : a.y <= CONVERTIDO_HASTA ? (a.total > m.normal ? rayasSobre : rayas) : a.total > m.normal ? ROJO_CLARO : GRIS;
     ctx.fillRect(gx + i * (bw + hueco), base - h, bw, h);
   });
   ctx.fillStyle = TINTA;

@@ -271,14 +271,14 @@ function armarSat(svg, punta, M, S, campo) {
       'aria-label': t('mSatAnio', { y: a.y, v: fmt(a.armonizado), s: t(etiqueta, { s: S.sat }), w: v ? fmt(v[campo]) : t('mSatSinDatos') }),
     }, svg);
     const mostrar = () => {
-      const r = svg.getBoundingClientRect(), k = r.width / ancho;
+      const rw = svg.getBoundingClientRect().width, k = rw / ancho;
       punta.replaceChildren();
       const b = (txt) => { const n = document.createElement('b'); n.textContent = txt; return n; };
       punta.append(b(String(a.y)), document.createElement('br'), t('mSatPuntaSerie') + ': ', b(fmt(a.armonizado)), document.createElement('br'),
         t(etiqueta, { s: S.sat }) + ': ', v ? b(fmt(v[campo])) : t('mSatSinDatos'));
       punta.hidden = false;
       const w = punta.offsetWidth;
-      punta.style.left = Math.min(Math.max((X(a.y) + paso / 2) * k, w / 2), r.width - w / 2) + 'px';
+      punta.style.left = Math.min(Math.max((X(a.y) + paso / 2) * k, w / 2), rw - w / 2) + 'px';
       punta.style.top = (Y(Math.max(a.armonizado, v ? v[campo] : 0)) * k - 10) + 'px';
     };
     const ocultar = () => { punta.hidden = true; };
