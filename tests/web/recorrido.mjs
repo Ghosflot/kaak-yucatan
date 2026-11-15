@@ -1,5 +1,5 @@
 // Graba el recorrido de la página para el PR, con subtítulos dentro de la página (?subtitulos=1).
-// Uso: node tests/web/recorrido.mjs <nombre> [portada|temporada|fechas|pulido|revision|repaso|ia|direccion]
+// Uso: node tests/web/recorrido.mjs <nombre> [portada|temporada|fechas|pulido|revision|repaso|ia|direccion|demo]
 //   →   videos/<nombre>-escritorio.mp4 y videos/<nombre>-telefono.mp4
 //
 // Cada cuadro sale de Chrome en JPEG de alta calidad (el teléfono, a doble resolución) y ffmpeg lo
@@ -617,6 +617,45 @@ async function direccion() {
   });
 }
 
-await ({ portada, temporada, fechas, pulido, revision, repaso, ia, direccion })[RECORRIDO]();
+// El demo de 30 segundos (#10), en inglés: sigue la tabla de docs/03-guion.md, «Versión de 30 segundos».
+// 1280 × 648 de página más la franja de subtítulos dan un video de 1280 × 720.
+const DEMO = { viewport: { width: 1280, height: 648 } };
+async function demo() {
+  await grabar('30s', DEMO, '&lang=en#/', '#rellenos path', async ({ page, espera, sub }) => {
+    const t0 = Date.now();
+    const hasta = (ms) => espera(Math.max(0, ms - (Date.now() - t0)));
+    // 0–6, el gancho: la temporada empieza a encenderse.
+    await sub('In May 2024, wildfire smoke made Mérida one of the five most polluted cities in Mexico.', 900);
+    await page.click('#verTemporada');
+    await hasta(6000);
+    // 6–12, el problema en el campo: al cierre, un solo municipio.
+    await sub('In Yucatán, farmers burn to plant their milpa, and each town knows its own fire season, but only its own.', 0);
+    await page.waitForSelector('#escenario[data-modo="final"]', { timeout: 30000 });
+    await page.click('#buscador2 .ejemplo button');
+    await hasta(12000);
+    // 12–18, el problema técnico: el salto de 2012, sin corregir y corregido.
+    await page.click('.nav a[data-vista="metodo"]');
+    await page.waitForSelector('#mSwitch');
+    await sub('And the satellites don’t agree: some see three to five times more fire than others.', 0);
+    await hasta(15200);
+    await page.click('#mSwitch');
+    await hasta(18000);
+    // 18–26, la solución: un municipio y su calendario.
+    await page.evaluate(() => { location.hash = '#/municipio/muna'; });
+    await page.waitForSelector('#hechos li');
+    await sub('K’áak’ calibrates them into 25 comparable years and tells you whether your municipality’s season is running above or below normal.', 0);
+    await hasta(22000);
+    await page.evaluate(() => document.querySelector('#diasBarras').scrollIntoView({ behavior: 'smooth', block: 'center' }));
+    await hasta(26000);
+    // 26–30, el cierre: la marca y la dirección.
+    await page.evaluate(() => { location.hash = '#/'; });
+    await page.waitForSelector('#rellenos path');
+    await sub('For Civil Protection, SEDER and anyone: K’áak’, Yucatán’s fire calendar. kaak.pages.dev', 0);
+    await hasta(28400);
+  });
+}
+
+
+await ({ portada, temporada, fechas, pulido, revision, repaso, ia, direccion, demo })[RECORRIDO]();
 await navegador.close();
 process.exit(0);
