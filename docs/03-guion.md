@@ -10,30 +10,43 @@ Falta: cronometrar con el demo real y que Nico revise las cifras (cada una sale 
 
 Es para el video de 30 segundos (#10), que va en inglés. Va sin la historia del abuelo, que
 queda para las versiones largas. La estructura es gancho, problema, solución con el demo y un
-cierre de una frase. Son unas 86 palabras en español y 75 en inglés: hay que cronometrarla.
-Si no cabe, lo primero que se quita es «para sembrar la milpa».
+cierre de una frase. El problema en el campo y la solución salen del aterrizaje (docs/04): el
+fuego es una herramienta del campo, y K'áak' dice dónde y cuándo se quema más en cada municipio.
+
+Son 65 palabras en inglés. Con la voz de macOS (`say`) dura entre 26.4 y 28.8 segundos, según
+la voz; la versión anterior, de 81 palabras, daba de 30.1 a 31.4. Quedan entre 1 y 3 segundos
+de margen: hay que cronometrarla con el demo real. Si no cabe, lo primero que se quita es
+«Here,».
 
 | Seg. | Parte | Se dice | En pantalla |
 |---|---|---|---|
-| 0–6 | Gancho | En mayo de 2024, el humo de los incendios puso a Mérida entre las cinco ciudades más contaminadas de México. | Mérida con humo, o la frase en grande |
-| 6–12 | El problema en el campo | En Yucatán se quema para sembrar la milpa, y cada comunidad conoce su temporada, pero solo la suya. | Mapa de la península con un solo municipio iluminado |
-| 12–18 | El problema técnico | Y los satélites no coinciden: unos ven entre tres y cinco veces más fuego que otros. | La gráfica del salto de 2012 |
-| 18–26 | La solución | K'áak' los calibra en 25 años y te dice si tu municipio va peor o mejor que lo normal. | Demo: la página con un municipio y su calendario. Texto chico: «Se actualiza 4 veces al día» |
-| 26–30 | Cierre | Para Protección Civil, SEDER y cualquier persona: K'áak', el calendario del fuego de Yucatán. | Logo y kaak.pages.dev |
+| 0–6 | Gancho | En 2024, el humo de los incendios puso a Mérida entre las ciudades más contaminadas de México. | Mérida con humo, o la frase en grande |
+| 6–12 | El problema en el campo | Aquí el fuego es una herramienta del campo: los 10 municipios que más arden siembran milpa o crían ganado. | Mapa de la península con los 10 municipios con más fuego iluminados (docs/04, sección 2) |
+| 12–18 | El problema técnico | Pero los satélites no coinciden: unos ven entre tres y cinco veces más fuego. | La gráfica del salto de 2012 |
+| 18–26 | La solución | K'áak' calibra 25 años y muestra dónde y cuándo se ha quemado más históricamente en Yucatán, municipio por municipio. | Demo: el mapa de la península y luego «Ver las fechas de quema» de un municipio. Texto chico: «Se actualiza 4 veces al día» |
+| 26–30 | Cierre | Para Protección Civil, SEDER y cada municipio: K'áak', el calendario del fuego de Yucatán. | Logo y kaak.pages.dev |
 
 **En inglés (lo que se graba):**
 
-> In May 2024, wildfire smoke made Mérida one of the five most polluted cities in Mexico.
+> In 2024, wildfire smoke put Mérida among Mexico's most polluted cities.
 >
-> In Yucatán, farmers burn to plant their milpa, and each town knows its own fire season, but
-> only its own.
+> Here, fire is a farming tool: the ten most-burned towns grow milpa or raise cattle.
 >
-> And the satellites don't agree: some see three to five times more fire than others.
+> But satellites disagree: some see three to five times more fire.
 >
-> K'áak' calibrates them into 25 comparable years and tells you whether your municipality's
-> season is running above or below normal.
+> K'áak' calibrates 25 years and shows where and when Yucatán has historically burned most,
+> town by town.
 >
-> For Civil Protection, SEDER and anyone: K'áak', Yucatán's fire calendar.
+> For Civil Protection, SEDER and every town: K'áak', Yucatán's fire calendar.
+
+En inglés, «towns» quiere decir municipios. «SEDER» se dice como palabra («Séder»), no
+letra por letra.
+
+La solución dice «históricamente» para que quede claro que K'áak' no predice: muestra lo que ya
+pasó. Dice «dónde y cuándo se ha quemado más en Yucatán, municipio por municipio», no «dónde se
+quema dentro de cada municipio»: el dónde es el mapa de los municipios, y el cuándo, el
+calendario de cada uno, hecho con los 25 años calibrados. Las zonas de quema dentro del
+municipio y el calendario de cada zona (14 años de VIIRS) todavía no están en la página.
 
 ## Versión de 3 minutos
 
@@ -221,7 +234,7 @@ SEDER y a los municipios para planear.»
 | *(5 min)* Mérida entre las cinco ciudades más contaminadas, mayo de 2024 | «El humo llega a Mérida» |
 | *(5 min)* MODIS en retiro, S-NPP sin datos desde el 2 de nov, cuatro satélites | «Contexto» y «S-NPP deja de entregar datos» |
 | *(5 min)* Umán: 264 ha de selva en 2025 y el incendio junto a dos fraccionamientos (marzo de 2025) | «Casos» y «Cifras de la página» (Umán) |
-| *(30 s)* Se quema para sembrar; cada comunidad conoce su temporada | «¿Hay muchos incendios…?» (causa: «quema para preparación de siembra») y «Lo que dice la gente del campo» |
+| *(30 s)* El fuego es una herramienta del campo; los 10 municipios que más arden siembran milpa o crían ganado | «Los municipios con más fuego viven del campo» y docs/04, secciones 1 y 2 (46 % de los incendios forestales empezaron por actividades del campo; los 10 tienen producción agropecuaria) |
 | *(30 s)* Unos satélites ven entre tres y cinco veces más fuego que otros | `salidas/factores.csv` (Aqua: de 2.8 a 5.3 según zona y época), lo acordado en #26 (docs/01, «El problema técnico del reto, con números») |
 | *(30 s)* Se actualiza 4 veces al día | docs/02, tarea 18 |
 | *(5 min)* Incendio del basurero de Yaxkukul (9–10 nov 2026), humo en Mérida | «El humo llega a Mérida» (basurero de Yaxkukul). Notas: [Diario de Yucatán, 10 nov](https://www.yucatan.com.mx/yucatan/2026/11/10/controlan-el-incendio-registrado-en-el-basurero-municipal-de-yaxkukul-el-humo-afecto-a-merida.html), [Diario de Yucatán, 9 nov](https://www.yucatan.com.mx/merida/2026/11/09/densa-humareda-sorprende-a-colonias-de-merida-huele-a-quemado-reportan.html) y [Por Esto, 10 nov](https://www.poresto.com/yucatan/merida/2026/11/10/humo-merida-noche-lunes-noviembre-ssp-explica-origen.html) |
