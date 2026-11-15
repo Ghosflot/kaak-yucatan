@@ -229,3 +229,79 @@ export function tiraDias(svg, { dias, ini, fin, anio = 2026, alTocar = null, toc
     alTocar(cursor);
   };
 }
+
+/**
+ * Tira de los años de una zona: qué parte de sus focos de enero a junio cayó fuera de las fechas
+ * permitidas (0 a 1). anios: [{y, fuera}] en orden; `normal` es la parte de un año normal (línea punteada).
+ * Se dibuja al ancho real de la caja, así la letra mide lo que dice (11 px o más) en cualquier pantalla.
+ * leer(y) devuelve la frase de un año; se escribe en `lectura` (un elemento de la página) para el año
+ * bajo el puntero o el foco, y para el destacado cuando no hay ninguno.
+ * Con el teclado es un deslizador: las flechas recorren los años.
+ */
+export function tiraFuera(svg, { anios, normal = null, ancho = 520, destacado = 2026, convertidoHasta = 2011, leer, lectura, aria = '' }) {
+  svg.textContent = '';
+  const izq = 26, der = 4, arriba = 8, alto = 84, base = arriba + alto;
+  const W = Math.max(260, Math.round(ancho));
+  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + (base + 22));
+  svg.setAttribute('width', W);
+  svg.setAttribute('height', base + 22);
+  const paso = (W - izq - der) / anios.length, bw = Math.max(3, paso - Math.min(4, paso * 0.22));
+  const Y = (v) => base - v * alto;
+  const id = (svg.id || 'tira') + '-conv';
+  const pat = el('pattern', { id, width: 4, height: 4, patternUnits: 'userSpaceOnUse', patternTransform: 'rotate(45)' }, el('defs', {}, svg));
+  el('rect', { width: 4, height: 4, fill: GRIS }, pat);
+  el('rect', { width: 1.6, height: 4, fill: '#FFFFFF', 'fill-opacity': 0.55 }, pat);
+  // Rejilla: ninguno, la mitad y todos; la escala va en «de cada 10», como las frases de la página.
+  for (const v of [0, 0.5, 1]) {
+    el('line', { x1: izq, x2: W - der, y1: Y(v) + 0.5, y2: Y(v) + 0.5, stroke: v === 0 ? TINTA : '#D6D2CB', 'stroke-width': 1 }, svg);
+    el('text', { x: izq - 6, y: Y(v) + 4, 'font-size': 11, fill: TINTA_2, 'text-anchor': 'end' }, svg).textContent = String(v * 10);
+  }
+  const barras = anios.map((a, i) => {
+    const x = izq + i * paso + (paso - bw) / 2;
+    const relleno = a.y === destacado ? ROJO : a.y <= convertidoHasta ? 'url(#' + id + ')' : GRIS;
+    return el('rect', { x: x.toFixed(1), y: Y(a.fuera).toFixed(1), width: bw.toFixed(1), height: (a.fuera * alto).toFixed(1), fill: relleno, class: 'b-anio' + (a.y === destacado ? ' destacada' : '') }, svg);
+  });
+  if (normal !== null) {
+    el('line', { x1: izq, x2: W - der, y1: Y(normal), y2: Y(normal), stroke: TINTA, 'stroke-width': 1.6, 'stroke-dasharray': '5 3', 'pointer-events': 'none' }, svg);
+  }
+  // Años del eje: el primero, el primero de S-NPP y el destacado.
+  const iCambio = anios.findIndex((a) => a.y > convertidoHasta);
+  for (const i of [0, iCambio, anios.length - 1]) {
+    if (i < 0) continue;
+    const dest = anios[i].y === destacado;
+    const cx = izq + i * paso + paso / 2;
+    el('text', { x: cx.toFixed(1), y: base + 16, 'font-size': 11, fill: dest ? ROJO : TINTA_2, 'font-weight': dest ? 700 : 400, 'text-anchor': i === anios.length - 1 ? 'end' : 'middle', dx: i === anios.length - 1 ? (paso / 2 - der + 2).toFixed(1) : 0 }, svg).textContent = String(anios[i].y);
+  }
+  // Una sola zona de toque para todo: el año es la columna bajo el puntero.
+  const zona = el('rect', { x: izq, y: 0, width: W - izq - der, height: base + 22, fill: 'transparent' }, svg);
+  let cursor = null;
+  const marcar = (i) => {
+    barras.forEach((b, k) => b.classList.toggle('activa', k === i));
+    const y = i === null ? destacado : anios[i].y;
+    lectura.textContent = leer(y);
+    svg.setAttribute('aria-valuetext', leer(i === null ? anios[cursor ?? anios.length - 1].y : y));
+  };
+  const columna = (ev) => {
+    const r = svg.getBoundingClientRect();
+    const x = ((ev.clientX - r.left) / r.width) * W - izq;
+    return Math.max(0, Math.min(anios.length - 1, Math.floor(x / paso)));
+  };
+  zona.addEventListener('pointermove', (ev) => marcar(columna(ev)));
+  zona.addEventListener('pointerleave', () => marcar(svg.matches(':focus') ? cursor : null));
+  zona.addEventListener('click', (ev) => { cursor = columna(ev); marcar(cursor); });
+  const ultimo = anios.length - 1;
+  Object.entries({ role: 'slider', tabindex: 0, 'aria-valuemin': anios[0].y, 'aria-valuemax': anios[ultimo].y, 'aria-valuenow': anios[ultimo].y, 'aria-label': aria })
+    .forEach(([k, v]) => svg.setAttribute(k, v));
+  marcar(null);
+  svg.onfocus = () => { if (svg.matches(':focus-visible')) marcar(cursor ?? ultimo); };
+  svg.onblur = () => marcar(null);
+  svg.onkeydown = (e) => {
+    const de = cursor ?? ultimo;
+    const a = { ArrowRight: de + 1, ArrowUp: de + 1, ArrowLeft: de - 1, ArrowDown: de - 1, Home: 0, End: ultimo }[e.key];
+    if (a === undefined) return;
+    e.preventDefault();
+    cursor = Math.max(0, Math.min(ultimo, a));
+    svg.setAttribute('aria-valuenow', anios[cursor].y);
+    marcar(cursor);
+  };
+}
