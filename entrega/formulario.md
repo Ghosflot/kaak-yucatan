@@ -1,7 +1,7 @@
 # Formulario de entrega de Space Apps: textos listos para pegar (borrador)
 
 Campos en el orden de la guía oficial (Project Submission Guide, 13 nov). Todo va en inglés.
-Las cifras salen de docs/01; donde una cifra cambia con la página nueva, va marcada con [REVISAR].
+Las cifras salen de docs/01.
 
 ---
 
@@ -39,8 +39,10 @@ que se hace público al entregar.)
 satellite fire detections into a fire calendar for each municipality of the Yucatán
 Peninsula. A municipal official picks their municipality and sees three things: where fire
 returns almost every year, in which weeks each part of the territory burns, and how the
-current season compares with a normal year (the median of 2001 to 2025). Each municipality
-has a one-page sheet that a community leader can forward by messaging app, and the data
+current season compares with a normal year (the median of 2001 to 2025). The places where
+fire repeats link to Google Maps, so a crew can find them, and for Yucatán the page also
+shows the cattle land of each municipality (pasture and head of cattle) and how much of its
+fire falls on pasture. Each municipality has a one-page sheet that a community leader can forward by messaging app, and the data
 behind every chart can be downloaded as CSV.
 
 **Why it matters locally.** Burning to plant the milpa is legal and regulated in Yucatán: the
@@ -136,14 +138,15 @@ We did not use data from the 2026 Space Agency Partners. Other data and resource
 - Ministry of Economy of Mexico, Yucatán fact sheet; Yucatán fire prevention law.
 - NOAA notices on the end of Suomi NPP data (2 November 2026).
 - geoBoundaries (CC BY 4.0) and Natural Earth: administrative boundaries.
-- Diario de Yucatán and aqi.in: air quality in Mérida, May 2024.
+- INEGI: Land Use and Vegetation map, Series VII (2018), for the pasture land of each
+  municipality.
+- Diario de Yucatán and aqi.in: air quality in Mérida, May 2024. Diario de Yucatán and Por
+  Esto: the Yaxkukul dump fire (November 2026) and the Oxkutzcab lemon orchard fire (2022).
+- Google Maps: links to see each place where fire repeats.
 - Fonts: Alfa Slab One and Atkinson Hyperlegible (SIL Open Font License).
 - Software: Python, pandas, NumPy, SciPy, Shapely, PyArrow, Matplotlib, Pillow, Playwright,
   axe-core, GitHub Actions, Cloudflare Pages.
 - AI tools: Claude (Anthropic) and GitHub Copilot code review (see Use of SI).
-
-[REVISAR: añadir lo que entre con la página nueva (Google Maps si se queda el enlace de
-«¿Dónde se quema?», el mapa ganadero de #60 y su fuente)]
 
 ## Tags (si el formulario los pide)
 
