@@ -21,7 +21,10 @@ razones a favor y sin una lista de «le faltó». Hoy carga rápido y dice la ve
    hablando de sí mismo».
 3. **Una palabra para cada cosa.** La unidad es «foco de calor» (nunca «quema», «cuadrito-día»
    ni «incendio»). Los años se dicen «desde 2001». «Lo normal» es la mediana de 2001 a 2025.
-4. **El rojo (`--rojo`) significa 2026 y nada más.** El fuego de cada día va en naranja/ámbar.
+4. **Un color por significado.** El rojo (`--rojo`) es 2026. El rojo claro (`#E9837D`) son los años con más
+   fuego que lo normal y, rayado, lo que la corrección añade a los años de MODIS. En las gráficas de las
+   pruebas, lo corregido va en rojo y lo que está sin corregir, en gris. El fuego de cada día va en
+   naranja/ámbar. (Cambió el 15 de noviembre: antes el rojo era solo 2026 y «Cómo lo medimos» iba en tinta.)
    Lo calibrado, lo de otro satélite y lo demás va en tinta, gris o rayado.
 5. **Nada borroso, cortado ni encimado** de 1024×600 a 2560×1440 y en teléfono (390×844).
    En escritorio la portada no se desplaza en vertical.

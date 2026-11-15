@@ -189,7 +189,7 @@ test('¿Se puede confiar?: cuatro preguntas, cada una con su respuesta a la vist
   await expect(salto.locator('.m-det')).toContainText(`Solo en el estado de Yucatán, el mismo cálculo da ${s.razonCrudaYucatan} sin corregir y ${s.razonArmonizadaYucatan}`);
 });
 
-test('las gráficas: letra de 11 px o más, sin rojo y sin salirse, en computadora y en teléfono', async ({ page }) => {
+test('las gráficas: letra de 11 px o más, con el rojo de la página y sin salirse, en computadora y en teléfono', async ({ page }) => {
   for (const [ancho, alto] of [[1440, 900], [390, 844]]) {
     await abrir(page, '#/metodo', { ancho, alto });
     await abrirTodo(page);
@@ -201,12 +201,14 @@ test('las gráficas: letra de 11 px o más, sin rojo y sin salirse, en computado
       return [n.textContent, parseFloat(getComputedStyle(n).fontSize) * k];
     }).filter(([, px]) => px < 10.95));
     expect(chicas).toEqual([]);
-    // El rojo es 2026 y nada más: no aparece en esta página.
-    const rojos = await page.$$eval('.metodo svg *, .metodo i', (es) => es.filter((e) => {
-      const cs = getComputedStyle(e);
-      return [cs.fill, cs.stroke, cs.backgroundColor, cs.borderTopColor].some((c) => c === 'rgb(215, 38, 30)');
-    }).length);
-    expect(rojos).toBe(0);
+    // El color de la página: con la corrección puesta, lo que añade va en rojo claro rayado sobre lo que contó
+    // el satélite (en gris), 2026 va en rojo y, en las pruebas, lo corregido también.
+    await expect(page.locator('#salto rect.m-barra[data-y="2026"]')).toHaveAttribute('fill', '#D7261E');
+    await expect(page.locator('#salto rect.m-cruda')).toHaveCount(11);
+    expect(await page.locator('#salto-rayas rect').first().getAttribute('fill')).toBe('#E9837D');
+    const prueba1 = page.locator('.m-prueba[data-prueba="salto_2012"] svg');
+    expect(await prueba1.locator('rect[fill^="url(#"][fill$="-anadido)"]').count()).toBe(3); // 2009, 2010 y 2011
+    expect(await page.locator('.m-prueba[data-prueba="conafor"] svg rect[fill="#D7261E"]').count()).toBeGreaterThan(0);
     const { scroll, ventana } = await page.evaluate(() => ({ scroll: document.documentElement.scrollWidth, ventana: window.innerWidth }));
     expect(scroll).toBeLessThanOrEqual(ventana);
     // Ningún texto de una gráfica se sale de su dibujo.

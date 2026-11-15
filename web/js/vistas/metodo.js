@@ -10,6 +10,7 @@ import { dibujarPrueba } from '../graficas-validacion.js';
 
 const SENSOR = { Terra: 'MODIS', Aqua: 'MODIS', 'S-NPP': 'VIIRS', 'NOAA-20': 'VIIRS' };
 const GRIS = '#8F877D'; // el mismo gris de las barras de la portada
+const ROJO = '#D7261E', ROJO_CLARO = '#E9837D'; // 2026, y lo que la corrección añade (rayado)
 const CLARO = '#D3CDC4';
 const TINTA = '#121212';
 const TINTA_2 = '#4A4743';
@@ -257,12 +258,13 @@ function armarSat(svg, punta, M, S, campo) {
   }
   el('text', { x: x12 + 4, y: base + 19, 'font-size': 13, 'font-weight': 700, fill: TINTA, class: 'm-sat-txt' }, svg).textContent = String(CAMBIO);
   // Línea del satélite.
-  const pts = S.anios.map((a) => [X(a.y) + paso / 2, Y(a[campo])]);
+  // Corregido, en rojo, como en las gráficas de las pruebas; sin corregir, en tinta y punteado.
+  const pts = S.anios.map((a) => [X(a.y) + paso / 2, Y(a[campo])]), trazo = campo === 'cal' ? ROJO : TINTA;
   el('polyline', {
-    class: 'm-sat-linea', points: pts.map(([x, y]) => x.toFixed(1) + ',' + y.toFixed(1)).join(' '), fill: 'none', stroke: TINTA,
+    class: 'm-sat-linea', points: pts.map(([x, y]) => x.toFixed(1) + ',' + y.toFixed(1)).join(' '), fill: 'none', stroke: trazo,
     'stroke-width': 2.5, 'stroke-linejoin': 'round', 'stroke-dasharray': campo === 'cal' ? 'none' : '7 5',
   }, svg);
-  for (const [x, y] of pts) el('circle', { cx: x.toFixed(1), cy: y.toFixed(1), r: 3.6, fill: campo === 'cal' ? TINTA : '#FFFFFF', stroke: TINTA, 'stroke-width': 2 }, svg);
+  for (const [x, y] of pts) el('circle', { cx: x.toFixed(1), cy: y.toFixed(1), r: 3.6, fill: campo === 'cal' ? ROJO : '#FFFFFF', stroke: trazo, 'stroke-width': 2 }, svg);
   // Zonas para tocar cada año.
   for (const a of anios) {
     const v = dS[a.y];
@@ -333,15 +335,22 @@ function armarSalto(svg, M) {
   const paso = ancho / anios.length, bw = paso - Math.max(2, Math.min(5, paso * 0.18));
   const id = 'salto-rayas';
   const pat = el('pattern', { id, width: 5, height: 5, patternUnits: 'userSpaceOnUse', patternTransform: 'rotate(45)' }, el('defs', {}, svg));
-  el('rect', { width: 5, height: 5, fill: GRIS }, pat);
+  el('rect', { width: 5, height: 5, fill: ROJO_CLARO }, pat);
   el('rect', { width: 2, height: 5, fill: '#FFFFFF', 'fill-opacity': 0.55 }, pat);
   // Cada barra mide lo más alto posible y se encoge con transform: así la animación es fluida.
+  // Antes de 2012 cada año lleva dos: atrás, en rojo claro rayado, la corregida (la que se anima); encima, en gris
+  // y quieta, lo que contó el satélite. Lo que asoma al corregir es lo que la corrección añade.
   const barras = anios.map((a, i) => {
     const r = el('rect', {
-      class: 'm-barra', 'data-y': a.y, x: (i * paso).toFixed(1), y: arriba, width: bw.toFixed(1), height: alto, fill: GRIS,
+      class: 'm-barra', 'data-y': a.y, x: (i * paso).toFixed(1), y: arriba, width: bw.toFixed(1), height: alto,
+      fill: a.y < CAMBIO ? 'url(#' + id + ')' : a.y === anios[anios.length - 1].y ? ROJO : GRIS,
     }, svg);
     if (a.y < CAMBIO) r.style.transitionDelay = (i * 0.02).toFixed(3) + 's';
     el('title', {}, r);
+    if (a.y < CAMBIO) {
+      el('rect', { class: 'm-cruda', x: (i * paso).toFixed(1), y: arriba, width: bw.toFixed(1), height: alto, fill: GRIS }, svg)
+        .style.transform = 'scaleY(' + (a.crudo / max).toFixed(4) + ')';
+    }
     return r;
   });
   el('line', { x1: 0, x2: ancho, y1: base + 0.5, y2: base + 0.5, stroke: TINTA, 'stroke-width': 1 }, svg);
@@ -378,7 +387,6 @@ function armarSalto(svg, M) {
     anios.forEach((a, i) => {
       const r = barras[i];
       r.style.transform = 'scaleY(' + (a[campo] / max).toFixed(4) + ')';
-      if (a.y < CAMBIO) r.setAttribute('fill', campo === 'armonizado' ? 'url(#' + id + ')' : GRIS);
       r.firstChild.textContent = a.y + ': ' + fmt(a[campo]);
     });
     for (const { g, xs } of lineas) g.style.transform = 'translateY(' + (-Y(promedio(xs, campo))).toFixed(1) + 'px)';
