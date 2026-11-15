@@ -5,8 +5,12 @@ Uso: python pipeline/mosaico.py [--teselas data/gibs] [--salida web/img/mosaico.
 Baja las teselas de nivel 8 (~250 m) de tres satélites VIIRS en 26 fechas de la temporada seca
 de 2026 (del 10 de febrero al 25 de abril, cada 3 días): 78 vistas. Por pixel toma el percentil
 30 del brillo entre las vistas sin nubes, así quedan fuera las nubes (claras) y sus sombras
-(oscuras). Después ajusta el tono y lo lleva al lienzo de la página (825 × 681, con la longitud
-comprimida por el coseno de 19.8°), al doble y medio de tamaño: 2044 × 1688.
+(oscuras). Después ajusta el tono y lo lleva a las unidades del lienzo de la página (825 × 681,
+con la longitud comprimida por el coseno de 19.8°), al doble y medio de tamaño.
+
+La foto cubre más que el lienzo: lleva un margen de mar y de tierra vecina a cada lado (FOTO, en
+unidades del lienzo) para que llene pantallas de cualquier proporción y se pueda arrastrar el mapa.
+Mide 1376 × 800 unidades: 3440 × 2000 pixeles.
 """
 from __future__ import annotations
 
@@ -22,7 +26,13 @@ import numpy as np
 from PIL import Image, ImageEnhance
 
 RAIZ = Path(__file__).resolve().parent.parent
-LON0, LON1, LAT0, LAT1 = -92.55, -86.7044, 17.81, 22.35  # el lienzo de la página
+LIENZO = (-92.55, -86.7044, 17.81, 22.35)  # lon0, lon1, lat0, lat1 del lienzo de la página (825 × 681)
+U_LON, U_LAT = 825 / (LIENZO[1] - LIENZO[0]), 681 / (LIENZO[3] - LIENZO[2])  # unidades del lienzo por grado
+# Lo que cubre la foto, en unidades del lienzo (x de 0 a 825, y de -90 a 591): x0, y0, x1, y1.
+# web/js/vistas/portada.js usa estos mismos números para colocarla.
+FOTO = (-400, -150, 976, 650)
+LON0, LON1 = LIENZO[0] + FOTO[0] / U_LON, LIENZO[0] + FOTO[2] / U_LON
+LAT1, LAT0 = LIENZO[3] - (FOTO[1] + 90) / U_LAT, LIENZO[3] - (FOTO[3] + 90) / U_LAT
 NIVEL = 8
 GRADOS = 288 / 2 ** NIVEL  # grados por tesela
 PX = GRADOS / 512
@@ -35,7 +45,7 @@ CAPAS = {
 }
 FECHAS = [date(2026, 2, 10) + timedelta(days=3 * i) for i in range(26)]  # 10 feb a 25 abr
 PERCENTIL = 30
-TAMANO = (2044, 1688)
+TAMANO = (round((FOTO[2] - FOTO[0]) * 2.5), round((FOTO[3] - FOTO[1]) * 2.5))
 
 
 def bajar(carpeta: Path, sat: str, d: date, r: int, c: int) -> None:
