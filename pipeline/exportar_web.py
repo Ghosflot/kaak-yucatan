@@ -59,6 +59,9 @@ CRUCE_CONAFOR = RAIZ / "analisis" / "salidas" / "cruce_conafor.csv"
 VALIDACION = RAIZ / "salidas" / "validacion.json"
 GANADERIA = RAIZ / "datos_peninsula" / "ganaderia_municipios.csv"
 GANADERIA_PERIODO = [2013, 2025]  # los focos de ganaderia_municipios.csv (analisis/cifras_ganaderia.py)
+# Cortes de las 5 clases de color del mapa ganadero (clase 0 = menos que el primer corte). Son números redondos
+# cerca de los quintiles de los 106 municipios: la mitad tiene menos de 5 % de pastizal y unos pocos pasan de 60 %.
+GANADERIA_CORTES = {"pastizal": [5, 15, 30, 50], "bovinos": [2, 5, 10, 25], "focos": [5, 15, 30, 50]}
 SALIDA = RAIZ / "web" / "datos"
 
 ANIOS_BASE = range(2001, 2026)
@@ -451,20 +454,26 @@ def ganaderia(mun: pd.DataFrame) -> dict:
     """
     g = pd.read_csv(GANADERIA)
     g["id"] = g["municipio"].map(identificador)
+    g = g.sort_values("id").reset_index(drop=True)
     faltan = sorted(set(g["id"]) - set(mun.loc[mun["estado"] == "Yucatán", "id"]))
     if faltan:
         raise ValueError(f"ganaderia_municipios.csv trae municipios que no están en la lista: {faltan}")
     t = g[["bovinos_2022", "km2", "km2_pastizal", "focos", "focos_pastizal"]].sum()
+    g["pct_focos_pastizal"] = np.where(g["focos"] > 0, 100 * g["focos_pastizal"] / g["focos"].clip(lower=1), 0.0)
+    columnas = {"pastizal": "pct_pastizal", "bovinos": "bovinos_km2", "focos": "pct_focos_pastizal"}
+    clases = {k: np.digitize(g[c], GANADERIA_CORTES[k]) for k, c in columnas.items()}
     return {
         "periodo": GANADERIA_PERIODO,
+        "cortes": GANADERIA_CORTES,
         "yucatan": {"bovinos": int(t["bovinos_2022"]), "bovinosUp": int(g["bovinos_up_2022"].sum()),
                     "pctPastizal": round(100 * t["km2_pastizal"] / t["km2"], 1),
                     "focos": int(t["focos"]), "focosPastizal": int(t["focos_pastizal"]),
                     "pctFocosPastizal": round(100 * t["focos_pastizal"] / t["focos"], 1)},
         "municipios": [{"id": f["id"], "bovinos": int(f["bovinos_2022"]), "bovinosKm2": round(f["bovinos_km2"], 1),
                         "pctPastizal": round(f["pct_pastizal"], 1), "focos": int(f["focos"]),
-                        "focosPastizal": int(f["focos_pastizal"])}
-                       for _, f in g.sort_values("id").iterrows()],
+                        "focosPastizal": int(f["focos_pastizal"]),
+                        "clases": {k: int(v[i]) for k, v in clases.items()}}
+                       for i, f in g.iterrows()],
     }
 
 
