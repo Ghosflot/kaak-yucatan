@@ -643,20 +643,14 @@ async function demo() {
       const d = document.createElement('div');
       d.style.cssText = 'position:fixed;left:0;top:0;width:1px;height:1px;background:#000;z-index:10000;pointer-events:none;animation:kaak-latido .1s linear infinite alternate';
       const cur = document.createElement('div');
-      cur.innerHTML = '<svg width="26" height="26" viewBox="0 0 24 24"><path d="M4 2v17l4.5-4 3 7 3-1.2-2.9-6.8H18z" fill="#fff" stroke="#111" stroke-width="1.4" stroke-linejoin="round"/></svg>';
+      cur.innerHTML = '<svg width="17" height="17" viewBox="0 0 24 24"><path d="M4 2v17l4.5-4 3 7 3-1.2-2.9-6.8H18z" fill="#fff" stroke="#111" stroke-width="1.4" stroke-linejoin="round"/></svg>';
       cur.style.cssText = 'position:fixed;left:0;top:0;z-index:10002;pointer-events:none;transform:translate(-80px,-80px);filter:drop-shadow(0 1px 2px rgba(0,0,0,.35))';
       document.head.appendChild(st); document.body.append(d, cur);
       let x = -80, y = -80;
       addEventListener('mousemove', (e) => { x = e.clientX; y = e.clientY; cur.style.transform = `translate(${x - 4}px,${y - 2}px)`; }, true);
       window.kaakCursor = (ver) => { cur.style.display = ver ? '' : 'none'; };
-      window.kaakPulso = () => {
-        const r = document.createElement('div');
-        r.style.cssText = `position:fixed;left:${x - 18}px;top:${y - 18}px;width:36px;height:36px;border-radius:50%;background:rgba(194,87,12,.45);`
-          + 'z-index:10001;pointer-events:none;transform:scale(.25);opacity:1;transition:transform .4s ease-out,opacity .4s ease-out';
-        document.body.appendChild(r);
-        requestAnimationFrame(() => requestAnimationFrame(() => { r.style.transform = 'scale(1.3)'; r.style.opacity = '0'; }));
-        setTimeout(() => r.remove(), 500);
-      };
+      const svg = cur.firstChild; svg.style.transition = 'transform .12s ease-out'; svg.style.transformOrigin = '4px 2px';
+      window.kaakPulso = () => { svg.style.transform = 'scale(.82)'; setTimeout(() => { svg.style.transform = ''; }, 140); };
       addEventListener('mousedown', () => window.kaakPulso(), true);
     });
     // El cursor se desliza con aceleración suave, en pasos de unos 16 ms.
@@ -665,8 +659,9 @@ async function demo() {
     const deslizar = async (x, y, ms) => {
       const n = Math.max(1, Math.round(ms / 16)), x0 = cx, y0 = cy;
       for (let k = 1; k <= n; k++) {
-        const e = k / n, s = e < 0.5 ? 2 * e * e : 1 - (-2 * e + 2) ** 2 / 2;
-        cx = x0 + (x - x0) * s; cy = y0 + (y - y0) * s;
+        const e = k / n, s = e < 0.5 ? 4 * e * e * e : 1 - (-2 * e + 2) ** 3 / 2;
+        const arco = Math.sin(Math.PI * s) * Math.min(40, Math.hypot(x - x0, y - y0) * 0.08);
+        cx = x0 + (x - x0) * s - arco * Math.sign(y - y0 || 1) * 0.6; cy = y0 + (y - y0) * s + arco * 0.4;
         await page.mouse.move(cx, cy); await espera(8);
       }
     };
@@ -677,15 +672,15 @@ async function demo() {
     // sin prisa hacia «Watch the season day by day».
     await sub('In 2024, wildfire smoke put Mérida among Mexico’s most polluted cities.', 0);
     marca('frase 1');
-    await hasta(f2 - 2600);
-    await hacia('#verTemporada', 2300);
+    await hasta(f2 - 3000);
+    await hacia('#verTemporada', 2600);
     await hasta(f2);
     // 2, el problema en el campo: la temporada se enciende día por día.
     await sub('Here, fire is a farming tool: the ten most-burned towns grow milpa or raise cattle.', 0);
     marca('frase 2');
     await page.mouse.down(); await page.mouse.up();
-    await espera(1200);
-    await hacia('.nav a[data-vista="metodo"]', 1600);
+    await espera(2200);
+    await hacia('.nav a[data-vista="metodo"]', 2200);
     await hasta(f3);
     // 3, el problema técnico: el salto de 2012 sin corregir. Por la dirección y no con un clic: con la
     // temporada corriendo, el clic tarda segundos en aplicarse.
@@ -695,7 +690,7 @@ async function demo() {
     await page.evaluate(() => { location.hash = '#/metodo'; });
     await page.waitForSelector('#mSwitch');
     await hasta(f3 + 900);
-    await hacia('#mSwitch', 1400);
+    await hacia('#mSwitch', 1800);
     await hasta(f4);
     // 4, la solución: se corrige el salto, el mapa municipio por municipio y Muna.
     await sub('K’áak’ calibrates 25 years and shows where and when Yucatán has historically burned most, town by town.', 0);
@@ -705,11 +700,11 @@ async function demo() {
     await pulso();
     await page.evaluate(() => { location.hash = '#/?modo=final'; });
     await page.waitForSelector('#escenario[data-modo="final"]', { timeout: 15000 });
-    await hacia('#buscador2 .ejemplo button', 700);
+    await hacia('#buscador2 .ejemplo button', 900);
     await page.mouse.down(); await page.mouse.up();
     await page.click('#buscador2 .ejemplo button');
     await hasta(f4 + 4300);
-    await hacia('text=See Muna in detail', 650);
+    await hacia('text=See Muna in detail', 900);
     await pulso();
     await page.evaluate(() => { location.hash = '#/municipio/muna'; });
     await page.waitForSelector('#ficha');
@@ -723,7 +718,7 @@ async function demo() {
       window.scrollBy({ top: r.bottom - (innerHeight - 72 - 24), behavior: 'smooth' });
     });
     await espera(700);
-    await hacia('#compartir', 900);
+    await hacia('#compartir', 1200);
     await hasta(nombre - 250);
     await page.evaluate(() => window.kaakCursor(false));
     const qr = readFileSync(path.join(RAIZ, 'tests', 'web', 'demo-qr.svg'), 'utf8');
