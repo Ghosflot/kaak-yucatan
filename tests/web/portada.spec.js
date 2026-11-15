@@ -467,3 +467,133 @@ test.describe('funciones escondidas', () => {
     await expect(page.locator('.marca')).toHaveAttribute('aria-label', "K'áak', fuego en maya. Inicio");
   });
 });
+
+// Campos que la tanda de datos suma a portada.json (diseño, «Contrato de datos»). La página tiene que
+// usarlos cuando lleguen y quedar bien sin ellos: aquí se inyectan.
+test.describe('datos nuevos de portada.json', () => {
+  const conCampos = (extra) => async ({ page }) => {
+    await page.route('**/datos/portada.json', (r) => r.fulfill({ contentType: 'application/json', body: JSON.stringify(extra(structuredClone(PORTADA))) }));
+  };
+
+  test('fuera de temporada, la pregunta va en pasado y dice los focos de los últimos 7 días', async ({ page }) => {
+    await conCampos((d) => ({ ...d, datoHasta: { 'S-NPP': '2026-11-14', 'NOAA-20': '2026-11-13' }, reciente: { dias: 7, desde: '2026-11-08', hasta: '2026-11-14', yuc: 9, peninsula: 41 } }))({ page });
+    await abrir(page, '#/');
+    await expect(page.locator('#titulo')).toHaveText('¿Se quemó este año más de lo normal en tu municipio?');
+    await expect(page.locator('#fueraTemporada')).toHaveText('La temporada de quemas cerró el 31 de mayo. Los datos se actualizan cuatro veces al día: en los últimos 7 días hubo 41 focos de calor en la península.');
+  });
+
+  test('sin «reciente», la línea solo dice cuándo cerró; en temporada, no sale', async ({ page }) => {
+    await abrir(page, '#/');
+    await expect(page.locator('#fueraTemporada')).toHaveText('La temporada de quemas cerró el 31 de mayo. Los datos se actualizan cuatro veces al día.');
+    await conCampos((d) => ({ ...d, datoHasta: { 'S-NPP': '2026-04-20' } }))({ page });
+    await page.reload();
+    await page.waitForSelector('#rellenos path', { state: 'attached' });
+    await expect(page.locator('#titulo')).toHaveText('¿Este año se quema más de lo normal en tu municipio?');
+    await expect(page.locator('#fueraTemporada')).toBeHidden();
+  });
+
+  test('el repaso dice qué satélite contó cada día', async ({ page }) => {
+    await conCampos((d) => ({ ...d, satDia: { base: 'S-NPP', otros: { 60: 'NOAA-20' } } }))({ page });
+    await abrir(page, '#/', { query: '?modo=repaso&t=60' });
+    await expect(page.locator('#fecha')).toHaveText('30 de abril');
+    await expect(page.locator('#satelite')).toHaveText('visto por NOAA-20');
+    await page.locator('#tiempo').focus();
+    await page.keyboard.press('ArrowLeft');
+    await expect(page.locator('#satelite')).toHaveText('visto por S-NPP');
+    await expect(page.locator('#tiempo')).toHaveAttribute('aria-valuetext', /visto por S-NPP/);
+  });
+
+  test('sin «satDia», 2026 no inventa satélite; otro año dice el suyo', async ({ page }) => {
+    await abrir(page, '#/', { query: '?modo=repaso&t=60' });
+    await expect(page.locator('#satelite')).toHaveText('');
+    await page.goto('/#/?modo=final&anio=2005');
+    await expect(page.locator('#satelite')).toHaveText('visto por Aqua');
+  });
+
+  test('la franja de lo normal sale detrás de las barras solo si llega «yuc.rango»', async ({ page }) => {
+    await abrir(page, '#/');
+    await expect(page.locator('#barras .rango')).toHaveCount(0);
+    await conCampos((d) => { d.yuc.rango = [5500, 9600]; return d; })({ page });
+    await page.reload();
+    await page.waitForSelector('#rellenos path', { state: 'attached' });
+    await expect(page.locator('#barras .rango')).toHaveCount(1);
+    await page.click('#leyNormal');
+    await expect(page.locator('#explicaNormal')).toContainText('La franja gris va de 5,500 a 9,600');
+  });
+});
+
+// Acercar y arrastrar el mapa del cierre, sin salirse de la foto.
+test.describe('el mapa del cierre se acerca y se arrastra', () => {
+  const ancho = () => (page) => page.$eval('#mapa', (e) => e.getBoundingClientRect().width);
+  const cubre = (page) => page.evaluate(() => {
+    const f = document.getElementById('foto').getBoundingClientRect(), v = document.getElementById('visor').getBoundingClientRect();
+    return f.left <= v.left + 0.5 && f.top <= v.top + 0.5 && f.right >= v.right - 0.5 && f.bottom >= v.bottom - 0.5;
+  });
+
+  test('con los botones y con el teclado (+, − y 0)', async ({ page }) => {
+    await abrir(page, '#/', { reducir: true, ancho: 1366, alto: 629 });
+    const w = ancho();
+    const inicio = await w(page);
+    await page.click('#acercar');
+    await expect.poll(() => w(page)).toBeGreaterThan(inicio * 1.4);
+    await page.keyboard.press('+');
+    await expect.poll(() => w(page)).toBeGreaterThan(inicio * 2);
+    // Nunca más de 4 veces el encuadre de Yucatán.
+    for (let i = 0; i < 6; i++) await page.click('#acercar');
+    await page.waitForTimeout(400);
+    expect(await w(page)).toBeLessThanOrEqual(inicio * 4 + 1);
+    await page.keyboard.press('0');
+    await expect.poll(() => w(page)).toBeLessThan(inicio);
+    // Alejar no deja ver el borde de la foto.
+    for (let i = 0; i < 6; i++) await page.keyboard.press('-');
+    await page.waitForTimeout(400);
+    expect(await cubre(page)).toBe(true);
+    await expect(page.locator('#acercar')).toHaveAttribute('aria-label', 'Acercar');
+    await expect(page.locator('#verTodo')).toHaveAttribute('aria-label', 'Ver los tres estados');
+  });
+
+  test('con la rueda y arrastrando, la tarjeta sigue al municipio y la foto siempre cubre', async ({ page }) => {
+    await abrir(page, '#/', { reducir: true, ancho: 1366, alto: 768 });
+    await page.fill('#busca2', 'Tekax');
+    await page.keyboard.press('Enter');
+    const v = await page.locator('#visor').boundingBox();
+    const antes = await page.locator('#tarjeta').boundingBox();
+    await page.mouse.move(v.x + v.width * 0.6, v.y + v.height * 0.4);
+    await page.mouse.wheel(0, -300);
+    await page.waitForTimeout(100);
+    await page.mouse.down();
+    await page.mouse.move(v.x + v.width * 0.6 + 2000, v.y + v.height * 0.4 + 2000, { steps: 10 });
+    await page.mouse.up();
+    expect(await cubre(page)).toBe(true);
+    const despues = await page.locator('#tarjeta').boundingBox();
+    expect(despues.x !== antes.x || despues.y !== antes.y).toBe(true);
+    // Soltar el arrastre sobre otro municipio no lo elige.
+    await expect(page.locator('#tarjeta .nombre')).toHaveText('Tekax');
+  });
+
+  test('buscar lleva la cámara al municipio y la tarjeta no lo tapa', async ({ page }) => {
+    for (const [ancho, alto] of [[1366, 629], [1920, 1080]]) {
+      await abrir(page, '#/', { reducir: true, ancho, alto });
+      await page.fill('#busca2', 'Tizimín');
+      await page.keyboard.press('Enter');
+      await page.waitForTimeout(100);
+      const m = await page.locator('.seleccion .borde').boundingBox();
+      const tj = await page.locator('#tarjeta').boundingBox();
+      const v = await page.locator('#visor').boundingBox();
+      const cx = m.x + m.width / 2, cy = m.y + m.height / 2;
+      expect(cx > v.x && cx < v.x + v.width && cy > v.y && cy < v.y + v.height, `${ancho}: el municipio queda en el mapa`).toBe(true);
+      expect(cx < tj.x || cx > tj.x + tj.width || cy < tj.y || cy > tj.y + tj.height, `${ancho}: la tarjeta no lo tapa`).toBe(true);
+    }
+  });
+
+  test('en el teléfono, deslizar con un dedo desplaza la página y no el mapa', async ({ browser }) => {
+    const ctx = await browser.newContext({ hasTouch: true, isMobile: true, viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' });
+    const page = await ctx.newPage();
+    await page.goto('/#/?modo=final');
+    await page.waitForSelector('#rellenos path', { state: 'attached' });
+    expect(await page.$eval('#visor', (e) => getComputedStyle(e).touchAction)).toBe('pan-y');
+    await page.click('#acercar');
+    expect(await page.$eval('#visor', (e) => getComputedStyle(e).touchAction)).toBe('none');
+    await ctx.close();
+  });
+});

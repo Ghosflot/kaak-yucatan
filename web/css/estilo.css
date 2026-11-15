@@ -398,6 +398,9 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 [data-modo="final"] .escala { opacity: 0; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; transition-delay: 0ms !important; }
+  /* Sin propiedad, la transición de arriba vale para todo: el ancho del cartel cambiaría un instante
+     después y la cámara se encuadraría con el ancho viejo. */
+  .cartel { transition: none !important; }
 }
 
 /* Subtítulos del video de cada PR (?subtitulos=1) */
