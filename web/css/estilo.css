@@ -348,6 +348,7 @@ body.con-subtitulos { --subtitulos: 72px; padding-bottom: var(--subtitulos); }
 .mun-titulo h1 { margin: 0; font-family: var(--display); font-weight: 400; font-size: 56px; line-height: 1; overflow-wrap: anywhere; }
 .mun-frase { margin: 6px 0 0; font-size: 30px; line-height: 1.15; font-weight: 800; letter-spacing: -0.01em; text-wrap: balance; }
 .mun-cifras { margin: 0; font-size: 19px; line-height: 1.35; }
+.mun-cifras .c2026 { color: var(--rojo); font-weight: 800; }
 .mun-def { margin: 2px 0 0; font-size: 15px; line-height: 1.4; color: var(--tinta-2); }
 .mun-mapa { position: relative; flex-shrink: 0; }
 .mun-mapa svg { position: absolute; inset: 0; width: 100%; height: 100%; }
@@ -375,7 +376,7 @@ body.con-subtitulos { --subtitulos: 72px; padding-bottom: var(--subtitulos); }
 .dias-llave .corchete { align-self: stretch; height: 8px; margin: 0 4px; border: 2px solid var(--tinta); border-bottom: 0; }
 .llave-texto { margin-top: 6px; padding: 0 6px; text-align: center; font-size: 17px; line-height: 1.25; }
 .dias-barras { position: absolute; left: 0; right: 0; bottom: 0; height: 132px; display: flex; align-items: flex-end; gap: 2px; border-bottom: 1.5px solid var(--tinta); }
-.dias-barras span { flex: 1; background: #8A857E; }
+.dias-barras span { flex: 1; background: #996B66; }
 .dias-barras.con-anio span { position: relative; align-self: stretch; background: none; }
 .dias-barras.con-anio i { position: absolute; bottom: 0; }
 .dias-barras.con-anio .n { left: 0; right: 0; background: #928D85; }
@@ -387,9 +388,17 @@ body.con-subtitulos { --subtitulos: 72px; padding-bottom: var(--subtitulos); }
 .mun-lado { display: flex; flex-direction: column; gap: 10px; padding-top: 30px; min-width: 0; }
 .mun-lado h2 { margin: 0; font-size: 18px; font-weight: 800; }
 .ficha { display: block; width: 100%; max-width: 392px; height: auto; margin-top: 6px; border: 1px solid var(--linea); }
-.mun-botones { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
+.mun-botones { display: flex; flex-wrap: nowrap; align-items: stretch; gap: 10px; margin-top: 8px; }
+/* Compartir y descargar van en la misma fila y con el mismo alto; si no cabe el texto, se parte en dos renglones en los dos. */
+.mun-botones > button { flex: 1 1 auto; height: auto; min-height: 46px; justify-content: center; padding: 6px 12px; font-size: 14px; line-height: 1.2; text-align: center; }
+.mun-botones .b-whatsapp { gap: 6px; padding-left: 10px; }
+.mun-botones .b-whatsapp svg { width: 18px; height: 18px; flex: none; }
 .b-negro, .b-borde { height: 46px; display: inline-flex; align-items: center; padding: 0 14px; border: 2px solid var(--tinta); font-size: 15px; font-weight: 800; cursor: pointer; }
 .b-negro { background: var(--tinta); color: #FFFFFF; }
+/* Compartir: el verde de WhatsApp con letra de tinta (9.45:1) y un globo de mensaje genérico, no el logo. */
+.b-whatsapp { height: 46px; display: inline-flex; align-items: center; gap: 8px; padding: 0 16px 0 13px; border: 2px solid #1A8D4A; background: #25D366; color: var(--tinta); font-size: 15px; font-weight: 800; cursor: pointer; }
+.b-whatsapp:hover { background: #2FE072; }
+.b-whatsapp:active { transform: scale(0.97); }
 .b-borde { background: #FFFFFF; color: var(--tinta); font-weight: 700; }
 .b-negro:active, .b-borde:active { transform: scale(0.97); }
 .mun-lado .pie { margin-top: 18px; }
@@ -413,7 +422,7 @@ body.con-subtitulos { --subtitulos: 72px; padding-bottom: var(--subtitulos); }
   .dias-barras { gap: 1px; }
   .dias-ventana > span { font-size: 12px; }
   .llave-texto { font-size: 14.5px; }
-  .b-negro, .b-borde { height: 48px; }
+  .b-negro, .b-borde, .b-whatsapp { height: 48px; }
 }
 
 /* ---------- Fechas de quema (tablero «Fechas») ---------- */
