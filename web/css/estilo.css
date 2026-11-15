@@ -914,3 +914,5 @@ h1, h2, h3 { scroll-margin-top: calc(var(--barra-alto) + 12px); }
 @media (min-width: 861px) and (max-width: 1100px) {
   .vista-portada .panel .tira-pista, .vista-portada .panel .escala-hoy, .vista-portada .panel .siguiente { display: none; }
 }
+/* La portada ya no pasa por la foto con los focos del día de más fuego: al abrir solo entran los colores. */
+.vista-portada #fuego { opacity: 0; visibility: hidden; transition: none; }

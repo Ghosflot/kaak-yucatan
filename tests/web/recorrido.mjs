@@ -1,5 +1,5 @@
 // Graba el recorrido de la página para el PR, con subtítulos dentro de la página (?subtitulos=1).
-// Uso: node tests/web/recorrido.mjs <nombre> [portada|temporada|fechas|pulido|revision|repaso|ia|direccion|demo|ganadero|pie]
+// Uso: node tests/web/recorrido.mjs <nombre> [portada|temporada|fechas|pulido|revision|repaso|ia|direccion|demo|ganadero|pie|completo]
 //   →   videos/<nombre>-escritorio.mp4 y videos/<nombre>-telefono.mp4
 //
 // Cada cuadro sale de Chrome en JPEG de alta calidad (el teléfono, a doble resolución) y ffmpeg lo
@@ -78,6 +78,16 @@ async function grabar(nombre, opciones, ruta, listo, pasos) {
     cdp.on('Page.screencastFrame', ({ data, metadata, sessionId }) => {
       guardar(data, metadata.timestamp);
       cdp.send('Page.screencastFrameAck', { sessionId }).catch(() => {});
+    });
+    // Chrome solo manda un cuadro cuando la pantalla cambia y descarta los que salen mientras espera el acuse.
+    // Si la página venía animada y queda quieta al cambiar de vista, el último cambio se perdía: un punto de
+    // 2 px en la esquina de la franja de subtítulos cambia apenas de tono cinco veces por segundo y lo evita.
+    await page.evaluate(() => {
+      const p = document.createElement('i');
+      p.style.cssText = 'position:fixed;right:0;bottom:0;width:2px;height:2px;z-index:2147483647;pointer-events:none;background:#111';
+      document.body.append(p);
+      let n = 0;
+      setInterval(() => { p.style.background = (n ^= 1) ? '#131313' : '#111'; }, 200);
     });
     await cdp.send('Page.startScreencast', { format: 'jpeg', quality: 92, maxWidth: viewport.width, maxHeight: viewport.height });
   } else {
@@ -621,16 +631,20 @@ async function direccion() {
 // 1280 × 648 de página más la franja de subtítulos dan un video de 1280 × 720.
 const DEMO = { viewport: { width: 1280, height: 648 } };
 async function demo() {
-  await grabar('30s', DEMO, '&lang=en#/', '#rellenos path', async ({ page, espera, sub }) => {
+  await grabar('30s', DEMO, '&lang=en#/', '#rellenos path', async ({ page, espera, sub, centro }) => {
     const t0 = Date.now();
     const hasta = (ms) => espera(Math.max(0, ms - (Date.now() - t0)));
-    // 0–6, el gancho: la temporada empieza a encenderse.
-    await sub('In 2024, wildfire smoke put Mérida among Mexico’s most polluted cities.', 900);
-    await page.click('#verTemporada');
+    // 0–6, el gancho: el mapa a color con los focos de 2026 pasando día por día.
+    await sub('In 2024, wildfire smoke put Mérida among Mexico’s most polluted cities.', 0);
     await hasta(6000);
-    // 6–12, el problema en el campo: el fuego de la temporada y, al cierre, cada municipio.
+    // 6–12, el problema en el campo: dos de los municipios con más fuego, uno ganadero y uno de milpa.
     await sub('Here, fire is a farming tool: the ten most-burned towns grow milpa or raise cattle.', 0);
-    await page.waitForSelector('#escenario[data-modo="final"]', { timeout: 30000 });
+    for (const [id, ms] of [['tizimin', 9000], ['tekax', 11700]]) {
+      const [x, y] = await centro(`.rellenos path[data-id="${id}"]`);
+      await page.mouse.move(x, y, { steps: 16 });
+      await hasta(ms);
+    }
+    await page.mouse.move(8, 640);
     await hasta(12000);
     // 12–18, el problema técnico: el salto de 2012, sin corregir y corregido.
     await page.click('.nav a[data-vista="metodo"]');
@@ -640,7 +654,7 @@ async function demo() {
     await page.click('#mSwitch');
     await hasta(18000);
     // 18–26, la solución: el mapa con un municipio y, después, sus fechas de quema.
-    await page.evaluate(() => { location.hash = '#/?modo=final'; });
+    await page.evaluate(() => { location.hash = '#/'; });
     await page.waitForSelector('#escenario[data-modo="final"]', { timeout: 30000 });
     await sub('K’áak’ calibrates 25 years and shows where and when Yucatán has historically burned most, town by town.', 0);
     await page.click('#buscador2 .ejemplo button');
@@ -656,6 +670,46 @@ async function demo() {
   });
 }
 
+
+// La portada a toda la página: abre en el mapa a color, sin barra de tiempo, con los focos pasando.
+async function completo() {
+  await grabar('escritorio', ESCRITORIO, '#/', '#rellenos path', async ({ page, espera, sub, centro }) => {
+    await sub('La portada abre directo en el mapa a color y ocupa toda la página: ya no hay barra de tiempo ni botón de reproducir.', 5000);
+    await sub('Los puntos son los focos de calor de 2026. Pasan día por día y a la izquierda se lee la fecha.', 6500);
+    const v = await page.locator('#visor').boundingBox();
+    const [ax, ay] = [v.x + v.width * 0.5, v.y + v.height * 0.8];
+    await page.mouse.move(ax, ay);
+    await page.mouse.down();
+    await page.mouse.move(ax - 170, ay - 100, { steps: 30 });
+    await page.mouse.up();
+    await sub('El mapa se arrastra desde el primer momento…', 2200);
+    await page.mouse.move(ax - 170, ay - 100);
+    for (let i = 0; i < 4; i++) { await page.mouse.wheel(0, -120); await espera(180); }
+    await sub('…y se acerca con la rueda o con los botones.', 3200);
+    await page.click('#verTodo');
+    await espera(1200);
+    const [vx, vy] = await centro('.rellenos path[data-id="valladolid"]');
+    await page.mouse.move(vx - 40, vy - 30);
+    await page.mouse.move(vx, vy, { steps: 12 });
+    await sub('Pasar el mouse por un municipio muestra su tarjeta.', 3200);
+    await page.click('#busca2');
+    await page.keyboard.type('Muna', { delay: 140 });
+    await page.keyboard.press('Enter');
+    await sub('Buscarlo por nombre lleva la cámara a él.', 4200);
+    await page.keyboard.press('Escape');
+    await page.locator('#barras .toque[data-y="2003"]').click();
+    await sub('Tocar un año en la tarjeta de abajo pinta ese año. Los puntos solo pasan en 2026.', 4800);
+    await page.locator('#barras .toque[data-y="2026"]').click();
+    await sub('De vuelta en 2026, los puntos vuelven a pasar.', 4000);
+  });
+  await grabar('telefono', TELEFONO, '#/', '#rellenos path', async ({ page, sub }) => {
+    await sub('En el teléfono: la respuesta, el buscador y el mapa a color con los puntos pasando.', 6000);
+    await page.tap('#buscador2 .ejemplo button');
+    await sub('«Por ejemplo, Muna» lleva el mapa al municipio y deja su tarjeta debajo.', 5000);
+    await page.evaluate(() => document.querySelector('#barras').scrollIntoView({ behavior: 'smooth', block: 'center' }));
+    await sub('Más abajo, los focos de cada año.', 3500);
+  });
+}
 
 // El mapa del territorio ganadero (#60, fase 3), en la página de Tizimín: computadora y teléfono.
 async function ganadero() {
@@ -713,6 +767,6 @@ async function pie() {
   }
 }
 
-await ({ portada, temporada, fechas, pulido, revision, repaso, ia, direccion, demo, ganadero, pie })[RECORRIDO]();
+await ({ portada, temporada, fechas, pulido, revision, repaso, ia, direccion, demo, ganadero, pie, completo })[RECORRIDO]();
 await navegador.close();
 process.exit(0);
