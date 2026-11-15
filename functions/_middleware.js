@@ -9,6 +9,14 @@
 // vistas previas de las ramas no cuenten como visitas. Para apagarlo, deja ANALITICA_TOKEN vacío.
 const ANALITICA_TOKEN = '762264fd80424b94a8c651fbbf592dbc';
 const ANALITICA_HOST = 'kaak.pages.dev';
+
+// Aviso de visitas desde Space Apps: el enlace de la entrega es kaak.pages.dev/?de=spaceapps.
+// Cada vez que alguien abre esa dirección se anota la hora, la ciudad, la red y el navegador en el
+// almacén KAAK_VISITAS (se borra solo a los 30 días). /__visitas devuelve esas anotaciones solo a
+// quien manda la clave en el encabezado X-Clave; aquí solo está su huella SHA-256.
+const VISITAS_ETIQUETA = 'spaceapps';
+const VISITAS_HUELLA = '4533717e87c2cfaa68e5b46b8d42e11737f204a922e1ab9b290cebacf2da5b17';
+const VISITAS_DIAS = 30;
 let textos = null;
 
 async function leerTextos(env, url) {
@@ -37,7 +45,47 @@ class Analitica {
   }
 }
 
+async function huella(texto) {
+  const h = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(texto));
+  return [...new Uint8Array(h)].map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function anotarVisita(env, request) {
+  const cf = request.cf || {};
+  const datos = {
+    hora: new Date().toISOString(),
+    ciudad: cf.city || '', region: cf.region || '', pais: cf.country || '',
+    red: cf.asOrganization || '',
+    navegador: (request.headers.get('user-agent') || '').slice(0, 300),
+    idioma: (request.headers.get('accept-language') || '').slice(0, 60),
+  };
+  const llave = 'v:' + datos.hora + ':' + crypto.randomUUID().slice(0, 8);
+  await env.KAAK_VISITAS.put(llave, '1', { metadata: datos, expirationTtl: VISITAS_DIAS * 86400 });
+}
+
+async function leerVisitas(env, request) {
+  const clave = request.headers.get('x-clave') || '';
+  if (!clave || !env.KAAK_VISITAS || (await huella(clave)) !== VISITAS_HUELLA) {
+    return new Response('No encontrado', { status: 404 });
+  }
+  const visitas = [];
+  let cursor;
+  do {
+    const r = await env.KAAK_VISITAS.list({ prefix: 'v:', cursor });
+    for (const k of r.keys) visitas.push({ id: k.name, ...k.metadata });
+    cursor = r.list_complete ? null : r.cursor;
+  } while (cursor);
+  return Response.json(visitas, { headers: { 'cache-control': 'no-store' } });
+}
+
 export async function onRequest(contexto) {
+  const { request: pedido, env: entorno } = contexto;
+  const dir = new URL(pedido.url);
+  if (dir.pathname === '/__visitas') return leerVisitas(entorno, pedido);
+  if (pedido.method === 'GET' && dir.hostname === ANALITICA_HOST && entorno.KAAK_VISITAS &&
+      dir.searchParams.get('de') === VISITAS_ETIQUETA) {
+    contexto.waitUntil(anotarVisita(entorno, pedido).catch(() => {}));
+  }
   const respuesta = await contexto.next();
   try {
     const { request, env } = contexto;
