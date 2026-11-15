@@ -35,17 +35,20 @@ pregunta abierta, y esa pregunta se cierra en el demo. Las reglas que se siguier
 - Los límites se dicen antes de que pregunten.
 - El cierre regresa al inicio y pide algo concreto.
 
-**A y B** son los dos que presentan. Quien no sea Leo dice «el abuelo de Leo», nunca «mi
-abuelo».
+**Presentan Leo y Nico, mitad y mitad** (unas 290 y 275 palabras). Leo cuenta la historia de
+su abuelo, el problema del campo, el demo y el cierre; Nico, que hizo las verificaciones con
+Gadiel, cuenta cómo funciona el satélite, la solución y las pruebas. Hay un relevo por
+diapositiva, nunca a media frase. Si falta uno, el otro lo dice todo y cambia «mi abuelo» por
+«el abuelo de Leo».
 
-**D1 · 0:00–0:12 · A** · *Portada (de fondo, si se puede, la foto del abuelo)*
+**D1 · 0:00–0:12 · Leo** · *Portada (de fondo, si se puede, la foto del abuelo)*
 > *[3 segundos de silencio, mirando al jurado.]*
 > En Muna, Yucatán, el permiso para quemar se cierra el 3 de abril. *(pausa)* Don Lorenzo, que
 > lleva 50 años sembrando ahí, dice que la quema empieza… en abril.
 
-**D2 · 0:12–0:45 · A · Había una vez** · *Foto del abuelo. «"En abril"» frente a «Permiso: hasta
+**D2 · 0:12–0:45 · Leo · Había una vez** · *Foto del abuelo. «"En abril"» frente a «Permiso: hasta
 el 3 de abril»*
-> Él es Lorenzo de Jesús, el abuelo de Leo. Tiene 73 años y siembra su parcela desde los 15.
+> Él es Lorenzo de Jesús, mi abuelo. Tiene 73 años y siembra su parcela desde los 15.
 > Para sembrar se quema: es la herramienta de trabajo del campo. Y él tiene en la cabeza el
 > calendario del fuego **DE SU** parcela.
 > ¿Qué pasa de verdad en Muna? Se lo preguntamos a los satélites de la NASA. La respuesta se las
@@ -54,7 +57,7 @@ el 3 de abril»*
 *Cómo se dice «DE SU»:* más lento, marcando «de su», con una pausa corta antes de «parcela». Ese
 énfasis prepara la frase con que abre la D3: «Esto no pasa en una sola parcela».
 
-**D3 · 0:45–1:35 · A · Todos los días (el problema)** · *Titular: «Cuidar el fuego sin saber qué
+**D3 · 0:45–1:35 · Leo, y cierra Nico · Todos los días (el problema)** · *Titular: «Cuidar el fuego sin saber qué
 es normal»*
 > Esto no pasa en una sola parcela. En Yucatán, 4 de cada 10 hectáreas son campo. Cuando una
 > quema se escapa, pierde la misma gente: en Oxkutzcab, una quema que se salió de control acabó
@@ -62,9 +65,10 @@ es normal»*
 > Quien tiene que cuidar ese fuego es el municipio. La ley le pide autorizar cada quema y, al
 > cerrar la temporada, evaluarla y proponer mejoras. Pero hoy ningún municipio puede contestar
 > lo más básico: *(pausa)* ¿mi temporada va peor o mejor que lo normal?
-> Hay sistemas que ven el fuego de hoy. Ninguno lo compara con lo normal.
+>
+> **Nico:** Hay sistemas que ven el fuego de hoy. Ninguno lo compara con lo normal.
 
-**D4 · 1:35–2:45 · B · Hasta que (por qué es difícil y cómo se hizo)** · *La gráfica del salto de
+**D4 · 1:35–2:45 · Nico · Hasta que (por qué es difícil y cómo se hizo)** · *La gráfica del salto de
 2012, con binoculares antes y telescopio después; los tres pasos en chico*
 > Para saber qué es normal hace falta memoria, y Yucatán la tiene: 25 años de satélites de la
 > NASA que miran el fuego cada día. Cada punto de calor que ven se llama foco.
@@ -80,16 +84,16 @@ es normal»*
 > Y es urgente: el 2 de noviembre, otro de esos satélites dejó de enviar datos. Cada uno que se
 > apaga agrega otra pieza a la memoria.
 
-**D5 · 2:45–3:40 · B · Por eso (demo, que cierra el gancho)** · *Demo en vivo de Muna, con el
+**D5 · 2:45–3:40 · Leo · Por eso (demo, que cierra el gancho)** · *Demo en vivo de Muna, con el
 video de respaldo listo*
 > Esto es K'áak', fuego en maya. Voy a abrir Muna. *[Abrir.]* Aquí está la respuesta: de cada
-> 10 focos de un año normal, 8 aparecen después del 3 de abril. *(pausa)* El abuelo tenía razón.
+> 10 focos de un año normal, 8 aparecen después del 3 de abril. *(pausa)* Mi abuelo tenía razón.
 > Voy a tocar 2024. *[Tocar.]* Es el año con más hectáreas quemadas en Yucatán de la década.
 > Muna tuvo 81 focos, casi una vez y media lo normal. Así se ve una temporada que se sale de lo
 > normal.
 > Todo cabe en una ficha que se reenvía por WhatsApp, y se actualiza sola cuatro veces al día.
 
-**D6 · 3:40–4:20 · A · Hasta que finalmente (pruebas y pedido)** · *Grande: «84 %». Abajo:
+**D6 · 3:40–4:20 · Nico · Hasta que finalmente (pruebas y pedido)** · *Grande: «84 %». Abajo:
 «Piloto 2027: Muna y Tekax»*
 > ¿Y si el satélite se equivoca? Lo comparamos con los incendios que registró la CONAFOR: vio
 > más de la mitad, y el 84 % de los de más de 100 hectáreas. Por azar coincidiría menos del
@@ -98,12 +102,31 @@ video de respaldo listo*
 > Lo que sigue es bajar a cada zona del municipio, a las semanas exactas en que se quema, y
 > probarlo en 2027 con Muna y con Tekax, el municipio con más hectáreas quemadas del estado.
 
-**D7 · 4:20–4:35 · A** · *QR (abre `kaak.pages.dev/muna`)*
-> El abuelo guarda en la cabeza 50 años de fuego de una parcela. K'áak' une 25 años de memoria
+**D7 · 4:20–4:35 · Leo** · *QR (abre `kaak.pages.dev/muna`)*
+> Mi abuelo guarda en la cabeza 50 años de fuego de una parcela. K'áak' une 25 años de memoria
 > de cada municipio de Yucatán. Escaneen el código y busquen el suyo.
 
 **Si se pasan de tiempo**, se quita en este orden: la frase de Oxkutzcab, «Así se ve una
 temporada que se sale de lo normal», y, si la D4 se alarga, el paso dos se dice en una sola línea.
+
+### Relevos
+
+- **D3, de Leo a Nico:** Leo termina con «¿mi temporada va peor o mejor que lo normal?», hace la
+  pausa y voltea a ver a Nico. Nico entra con «Hay sistemas que ven el fuego de hoy…».
+- **D4 a D5, de Nico a Leo:** Nico termina con «…otra pieza a la memoria», y Leo, que ya tiene la
+  laptop, entra con «Esto es K'áak'».
+- **D5 a D6, de Leo a Nico:** Leo termina con «…cuatro veces al día». Nico entra con «¿Y si el
+  satélite se equivoca?».
+- **D6 a D7, de Nico a Leo:** Nico termina con «…Muna y con Tekax». Leo cierra.
+- Quien no habla mira a quien habla o al jurado, nunca la pantalla ni el celular.
+
+### Quién contesta en la ronda de preguntas
+
+- **Nico:** todo lo del satélite. Cómo se calibró, las cuatro pruebas, qué no ve el satélite,
+  NOAA-20, «tres y cinco», 2022 y Aqua, y lo opcional del reto.
+- **Leo:** todo lo del campo y el usuario. El abuelo, el municipio y la ley, «¿un campesino lo va a
+  usar?», la ventana oficial y el 49 % contra 23 %, el piloto y la ficha.
+- El que no contesta no completa la respuesta del otro, salvo que se lo pida.
 
 ### Cómo se dice el gancho
 
@@ -113,7 +136,7 @@ temporada que se sale de lo normal», y, si la D4 se alarga, el paso dos se dice
   el nombre del equipo ya está en la portada.
 - Se dice más lento que el resto, con 2 a 3 segundos de silencio después de «…en abril».
 - Mientras se dice el gancho no se mira la pantalla.
-- El gancho tiene que cerrarse en el demo con «El abuelo tenía razón». Si no se cierra, es un
+- El gancho tiene que cerrarse en el demo con «Mi abuelo tenía razón». Si no se cierra, es un
   truco.
 - Por qué no se abre con una pregunta al público («Levanten la mano…»): cuesta unos 15 segundos.
   Antes de quedarse con este gancho se pensaron otros cuatro:
@@ -508,8 +531,7 @@ Respuestas cortas, con su fuente en docs/01.
     que 2024 dé 81;
   - grabar el video de respaldo de ese recorrido;
   - tener el permiso del abuelo para su foto y su nombre;
-  - decidir quién es A y quién es B, y ensayar el relevo de la D3 a la D4 («…Ninguno lo compara
-    con lo normal. ¿Y por qué nadie lo había hecho? [B]»);
+  - ensayar los cuatro relevos entre Leo y Nico (ver «Relevos»);
   - probar el gancho con dos personas que no conozcan el proyecto.
 
 - **Datos del abuelo** (Jesús, Muna, más de 50 años, «abril»): anotarlos en docs/01, «Lo que
