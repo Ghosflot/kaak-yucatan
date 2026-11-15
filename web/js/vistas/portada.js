@@ -196,6 +196,7 @@ export function montar(raiz) {
   // La escala del encuadre del cierre: se calcula una vez por tamaño de ventana (medir la pone en cero).
   let kFin = 0;
   const kFinal = () => kFin || (kFin = encajeFinal().k);
+  const kVista = () => encajar(PENINSULA, libre('vista'), !telefono()).k;
   const kMin = () => Math.max(W / (FOTO.x1 - FOTO.x0), H / (FOTO.y1 - FOTO.y0));
   const kMax = () => Math.max(kMin(), ACERCAR_MAX * kFinal());
   // La foto llena siempre el visor: la cámara no se sale de ella.
@@ -246,7 +247,7 @@ export function montar(raiz) {
     Object.assign(mapa.style, { left: x.toFixed(1) + 'px', top: y.toFixed(1) + 'px', width: w.toFixed(1) + 'px', height: h.toFixed(1) + 'px' });
     caja = { x, y, w, h };
     // Con el mapa acercado, un dedo lo mueve; si no, desplaza la página.
-    visor.classList.toggle('acercado', modo === 'final' && cam.k > kFinal() * 1.02);
+    visor.classList.toggle('acercado', modo !== 'foto' && cam.k > (modo === 'final' ? kFinal() : kVista()) * 1.02);
   }
   const enVisor = (ux, uy) => ({ x: caja.x + (ux / W0) * caja.w, y: caja.y + ((uy - Y0) / H0) * caja.h });
   let vuelo = 0;
@@ -268,7 +269,9 @@ export function montar(raiz) {
   function seguirMapa(fin) {
     if (seleccion) ubicarTarjeta(seleccion);
     clearTimeout(esperaQuieto);
-    if (fin) despejarRotulos(); else esperaQuieto = setTimeout(() => despejarRotulos(), 160);
+    // Con el mapa quieto, los focos del repaso se vuelven a dibujar nítidos a la nueva escala.
+    const quieto = () => { despejarRotulos(); if (modo === 'repaso' && cam) ajustarLienzo(cam.k); };
+    if (fin) quieto(); else esperaQuieto = setTimeout(quieto, 160);
   }
   function zoomEn(f, sx, sy, animar) {
     if (!cam) return;
@@ -328,13 +331,19 @@ export function montar(raiz) {
     if (seleccion) { escenario.classList.toggle('estrecho', estrecho()); ubicarTarjeta(seleccion); }
   }
   // El fuego se dibuja al tamaño en que se va a ver. En el cierre no se ve: no se agranda con el mapa.
+  // El lienzo de los focos no pasa de 1.6 veces el encuadre de la península (más grande pesaría demasiado
+  // con el mapa muy acercado); si el mapa se acerca más, el lienzo se estira y los puntos se dibujan más
+  // chicos para que en pantalla crezcan poco.
+  let kPuntos = 0;
   function ajustarLienzo(k) {
     if (modo === 'final') return;
     dpr = Math.min(2, window.devicePixelRatio || 1);
-    const w = Math.round(W0 * k * dpr), h = Math.round(H0 * k * dpr);
-    if (w === lienzo.width && h === lienzo.height) return;
-    lienzo.width = w; lienzo.height = h;
-    hacerSprites();
+    const kc = Math.min(k, kVista() * 1.6);
+    const w = Math.round(W0 * kc * dpr), h = Math.round(H0 * kc * dpr);
+    if (w === lienzo.width && h === lienzo.height && Math.abs(k - kPuntos) < 1e-3) return;
+    kPuntos = k;
+    if (w !== lienzo.width || h !== lienzo.height) { lienzo.width = w; lienzo.height = h; }
+    hacerSprites(k, kc);
     if (D) prepararDias();
     dibujar();
   }
@@ -386,8 +395,11 @@ export function montar(raiz) {
     g.fill();
     return c;
   }
-  function hacerSprites() {
-    const r = Math.max(1.6, 3.1 * (lienzo.width / dpr / 1022)) * dpr;
+  // El radio en pantalla es el del encuadre de la península y crece con la raíz del acercamiento; en el
+  // lienzo se divide entre lo que el lienzo se estira (k / kc).
+  function hacerSprites(k = kVista(), kc = k) {
+    const base = kVista();
+    const r = Math.max(1.6, 3.1 * ((W0 * base) / 1022)) * Math.sqrt(Math.max(1, k / base)) * dpr * (kc / k);
     sprites = [];
     for (let i = 0; i < TONOS; i++) {
       const e = (i / (TONOS - 1)) * VIDA;
@@ -617,7 +629,7 @@ export function montar(raiz) {
     $('bloqueFinal').hidden = m !== 'final';
     $('instrumento').hidden = true; // sin barra de tiempo: la fecha del repaso va en el cartel
     $('repasoDia').hidden = m !== 'repaso';
-    $('zoom').hidden = m !== 'final';
+    $('zoom').hidden = m === 'foto'; // también durante el repaso: el mapa se mueve y se acerca mientras pasan los focos
     // En el cierre, el mapa se recorre con las flechas: es una parada de Tab.
     if (m === 'final') $('capa').setAttribute('tabindex', '0'); else $('capa').removeAttribute('tabindex');
     descripcion();
@@ -625,7 +637,8 @@ export function montar(raiz) {
     if (m !== 'final') quitarSeleccion(false, true); // la entrada la escribe quien cambió el momento
     if (!seleccion) { $('tarjeta').hidden = true; $('encima').textContent = ''; }
     if (m === 'final' && !barrasSubieron && D) { barrasSubieron = true; subirCuandoSeVea(); }
-    if (cambiaEncuadre && W) {
+    // Si la persona movió el mapa durante el repaso, al entrar los colores la cámara se queda donde la dejó.
+    if (cambiaEncuadre && W && (camAuto || m !== 'final')) {
       camAuto = true;
       const destino = encuadre(m === 'final' ? 'final' : 'vista');
       ajustarLienzo(destino.k);
@@ -811,7 +824,7 @@ export function montar(raiz) {
     for (const e of D.estados) el('path', { d: e.d, class: e.n === 'Yucatán' ? 'yucatan' : '' }, est);
     rel.addEventListener('pointermove', (ev) => {
       // En la foto los municipios todavía no se ven: no hay tarjeta al pasar.
-      if (seleccion || jugando || modo === 'foto' || ev.pointerType === 'touch' || visor.classList.contains('moviendo')) return;
+      if (seleccion || modo === 'foto' || ev.pointerType === 'touch' || visor.classList.contains('moviendo')) return;
       const id = ev.target.getAttribute('data-id');
       if (id) mostrarTarjeta(id, ev);
     });
@@ -1102,7 +1115,7 @@ export function montar(raiz) {
   /* ---------- Acercar y arrastrar el mapa del cierre ---------- */
   // Rueda y pellizco del panel táctil acercan donde está el puntero. En el teléfono la rueda desplaza la página.
   visor.addEventListener('wheel', (e) => {
-    if (modo !== 'final' || !cam || (telefono() && !e.ctrlKey)) return;
+    if (modo === 'foto' || !cam || (telefono() && !e.ctrlKey)) return;
     e.preventDefault();
     const r = visor.getBoundingClientRect();
     const delta = e.deltaY * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? H : 1);
@@ -1113,7 +1126,7 @@ export function montar(raiz) {
   const dedos = new Map();
   let gesto = null, arrastro = false, tragarClic = false;
   visor.addEventListener('pointerdown', (e) => {
-    if (modo !== 'final' || !cam || (e.pointerType === 'mouse' && e.button !== 0)) return;
+    if (modo === 'foto' || !cam || (e.pointerType === 'mouse' && e.button !== 0)) return;
     dedos.set(e.pointerId, { x: e.clientX, y: e.clientY, tipo: e.pointerType });
     gesto = null;
     if (dedos.size === 1) arrastro = false;
@@ -1280,7 +1293,7 @@ export function montar(raiz) {
       return;
     }
     // +, − y 0 acercan, alejan y muestran los tres estados en el mapa del cierre.
-    if (modo === 'final' && ['+', '=', '-', '_', '0'].includes(e.key)) {
+    if (modo !== 'foto' && ['+', '=', '-', '_', '0'].includes(e.key)) {
       e.preventDefault();
       if (e.key === '0') verTodo(); else zoomBoton(e.key === '+' || e.key === '=' ? PASO_ZOOM : 1 / PASO_ZOOM);
       return;

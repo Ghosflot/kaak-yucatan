@@ -46,7 +46,26 @@ test('sobre el mapa a color no pasan focos, en 2026 ni en otro año', async ({ p
   expect(await hayPuntos(page)).toBe(false);
 });
 
-test('«Ver el mapa ya» salta el repaso y lleva al mapa a color', async ({ page }) => {
+test('durante el repaso el mapa se acerca y se mueve sin detener los focos, y al entrar los colores se queda donde quedó', async ({ page }) => {
+  await abrir(page, '#/');
+  await expect(page.locator('#escenario')).toHaveAttribute('data-modo', 'repaso');
+  await expect(page.locator('#zoom')).toBeVisible();
+  const ancho = () => page.evaluate(() => parseFloat(document.getElementById('mapa').style.width));
+  const antes = await ancho();
+  const v = await page.locator('#visor').boundingBox();
+  await page.mouse.move(v.x + v.width * 0.6, v.y + v.height * 0.5);
+  await page.mouse.wheel(0, -500);
+  await expect.poll(ancho).toBeGreaterThan(antes * 1.2);
+  await expect(page.locator('#escenario')).toHaveAttribute('data-modo', 'repaso');
+  const fecha = await page.locator('#ambFecha').textContent();
+  await expect.poll(() => page.locator('#ambFecha').textContent()).not.toBe(fecha);
+  const acercado = await ancho();
+  await expect(page.locator('#escenario')).toHaveAttribute('data-modo', 'final', { timeout: 20000 });
+  await page.waitForTimeout(900);
+  expect(Math.abs((await ancho()) - acercado)).toBeLessThan(1);
+});
+
+test('«Saltar al mapa a color» salta el repaso y lleva al mapa a color', async ({ page }) => {
   await abrir(page, '#/');
   await page.locator('#saltarRepaso').click();
   await expect(page.locator('#escenario')).toHaveAttribute('data-modo', 'final');
