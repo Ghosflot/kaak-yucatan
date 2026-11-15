@@ -1,5 +1,5 @@
 // Graba el recorrido de la página para el PR, con subtítulos dentro de la página (?subtitulos=1).
-// Uso: node tests/web/recorrido.mjs <nombre> [portada|temporada|fechas|pulido|revision|repaso|ia|direccion|demo]
+// Uso: node tests/web/recorrido.mjs <nombre> [portada|temporada|fechas|pulido|revision|repaso|ia|direccion|demo|ganadero]
 //   →   videos/<nombre>-escritorio.mp4 y videos/<nombre>-telefono.mp4
 //
 // Cada cuadro sale de Chrome en JPEG de alta calidad (el teléfono, a doble resolución) y ffmpeg lo
@@ -657,6 +657,47 @@ async function demo() {
 }
 
 
-await ({ portada, temporada, fechas, pulido, revision, repaso, ia, direccion, demo })[RECORRIDO]();
+// El mapa del territorio ganadero (#60, fase 3), en la página de Tizimín: computadora y teléfono.
+async function ganadero() {
+  await grabar('escritorio', PORTATIL, '#/municipio/tizimin', '#ganMapa a', async ({ page, espera, sub, centro }) => {
+    await sub('La página de Tizimín, un municipio ganadero de Yucatán.', 3000);
+    await page.evaluate(() => document.querySelector('#ganaderia').scrollIntoView({ behavior: 'smooth', block: 'start' }));
+    await sub('Territorio ganadero: cuánto pastizal y cuánto ganado tiene, y qué parte de sus focos de calor cae sobre pastizal.', 5500);
+    await page.evaluate(() => document.querySelector('.gan-cuerpo').scrollIntoView({ behavior: 'smooth', block: 'center' }));
+    await sub('El mapa de Yucatán por municipio, en un solo tono: más oscuro, más pastizal.', 2500);
+    for (const id of ['panaba', 'buctzotz', 'merida']) {
+      const [x, y] = await centro(`#ganMapa a[data-id="${id}"]`);
+      await page.mouse.move(x, y, { steps: 14 });
+      await espera(1500);
+    }
+    await page.click('[data-gan="bovinos"]');
+    await sub('La segunda opción: ganado bovino por km², con los cortes del censo en la leyenda.', 4500);
+    await page.click('[data-gan="focos"]');
+    await sub('La tercera: qué parte de los focos de calor de cada municipio cayó sobre pastizal.', 4500);
+    const [x, y] = await centro('#ganMapa a[data-id="panaba"]');
+    await page.mouse.move(x, y, { steps: 14 });
+    await espera(1800);
+    await page.mouse.click(x, y);
+    await page.waitForFunction(() => document.querySelector('h1')?.textContent === 'Panabá');
+    await sub('Tocar un municipio abre su página.', 3500);
+  });
+  await grabar('telefono', TELEFONO, '#/municipio/tizimin', '#ganMapa a', async ({ page, espera, sub, porTurno }) => {
+    const bajar = async (sel) => {
+      const y1 = await page.evaluate((q) => Math.max(0, document.querySelector(q).getBoundingClientRect().top + scrollY - 70), sel);
+      const y0 = await page.evaluate(() => scrollY), n = 16;
+      for (let i = 1; i <= n; i++) { const k = i / n, e = k * k * (3 - 2 * k); await porTurno(() => page.evaluate((y) => window.scrollTo(0, y), y0 + (y1 - y0) * e)); await espera(30); }
+    };
+    await sub('En el teléfono, la misma página.', 2500);
+    await bajar('#ganaderia');
+    await sub('El territorio ganadero de Tizimín y el mapa de Yucatán.', 4000);
+    await bajar('.gan-opciones');
+    await page.tap('[data-gan="bovinos"]');
+    await sub('Las tres opciones se tocan con el pulgar.', 3500);
+    await page.tap('[data-gan="focos"]');
+    await espera(3000);
+  });
+}
+
+await ({ portada, temporada, fechas, pulido, revision, repaso, ia, direccion, demo, ganadero })[RECORRIDO]();
 await navegador.close();
 process.exit(0);

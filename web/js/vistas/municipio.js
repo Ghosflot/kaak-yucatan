@@ -19,6 +19,7 @@ const UX = 825 / 5.8456, UY = 150; // unidades por grado de longitud y de latitu
 const X = (lon) => (lon + 92.55) * UX, Y = (lat) => (22.35 - lat) * UY - 90;
 const KM = UY / 111.2; // unidades por kilómetro
 const LADO = 0.01; // un cuadrito: 0.01° por lado, cerca de 1 km
+const TONOS_GAN = ['#F0E9DA', '#DDC79B', '#BF9A55', '#8C6A2F', '#503A18']; // territorio ganadero: un solo tono, de claro a oscuro
 const TEMPORADAS_REP = 14; // los cuadritos repetidos cuentan las temporadas de 2012 a 2025
 const clave = (lon, lat) => lon.toFixed(2) + ',' + lat.toFixed(2);
 const enTemporada = (md) => md >= '03-01' && md <= '05-31';
@@ -75,6 +76,21 @@ const PLANTILLA = `
       <h2 id="ganTitulo" data-t="ganTitulo"></h2>
       <p class="mun-sub" id="ganCifras"></p>
       <p class="mun-sub" id="ganFocos"></p>
+      <div class="gan-mapa">
+        <h3 id="ganMapaTitulo" data-t="ganMapaTitulo"></h3>
+        <div class="gan-opciones" role="group" aria-labelledby="ganMapaTitulo">
+          <button type="button" data-gan="pastizal" data-t="ganMapaPastizal"></button>
+          <button type="button" data-gan="bovinos" data-t="ganMapaBovinos"></button>
+          <button type="button" data-gan="focos"></button>
+        </div>
+        <div class="gan-cuerpo">
+          <svg id="ganMapa" role="group" viewBox="297 26 416 309"></svg>
+          <div class="gan-lado">
+            <ul class="gan-leyenda" id="ganLeyenda"></ul>
+            <p class="gan-lectura" id="ganLectura" aria-live="polite"></p>
+          </div>
+        </div>
+      </div>
       <p class="mun-nota" data-t="ganLimite"></p>
       <p class="pie" data-t="ganFuente"></p>
     </section>
@@ -105,7 +121,7 @@ const NO_EXISTE = `
 </article>`;
 
 export function montar(raiz, { id }) {
-  let m = null, P = null, G = null, anio = null, vivo = true, observador = null, cargando = true;
+  let m = null, P = null, G = null, ganOp = 'pastizal', anio = null, vivo = true, observador = null, cargando = true;
   // La imagen de la ficha se prepara antes del clic: Safari solo abre la hoja de compartir
   // si se pide en el mismo gesto, sin esperar a generar el PNG.
   let blobFicha = null, turnoFicha = 0;
@@ -492,6 +508,51 @@ export function montar(raiz, { id }) {
         d, h, f: fmt((100 * g.focosPastizal) / g.focos), pe: fmt(y.pctPastizal), fe: fmt(y.pctFocosPastizal),
       });
     }
+    mapaGanadero();
+  }
+
+  // El mapa del territorio ganadero (#60): Yucatán por municipio, en la opción elegida. Un solo tono, de claro a
+  // oscuro, porque más pastizal no es «peor». Tocar un municipio abre su página.
+  function mapaGanadero() {
+    const svg = $('ganMapa'), [d, h] = G.periodo;
+    const titulo = (op) => t('ganMapa' + { pastizal: 'Pastizal', bovinos: 'Bovinos', focos: 'Focos' }[op], { d, h });
+    raiz.querySelectorAll('[data-gan]').forEach((b) => {
+      b.textContent = titulo(b.dataset.gan);
+      b.setAttribute('aria-pressed', String(b.dataset.gan === ganOp));
+    });
+    svg.setAttribute('aria-label', t('ganMapaAria', { t: titulo(ganOp) }));
+    // La leyenda, con los cortes de los datos: «menos de 5 %», «5 a 15 %»… «50 % o más».
+    const c = G.cortes[ganOp], u = ganOp === 'bovinos' ? '' : ' %';
+    const rotulos = [t('ganMapaMenos', { a: c[0] + u }), ...c.slice(1).map((x, i) => t('ganMapaEntre', { a: c[i], b: x + u })), t('ganMapaMas', { a: c[c.length - 1] + u })];
+    $('ganLeyenda').replaceChildren(...rotulos.map((r, i) => {
+      const li = document.createElement('li'), cuadro = document.createElement('i');
+      cuadro.style.background = TONOS_GAN[i];
+      li.append(cuadro, r);
+      return li;
+    }));
+    const lectura = $('ganLectura');
+    const pista = () => { lectura.textContent = t(matchMedia('(hover: none)').matches ? 'ganMapaPistaTactil' : 'ganMapaPista'); lectura.classList.add('pista'); };
+    const decir = (x, g) => {
+      lectura.classList.remove('pista');
+      lectura.textContent = ganOp === 'focos'
+        ? (g.focos ? t('ganMapaFocosDe', { m: x.n, f: fmt((100 * g.focosPastizal) / g.focos), d, h }) : t('ganMapaSinFocos', { m: x.n, d, h }))
+        : t('ganCifras', { m: x.n, p: fmt(g.pctPastizal), b: fmt(g.bovinos), k: fmt(g.bovinosKm2) });
+    };
+    svg.textContent = '';
+    const porId = new Map(G.municipios.map((x) => [x.id, x]));
+    let propio = null;
+    for (const x of P.mun) {
+      const g = porId.get(x.id);
+      if (!g) continue;
+      const a = el('a', { href: '#/municipio/' + x.id, tabindex: -1, 'aria-label': x.n, 'data-id': x.id }, svg);
+      el('path', { d: x.d, fill: TONOS_GAN[g.clases[ganOp]] }, a);
+      a.addEventListener('pointerenter', () => decir(x, g));
+      a.addEventListener('pointerleave', pista);
+      if (x.id === m.id) propio = a;
+    }
+    // El municipio de la página va encima, con su contorno en tinta.
+    if (propio) { propio.classList.add('propio'); svg.appendChild(propio); }
+    pista();
   }
 
   function pintar() {
@@ -564,6 +625,7 @@ export function montar(raiz, { id }) {
     pintar();
     $('dondeLista').addEventListener('toggle', listaDonde);
     $('csvFocos').addEventListener('click', () => descargar(csvFocos(), 'kaak-' + m.id + '-focos-2026.csv'));
+    raiz.querySelectorAll('[data-gan]').forEach((b) => b.addEventListener('click', () => { ganOp = b.dataset.gan; mapaGanadero(); }));
     $('compartir').addEventListener('click', async () => {
       const blob = blobFicha || await aBlob($('ficha'));
       const url = 'https://' + SITIO + '/' + m.id;
