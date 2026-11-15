@@ -185,6 +185,7 @@ def datos(tmp_path, monkeypatch):
     monkeypatch.setattr(ad, "MUNICIPIOS", tmp_path / "municipios.geojson")
     monkeypatch.setattr(ad, "ESTADOS", tmp_path / "estados.geojson")
     monkeypatch.setattr(ad, "ACTUALIZACION", tmp_path / "salidas" / "actualizacion.json")
+    monkeypatch.setattr(ad, "REVISION_WEB", tmp_path / "web" / "datos" / "revision.json")
     monkeypatch.setattr(ad, "leer_limites", lambda: (MUNICIPIOS, ESTADOS))
     return tmp_path
 
@@ -211,6 +212,9 @@ def test_dos_dias_seguidos_acumulan_sin_repetir(datos):
     assert resumen["focos_agregados_hoy"] == 1
     escrito = json.loads((datos / "salidas" / "actualizacion.json").read_text())
     assert escrito["datos_hasta"] == "2026-11-09"
+    # La hora de la revisión llega a la página aunque el último foco sea de otro día.
+    revision = json.loads((datos / "web" / "datos" / "revision.json").read_text())
+    assert revision == {"revisado": escrito["actualizado"]}
 
 
 def test_cargar_focos_acepta_los_recientes(datos):

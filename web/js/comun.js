@@ -64,6 +64,27 @@ export function el(tag, attrs, padre) {
 export const reducirMovimiento = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 
+// Hora de la última revisión de los datos (web/datos/revision.json, la escribe la actualización diaria).
+// Si falta, el pie solo dice de qué día es el último foco de calor.
+let revision = null;
+export async function cargarRevision() {
+  try {
+    const r = await fetch('/datos/revision.json');
+    if (r.ok) revision = (await r.json()).revisado || null;
+  } catch { /* sin la hora de revisión: el pie sigue sin ella */ }
+}
+const MERIDA = 'America/Merida';
+// El pie de una vista con la hora de la revisión al final, en hora de Mérida.
+export function pieDatos(clave, vars) {
+  const texto = t(clave, vars);
+  const d = revision ? new Date(revision) : null;
+  if (!d || Number.isNaN(d.getTime())) return texto;
+  const en = idioma() === 'en';
+  const dia = new Intl.DateTimeFormat('en-CA', { timeZone: MERIDA, year: 'numeric', month: '2-digit', day: '2-digit' }).format(d);
+  const hora = new Intl.DateTimeFormat(en ? 'en-US' : 'es-MX', { timeZone: MERIDA, hour: 'numeric', minute: '2-digit', hour12: en }).format(d);
+  return texto + ' ' + t('revisado', { f: fechaDiaAnio(dia), h: hora });
+}
+
 // Carga JSON de web/datos/ una sola vez por visita.
 const cache = new Map();
 export function datos(nombre) {
