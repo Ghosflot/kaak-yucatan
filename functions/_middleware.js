@@ -3,6 +3,12 @@
 // aquí, en el HTML que entrega Cloudflare Pages. kaak.pages.dev/tekax lleva la tarjeta de Tekax;
 // las demás direcciones, la de la página. Las tarjetas y sus textos los escribe pipeline/tarjetas.mjs
 // en web/og/. Si algo falla, la página sale tal cual, con la tarjeta general de index.html.
+//
+// También pone el contador de visitas de Cloudflare Web Analytics (sin cookies; da páginas, país,
+// de dónde llega la visita y tipo de dispositivo). Solo en la dirección pública, para que las
+// vistas previas de las ramas no cuenten como visitas. Para apagarlo, deja ANALITICA_TOKEN vacío.
+const ANALITICA_TOKEN = '762264fd80424b94a8c651fbbf592dbc';
+const ANALITICA_HOST = 'kaak.pages.dev';
 let textos = null;
 
 async function leerTextos(env, url) {
@@ -24,6 +30,13 @@ class Titulo {
   element(e) { e.setInnerContent(this.valor); }
 }
 
+class Analitica {
+  constructor(token) { this.token = token; }
+  element(e) {
+    e.append(`<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "${this.token}"}'></script>`, { html: true });
+  }
+}
+
 export async function onRequest(contexto) {
   const respuesta = await contexto.next();
   try {
@@ -41,6 +54,9 @@ export async function onRequest(contexto) {
       .on('meta[property="og:image"]', new Contenido(imagen))
       .on('meta[name="twitter:image"]', new Contenido(imagen))
       .on('meta[property="og:url"]', new Contenido(direccion));
+    if (ANALITICA_TOKEN && url.hostname === ANALITICA_HOST) {
+      reescribir = reescribir.on('head', new Analitica(ANALITICA_TOKEN));
+    }
     if (id) {
       reescribir = reescribir
         .on('title', new Titulo(tarjeta.titulo + " · K'áak'"))
