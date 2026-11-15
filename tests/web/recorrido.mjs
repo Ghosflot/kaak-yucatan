@@ -711,6 +711,24 @@ async function completo() {
   });
 }
 
+// La portada vuelve al repaso sobre la foto, sin barra de tiempo, y al terminar entran los colores.
+const PORTATIL_REPASO = { viewport: { width: 1366, height: 629 } };
+async function apertura() {
+  await grabar('escritorio', PORTATIL_REPASO, '#/', '#rellenos path', async ({ page, espera, sub }) => {
+    await sub('Al abrir, los focos de 2026 pasan día por día sobre la foto, sin colores y sin barra de tiempo. La fecha va bajo el título.', 5000);
+    await sub('Los puntos tienen el tamaño y el color de su brasa: nacen claros y se apagan en rojo.', 5000);
+    await page.waitForSelector('#escenario[data-modo="final"]', { timeout: 20000 });
+    await sub('Al terminar la temporada entran los colores, y bajo el titular una línea dice qué significan.', 5000);
+    await page.locator('#barras .toque[data-y="2003"]').click();
+    await sub('Con otro año, la línea habla de ese año. Sobre el mapa a color ya no pasan puntos.', 4500);
+  });
+  await grabar('telefono', TELEFONO, '#/', '#rellenos path', async ({ page, sub }) => {
+    await sub('En el teléfono: la fecha bajo el título y «Ver el mapa ya» para saltar el repaso.', 4500);
+    await page.tap('#saltarRepaso');
+    await sub('Con «Ver el mapa ya» se pasa directo a los colores y su explicación.', 4500);
+  });
+}
+
 // El mapa del territorio ganadero (#60, fase 3), en la página de Tizimín: computadora y teléfono.
 async function ganadero() {
   await grabar('escritorio', PORTATIL, '#/municipio/tizimin', '#ganMapa a', async ({ page, espera, sub, centro }) => {
@@ -767,6 +785,6 @@ async function pie() {
   }
 }
 
-await ({ portada, temporada, fechas, pulido, revision, repaso, ia, direccion, demo, ganadero, pie, completo })[RECORRIDO]();
+await ({ portada, temporada, fechas, pulido, revision, repaso, ia, direccion, demo, ganadero, pie, completo, apertura })[RECORRIDO]();
 await navegador.close();
 process.exit(0);
