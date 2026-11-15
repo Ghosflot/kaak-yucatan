@@ -170,23 +170,40 @@ def test_zonas_dia_por_dia_de_2026(salida):
 
 
 def test_metodo_salto_de_2012(salida):
-    """«Cómo lo medimos»: Yucatán en temporada, cada año sin calibrar y calibrado."""
+    """«Cómo lo medimos»: la península cada año, sin calibrar y calibrada, como la Prueba 1."""
     m = _json(salida, "metodo.json")
     assert [a["y"] for a in m["anios"]] == list(range(2001, 2027))
-    # Lo calibrado es la misma serie que la portada.
-    p = _json(salida, "portada.json")
-    assert {str(a["y"]): a["armonizado"] for a in m["anios"]} == p["yuc"]["anios"]
-    # Desde 2012 la temporada la ve S-NPP, sin factor: las dos coinciden. Los días sin datos
-    # de S-NPP (H1) se cuentan con NOAA-20 × 1.0077, así que en 2024 y 2026 difieren un poco.
+    # Desde 2012 lo ve S-NPP, sin factor: las dos coinciden. Los días sin datos de S-NPP (H1)
+    # se cuentan con NOAA-20 × su factor, así que algunos años difieren un poco.
     assert all(a["armonizado"] == pytest.approx(a["crudo"], rel=0.01)
-               for a in m["anios"] if a["y"] >= 2012)
-    assert sum(a["crudo"] != a["armonizado"] for a in m["anios"] if a["y"] >= 2012) <= 2
+               for a in m["anios"] if a["y"] >= 2013)
     # Antes, MODIS ve menos que la escala de VIIRS.
     assert all(0 < a["crudo"] < a["armonizado"] for a in m["anios"] if a["y"] < 2012)
-    # El salto, con los periodos de la prueba 1 de la validación: 2009–2011 contra 2013–2015.
+    # El salto es el de la validación (salidas/validacion.json): la península, el año completo.
     s = m["salto"]
-    assert (s["antes"], s["despues"]) == ([2009, 2011], [2013, 2015])
-    assert s["crudo"] > 2.5 and 0.7 < s["armonizado"] < 1.3
+    prueba = ew.leer_validacion()["salto_2012"]
+    pen, v = prueba["metricas"]["peninsula"], prueba["valores"]
+    assert (s["antes"], s["despues"]) == ([v["antesDesde"], v["antesHasta"]], [v["despuesDesde"], v["despuesHasta"]])
+    assert (s["crudo"], s["armonizado"]) == (round(pen["razon_cruda"], 2), round(pen["razon_armonizada"], 2))
+    assert (f"{s['crudo']:.2f}", f"{s['armonizado']:.2f}") == (v["razonCruda"], v["razonArmonizada"])
+    # Las barras dan ese mismo salto: las líneas de promedio de la gráfica cuadran con la frase.
+    def promedio(r):
+        return sum(a["armonizado"] for a in m["anios"] if r[0] <= a["y"] <= r[1]) / (r[1] - r[0] + 1)
+    assert promedio(s["despues"]) / promedio(s["antes"]) == pytest.approx(s["armonizado"], abs=0.005)
+
+
+def test_metodo_se_niega_con_una_validacion_vieja():
+    """Si validacion.json no es de la serie de ahora, el exportador se detiene."""
+    validacion = ew.leer_validacion()
+    vieja = json.loads(json.dumps(validacion))
+    vieja["salto_2012"]["metricas"]["peninsula"]["razon_armonizada"] = 0.93
+    with pytest.raises(ew.ValidacionVieja, match="validar.py"):
+        ew.metodo(validacion=vieja)
+
+
+def test_metodo_sin_validacion(tmp_path):
+    with pytest.raises(ew.ValidacionVieja, match="validar.py"):
+        ew.leer_validacion(tmp_path / "validacion.json")
 
 
 def test_metodo_satelites_factores_y_conafor(salida):
@@ -198,10 +215,15 @@ def test_metodo_satelites_factores_y_conafor(salida):
     assert 2 < f["aqua"][0] < f["aqua"][1] < 5  # Aqua en temporada, zonas de Yucatán
     # El factor es S-NPP / NOAA-20 (pipeline/armonizar.py); la página dice cuántos focos ve
     # NOAA-20 por cada uno de S-NPP, así que usa el inverso.
+    # Es el de la prueba de los VIIRS (validacion.json), que es el de salidas/factores.csv.
+    validacion = ew.leer_validacion()
     fac = pd.read_csv(ew.FACTORES)
     noaa = fac[(fac["satelite"] == "NOAA-20") & (fac["epoca"] == "temporada")]["factor"].iloc[0]
+    assert validacion["viirs"]["metricas"]["NOAA-20"]["factor"]["temporada"] == pytest.approx(noaa)
     assert f["noaa20"] == round(1 / noaa, 2)
-    # Las cifras de docs/01, «Validación con CONAFOR».
+    # Las cifras de docs/01, «Validación con CONAFOR», que son las de la prueba de la validación.
     c = m["conafor"]
     assert (c["incendios"], c["desde"], c["hasta"]) == (1222, 2015, 2024)
     assert (c["vistos"], c["grandes"], c["nGrandes"], c["azar"]) == (53, 84, 395, 9)
+    v = validacion["conafor"]["valores"]
+    assert (c["vistos"], c["azar"], c["grandes"]) == (v["realSnpp"], v["azarSnpp"], v["grandesSnpp"])

@@ -456,10 +456,10 @@ satélite» abajo).
   | 4 | 10 mar–3 abr | 96 % |
 
   Igual que en el hallazgo de 2025: no son «quemas ilegales».
-- **El salto de 2012** (`web/datos/metodo.json`): en Yucatán, en temporada, el promedio de
-  2013–2015 entre el de 2009–2011 es ×3.0 sin calibrar y ×0.93 con el factor. NOAA-20 ve 0.99
-  focos por cada uno de S-NPP. Falta contrastarlo con la prueba 1 de Nico (`pipeline/validar.py`
-  en su rama), que usa la península completa.
+- **El salto de 2012** (prueba 1 de `salidas/validacion.json`, la misma cifra de
+  `web/datos/metodo.json`): en la península, con el año completo, el promedio de 2013–2015
+  entre el de 2009–2011 es ×3.26 sin calibrar y ×0.90 con el factor. En el estado de Yucatán va
+  de ×3.06 a ×0.92. NOAA-20 ve 0.99 focos por cada uno de S-NPP en temporada.
 - **El factor de Aqua en temporada** (`salidas/factores.csv`, zonas de Yucatán): S-NPP ve entre
   2.8 y 3.8 focos por cada uno de Aqua (2.84 en la zona 1, 3.83 en la 2, 3.10 en la 3 y 3.84 en
   la 4). «Cómo lo medimos» muestra ese rango.

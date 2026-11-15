@@ -328,7 +328,7 @@
   "mPeriodo": "{s} ({i}), from {d} to {h}",
   "mPeriodoDesde": "{s} ({i}), since {d}",
   "mUnir2": "Today's satellites (VIIRS) see smaller fires than earlier ones (MODIS). In the season, for every square with fire that Aqua saw in Yucatán, today's satellites see between {a} and {b}, depending on the zone. Using the years they flew together, we calculated a factor for each zone and time of year, and with it we brought the MODIS years to today's scale.",
-  "mGrafTitulo": "Hot spots in Yucatán, March 1 to May 31 of each year",
+  "mGrafTitulo": "Hot spots in the Yucatán Peninsula, each full year",
   "mCambio": "2012: the satellite changes",
   "mRayas": "Hatched: MODIS years brought to the VIIRS scale.",
   "mVerAria": "How the MODIS years look",

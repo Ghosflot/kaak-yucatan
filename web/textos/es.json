@@ -328,7 +328,7 @@
   "mPeriodo": "{s} ({i}), del {d} al {h}",
   "mPeriodoDesde": "{s} ({i}), desde el {d}",
   "mUnir2": "Los satélites de ahora (VIIRS) ven fuegos más chicos que los de antes (MODIS). En temporada, por cada cuadrito con fuego que veía Aqua en Yucatán, los de ahora ven entre {a} y {b}, según la zona. Con los años en que volaron juntos calculamos un factor para cada zona y época del año, y con él pasamos los años de MODIS a la escala de hoy.",
-  "mGrafTitulo": "Focos de calor en Yucatán, del 1 de marzo al 31 de mayo de cada año",
+  "mGrafTitulo": "Focos de calor en la península de Yucatán, cada año completo",
   "mCambio": "2012: cambia el satélite",
   "mRayas": "Rayadas: años de MODIS pasados a la escala de VIIRS.",
   "mVerAria": "Cómo se ven los años de MODIS",
