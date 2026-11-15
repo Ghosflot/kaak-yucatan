@@ -467,6 +467,86 @@ satélite» abajo).
   Seybaplaya ni Puerto Morelos, que son municipios recientes; sus focos caen en los municipios
   de los que se separaron. Yucatán sí tiene sus 106.
 
+### Cifras nuevas de la página (dirección visual, 15 nov)
+Salen de `web/datos/` igual que las de arriba (`python pipeline/exportar_web.py`); los cálculos
+por municipio están en `pipeline/datos_web.py` (`hechos`). Los años de la página van de 2001 a
+2026 y «lo normal» es la mediana de 2001 a 2025. Cada hecho de municipio lleva su guarda: con
+menos de 5 focos en un año normal no se dice nada, y las fechas solo con 20 o más.
+
+- **La fuente fija de Mérida** (`metodo.json`, `fuenteFija`): de las 12,883 detecciones de FIRMS
+  en Mérida (todos los satélites, 2000–2026), 7,494 (58 %) son `type` 2, «otra fuente fija en
+  tierra», casi todas en tres cuadritos al suroeste de la ciudad (alrededor de 20.94 N,
+  −89.66 O). K'áak' las quita. No sabemos qué instalación es: no nombrarla.
+- **La fuga que se arregló el 15 nov** (`pipeline/cargar.py`, `filtrar`): en los datos casi en
+  tiempo real (NRT, desde julio de 2026) `type` llega vacío, y 914 focos de fuentes fijas con
+  confianza nominal o alta contaban como fuego: 728 en Carmen, 129 en Mérida, 49 en Campeche,
+  5 en Yaxkukul y 3 en Champotón. Ahora un foco sin `type` en un
+  cuadrito donde FIRMS marcó alguna vez `type` 2 no entra. Cambian los meses de agosto a
+  noviembre de 2026 de cuatro municipios (`fechas.json`, `meses26`): Mérida pasa de 10, 14, 17
+  y 9.8 a 2, 1, 5 y 0; Carmen de 50, 49, 36 y 31.5 a 14, 12, 7 y 9.8; Campeche y Yaxkukul
+  cambian por 1 a 4. **Ninguna temporada (marzo a mayo) cambia**: todo lo quitado es de julio
+  de 2026 en adelante (prueba `test_reales_el_arreglo_no_toca_ninguna_temporada`). El factor
+  de NOAA-20 fuera de temporada pasa de 0.9812 a 0.9814.
+- **La hora del paso de Terra y Aqua** (`metodo.json`, `paso`): la hora mediana de los focos de
+  día en Yucatán (hora de Mérida, UTC−6). Terra pasaba entre las 10:38 y las 10:52 de 2001 a
+  2022 (10:50 en 2001, 10:38 en 2022) y luego 10:21 (2023), 9:58 (2024), 9:42 (2025) y **9:09
+  (2026)**. Aqua, entre las 13:02 y las 13:21 de 2003 a 2022, y luego 13:27, 13:49, 14:12 y
+  **14:53**. S-NPP, entre las 13:07 y las 13:26 todos los años. Es la deriva de la órbita que
+  arriba («MODIS se está retirando») quedaba como hipótesis: ahora está medida. Que eso cambie
+  los conteos de MODIS recientes sigue sin medirse.
+- **De noche casi no se ve fuego** (`metodo.json`, `nocturnos`): el 5.6 % de los focos de S-NPP
+  en Yucatán (2012–2026) son del paso de la madrugada.
+- **El salto de 2012, una sola cifra** (`metodo.json`, `salto`): desde el 15 nov sale de la
+  prueba 1 de la validación (`salidas/validacion.json`, desglose de Yucatán, año completo):
+  ×3.06 sin calibrar y ×0.92 calibrado. Reemplaza al ×3.0 y ×0.93 de «Cifras de la página»,
+  que se calculaba aparte con solo marzo a mayo; la gráfica de años de «Cómo lo medimos»
+  (`metodo.json`, `anios`) sigue siendo de marzo a mayo.
+- **Días sin datos** (`metodo.json`, `sinDatos`): 47 días anotados, 12 rellenados (ver la
+  sección siguiente). En la temporada de 2026, NOAA-20 cuenta el 10, 11 y 12 de marzo y el 28,
+  29 y 30 de abril (`portada.json`, `satDia`).
+- **Lo normal tiene un rango** (`portada.json`, `yuc.rango`): la mitad central de las temporadas
+  de 2001 a 2025 en Yucatán va de 5,991 a 9,544 focos (percentiles 25 y 75).
+- **CONAFOR, por duración** (`metodo.json`, `conafor.porDuracion`): de los incendios que duraron
+  1 día, algún satélite vio 16 de cada 100 (139 incendios); de 2 a 3 días, 39 (351); de 4 a 7,
+  66 (359); de más de 7, 85 (373). «Visto» es lo mismo que arriba (un foco a menos de 2 km),
+  pero con **cualquier** satélite (`n_todos` de `cruce_conafor.csv`), no solo S-NPP: por eso no
+  se compara con el 53 % de S-NPP.
+- **Las zonas, año por año con las fechas de hoy** (`zonas.json`, `porAnio`, `tipico`,
+  `minFuera`). Se aplican las ventanas de 2026 a cada año de 2001 a 2026 (enero a junio): es
+  «cómo se vería con las reglas de hoy», no una medición de cumplimiento. Un año típico es la
+  mediana de 2012 a 2025 de cada parte (antes, dentro y después):
+
+  | Zona | Antes | Dentro | Después | Menor parte fuera de fechas (2001–2026) |
+  |---|---|---|---|---|
+  | 1, el sur y oriente | 1.0 % | 33.2 % | 65.5 % | 25.0 % (2009) |
+  | 2, el centro y norte | 46.7 % | 45.8 % | 2.9 % | 17.5 % (2008) |
+  | 3, el sur | 8.0 % | 15.9 % | 77.7 % | 60.1 % (2013) |
+  | 4, el norte y oriente | 3.0 % | 5.3 % | **91.6 %** | **68.4 %** (2005) |
+
+  En la zona 4, **9 de cada 10 focos aparecen después de que cierran las fechas**, y ningún año
+  bajó de 7 de cada 10 fuera de ellas. Sumando todos los focos de 2012 a 2025 (en vez de la
+  mediana de los años), la zona 4 da 88.7 % después. Igual que arriba: no son «quemas ilegales».
+- **Hechos por municipio** (`municipio/<id>.json`, `hechos`): 100 de los 106 municipios de
+  Yucatán tienen alguno (los otros 6 tienen menos de 5 focos en un año normal) y 69 tienen
+  fechas (20 o más). Para 40 municipios de Yucatán, 2026 fue su temporada con menos fuego desde
+  2012 (sin empates; con empates serían 46). 46 llevan 3 o más temporadas seguidas por debajo
+  de lo normal; Cantamayec lleva 12 (2015–2026). Ejemplos:
+  - **Tizimín** es el municipio de Yucatán con más fuego en un año normal (713; lugar 1 de 106).
+    Su fuego empieza (10 % del año) el 30 de marzo; el de su zona, el 1 de abril.
+  - **Muna:** la mitad del fuego de su año normal llega el 20 de abril; 2026 fue su temporada
+    con menos fuego desde 2012.
+  - **Mérida:** el 10 % de su fuego ya apareció el 22 de febrero (su zona, el 16 de marzo).
+  - **Calakmul** es el sexto de 11 municipios de Campeche.
+  Las fechas salen del fuego de cada día del año sumado de 2001 a 2025 (el 29 de febrero cuenta
+  como 28); la semana con más fuego, de semanas de 7 días desde el 1 de enero.
+- **Cuadritos que se repiten** (`municipio/<id>.json`, `repetidos`): 18,092 cuadritos de la
+  península tuvieron fuego en 5 o más de las 14 temporadas de 2012 a 2025, sin contar los que
+  tienen historial de fuente fija.
+- **El contorno de los estados** (`portada.json`, `estados`): ahora es la unión de sus
+  municipios (antes venía de Natural Earth y no calzaba con los bordes municipales). Se quitan
+  las rendijas entre municipios y las astillas de menos de 0.1 km²; Cozumel, Isla Mujeres,
+  Holbox y Arrecife Alacranes se quedan.
+
 ### Días sin datos del satélite (verificado el 14 nov)
 La serie usa un satélite por día. Si ese satélite no mandó datos, antes el día contaba como
 cero fuego aunque otro satélite lo viera. Ahora (docs/02, «Método») se cuenta con su respaldo:
