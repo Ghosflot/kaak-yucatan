@@ -23,6 +23,10 @@ Escribe:
   PNG de salidas/graficas/). La frase de cada caso está en web/textos (claves val…).
 - web/datos/satelites.json: cada satélite por su cuenta (Yucatán en temporada, sin calibrar y
   calibrado) contra la serie unida, para el selector de «¿Se puede confiar?» (#32).
+- web/datos/ganaderia.json: el territorio ganadero de Yucatán por municipio (pastizal de INEGI
+  Serie VII, bovinos del Censo Agropecuario 2022 y focos S-NPP 2013–2025 sobre pastizal), para
+  la opción «Territorio ganadero» del mapa (#60). Sale de datos_peninsula/ganaderia_municipios.csv,
+  que arma analisis/preparar_ganaderia.py.
 - web/datos/serie_armonizada.csv: copia de salidas/serie_armonizada.csv, para descargarla.
   Es el único archivo que pasa de 2 MB: la página no lo carga, solo lo enlaza.
 - La tabla CSV de cada municipio la arma la página con su JSON.
@@ -61,6 +65,11 @@ FACTORES = RAIZ / "salidas" / "factores.csv"
 DIAS_SIN_DATOS = RAIZ / "salidas" / "dias_sin_datos.csv"
 CRUCE_CONAFOR = RAIZ / "analisis" / "salidas" / "cruce_conafor.csv"
 VALIDACION = RAIZ / "salidas" / "validacion.json"
+GANADERIA = RAIZ / "datos_peninsula" / "ganaderia_municipios.csv"
+GANADERIA_PERIODO = [2013, 2025]  # los focos de ganaderia_municipios.csv (analisis/cifras_ganaderia.py)
+# Cortes de las 5 clases de color del mapa ganadero (clase 0 = menos que el primer corte). Son números redondos
+# cerca de los quintiles de los 106 municipios: la mitad tiene menos de 5 % de pastizal y unos pocos pasan de 60 %.
+GANADERIA_CORTES = {"pastizal": [5, 15, 30, 50], "bovinos": [2, 5, 10, 25], "focos": [5, 15, 30, 50]}
 SALIDA = RAIZ / "web" / "datos"
 
 ANIOS_BASE = range(2001, 2026)
@@ -677,6 +686,37 @@ def satelites(cuadritos: pd.DataFrame, factores: pd.DataFrame) -> dict:
     return {"satelites": sale}
 
 
+def ganaderia(mun: pd.DataFrame) -> dict:
+    """El territorio ganadero de Yucatán (#60): por municipio y el total del estado.
+
+    Los números ya vienen calculados en datos_peninsula/ganaderia_municipios.csv: no dependen de
+    la actualización diaria (pastizal de 2018, censo de 2022 y focos de años completos).
+    """
+    g = pd.read_csv(GANADERIA)
+    g["id"] = g["municipio"].map(identificador)
+    g = g.sort_values("id").reset_index(drop=True)
+    faltan = sorted(set(g["id"]) - set(mun.loc[mun["estado"] == "Yucatán", "id"]))
+    if faltan:
+        raise ValueError(f"ganaderia_municipios.csv trae municipios que no están en la lista: {faltan}")
+    t = g[["bovinos_2022", "km2", "km2_pastizal", "focos", "focos_pastizal"]].sum()
+    g["pct_focos_pastizal"] = np.where(g["focos"] > 0, 100 * g["focos_pastizal"] / g["focos"].clip(lower=1), 0.0)
+    columnas = {"pastizal": "pct_pastizal", "bovinos": "bovinos_km2", "focos": "pct_focos_pastizal"}
+    clases = {k: np.digitize(g[c], GANADERIA_CORTES[k]) for k, c in columnas.items()}
+    return {
+        "periodo": GANADERIA_PERIODO,
+        "cortes": GANADERIA_CORTES,
+        "yucatan": {"bovinos": int(t["bovinos_2022"]), "bovinosUp": int(g["bovinos_up_2022"].sum()),
+                    "pctPastizal": round(100 * t["km2_pastizal"] / t["km2"], 1),
+                    "focos": int(t["focos"]), "focosPastizal": int(t["focos_pastizal"]),
+                    "pctFocosPastizal": round(100 * t["focos_pastizal"] / t["focos"], 1)},
+        "municipios": [{"id": f["id"], "bovinos": int(f["bovinos_2022"]), "bovinosKm2": round(f["bovinos_km2"], 1),
+                        "pctPastizal": round(f["pct_pastizal"], 1), "focos": int(f["focos"]),
+                        "focosPastizal": int(f["focos_pastizal"]),
+                        "clases": {k: int(v[i]) for k, v in clases.items()}}
+                       for i, f in g.iterrows()],
+    }
+
+
 def por_anio(ids: list[str], yuc_ids: list[str], totales: dict, valores: dict, anios: list[int]) -> dict:
     """Cada año de cada municipio contra su normal, para pintar el mapa y la tarjeta de ese año.
 
@@ -800,6 +840,7 @@ def exportar(salida: Path = SALIDA, elegidos: pd.DataFrame | None = None) -> dic
     escribir(salida / "validacion.json", validacion())
     import serie
     escribir(salida / "satelites.json", satelites(cargar_cuadritos(), serie.leer_factores()))
+    escribir(salida / "ganaderia.json", ganaderia(mun))
     shutil.copyfile(SERIE, salida / "serie_armonizada.csv")
     print(f"web/datos: {len(registros)} municipios; Yucatán 2026 {yuc['totales'][ANIO]:,.0f} "
           f"contra {yuc['normal']:,.0f}; {cuenta['menos']} de {cuenta['total']} con menos fuego")

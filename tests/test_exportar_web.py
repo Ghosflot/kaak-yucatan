@@ -275,6 +275,30 @@ def test_graficas_de_la_validacion_como_sus_png(salida):
     assert vi["cumple"] == {"noaa20": True, "noaa21": True}
 
 
+def test_ganaderia_para_el_mapa(salida):
+    """El territorio ganadero (#60): los 106 municipios de Yucatán con los mismos ids del mapa."""
+    g = _json(salida, "ganaderia.json")
+    lista = _json(salida, "municipios.json")
+    yucatan = {m["id"] for m in lista if m["estado"] == "Yucatán"}
+    assert {m["id"] for m in g["municipios"]} == yucatan
+    assert g["periodo"] == [2013, 2025]
+    y = g["yucatan"]
+    assert (y["bovinos"], y["bovinosUp"]) == (388_399, 381_535)  # Censo Agropecuario 2022
+    assert y["bovinos"] == sum(m["bovinos"] for m in g["municipios"])
+    assert y["focosPastizal"] == sum(m["focosPastizal"] for m in g["municipios"])
+    # Las cifras de docs/01, «Ganadería».
+    assert (y["pctPastizal"], y["pctFocosPastizal"]) == (17.2, 29.2)
+    tizimin = next(m for m in g["municipios"] if m["id"] == "tizimin")
+    assert (tizimin["bovinos"], tizimin["focos"]) == (139_472, 16_177)
+    assert all(m["focosPastizal"] <= m["focos"] and 0 <= m["pctPastizal"] <= 100 for m in g["municipios"])
+    # Las clases del mapa: de 0 a 4, según los cortes que trae el mismo archivo.
+    assert g["cortes"] == {"pastizal": [5, 15, 30, 50], "bovinos": [2, 5, 10, 25], "focos": [5, 15, 30, 50]}
+    assert tizimin["clases"] == {"pastizal": 3, "bovinos": 4, "focos": 4}  # 44 %, 36 por km², 58 %
+    merida = next(m for m in g["municipios"] if m["id"] == "merida")
+    assert merida["clases"] == {"pastizal": 0, "bovinos": 1, "focos": 0}  # 0.9 %, 4 por km², 2 %
+    assert {c for m in g["municipios"] for c in m["clases"].values()} == {0, 1, 2, 3, 4}
+
+
 def test_satelites_contra_la_serie(salida):
     """El selector (#32): cada satélite solo, contado como la serie de la página."""
     sats = {x["sat"]: x for x in _json(salida, "satelites.json")["satelites"]}

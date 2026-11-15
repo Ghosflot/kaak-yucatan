@@ -283,6 +283,13 @@ Respuestas cortas, con su fuente en docs/01.
   de su órbita (los datos no lo respaldan). Sí se puede decir lo del apagón de 17 días.
 - Que la página ya deja elegir cualquier rango de fechas, dibujar un área o escribir
   coordenadas: no lo hace (#36).
+- De la ganadería (#60):
+  - que es la segunda fuente de ingreso del estado: es falso (el sector primario es el 3.7 %
+    del PIB de Yucatán);
+  - cualquier monto de pérdidas en pesos por incendios: no hay una estimación pública;
+  - que los focos sobre pastizal son quemas ganaderas o ilegales: el satélite no ve la causa;
+  - el hato de Tizimín según la Ugroy (190 mil o 110 mil cabezas): las cifras chocan. Sí: el
+    censo de INEGI da 139,472 en 2022.
 
 ## Pendientes de la v1
 
