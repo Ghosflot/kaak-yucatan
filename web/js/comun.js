@@ -51,6 +51,10 @@ export function el(tag, attrs, padre) {
 
 export const reducirMovimiento = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+// La escala de la página en pantallas de poca resolución (index.html). El puntero y getBoundingClientRect miden en
+// píxeles de la pantalla; los estilos (left, top) y offsetWidth, en píxeles de la página: se divide entre la escala.
+export const escalaPagina = () => Number(document.documentElement.style.getPropertyValue('--zoom')) || 1;
+
 // Carga JSON de web/datos/ una sola vez por visita.
 const cache = new Map();
 export function datos(nombre) {

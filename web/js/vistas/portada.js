@@ -1,6 +1,6 @@
 // Portada: la temporada en tres momentos (foto, repaso y cierre) y el panel con la respuesta.
 import { t, traducir } from '../textos.js';
-import { $, fmt, fechaDia, fechaDiaAnio, fechaCorta, deMesDia, COLOR, ESCALA, veredicto, el, reducirMovimiento, datos, anunciar } from '../comun.js';
+import { $, fmt, fechaDia, fechaDiaAnio, fechaCorta, deMesDia, COLOR, ESCALA, veredicto, el, reducirMovimiento, datos, anunciar, escalaPagina } from '../comun.js';
 import { barrasAnios, tiraDias } from '../graficas.js';
 import { armarBuscador, EJEMPLO } from '../buscador.js';
 import { ruta } from '../app.js';
@@ -42,7 +42,7 @@ const PLANTILLA = `
       <div class="buscador" id="buscador1"></div>
       <p class="leyenda-punto"><i aria-hidden="true"></i><span id="leyendaPunto"></span></p>
       <button type="button" class="boton" id="verTemporada">
-        <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5 L19.5 12 L7 19.5 Z" fill="#D7261E"></path></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5 L19.5 12 L7 19.5 Z" fill="#121212"></path></svg>
         <span data-t="verTemporada"></span>
       </button>
     </div>
@@ -192,10 +192,10 @@ export function montar(raiz) {
   function despejarRotulos(telefono) {
     const rotulos = raiz.querySelectorAll('.rotulos .ciudad, .rotulos .estado, .rotulos .agua');
     if (telefono || !caja) { rotulos.forEach((r) => r.classList.remove('tapado')); return; }
-    const er = escenario.getBoundingClientRect();
+    const er = escenario.getBoundingClientRect(), z = escalaPagina();
     const tapan = [...raiz.querySelectorAll('#titulo, .bloque:not([hidden]), .instrumento:not([hidden])')].map((e) => {
       const r = e.getBoundingClientRect();
-      return { x0: r.left - er.left - 8, x1: r.right - er.left + 8, y0: r.top - er.top - 6, y1: r.bottom - er.top + 6 };
+      return { x0: (r.left - er.left) / z - 8, x1: (r.right - er.left) / z + 8, y0: (r.top - er.top) / z - 6, y1: (r.bottom - er.top) / z + 6 };
     });
     for (const r of rotulos) {
       const cx = caja.x + (parseFloat(r.style.left) / 100) * caja.w, cy = caja.y + (parseFloat(r.style.top) / 100) * caja.h;
@@ -778,23 +778,25 @@ export function montar(raiz) {
     contenidoTarjeta(id, false);
     tj.hidden = false;
     marcarEncima(id);
-    const r = escenario.getBoundingClientRect();
-    let x = ev.clientX - r.left + 18, y = ev.clientY - r.top + 18;
-    if (x + 260 > r.width) x = ev.clientX - r.left - 268;
-    if (y + 170 > r.height) y = ev.clientY - r.top - 178;
+    const r = escenario.getBoundingClientRect(), z = escalaPagina();
+    const px = (ev.clientX - r.left) / z, py = (ev.clientY - r.top) / z;
+    let x = px + 18, y = py + 18;
+    if (x + 260 > r.width / z) x = px - 268;
+    if (y + 170 > r.height / z) y = py - 178;
     tj.style.left = x + 'px'; tj.style.top = y + 'px';
   }
   function ubicarTarjeta(id) {
     const m = munPorId.get(id);
     const tj = $('tarjeta');
-    const mr = mapa.getBoundingClientRect(), er = escenario.getBoundingClientRect();
-    const cx = mr.left - er.left + (m.cx / W0) * mr.width, cy = mr.top - er.top + ((m.cy - Y0) / H0) * mr.height;
+    const mr = mapa.getBoundingClientRect(), er = escenario.getBoundingClientRect(), z = escalaPagina();
+    const cx = (mr.left - er.left + (m.cx / W0) * mr.width) / z, cy = (mr.top - er.top + ((m.cy - Y0) / H0) * mr.height) / z;
+    const ew = er.width / z, eh = er.height / z;
     const w = tj.offsetWidth || 250, h = tj.offsetHeight || 180;
     let x = cx + 28, y = cy - h / 2;
-    if (x + w > er.width - 12) x = cx - w - 28;
+    if (x + w > ew - 12) x = cx - w - 28;
     // Un municipio fuera del encuadre (Cancún, con el mapa en Yucatán) no debe sacar la tarjeta.
-    x = Math.max(12, Math.min(er.width - w - 12, x));
-    y = Math.max(12, Math.min(er.height - h - 12, y));
+    x = Math.max(12, Math.min(ew - w - 12, x));
+    y = Math.max(12, Math.min(eh - h - 12, y));
     tj.style.left = x + 'px'; tj.style.top = y + 'px';
   }
   function seleccionar(id, desdeBuscador, nueva = true) {

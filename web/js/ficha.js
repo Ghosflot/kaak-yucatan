@@ -5,7 +5,7 @@ import { fmt, fechaDia, deMesDia, frase, cifras } from './comun.js';
 export const ANCHO = 1080, ALTO = 1350;
 export const SITIO = 'kaak.pages.dev';
 const M = 64; // margen de los lados
-const PAPEL = '#FAFAF7', TINTA = '#141414', GRIS = '#8F877D', ROJO = '#D7261E';
+const PAPEL = '#FAFAF7', TINTA = '#141414', GRIS = '#8F877D', ROJO = '#D7261E', ROJO_CLARO = '#E9837D'; // el rojo claro de «Cómo lo medimos»: años con más fuego que lo normal, sin borde
 const DISPLAY = '"Alfa Slab One", Rockwell, Georgia, serif';
 const TEXTO = '"Atkinson Hyperlegible Next", system-ui, sans-serif';
 const MONO = '"Atkinson Hyperlegible Mono", ui-monospace, monospace';
@@ -95,7 +95,21 @@ export async function dibujarFicha(canvas, m) {
   for (const l of renglones(ctx, frase(m), util)) { y += 66; ctx.fillText(l, M, y); }
   ctx.font = `400 40px ${TEXTO}`;
   y += 8;
-  for (const l of renglones(ctx, cifras('fCifras', m), util)) { y += 52; ctx.fillText(l, M, y); }
+  // La cifra de 2026 en rojo, como en la página.
+  const a26 = fmt(m.v26);
+  let pendiente = true;
+  for (const l of renglones(ctx, cifras('fCifras', m), util)) {
+    y += 52;
+    const k = pendiente ? l.indexOf(a26) : -1;
+    if (k < 0) { ctx.fillText(l, M, y); continue; }
+    pendiente = false;
+    const antes = l.slice(0, k);
+    ctx.fillText(antes, M, y);
+    let x = M + ctx.measureText(antes).width;
+    ctx.font = `800 40px ${TEXTO}`; ctx.fillStyle = ROJO; ctx.fillText(a26, x, y);
+    x += ctx.measureText(a26).width;
+    ctx.font = `400 40px ${TEXTO}`; ctx.fillStyle = TINTA; ctx.fillText(l.slice(k + a26.length), x, y);
+  }
 
   // Lo normal
   y += 36 + 34;
@@ -118,7 +132,7 @@ export async function dibujarFicha(canvas, m) {
   const hueco = 8, bw = (util - hueco * (anios.length - 1)) / anios.length;
   anios.forEach((a, i) => {
     const h = Math.max(4, (a.total / tope) * (alto - 8));
-    ctx.fillStyle = a.y === 2026 ? ROJO : GRIS;
+    ctx.fillStyle = a.y === 2026 ? ROJO : a.total > m.normal ? ROJO_CLARO : GRIS;
     ctx.fillRect(M + i * (bw + hueco), base - h, bw, h);
   });
   ctx.setLineDash([]);
@@ -234,7 +248,7 @@ export async function dibujarTarjeta(canvas, m) {
   const hueco = 5, bw = (gw - hueco * (anios.length - 1)) / anios.length;
   anios.forEach((a, i) => {
     const h = Math.max(3, (a.total / tope) * alto);
-    ctx.fillStyle = a.y === 2026 ? ROJO : GRIS;
+    ctx.fillStyle = a.y === 2026 ? ROJO : a.total > m.normal ? ROJO_CLARO : GRIS;
     ctx.fillRect(gx + i * (bw + hueco), base - h, bw, h);
   });
   ctx.fillStyle = TINTA;

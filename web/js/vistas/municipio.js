@@ -6,6 +6,9 @@ import { armarBuscador } from '../buscador.js';
 import { dibujarFicha, aBlob, descargar, compartir, SITIO } from '../ficha.js';
 
 const DIAS = 92; // del 1 de marzo al 31 de mayo
+// Un color por significado, todos ya en la página: rojo = 2026; rojo claro = año con más fuego que lo normal
+// (el de «Cómo lo medimos»); rojo oscuro = el fuego de cada día (el tono más fuerte del calendario de «Fechas», 10:1).
+const ROJO = '#D7261E', ROJO_CLARO = '#E9837D', ROJO_OSCURO = '#996B66'; // terracota apagado: el rojo de la página con poca saturación (4.52:1), para que no compita con la gráfica de arriba
 const CAPITAL = { 'Yucatán': 'Mérida', 'Campeche': 'Campeche', 'Quintana Roo': 'Chetumal' };
 const indice = (md) => Math.round((deMesDia(md) - new Date(2026, 2, 1, 12)) / 864e5);
 const suma = (a, i0 = 0, i1 = a.length) => a.slice(i0, i1).reduce((s, v) => s + v, 0);
@@ -53,7 +56,7 @@ const PLANTILLA = `
     <p class="mun-sub" data-t="fichaSub"></p>
     <canvas class="ficha" id="ficha" width="1080" height="1350" role="img"></canvas>
     <div class="mun-botones">
-      <button type="button" class="b-negro" id="compartir" data-t="compartir"></button>
+      <button type="button" class="b-whatsapp" id="compartir"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4.5h16a1.5 1.5 0 0 1 1.5 1.5v10a1.5 1.5 0 0 1-1.5 1.5H10l-4.6 3.6a.6.6 0 0 1-1-.5V17.5H4A1.5 1.5 0 0 1 2.5 16V6A1.5 1.5 0 0 1 4 4.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M7 9.5h10M7 13h6.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span data-t="compartir"></span></button>
       <button type="button" class="b-borde" id="descargar" data-t="descargarImagen"></button>
     </div>
     <button type="button" class="enlace fuerte" id="csv"></button>
@@ -92,7 +95,7 @@ export function montar(raiz, { id }) {
     caja.querySelectorAll('span').forEach((s) => s.remove());
     const delEstado = P.mun.filter((x) => x.e === m.estado);
     const g = el('g', {}, svg);
-    for (const x of delEstado) el('path', { d: x.d, fill: x.id === m.id ? '#121212' : '#E4E1DC', stroke: '#FFFFFF', 'stroke-width': 1, 'vector-effect': 'non-scaling-stroke' }, g);
+    for (const x of delEstado) el('path', { d: x.d, fill: x.id === m.id ? ROJO : '#E4E1DC', stroke: '#FFFFFF', 'stroke-width': 1, 'vector-effect': 'non-scaling-stroke' }, g);
     // Yucatán sin el arrecife Alacranes, que haría el mapa diminuto (el mismo recuadro del cierre).
     const b = m.estado === 'Yucatán' ? { x: 297, y: 26, width: 416, height: 309 } : g.getBBox();
     svg.setAttribute('viewBox', [b.x, b.y, b.width, b.height].map((v) => v.toFixed(1)).join(' '));
@@ -137,16 +140,17 @@ export function montar(raiz, { id }) {
     const barras = $('diasBarras');
     barras.textContent = '';
     barras.classList.toggle('con-anio', deAnio);
-    // Con un año elegido, cada día lleva dos barras: un año normal en gris, detrás, y el año en color, delante.
-    const color = anio === 2026 ? '#D7261E' : '#121212';
+    // Con un año elegido, cada día lleva dos barras: un año normal en gris, detrás, y el año delante: 2026 en rojo, los demás en tinta.
+    // La cantidad la dice la altura (Cleveland y McGill); el color solo dice qué serie es.
+    const color = () => (anio === 2026 ? ROJO : ROJO_OSCURO);
     const alto = (v) => (v > 0 ? Math.max(1.5, (v / tope) * 97) + '%' : '0');
     dias.forEach((v, i) => {
       const s = document.createElement('span');
       if (deAnio) {
         const n = document.createElement('i'); n.className = 'n'; n.style.height = alto(m.diaNormal[i]);
-        const a = document.createElement('i'); a.className = 'a'; a.style.height = alto(v); a.style.background = color;
+        const a = document.createElement('i'); a.className = 'a'; a.style.height = alto(v); a.style.background = color(v);
         s.append(n, a);
-      } else s.style.height = alto(v);
+      } else { s.style.height = alto(v); s.style.background = color(v); }
       barras.appendChild(s);
     });
     const pct = (i) => ((i / DIAS) * 100).toFixed(2) + '%';
@@ -171,7 +175,7 @@ export function montar(raiz, { id }) {
     }
     const sub = $('cuandoSub');
     if (deAnio && suma(dias) <= 0) sub.textContent = t('sinFocosAnio', { a: anio });
-    else sub.textContent = deAnio ? t('cuandoAnio', { a: anio }) : t('cuandoNormal');
+    else sub.textContent = deAnio ? (anio === 2026 ? t('cuandoAnio2026') : t('cuandoAnio', { a: anio })) : t('cuandoNormal');
     $('verNormal').hidden = !deAnio;
     const nombreSerie = deAnio ? String(anio) : t('unAnioNormal');
     const llaveTxt = $('llave').hidden ? '' : ' ' + $('llaveTexto').textContent + '.';
@@ -198,7 +202,7 @@ export function montar(raiz, { id }) {
     const svg = $('barrasMun');
     const ancho = Math.max(240, Math.round(svg.parentNode.clientWidth) - 44);
     barrasAnios(svg, {
-      anios: m.anios, normal: m.normal, alto: 110, ancho, seleccionado: anio, alTocar: elegirAnio,
+      anios: m.anios, normal: m.normal, alto: 110, ancho, seleccionado: anio, alTocar: elegirAnio, sobreNormal: ROJO_CLARO,
       aria: t('munBarrasAria', { m: m.nombre, n: fmt(m.normal), a: fmt(m.v26) }),
     });
   }
@@ -236,7 +240,11 @@ export function montar(raiz, { id }) {
     $('rNombre').textContent = m.nombre;
     $('nombre').textContent = m.nombre;
     $('frase').textContent = frase(m);
-    $('cifras').textContent = cifras('munCifras2', m);
+    // La cifra de 2026 en rojo, como su barra.
+    const txt = cifras('munCifras2', m), a26 = fmt(m.v26), k = txt.indexOf(a26), p = $('cifras');
+    p.textContent = '';
+    if (k < 0) p.textContent = txt;
+    else { const b = document.createElement('b'); b.className = 'c2026'; b.textContent = a26; p.append(txt.slice(0, k), b, txt.slice(k + a26.length)); }
     $('leyNormal').textContent = t('loNormal', { n: fmt(m.normal) });
     $('cuandoTitulo').textContent = t('cuandoTitulo', { m: m.nombre });
     const zona = (m.zona || '').replace(/^\D+/, '');

@@ -24,6 +24,26 @@
   <link rel="preload" href="/fuentes/AlfaSlabOne-400.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="preload" href="/fuentes/AtkinsonHyperlegibleNext-400.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="preload" href="/datos/portada.json" as="fetch" crossorigin>
+  <script>
+    // Pantallas de escritorio más chicas que 1280 × 850: la página se escala para verse como en una Mac (respeta el zoom
+    // que la persona cambie durante la visita). Las media queries no ven la escala: «baja» y «angosta» la reemplazan.
+    (function () {
+      var raiz = document.documentElement, dpr0 = window.devicePixelRatio || 1;
+      function escalar() {
+        var w = window.innerWidth, h = window.innerHeight, z = 1;
+        if (w > 860) {
+          z = Math.min(1, h / 850, w / 1280) * (window.devicePixelRatio || 1) / dpr0;
+          z = Math.round(Math.max(0.6, Math.min(1, z)) * 1000) / 1000;
+        }
+        raiz.style.zoom = z === 1 ? '' : String(z);
+        raiz.style.setProperty('--zoom', String(z));
+        raiz.classList.toggle('baja', w > 860 && h / z <= 820);
+        raiz.classList.toggle('angosta', w / z <= 1100);
+      }
+      escalar();
+      window.addEventListener('resize', escalar);
+    })();
+  </script>
   <link rel="stylesheet" href="/css/estilo.css">
   <script type="module" src="/js/app.js"></script>
 </head>
