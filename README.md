@@ -90,6 +90,10 @@ secret).
 - CONAFOR forest fire records (datos.gob.mx).
 - Official burning calendar of SEDER (Yucatán).
 - [geoBoundaries](https://www.geoboundaries.org/) (CC BY 4.0) and Natural Earth: boundaries.
+- [NASA GIBS](https://nasa-gibs.github.io/gibs-api-docs/): VIIRS Corrected Reflectance (True Color)
+  tiles from NOAA-20, Suomi NPP and NOAA-21, combined into the cloud-free satellite image of the peninsula.
+- INEGI: Land Use and Vegetation map, Series VII (2018), and Agricultural Census 2022, for the
+  cattle land of each municipality.
 
 Each figure is traced to its source in [docs/01](docs/01-hechos-verificados.md).
 
