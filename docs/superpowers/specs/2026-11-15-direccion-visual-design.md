@@ -176,6 +176,31 @@ focos de una fuente fija al suroeste de Mérida. Se descartan los cuadritos con 
 - **Todo el sitio:** pie con el equipo y el repositorio; un formato de cifras y fechas; los 316
   textos en inglés reescritos; las cifras del guion y del README alineadas con la página.
 
+## Estado al 15 de noviembre (segunda tanda construida)
+
+Todo lo de arriba está en la rama `guille/direccion-visual`, sin subir. Lo que cambió respecto
+a lo escrito:
+
+- **Municipio y ficha:** hechos propios bajo el veredicto (`web/js/hechos.js`), franja de lo
+  normal en sus barras, sección «¿Dónde se quema?» (mapa del municipio con los vecinos rotulados,
+  los cuadritos repetidos y los focos de marzo a mayo de 2026; al tocar uno se lee su fecha y
+  satélite y se abre el lugar en Google Maps; lista plegable para quien no usa el mapa), cierre
+  con el enlace a las fechas de su zona y «Ver otro municipio», y una segunda tabla descargable
+  con fecha, coordenadas y satélite de cada foco de 2026. El mapa enseña solo los focos de marzo
+  a mayo para que su cifra sea la misma del encabezado.
+- **«La mitad» y «el doble»** se deciden con las cifras redondeadas que se leen (19 contra 42 es
+  «menos de la mitad»), y solo si quedan a 6 % de la mitad o a 10 % del doble.
+- **Fechas** abre, sin zona en la dirección, en la zona del municipio que se venía viendo y, si
+  no hay, en la de más focos del año.
+- **El mapa no dibuja los arrecifes de mar adentro** (Alacranes, Triángulos, Cayo Arcas): eran
+  manchas de color en el mar.
+- **Inglés:** «hot spot», «a normal year» y «burn window» en todo el sitio.
+- La tarjeta de vista previa del enlace (`web/og/inicio.jpg`) usa la extensión de la foto nueva.
+
+Pendiente de decisión del dueño: los nombres del equipo y el enlace al repositorio en el pie (el
+repositorio es privado), y las decisiones 1, 2 y 4 de abajo. La 3 se construyó como se recomendó
+y se puede quitar entera (es una sección).
+
 ## Lo que no se toca
 
 La pregunta de la portada, la definición de foco de calor, la plantilla del municipio, la ficha
