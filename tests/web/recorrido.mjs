@@ -634,38 +634,49 @@ async function demo() {
   await grabar('30s', DEMO, '&lang=en#/', '#rellenos path', async ({ page, espera, sub, centro }) => {
     const t0 = Date.now();
     const hasta = (ms) => espera(Math.max(0, ms - (Date.now() - t0)));
-    // 0–6, el gancho: el mapa a color con los focos de 2026 pasando día por día.
+    // Los tiempos siguen la voz de Gadiel (27.5 s): cada frase empieza donde empieza en el audio.
+    // 0–5.5, el gancho: el mapa a color con los focos de 2026 pasando día por día.
+    await page.mouse.move(8, 640);
     await sub('In 2024, wildfire smoke put Mérida among Mexico’s most polluted cities.', 0);
-    await hasta(6000);
-    // 6–12, el problema en el campo: dos de los municipios con más fuego, uno ganadero y uno de milpa.
-    await sub('Here, fire is a farming tool: the ten most-burned towns grow milpa or raise cattle.', 0);
-    for (const [id, ms] of [['tizimin', 9000], ['tekax', 11700]]) {
+    await hasta(5500);
+    // 5.5–10.4, el problema en el campo: los municipios con más fuego; los dos primeros son de Campeche.
+    await sub('Fire is a farming tool: the ten most-burned towns grow milpa or raise cattle.', 0);
+    await page.click('#verTodo');
+    await espera(500);
+    for (const [id, ms] of [['candelaria', 7000], ['champoton', 8500], ['tizimin', 10200]]) {
       const [x, y] = await centro(`.rellenos path[data-id="${id}"]`);
       await page.mouse.move(x, y, { steps: 16 });
       await hasta(ms);
     }
     await page.mouse.move(8, 640);
-    await hasta(12000);
-    // 12–18, el problema técnico: el salto de 2012, sin corregir y corregido.
+    // 10.4–14.4, el problema técnico: el salto de 2012, sin corregir y corregido.
     await page.click('.nav a[data-vista="metodo"]');
     await page.waitForSelector('#mSwitch');
     await sub('But satellites disagree: some see three to five times more fire.', 0);
-    await hasta(15200);
+    await hasta(12600);
     await page.click('#mSwitch');
-    await hasta(18000);
-    // 18–26, la solución: el mapa con un municipio y, después, sus fechas de quema.
+    await hasta(14400);
+    // 14.4–22.2, la solución: un municipio de Yucatán y después Campeche, el que más se quema.
     await page.evaluate(() => { location.hash = '#/'; });
     await page.waitForSelector('#escenario[data-modo="final"]', { timeout: 30000 });
-    await sub('K’áak’ calibrates 25 years and shows where and when Yucatán has historically burned most, town by town.', 0);
+    await sub('K’áak’ calibrates 25 years and shows where and when the peninsula has historically burned most, town by town,', 0);
     await page.click('#buscador2 .ejemplo button');
-    await hasta(22300);
+    await hasta(19000);
+    await sub('…and Campeche leads.', 0);
+    await page.locator('#busca2').fill('');
+    await page.click('#busca2');
+    await page.keyboard.type('Candelaria', { delay: 45 });
+    await page.keyboard.press('Enter');
+    await hasta(22200);
+    // 22.2–25, para quién: las fechas de quema.
     await page.evaluate(() => { location.hash = '#/fechas/3'; });
     await page.waitForSelector('.fz-dia');
-    await hasta(26000);
-    // 26–30, el cierre: la marca y la dirección.
+    await sub('For Civil Protection, SEDER and every town:', 0);
+    await hasta(25000);
+    // 25–28, el cierre: la marca y la dirección.
     await page.evaluate(() => { location.hash = '#/'; });
     await page.waitForSelector('#rellenos path');
-    await sub('For Civil Protection, SEDER and every town: K’áak’, Yucatán’s fire calendar. kaak.pages.dev', 0);
+    await sub('K’áak’, Yucatán’s fire calendar. kaak.pages.dev', 0);
     await hasta(28400);
   });
 }
