@@ -222,7 +222,7 @@ la foto nueva).
 
 ## Cómo se comprueba
 
-- `pytest -q` y `ruff check .` en verde (Python: `/root/repos/kaak/.venv/bin/python`).
+- `pytest -q` y `ruff check .` en verde.
 - `KAAK_CHROME=1 KAAK_PUERTO=<puerto propio> npx playwright test` en verde.
 - Prueba nueva de la portada: en 1024×600, 1280×720, 1366×629, 1366×768, 1536×864, 1920×1080 y
   2560×1440, en los modos foto, repaso y cierre, el cartel no toca al instrumento, nada queda
