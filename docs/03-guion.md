@@ -49,7 +49,7 @@ diapositiva, nunca a media frase. Si falta uno, el otro lo dice todo y cambia «
 **D2 · 0:12–0:45 · Leo · Había una vez** · *Foto del abuelo. «"En abril"» frente a «Permiso: hasta
 el 3 de abril»*
 > Él es Lorenzo de Jesús, mi abuelo. Tiene 73 años y siembra su parcela desde los 15.
-> Para sembrar se quema: es la herramienta de trabajo del campo. Y él tiene en la cabeza el
+> Para sembrar se quema: es la herramienta de trabajo del campo. Y él tiene en su cabeza el
 > calendario del fuego **DE SU** parcela.
 > ¿Qué pasa de verdad en Muna? Se lo preguntamos a los satélites de la NASA. La respuesta se las
 > enseño en dos minutos.
@@ -89,7 +89,7 @@ video de respaldo listo*
 > Esto es K'áak', fuego en maya. Voy a abrir Muna. *[Abrir.]* Aquí está la respuesta: de cada
 > 10 focos de un año normal, 8 aparecen después del 3 de abril. *(pausa)* Mi abuelo tenía razón.
 > Voy a tocar 2024. *[Tocar.]* Es el año con más hectáreas quemadas en Yucatán de la década.
-> Muna tuvo 81 focos, casi una vez y media lo normal. Así se ve una temporada que se sale de lo
+> Muna tuvo 81 focos, casi 1.5 veces más lo normal. Así se ve una temporada que se sale de lo
 > normal.
 > Todo cabe en una ficha que se reenvía por WhatsApp, y se actualiza sola cuatro veces al día.
 
