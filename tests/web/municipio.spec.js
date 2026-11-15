@@ -105,3 +105,149 @@ test('«la mitad» se decide con las cifras que se leen: 19 contra 42 es menos d
   await expect(page.locator('#cifras')).toContainText('19 focos de calor');
   await expect(page.locator('#frase')).toHaveText('Hubo menos de la mitad del fuego que en un año normal.');
 });
+
+// ---- Dirección visual, «Municipio y ficha»: hechos, dónde se quema, cierre y descargas ----
+const dato = (id) => JSON.parse(fs.readFileSync(`web/datos/municipio/${id}.json`, 'utf8'));
+const deTemporada = (m) => m.focos26.filter((f) => f[2] >= '03-01' && f[2] <= '05-31');
+
+test('los hechos propios salen de los datos y, si no hay, no dejan hueco', async ({ page }) => {
+  await abrir(page, '#/municipio/tizimin');
+  const hechos = page.locator('#hechos li');
+  await expect(hechos).toHaveCount(3);
+  await expect(hechos.nth(0)).toHaveText('La temporada con menos fuego desde 2012. Lleva 7 temporadas seguidas por debajo de lo normal.');
+  await expect(hechos.nth(1)).toHaveText('En un año normal es el municipio con más fuego de Yucatán.');
+  await expect(hechos.nth(2)).toContainText('su semana con más fuego va del 7 al 13 de mayo');
+  // Mérida empieza antes que su zona, y se dice.
+  await abrir(page, '#/municipio/merida');
+  await expect(page.locator('#hechos li').nth(2)).toContainText('Empieza 22 días antes que el resto de su zona.');
+  // Telchac Puerto casi no tiene fuego: no hay hechos que decir.
+  await abrir(page, '#/municipio/telchac-puerto');
+  await expect(page.locator('#hechos')).toBeHidden();
+});
+
+test('las barras de los años llevan la franja de lo normal', async ({ page }) => {
+  await abrir(page, '#/municipio/muna');
+  await expect(page.locator('#barrasMun .rango')).toHaveCount(1);
+  await expect(page.locator('.mun-nota').first()).toContainText('La franja gris abarca la mitad de esos años.');
+});
+
+test('dónde se quema: la oración, los cuadritos repetidos y los focos de la temporada', async ({ page }) => {
+  const m = dato('muna'), focos = deTemporada(m);
+  const rep = new Set(m.repetidos.map((r) => r[0].toFixed(2) + ',' + r[1].toFixed(2)));
+  const dentro = focos.filter((f) => rep.has(f[0].toFixed(2) + ',' + f[1].toFixed(2))).length;
+  await abrir(page, '#/municipio/muna');
+  await expect(page.locator('#dondeTitulo')).toHaveText('¿Dónde se quema en Muna?');
+  await expect(page.locator('#dondeFrase')).toContainText(`En ${m.repetidos.length} cuadritos de 1 km de Muna hubo fuego en 5 o más temporadas de 2012 a 2025`);
+  await expect(page.locator('#dondeFrase')).toContainText(`De los ${focos.length} focos de calor de marzo a mayo de 2026, ${dentro} cayeron en esos cuadritos.`);
+  // La cifra de focos es la misma del encabezado.
+  await expect(page.locator('#cifras')).toContainText(`${focos.length} focos de calor`);
+  await expect(page.locator('#dondeMapa .d-rep rect')).toHaveCount(m.repetidos.length);
+  const celdas = new Set(focos.map((f) => f[0] + ',' + f[1])).size;
+  await expect(page.locator('#dondeMapa .d-focos circle')).toHaveCount(celdas);
+  // Los vecinos llevan su nombre y hay barra de escala.
+  await expect(page.locator('#dondeMapa .d-vecinos-t text')).not.toHaveCount(0);
+  await expect(page.locator('#dondeMapa .d-vecinos-t')).toContainText('Ticul');
+  await expect(page.locator('#dondeMapa .d-escala text')).toHaveText(/^\d+ km$/);
+  // Letra de 11 px o más dentro del mapa.
+  const chicas = await page.locator('#dondeMapa text').evaluateAll((ts) => ts.map((t) => t.getBoundingClientRect().height).filter((h) => h < 11));
+  expect(chicas).toEqual([]);
+});
+
+test('tocar un foco dice su fecha y su satélite, y abre el lugar en un mapa', async ({ page }) => {
+  await abrir(page, '#/municipio/muna');
+  const lectura = page.locator('#dondeLectura');
+  await expect(lectura).toHaveText('Toca un punto o un cuadrito para ver su fecha y abrir el lugar en un mapa.');
+  const punto = page.locator('#dondeMapa .d-focos circle').first();
+  await punto.scrollIntoViewIfNeeded();
+  const c = await punto.boundingBox();
+  await page.mouse.click(c.x + c.width / 2, c.y + c.height / 2);
+  await expect(lectura).toContainText(/de 2026, visto por (S-NPP|NOAA-20)\.|focos de calor en este cuadrito/);
+  const enlace = lectura.locator('a');
+  await expect(enlace).toHaveText('Abrir en Google Maps');
+  await expect(enlace).toHaveAttribute('href', /^https:\/\/www\.google\.com\/maps\?q=20\.\d\d,-89\.\d\d$/);
+  await expect(enlace).toHaveAttribute('target', '_blank');
+  await expect(page.locator('#dondeMapa .d-sel > *')).toHaveCount(1);
+  // Con el teclado: las flechas recorren los focos por fecha y Escape suelta.
+  await page.focus('#dondeMapa');
+  await page.keyboard.press('Home');
+  const m = dato('muna');
+  const primero = deTemporada(m)[0];
+  await expect(lectura).toContainText(String(Number(primero[2].slice(3))) + ' de ');
+  await page.keyboard.press('Escape');
+  await expect(page.locator('#dondeMapa .d-sel > *')).toHaveCount(0);
+  await expect(lectura).toHaveClass(/pista/);
+});
+
+test('la lista de los focos se arma al abrirla, con fecha, satélite y enlace', async ({ page }) => {
+  const n = deTemporada(dato('muna')).length;
+  await abrir(page, '#/municipio/muna');
+  await expect(page.locator('#dondeTabla tr')).toHaveCount(0);
+  await page.click('#dondeLista summary');
+  await expect(page.locator('#dondeTabla tbody tr')).toHaveCount(n);
+  await expect(page.locator('#dondeTabla thead')).toHaveText('FechaSatéliteLugar');
+  await expect(page.locator('#dondeTabla tbody a').first()).toHaveAttribute('href', /google\.com\/maps\?q=/);
+});
+
+test('sin focos y sin cuadritos repetidos queda la oración, sin mapa vacío', async ({ page }) => {
+  await abrir(page, '#/municipio/bokoba');
+  await expect(page.locator('#dondeFrase')).toHaveText('En Bokobá, ningún cuadrito de 1 km tuvo fuego en 5 o más temporadas de 2012 a 2025. De marzo a mayo de 2026 el satélite no vio focos de calor en Bokobá.');
+  await expect(page.locator('.donde-cuerpo')).toBeHidden();
+  await expect(page.locator('#dondeLista')).toBeHidden();
+  // Con un solo foco y sin repetidos, singular.
+  await abrir(page, '#/municipio/baca');
+  await expect(page.locator('#dondeFrase')).toContainText('De marzo a mayo de 2026 hubo 1 foco de calor.');
+  await expect(page.locator('#leyRep')).toBeHidden();
+});
+
+test('un municipio enorme dibuja miles de focos sin errores', async ({ page }) => {
+  const errores = [];
+  page.on('pageerror', (e) => errores.push(String(e)));
+  const m = dato('candelaria');
+  await abrir(page, '#/municipio/candelaria');
+  await expect(page.locator('#dondeMapa .d-rep rect')).toHaveCount(m.repetidos.length);
+  expect(errores).toEqual([]);
+});
+
+test('fuera de Yucatán la página y la ficha dicen cuándo se quema ahí', async ({ page }) => {
+  await abrir(page, '#/municipio/calakmul');
+  await expect(page.locator('#notaFechas')).toHaveText('La SEDER publica fechas para quemar solo en Yucatán. Campeche tiene su propio calendario de quemas.');
+  await expect(page.locator('#irFechas')).toBeHidden();
+  await expect(page.locator('#ficha')).toBeVisible();
+  const f = await page.evaluate(async () => {
+    const { fechasDeLaFicha } = await import('/js/ficha.js');
+    const m = await (await fetch('/datos/municipio/calakmul.json')).json();
+    return fechasDeLaFicha(m);
+  });
+  expect(f).toEqual({ titulo: 'La semana con más fuego de un año normal en Calakmul', valor: '23 al 29 de abril' });
+});
+
+test('el cierre lleva a las fechas de su zona y a otro municipio', async ({ page }) => {
+  await abrir(page, '#/municipio/muna');
+  await expect(page.locator('#irFechas')).toHaveAttribute('href', '#/fechas/3');
+  await page.fill('#buscao', 'tekax');
+  await page.keyboard.press('Enter');
+  await expect(page).toHaveURL(/#\/municipio\/tekax$/);
+  await expect(page.locator('h1')).toHaveText('Tekax');
+});
+
+test('la tabla de focos de 2026 se descarga con fecha, coordenadas y satélite', async ({ page }) => {
+  const m = dato('muna');
+  await abrir(page, '#/municipio/muna');
+  const [descarga] = await Promise.all([page.waitForEvent('download'), page.click('#csvFocos')]);
+  expect(descarga.suggestedFilename()).toBe('kaak-muna-focos-2026.csv');
+  const texto = fs.readFileSync(await descarga.path(), 'utf8');
+  const filas = texto.replace(/^﻿/, '').trim().split('\r\n');
+  expect(filas[0]).toBe('fecha,latitud,longitud,satelite');
+  expect(filas.length).toBe(m.focos26.length + 1);
+  expect(filas[1]).toMatch(/^2026-\d\d-\d\d,20\.\d\d,-89\.\d\d,(S-NPP|NOAA-20)$/);
+});
+
+test('en teléfono el mapa cabe, no hay desplazamiento de lado y la ficha va antes del cierre', async ({ page }) => {
+  await abrir(page, '#/municipio/tizimin', { ancho: 390, alto: 844 });
+  const desborde = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+  expect(desborde).toBeLessThanOrEqual(0);
+  const mapa = await page.locator('#dondeCaja').boundingBox();
+  expect(mapa.width).toBeLessThanOrEqual(390 - 32);
+  const ficha = await page.locator('#ficha').boundingBox(), cierre = await page.locator('.mun-cierre').boundingBox();
+  expect(ficha.y).toBeLessThan(cierre.y);
+});

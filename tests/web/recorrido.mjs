@@ -215,7 +215,7 @@ async function fechas() {
       await espera(700);
     }
     await sub('Al pasar por un día se ve cuántos focos hubo y si se permitía quemar.', 4000);
-    await page.selectOption('#zona', '4');
+    await page.click('#zZonas [data-zona="4"]');
     await sub('Al cambiar de zona cambian el calendario, la cifra y el mapa.', 5000);
     const [mx, my] = await centro('#zMapa path[data-id="valladolid"]');
     await page.mouse.move(mx, my, { steps: 12 });

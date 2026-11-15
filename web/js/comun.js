@@ -27,6 +27,13 @@ export const fechaCorta = (f) => { const d = aFecha(f); return t('fechaCorta', {
 // «04-20» (mes-día de una ventana) → Date de 2026.
 export const deMesDia = (md) => new Date(2026, Number(md.slice(0, 2)) - 1, Number(md.slice(3)), 12);
 
+// «16 al 22 de abril», o «30 de abril al 6 de mayo» si cambia el mes (de dos «MM-DD»).
+export function rangoDias(a, b) {
+  const da = deMesDia(a), db = deMesDia(b);
+  if (da.getMonth() === db.getMonth()) return t('rangoMes', { a: da.getDate(), b: db.getDate(), m: t('meses')[da.getMonth()] });
+  return t('rango', { i: fechaDia(da), f: fechaDia(db) });
+}
+
 // Colores del mapa (escala semáforo).
 export const COLOR = { muyabajo: '#17704F', abajo: '#6DB892', normal: '#E6D394', arriba: '#F29A4A', muyarriba: '#D7412B', poco: '#7F8682' };
 export const ESCALA = ['muyabajo', 'abajo', 'normal', 'arriba', 'muyarriba'];

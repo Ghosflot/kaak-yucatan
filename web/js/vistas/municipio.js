@@ -1,6 +1,7 @@
 // Página de un municipio (#/municipio/<id>): veredicto, años, cuándo se quema y la ficha para WhatsApp.
 import { t, traducir } from '../textos.js';
 import { fmt, frase, cifras, fechaDia, fechaCorta, fechaDiaAnio, deMesDia, el, datos, visita } from '../comun.js';
+import { hechosDe } from '../hechos.js';
 import { barrasAnios } from '../graficas.js';
 import { armarBuscador } from '../buscador.js';
 import { dibujarFicha, aBlob, descargar, compartir, SITIO } from '../ficha.js';
@@ -9,6 +10,16 @@ const DIAS = 92; // del 1 de marzo al 31 de mayo
 const CAPITAL = { 'Yucatán': 'Mérida', 'Campeche': 'Campeche', 'Quintana Roo': 'Chetumal' };
 const indice = (md) => Math.round((deMesDia(md) - new Date(2026, 2, 1, 12)) / 864e5);
 const suma = (a, i0 = 0, i1 = a.length) => a.slice(i0, i1).reduce((s, v) => s + v, 0);
+
+// El mapa «dónde se quema» usa las unidades del lienzo de la portada (los contornos vienen así).
+const UX = 825 / 5.8456, UY = 150; // unidades por grado de longitud y de latitud
+const X = (lon) => (lon + 92.55) * UX, Y = (lat) => (22.35 - lat) * UY - 90;
+const KM = UY / 111.2; // unidades por kilómetro
+const LADO = 0.01; // un cuadrito: 0.01° por lado, cerca de 1 km
+const TEMPORADAS_REP = 14; // los cuadritos repetidos cuentan las temporadas de 2012 a 2025
+const clave = (lon, lat) => lon.toFixed(2) + ',' + lat.toFixed(2);
+const enTemporada = (md) => md >= '03-01' && md <= '05-31';
+const lugarEnMapa = (lon, lat) => 'https://www.google.com/maps?q=' + lat.toFixed(2) + ',' + lon.toFixed(2);
 
 const PLANTILLA = `
 <article class="municipio">
@@ -20,6 +31,7 @@ const PLANTILLA = `
         <p class="mun-frase" id="frase"></p>
         <p class="mun-cifras cifra" id="cifras"></p>
         <p class="mun-def" data-t="defFoco"></p>
+        <ul class="mun-hechos" id="hechos" hidden></ul>
       </div>
       <div class="mun-mapa" id="minimapa" role="img"><svg aria-hidden="true"></svg></div>
     </header>
@@ -28,6 +40,22 @@ const PLANTILLA = `
       <svg id="barrasMun"></svg>
       <p class="mun-nota" data-t="munBarrasNota"></p>
       <p class="mun-pista" data-t="tocaAnio"></p>
+    </section>
+    <section class="mun-bloque donde" aria-labelledby="dondeTitulo">
+      <h2 id="dondeTitulo"></h2>
+      <p class="donde-frase" id="dondeFrase"></p>
+      <div class="donde-cuerpo">
+        <div class="donde-mapa" id="dondeCaja"><svg id="dondeMapa" tabindex="0" role="group"></svg></div>
+        <div class="donde-lado">
+          <ul class="donde-leyenda">
+            <li id="leyFoco"><i class="l-foco" aria-hidden="true"></i><span data-t="dondeLeyFoco"></span></li>
+            <li id="leyRep"><i class="l-rep" aria-hidden="true"><b></b><b></b><b></b></i><span data-t="dondeLeyRep"></span></li>
+          </ul>
+          <p class="donde-lectura" id="dondeLectura" aria-live="polite"></p>
+          <p class="mun-nota donde-nota" data-t="dondeNota"></p>
+        </div>
+      </div>
+      <details class="donde-lista" id="dondeLista" hidden><summary data-t="dondeLista"></summary><div class="donde-tabla" id="dondeTabla"></div></details>
     </section>
     <section class="mun-bloque" aria-labelledby="cuandoTitulo">
       <h2 id="cuandoTitulo"></h2>
@@ -40,6 +68,10 @@ const PLANTILLA = `
       <div class="dias-fechas" id="diasFechas" aria-hidden="true"></div>
       <p class="mun-nota" id="notaFechas"></p>
     </section>
+    <section class="mun-cierre">
+      <a class="ir siguiente" id="irFechas" data-t="sigueFechas" hidden></a>
+      <div class="buscador claro" id="buscadorOtro"></div>
+    </section>
   </div>
   <aside class="mun-lado" aria-labelledby="fichaTitulo">
     <h2 id="fichaTitulo"></h2>
@@ -50,6 +82,7 @@ const PLANTILLA = `
       <button type="button" class="b-borde" id="descargar" data-t="descargarImagen"></button>
     </div>
     <button type="button" class="enlace fuerte" id="csv"></button>
+    <button type="button" class="enlace fuerte" id="csvFocos" hidden></button>
     <p class="pie" id="pie"></p>
   </aside>
 </article>`;
@@ -66,6 +99,8 @@ export function montar(raiz, { id }) {
   // La imagen de la ficha se prepara antes del clic: Safari solo abre la hoja de compartir
   // si se pide en el mismo gesto, sin esperar a generar el PNG.
   let blobFicha = null, turnoFicha = 0;
+  // Dónde se quema: los focos de marzo a mayo de 2026 agrupados por cuadrito, y los cuadritos repetidos.
+  let grupos = [], porCelda = new Map(), rep = new Map(), cuenta = null, fijo = null, verDonde = () => {};
   const $ = (s) => raiz.querySelector('#' + s);
 
   async function noExiste() {
@@ -85,7 +120,8 @@ export function montar(raiz, { id }) {
     caja.querySelectorAll('span').forEach((s) => s.remove());
     const delEstado = P.mun.filter((x) => x.e === m.estado);
     const g = el('g', {}, svg);
-    for (const x of delEstado) el('path', { d: x.d, fill: x.id === m.id ? '#121212' : '#E4E1DC', stroke: '#FFFFFF', 'stroke-width': 1, 'vector-effect': 'non-scaling-stroke' }, g);
+    let mio = null;
+    for (const x of delEstado) { const p = el('path', { d: x.d, fill: x.id === m.id ? '#121212' : '#E4E1DC', stroke: '#FFFFFF', 'stroke-width': 1, 'vector-effect': 'non-scaling-stroke' }, g); if (x.id === m.id) mio = p; }
     // Yucatán sin el arrecife Alacranes, que haría el mapa diminuto (el mismo recuadro del cierre).
     const b = m.estado === 'Yucatán' ? { x: 297, y: 26, width: 416, height: 309 } : g.getBBox();
     svg.setAttribute('viewBox', [b.x, b.y, b.width, b.height].map((v) => v.toFixed(1)).join(' '));
@@ -101,8 +137,10 @@ export function montar(raiz, { id }) {
     }
     const yo = P.mun.find((x) => x.id === m.id);
     const r = document.createElement('span');
-    r.className = 'mm-nombre' + ((yo.cx - b.x) / b.width > 0.6 ? ' izq' : '');
-    r.setAttribute('style', pos(yo.cx, yo.cy));
+    // El nombre va junto a la orilla del municipio (a la izquierda si está al oriente): encima no se leería.
+    const izq = (yo.cx - b.x) / b.width > 0.6, c = mio.getBBox();
+    r.className = 'mm-nombre' + (izq ? ' izq' : '');
+    r.setAttribute('style', pos(izq ? Math.max(c.x, b.x) : Math.min(c.x + c.width, b.x + b.width), Math.min(Math.max(yo.cy, b.y), b.y + b.height)));
     r.textContent = m.nombre;
     caja.appendChild(r);
     caja.setAttribute('aria-label', t('mapaAria', { e: m.estado, m: m.nombre }));
@@ -145,6 +183,7 @@ export function montar(raiz, { id }) {
     const pct = (i) => ((i / DIAS) * 100).toFixed(2) + '%';
     const v = $('ventana'), l = $('llave');
     v.hidden = l.hidden = !m.ventana;
+    $('dias').classList.toggle('sin-ventana', !m.ventana);
     if (m.ventana) {
       const i0 = Math.max(0, indice(m.ventana.inicio)), i1 = Math.min(DIAS - 1, indice(m.ventana.fin));
       Object.assign(v.style, { left: pct(i0), width: pct(i1 - i0 + 1) });
@@ -191,8 +230,231 @@ export function montar(raiz, { id }) {
     const svg = $('barrasMun');
     const ancho = Math.max(240, Math.round(svg.parentNode.clientWidth) - 44);
     barrasAnios(svg, {
-      anios: m.anios, normal: m.normal, alto: 110, ancho, seleccionado: anio, alTocar: elegirAnio,
+      anios: m.anios, normal: m.normal, alto: 110, ancho, seleccionado: anio, alTocar: elegirAnio, rango: m.rango || null,
       aria: t('munBarrasAria', { m: m.nombre, n: fmt(m.normal), a: fmt(m.v26) }),
+    });
+  }
+
+  function hechos() {
+    const ul = $('hechos'), lista = hechosDe(m);
+    ul.textContent = '';
+    ul.hidden = !lista.length;
+    ul.setAttribute('aria-label', t('hechosAria', { m: m.nombre }));
+    for (const h of lista) { const li = document.createElement('li'); li.textContent = h.texto; ul.appendChild(li); }
+  }
+
+  function prepararDonde() {
+    rep = new Map(m.repetidos.map(([lon, lat, a]) => [clave(lon, lat), { k: clave(lon, lat), lon, lat, a }]));
+    porCelda = new Map();
+    const focos = m.focos26.filter((f) => enTemporada(f[2]));
+    for (const [lon, lat, md, sat] of focos) {
+      const k = clave(lon, lat);
+      if (!porCelda.has(k)) porCelda.set(k, { k, lon, lat, x: X(lon), y: Y(lat), dias: [] });
+      porCelda.get(k).dias.push({ md, sat });
+    }
+    // En orden de fecha: así se recorren con las flechas.
+    grupos = [...porCelda.values()].sort((a, b) => a.dias[0].md.localeCompare(b.dias[0].md) || a.lon - b.lon || a.lat - b.lat);
+    const maxA = Math.max(0, ...m.repetidos.map((r) => r[2]));
+    cuenta = {
+      F: focos.length, R: rep.size, maxA,
+      nMax: m.repetidos.filter((r) => r[2] === maxA).length,
+      C: focos.filter((f) => rep.has(clave(f[0], f[1]))).length,
+    };
+  }
+
+  // La afirmación del mapa, con una oración correcta para cada caso (nunca «0 de 0»).
+  function fraseDonde() {
+    const { F, R, C, maxA, nMax } = cuenta, T = TEMPORADAS_REP, n = m.nombre;
+    const a = R === 0 ? t('dondeRep0', { m: n })
+      : R === 1 ? t('dondeRep1', { m: n, a: maxA, T })
+        : nMax === R ? t('dondeRepSolo', { n: fmt(R), m: n, a: maxA, T })
+          : t('dondeRep', { n: fmt(R), m: n, k: nMax === 1 ? t('uno') : fmt(nMax), a: maxA, T });
+    const b = F === 0 ? t('dondeSinFocos', { m: n })
+      : R === 0 ? (F === 1 ? t('dondeSoloFocosUno') : t('dondeSoloFocos', { F: fmt(F) }))
+        : F === 1 ? t(C ? 'dondeUnicoSi' : 'dondeUnicoNo')
+          : C === 0 ? t('dondeFocosCero', { F: fmt(F) })
+            : C === F ? t('dondeFocosTodos', { F: fmt(F) })
+              : C === 1 ? t('dondeFocosUno', { F: fmt(F) })
+                : t('dondeFocos', { F: fmt(F), c: fmt(C) });
+    return a + ' ' + b;
+  }
+
+  // El renglón fijo junto al mapa: qué es lo que se tocó y el enlace para ver el lugar.
+  function leer(it) {
+    const p = $('dondeLectura');
+    p.textContent = '';
+    p.classList.toggle('pista', !it);
+    if (!it) { p.textContent = cuenta.F || cuenta.R ? t('dondePista') : ''; return; }
+    const T = TEMPORADAS_REP;
+    let texto, mas = '';
+    if (it.dias) {
+      const d = it.dias;
+      texto = d.length === 1 ? t('dondeLeeFoco', { f: fechaDiaAnio(deMesDia(d[0].md)), s: d[0].sat })
+        : t('dondeLeeFocos', { n: d.length, a: fechaDia(deMesDia(d[0].md)), b: fechaDia(deMesDia(d[d.length - 1].md)) });
+      const r = rep.get(it.k);
+      if (r) mas = t('dondeLeeTambien', { a: r.a, T });
+    } else texto = t('dondeLeeRep', { a: it.a, T });
+    const b = document.createElement('b'); b.textContent = texto;
+    p.appendChild(b);
+    if (mas) p.append(' ' + mas);
+    const a = document.createElement('a');
+    a.className = 'ir fuera'; a.href = lugarEnMapa(it.lon, it.lat); a.target = '_blank'; a.rel = 'noopener';
+    a.textContent = t('dondeAbrir');
+    p.append(' ', a);
+  }
+
+  // Dónde poner el nombre de cada vecino: en la parte suya que se ve, lejos de la orilla.
+  function rotulosVecinos(svg, vecinos, propio, v, u) {
+    const N = 22, pasoX = v.w / N, pasoY = v.h / N, punto = svg.createSVGPoint();
+    const dentro = (path, x, y) => { punto.x = x; punto.y = y; return path.isPointInFill(punto); };
+    const cand = [];
+    for (const { path, nombre } of vecinos) {
+      const c = path.getBBox();
+      if (c.x > v.x + v.w || c.x + c.width < v.x || c.y > v.y + v.h || c.y + c.height < v.y) continue;
+      const mios = new Set();
+      for (let i = 1; i < N; i++) for (let j = 1; j < N; j++) if (dentro(path, v.x + i * pasoX, v.y + j * pasoY)) mios.add(i * 100 + j);
+      // Solo cuentan los puntos rodeados de puntos suyos: ahí cabe un nombre sin pisar una orilla.
+      const hondos = [...mios].filter((q) => mios.has(q - 100) && mios.has(q + 100) && mios.has(q - 1) && mios.has(q + 1));
+      if (!hondos.length) continue;
+      const cx = hondos.reduce((s, q) => s + Math.floor(q / 100), 0) / hondos.length, cy = hondos.reduce((s, q) => s + (q % 100), 0) / hondos.length;
+      const q = hondos.reduce((a, b) => (Math.hypot(Math.floor(b / 100) - cx, (b % 100) - cy) < Math.hypot(Math.floor(a / 100) - cx, (a % 100) - cy) ? b : a));
+      cand.push({ nombre, n: hondos.length, x: v.x + Math.floor(q / 100) * pasoX, y: v.y + (q % 100) * pasoY });
+    }
+    const puestos = [], g = el('g', { class: 'd-vecinos-t', 'font-size': (11.5 * u).toFixed(3) }, svg);
+    for (const c of cand.sort((a, b) => b.n - a.n)) {
+      const ancho = (c.nombre.length * 6.4 + 8) * u, alto = 16 * u;
+      const x = Math.min(v.x + v.w - ancho / 2 - 4 * u, Math.max(v.x + ancho / 2 + 4 * u, c.x));
+      const caja = { x0: x - ancho / 2, x1: x + ancho / 2, y0: c.y - alto / 2, y1: c.y + alto / 2 };
+      // Ni encima de otro nombre, ni de la barra de escala (abajo a la izquierda), ni del propio municipio.
+      if (puestos.some((p) => caja.x0 < p.x1 && caja.x1 > p.x0 && caja.y0 < p.y1 && caja.y1 > p.y0)) continue;
+      if (caja.y1 > v.y + v.h - 26 * u && caja.x0 < v.x + 150 * u) continue;
+      if ([caja.x0, x, caja.x1].some((px) => dentro(propio, px, c.y))) continue;
+      puestos.push(caja);
+      el('text', { x: x.toFixed(2), y: (c.y + 4 * u).toFixed(2), 'text-anchor': 'middle', 'stroke-width': (3 * u).toFixed(3) }, g).textContent = c.nombre;
+    }
+  }
+
+  // El mapa del municipio: sus vecinos, los cuadritos donde el fuego se repite y los focos de 2026.
+  function mapaDonde() {
+    const svg = $('dondeMapa'), caja = $('dondeCaja');
+    svg.textContent = '';
+    const [lon0, lat0, lon1, lat1] = m.caja;
+    let x0 = X(lon0), x1 = X(lon1), y0 = Y(lat1), y1 = Y(lat0);
+    const margen = Math.max(x1 - x0, y1 - y0) * 0.13 + 2;
+    x0 -= margen; x1 += margen; y0 -= margen; y1 += margen;
+    let w = x1 - x0, h = y1 - y0;
+    // El recuadro sigue la forma del municipio, sin llegar a ser una tira.
+    const razon = Math.min(1.45, Math.max(0.95, w / h));
+    if (w / h < razon) { x0 -= (h * razon - w) / 2; w = h * razon; } else { y0 -= (w / razon - h) / 2; h = w / razon; }
+    svg.setAttribute('viewBox', [x0, y0, w, h].map((n) => n.toFixed(2)).join(' '));
+    caja.style.aspectRatio = razon.toFixed(3);
+    const u = w / (caja.clientWidth || 440); // unidades del lienzo por pixel
+    const v = { x: x0, y: y0, w, h };
+
+    const gV = el('g', { class: 'd-vecinos' }, svg), vecinos = [];
+    for (const x of P.mun) if (x.id !== m.id) vecinos.push({ path: el('path', { d: x.d }, gV), nombre: x.n });
+    const propio = el('path', { d: P.mun.find((x) => x.id === m.id).d, class: 'd-propio' }, svg);
+
+    const gR = el('g', { class: 'd-rep' }, svg), cw = LADO * UX, ch = LADO * UY;
+    for (const r of rep.values()) {
+      el('rect', { x: (X(r.lon) - cw / 2).toFixed(2), y: (Y(r.lat) - ch / 2).toFixed(2), width: cw.toFixed(2), height: ch.toFixed(2), 'fill-opacity': (0.16 + ((Math.min(r.a, TEMPORADAS_REP) - 5) / (TEMPORADAS_REP - 5)) * 0.62).toFixed(2) }, gR);
+    }
+    // El punto crece con el mapa: chico en un municipio enorme, para que no se amontonen.
+    const r0 = Math.min(3.6, Math.max(1.25, (KM / u) * 0.36));
+    const radio = (g) => (r0 + Math.min(4, 1.3 * Math.sqrt(g.dias.length - 1)) * (r0 / 3.6)) * u;
+    const gF = el('g', { class: 'd-focos' + (r0 < 2.4 ? ' chicos' : '') }, svg);
+    for (const g of grupos) el('circle', { cx: g.x.toFixed(2), cy: g.y.toFixed(2), r: radio(g).toFixed(3) }, gF);
+    try { rotulosVecinos(svg, vecinos, propio, v, u); } catch { /* sin isPointInFill no hay nombres de vecinos */ }
+
+    // Barra de escala: la medida redonda que quede cerca de 80 px.
+    const km = [1, 2, 5, 10, 20, 50, 100].find((k) => (k * KM) / u >= 56) || 100;
+    const ge = el('g', { class: 'd-escala', 'font-size': (11.5 * u).toFixed(3) }, svg);
+    const ex = x0 + 12 * u, ey = y0 + h - 12 * u, largo = km * KM;
+    el('path', { d: `M${ex.toFixed(2)},${(ey - 5 * u).toFixed(2)}V${ey.toFixed(2)}h${largo.toFixed(2)}v${(-5 * u).toFixed(2)}` }, ge);
+    el('text', { x: (ex + largo + 6 * u).toFixed(2), y: (ey + 1 * u).toFixed(2), 'stroke-width': (3 * u).toFixed(3) }, ge).textContent = t('km', { n: km });
+
+    const gS = el('g', { class: 'd-sel' }, svg);
+    const marcar = (it) => {
+      gS.textContent = '';
+      if (!it) return;
+      if (it.dias) el('circle', { cx: it.x.toFixed(2), cy: it.y.toFixed(2), r: (radio(it) + 3.5 * u).toFixed(3) }, gS);
+      else el('rect', { x: (X(it.lon) - cw / 2).toFixed(2), y: (Y(it.lat) - ch / 2).toFixed(2), width: cw.toFixed(2), height: ch.toFixed(2) }, gS);
+    };
+    verDonde = (it) => { marcar(it); leer(it); };
+    verDonde(fijo);
+
+    // Con el dedo o el ratón se elige por cercanía: el foco más próximo o, si no, el cuadrito de abajo.
+    const cerca = (ev) => {
+      const c = svg.getBoundingClientRect();
+      const ux = x0 + ((ev.clientX - c.left) / c.width) * w, uy = y0 + ((ev.clientY - c.top) / c.height) * h;
+      let mejor = null, d2 = ((ev.pointerType === 'mouse' ? 9 : 22) * u) ** 2;
+      for (const g of grupos) { const d = (g.x - ux) ** 2 + (g.y - uy) ** 2; if (d < d2) { d2 = d; mejor = g; } }
+      if (mejor) return mejor;
+      const k = clave(ux / UX - 92.55, 22.35 - (uy + 90) / UY);
+      return porCelda.get(k) || rep.get(k) || null;
+    };
+    svg.onpointermove = (ev) => { if (ev.pointerType === 'mouse') { const it = cerca(ev); svg.classList.toggle('sobre', !!it); verDonde(it || fijo); } };
+    svg.onpointerleave = () => { svg.classList.remove('sobre'); verDonde(fijo); };
+    svg.onclick = (ev) => { fijo = cerca(ev); verDonde(fijo); };
+    svg.onkeydown = (ev) => {
+      if (ev.key === 'Escape') { fijo = null; verDonde(null); return; }
+      const i = grupos.indexOf(fijo);
+      const ir = { ArrowRight: i + 1, ArrowDown: i + 1, ArrowLeft: i < 0 ? grupos.length - 1 : i - 1, ArrowUp: i < 0 ? grupos.length - 1 : i - 1, Home: 0, End: grupos.length - 1 }[ev.key];
+      if (ir === undefined || !grupos.length) return;
+      ev.preventDefault();
+      fijo = grupos[Math.max(0, Math.min(grupos.length - 1, ir))];
+      verDonde(fijo);
+    };
+    svg.setAttribute('aria-label', t('dondeAria', { m: m.nombre, F: fmt(cuenta.F), R: fmt(cuenta.R) }));
+  }
+
+  // La lista de los focos, para quien no usa el mapa: se arma al abrirla (pueden ser miles).
+  function listaDonde() {
+    const caja = $('dondeTabla');
+    if (!$('dondeLista').open) { caja.textContent = ''; return; }
+    const tabla = document.createElement('table');
+    const cab = tabla.createTHead().insertRow();
+    for (const k of ['dondeColFecha', 'dondeColSat', 'dondeColLugar']) { const th = document.createElement('th'); th.scope = 'col'; th.textContent = t(k); cab.appendChild(th); }
+    const cuerpo = tabla.createTBody();
+    for (const [lon, lat, md, sat] of m.focos26) {
+      if (!enTemporada(md)) continue;
+      const f = cuerpo.insertRow();
+      f.insertCell().textContent = fechaDia(deMesDia(md));
+      f.insertCell().textContent = sat;
+      const a = document.createElement('a');
+      a.href = lugarEnMapa(lon, lat); a.target = '_blank'; a.rel = 'noopener'; a.className = 'fuera';
+      a.textContent = lat.toFixed(2) + ', ' + lon.toFixed(2);
+      a.setAttribute('aria-label', t('dondeAbrir') + ': ' + a.textContent);
+      // Al enfocar o pasar por un renglón, su punto se marca en el mapa.
+      const ver = () => verDonde(porCelda.get(clave(lon, lat)));
+      f.addEventListener('pointerenter', ver);
+      a.addEventListener('focus', ver);
+      f.insertCell().appendChild(a);
+    }
+    caja.replaceChildren(tabla);
+  }
+
+  function donde() {
+    $('dondeTitulo').textContent = t('dondeTitulo', { m: m.nombre });
+    $('dondeFrase').textContent = fraseDonde();
+    $('leyFoco').hidden = !cuenta.F;
+    $('leyRep').hidden = !cuenta.R;
+    $('dondeLista').hidden = !cuenta.F;
+    // Sin focos ni cuadritos repetidos no hay nada que poner en el mapa: queda la oración.
+    raiz.querySelector('.donde-cuerpo').hidden = !cuenta.F && !cuenta.R;
+    mapaDonde();
+    listaDonde();
+  }
+
+  function cierre() {
+    const zona = m.ventana ? (m.zona || '').replace(/^\D+/, '') : '';
+    const a = $('irFechas');
+    a.hidden = !zona;
+    if (zona) a.href = '#/fechas/' + zona;
+    armarBuscador($('buscadorOtro'), 'o', {
+      etiqueta: 'verOtro',
+      municipios: P.mun.filter((x) => x.id !== m.id).map((x) => ({ id: x.id, n: x.n, e: x.e })),
+      alElegir: (x) => { location.hash = '#/municipio/' + x.id; },
     });
   }
 
@@ -223,10 +485,15 @@ export function montar(raiz, { id }) {
     else nota.textContent = t(m.zona_inferida ? 'notaInferida' : 'notaSeder', { z: zona, m: m.nombre, i: fechaDia(deMesDia(m.ventana.inicio)), f: fechaDia(deMesDia(m.ventana.fin)) });
     $('fichaTitulo').textContent = t('fichaTitulo', { m: m.nombre });
     $('csv').textContent = t('descargarCsv', { m: m.nombre });
+    $('csvFocos').textContent = t('descargarCsvFocos', { m: m.nombre });
+    $('csvFocos').hidden = !m.focos26.length;
     $('pie').textContent = t('pie', { f: fechaDiaAnio(P.actualizado) });
     minimapa();
+    hechos();
     grafBarras();
+    donde();
     grafDias();
+    cierre();
     pintarFicha();
   }
 
@@ -239,6 +506,13 @@ export function montar(raiz, { id }) {
       });
     }
     return new Blob(['﻿' + filas.join('\r\n') + '\r\n'], { type: 'text/csv;charset=utf-8' });
+  }
+
+  // Los focos de calor de todo 2026, uno por renglón: fecha, coordenadas del centro del cuadrito y satélite.
+  function csvFocos() {
+    const filas = [t('csvFocosColumnas')];
+    for (const [lon, lat, md, sat] of m.focos26) filas.push(['2026-' + md, lat.toFixed(2), lon.toFixed(2), sat].join(','));
+    return new Blob(['\uFEFF' + filas.join('\r\n') + '\r\n'], { type: 'text/csv;charset=utf-8' });
   }
 
   async function arrancar() {
@@ -254,7 +528,10 @@ export function montar(raiz, { id }) {
     if (!vivo) return;
     visita.municipio = m.id;
     raiz.innerHTML = PLANTILLA;
+    prepararDonde();
     pintar();
+    $('dondeLista').addEventListener('toggle', listaDonde);
+    $('csvFocos').addEventListener('click', () => descargar(csvFocos(), 'kaak-' + m.id + '-focos-2026.csv'));
     $('compartir').addEventListener('click', async () => {
       const blob = blobFicha || await aBlob($('ficha'));
       const url = 'https://' + SITIO + '/' + m.id;
@@ -266,7 +543,7 @@ export function montar(raiz, { id }) {
     let ultimo = 0;
     observador = new ResizeObserver(() => {
       const w = $('barrasMun')?.parentNode.clientWidth;
-      if (w && Math.abs(w - ultimo) > 8) { ultimo = w; grafBarras(); }
+      if (w && Math.abs(w - ultimo) > 8) { ultimo = w; grafBarras(); mapaDonde(); }
     });
     observador.observe($('barrasMun').parentNode);
   }

@@ -199,7 +199,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .b-anio.destacada.activa { fill: #A51C15; }
 .lectura-anio { font-size: 12px; font-weight: 700; fill: var(--tinta); pointer-events: none; }
 /* La franja de lo normal (la mitad de los años de 2001 a 2025) y quién vio cada periodo. */
-#barras .rango { fill: #ECE9E4; }
+#barras .rango, #barrasMun .rango { fill: #ECE9E4; }
 #barras .periodo { fill: none; stroke: var(--tinta-2); stroke-width: 1; }
 #barras .periodo.sigue { stroke-dasharray: 2 2; }
 #barras .periodo-t { font-family: var(--texto); font-size: 11.5px; font-weight: 700; fill: var(--tinta); }
@@ -425,12 +425,16 @@ body.con-subtitulos { --subtitulos: 72px; padding-bottom: var(--subtitulos); }
 .mun-frase { margin: 6px 0 0; font-size: 30px; line-height: 1.15; font-weight: 800; letter-spacing: -0.01em; text-wrap: balance; }
 .mun-cifras { margin: 0; font-size: 19px; line-height: 1.35; }
 .mun-def { margin: 2px 0 0; font-size: 15px; line-height: 1.4; color: var(--tinta-2); }
+/* Los hechos propios del municipio: oraciones cortas, cada una con su marca. */
+.mun-hechos { display: flex; flex-direction: column; gap: 6px; max-width: 640px; margin: 10px 0 0; padding: 12px 0 0; border-top: 1px solid var(--linea); list-style: none; font-size: 16px; line-height: 1.4; }
+.mun-hechos li { position: relative; padding-left: 18px; text-wrap: pretty; }
+.mun-hechos li::before { content: ""; position: absolute; left: 0; top: 0.5em; width: 7px; height: 7px; background: var(--tinta); }
 .mun-mapa { position: relative; flex-shrink: 0; }
 .mun-mapa svg { position: absolute; inset: 0; width: 100%; height: 100%; }
 .mm-punto { position: absolute; width: 7px; height: 7px; margin: -3.5px 0 0 -3.5px; border-radius: 50%; background: #FFFFFF; box-shadow: 0 0 0 1.5px var(--tinta); }
 .mm-ciudad { position: absolute; transform: translate(7px, -110%); font-size: 12px; color: var(--tinta-2); white-space: nowrap; }
-.mm-nombre { position: absolute; transform: translate(14px, -50%); font-size: 14px; font-weight: 800; white-space: nowrap; text-shadow: 0 0 3px #FFFFFF, 0 0 3px #FFFFFF; }
-.mm-nombre.izq { transform: translate(calc(-100% - 14px), -50%); }
+.mm-nombre { position: absolute; transform: translate(7px, -50%); font-size: 14px; font-weight: 800; white-space: nowrap; text-shadow: 0 0 3px #FFFFFF, 0 0 3px #FFFFFF; }
+.mm-nombre.izq { transform: translate(calc(-100% - 7px), -50%); }
 .mun-bloque { display: flex; flex-direction: column; gap: 8px; margin-top: 24px; }
 .mun-bloque h2 { margin: 0; font-size: 16px; font-weight: 800; }
 .mun-bloque-titulo { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 24px; margin-bottom: 4px; }
@@ -445,6 +449,7 @@ body.con-subtitulos { --subtitulos: 72px; padding-bottom: var(--subtitulos); }
 .enlace { padding: 0; border: 0; background: none; color: var(--tinta); font-size: 15px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; text-align: left; }
 .enlace.fuerte { font-weight: 700; }
 .dias { position: relative; height: 196px; margin-top: 4px; }
+.dias.sin-ventana { height: 140px; }
 .dias-ventana { position: absolute; top: 0; bottom: 0; background: #EFECE6; }
 .dias-ventana > span { position: absolute; left: 0; right: 0; top: 8px; display: flex; flex-direction: column; align-items: center; text-align: center; font-size: 13px; line-height: 1.3; }
 .dias-llave { position: absolute; top: 10px; display: flex; flex-direction: column; align-items: center; }
@@ -460,6 +465,49 @@ body.con-subtitulos { --subtitulos: 72px; padding-bottom: var(--subtitulos); }
 .dias-fechas span { position: absolute; transform: translateX(-50%); white-space: nowrap; }
 .dias-fechas .primero { transform: none; }
 .dias-fechas .ultimo { transform: translateX(-100%); }
+/* Dónde se quema: el mapa del municipio con los cuadritos donde el fuego se repite y los focos de 2026. */
+.donde-frase { margin: 0; max-width: 760px; font-size: 19px; line-height: 1.4; text-wrap: pretty; }
+.donde-cuerpo { display: grid; grid-template-columns: minmax(0, 460px) minmax(220px, 1fr); gap: 16px 28px; align-items: start; margin-top: 6px; }
+.donde-mapa { position: relative; width: 100%; background: #F7F6F3; border: 1px solid var(--linea); overflow: hidden; }
+.donde-mapa svg { display: block; width: 100%; height: 100%; cursor: default; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+.donde-mapa svg.sobre { cursor: pointer; }
+.donde-mapa svg:focus-visible { outline: 2px solid var(--tinta); outline-offset: 2px; }
+.d-vecinos path { fill: #E9E6E0; stroke: #FFFFFF; stroke-width: 1.5px; vector-effect: non-scaling-stroke; }
+.d-propio { fill: #FFFFFF; stroke: var(--tinta); stroke-width: 1.5px; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.d-rep rect { fill: var(--tinta); }
+.d-focos circle { fill: var(--rojo); fill-opacity: 0.9; stroke: #FFFFFF; stroke-width: 0.8px; vector-effect: non-scaling-stroke; }
+.d-focos.chicos circle { stroke-width: 0.4px; }
+.d-vecinos-t text { font-family: var(--texto); fill: var(--tinta-2); stroke: #E9E6E0; paint-order: stroke; stroke-linejoin: round; pointer-events: none; }
+.d-escala path { fill: none; stroke: var(--tinta); stroke-width: 1.5px; vector-effect: non-scaling-stroke; }
+.d-escala text { font-family: var(--mono); fill: var(--tinta); stroke: #F7F6F3; paint-order: stroke; stroke-linejoin: round; pointer-events: none; }
+.d-sel circle, .d-sel rect { fill: none; stroke: var(--tinta); stroke-width: 2px; vector-effect: non-scaling-stroke; pointer-events: none; }
+.donde-lado { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.donde-leyenda { display: flex; flex-direction: column; gap: 8px; margin: 0; padding: 0; list-style: none; font-size: 14px; line-height: 1.35; }
+.donde-leyenda li { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 10px; align-items: start; }
+.donde-leyenda i { display: flex; align-items: center; gap: 2px; height: 19px; }
+.donde-leyenda .l-foco::before { content: ""; width: 11px; height: 11px; margin-left: 2px; border-radius: 50%; background: var(--rojo); }
+.donde-leyenda .l-rep b { width: 12px; height: 12px; background: var(--tinta); opacity: 0.16; }
+.donde-leyenda .l-rep b + b { opacity: 0.45; }
+.donde-leyenda .l-rep b + b + b { opacity: 0.78; }
+.donde-lectura { min-height: 4.2em; margin: 0; padding: 10px 0 0; border-top: 2px solid var(--tinta); font-size: 15.5px; line-height: 1.4; }
+.donde-lectura.pista { color: var(--tinta-2); }
+.donde-lectura .ir { white-space: nowrap; }
+.fuera::after { content: "\00a0↗"; }
+.donde-nota { font-size: 13.5px; }
+.donde-lista { margin-top: 4px; }
+.donde-lista summary { display: inline-block; min-height: 28px; font-size: 15px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; list-style: none; }
+.donde-lista summary::-webkit-details-marker { display: none; }
+.donde-lista summary::before { content: "+\00a0"; font-family: var(--mono); text-decoration: none; display: inline-block; }
+.donde-lista[open] summary::before { content: "−\00a0"; }
+.donde-tabla { max-height: 320px; margin-top: 8px; overflow: auto; border: 1px solid var(--linea); }
+.donde-tabla table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+.donde-tabla th { position: sticky; top: 0; padding: 8px 12px; background: #F4F2EE; text-align: left; font-size: 13px; font-weight: 800; }
+.donde-tabla td { padding: 6px 12px; border-top: 1px solid var(--linea); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.donde-tabla tr:hover td { background: #F8F7F4; }
+.donde-tabla a { color: var(--tinta); text-underline-offset: 3px; }
+/* El cierre de la página: la pregunta que sigue y otro municipio. */
+.mun-cierre { display: flex; flex-direction: column; gap: 22px; margin-top: 32px; padding-top: 22px; border-top: 1px solid var(--linea); }
+.mun-cierre .siguiente { align-self: flex-start; }
 .mun-lado { display: flex; flex-direction: column; gap: 10px; padding-top: 30px; min-width: 0; }
 .mun-lado h2 { margin: 0; font-size: 18px; font-weight: 800; }
 .ficha { display: block; width: 100%; max-width: 392px; height: auto; margin-top: 6px; border: 1px solid var(--linea); }
@@ -474,12 +522,21 @@ body.con-subtitulos { --subtitulos: 72px; padding-bottom: var(--subtitulos); }
 .buscador.claro .ejemplo { color: var(--tinta-2); }
 .buscador.claro .ejemplo button { color: var(--tinta); }
 @media (max-width: 1100px) {
-  .municipio { grid-template-columns: minmax(0, 1fr); gap: 32px; }
-  .mun-lado { padding-top: 0; }
+  /* En una columna la ficha va antes del cierre: primero lo que se manda, luego a dónde seguir. */
+  .municipio { display: flex; flex-direction: column; gap: 0; }
+  .mun-principal { display: contents; }
+  .mun-lado { order: 2; margin-top: 32px; padding-top: 0; }
+  .mun-cierre { order: 3; }
 }
 @media (max-width: 860px) {
   .municipio { padding: 16px max(16px, env(safe-area-inset-right, 0px)) 32px max(16px, env(safe-area-inset-left, 0px)); }
   .mun-cabeza { flex-direction: column; gap: 12px; }
+  .donde-cuerpo { grid-template-columns: minmax(0, 1fr); }
+  .donde-frase { font-size: 17px; }
+  .donde-lectura { min-height: 5.6em; }
+  .donde-lista summary { display: flex; align-items: center; min-height: 44px; }
+  .donde-tabla td { padding: 0 12px; height: 44px; }
+  .mun-hechos { font-size: 15.5px; }
   .mun-titulo h1 { font-size: 42px; }
   .mun-frase { font-size: 24px; }
   .mun-cifras { font-size: 17px; }

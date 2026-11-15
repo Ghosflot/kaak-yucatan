@@ -59,10 +59,14 @@ const resultado = await page.evaluate(async () => {
   const foto = new Image();
   foto.src = '/img/mosaico.jpg';
   await foto.decode();
+  // La pregunta va en el tiempo verbal de la portada: en pasado cuando la temporada ya cerró.
+  const hoy = new Date((D.actualizado || '') + 'T12:00:00');
+  const md = (hoy.getMonth() + 1) * 100 + hoy.getDate();
   await ficha.dibujarTarjetaInicio(canvas, {
     foto, puntos: D.pts,
-    lienzo: { x0: 0, y0: -90, w0: 825, h0: 681, recorte: { x: 150, y: -40, w: 675, h: 600 } },
-    titulo: t('titulo'),
+    // Lo que cubre la foto en unidades del lienzo (FOTO en pipeline/mosaico.py) y el recorte que se enseña.
+    lienzo: { x0: -400, y0: -150, w0: 1376, h0: 800, recorte: { x: 150, y: -40, w: 675, h: 600 } },
+    titulo: t(md >= 301 && md <= 531 ? 'titulo' : 'tituloPasado'),
   });
   salida.imagenes['inicio.jpg'] = await png(canvas, 'image/jpeg');
   salida.textos.inicio = { titulo: t('tituloPagina'), descripcion: t('descripcionPagina') };
