@@ -354,10 +354,10 @@ export function montar(raiz) {
     const c = (s) => Math.round(((x >> s) & 255) * (1 - f) + ((y >> s) & 255) * f);
     return 'rgb(' + c(16) + ',' + c(8) + ',' + c(0) + ')';
   }
-  function colorEdad(e) {
+  function colorEdad(e, tabla = EDAD) {
     let j = 0;
-    while (j < EDAD.length - 2 && e > EDAD[j + 1][0]) j++;
-    const [e0, c0] = EDAD[j], [e1, c1] = EDAD[j + 1];
+    while (j < tabla.length - 2 && e > tabla[j + 1][0]) j++;
+    const [e0, c0] = tabla[j], [e1, c1] = tabla[j + 1];
     return mezcla(c0, c1, Math.max(0, Math.min(1, (e - e0) / (e1 - e0))));
   }
   // Un punto se dibuja una vez en un lienzo chico y después solo se copia: es lo más rápido.
@@ -416,20 +416,22 @@ export function montar(raiz) {
   /* ---------- Los focos de la temporada, pasando sobre el mapa a color ---------- */
   // Un lienzo fijo al visor: en cada cuadro los puntos se dibujan donde la cámara los deja, nítidos y del
   // mismo tamaño aunque el mapa se acerque. Solo corre con 2026 en el mapa y sin «reducir movimiento».
-  const AMB_VEL = 5; // días de temporada por segundo
-  const AMB_PAUSA = 8; // días en blanco entre una vuelta y la siguiente
-  const AMB_VIDA = 3; // días que se ve cada foco: menos que en el repaso, para no tapar los colores
+  const AMB_VEL = 9; // días de temporada por segundo: una vuelta dura unos 10 s
+  const AMB_PAUSA = 9; // días en blanco entre una vuelta y la siguiente
+  const AMB_VIDA = VIDA; // cada foco se ve los días que dura su brasa: nace claro, se enfría a rojo y se apaga
+  // Sobre los colores del mapa la brasa va más roja que sobre la foto, para que contraste.
+  const AMB_EDAD = [[0, '#FFF3B0'], [0.5, '#FFC233'], [1.3, '#FF7A1A'], [2.4, '#E3241A'], [AMB_VIDA, '#A01410']];
   const amb = $('ambiente'), actx = amb.getContext('2d');
   let ambT = 0, ambId = 0, ambAntes = 0, ambDia = -1, ambDpr = 1, ambSprites = [], ambActivo = null, repDia = [];
   function ambMedir() {
     ambDpr = Math.min(2, window.devicePixelRatio || 1);
     amb.width = Math.round(W * ambDpr);
     amb.height = Math.round(H * ambDpr);
-    const r = (telefono() ? 1.9 : 2.7) * ambDpr;
+    const r = (telefono() ? 2 : 2.6) * ambDpr;
     ambSprites = [];
     for (let i = 0; i < TONOS; i++) {
       const e = (i / (TONOS - 1)) * VIDA;
-      ambSprites.push(punto(colorEdad(e), r * (1 - 0.4 * (e / VIDA)), 0.8 * ambDpr));
+      ambSprites.push(punto(colorEdad(e, AMB_EDAD), r * (1 - 0.35 * (e / VIDA)), 0.5 * ambDpr));
     }
   }
   function ambCuadro(ahora) {
@@ -452,7 +454,7 @@ export function montar(raiz) {
       const edad = ambT - d;
       if (edad >= AMB_VIDA) continue;
       const s = ambSprites[Math.min(TONOS - 1, Math.round((edad / AMB_VIDA) * (TONOS - 1)))], m = s.width / 2;
-      actx.globalAlpha = edad < AMB_VIDA - 1 ? 1 : Math.max(0, AMB_VIDA - edad);
+      actx.globalAlpha = edad < AMB_VIDA - 1.5 ? 1 : Math.max(0, (AMB_VIDA - edad) / 1.5);
       for (const c of repDia[d]) {
         const x = ox + c[0] * kx, y = oy + (c[1] - Y0) * ky;
         if (x < -m || y < -m || x > amb.width + m || y > amb.height + m) continue;
