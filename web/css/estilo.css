@@ -452,6 +452,28 @@ body.con-subtitulos { --subtitulos: 72px; padding-bottom: var(--subtitulos); }
 #barrasMun { width: 100%; height: auto; overflow: visible; }
 #barrasMun .toque { cursor: pointer; outline: none; }
 #barrasMun .toque:hover, #barrasMun .toque:focus-visible { fill: rgba(18, 18, 18, 0.07); stroke: var(--tinta); stroke-width: 1; }
+/* Territorio ganadero (#60): el mapa de Yucatán por municipio, en un solo tono. */
+.gan-mapa { display: flex; flex-direction: column; gap: 10px; margin: 8px 0 4px; max-width: 860px; }
+.gan-mapa h3 { margin: 0; font-size: 15px; font-weight: 800; }
+.gan-opciones { display: flex; flex-wrap: wrap; gap: 8px; }
+.gan-opciones button { min-height: 44px; padding: 6px 14px; border: 2px solid var(--tinta); background: var(--papel); color: var(--tinta); font-size: 14px; font-weight: 700; line-height: 1.25; text-align: left; cursor: pointer; }
+.gan-opciones button[aria-pressed="true"] { background: var(--tinta); color: var(--papel); }
+.gan-cuerpo { display: grid; grid-template-columns: minmax(0, 460px) minmax(0, 1fr); gap: 12px 28px; align-items: start; }
+#ganMapa { width: 100%; height: auto; display: block; }
+#ganMapa path { stroke: #FFFFFF; stroke-width: 1; vector-effect: non-scaling-stroke; cursor: pointer; }
+#ganMapa a:hover path { stroke: var(--tinta); stroke-width: 1.5; }
+#ganMapa a.propio path { stroke: var(--tinta); stroke-width: 2.5; }
+.gan-lado { display: flex; flex-direction: column; gap: 14px; padding-top: 6px; }
+.gan-leyenda { display: flex; flex-direction: column; gap: 6px; margin: 0; padding: 0; list-style: none; font-size: 14px; }
+.gan-leyenda li { display: flex; align-items: center; gap: 10px; }
+.gan-leyenda i { flex-shrink: 0; width: 28px; height: 14px; border: 1px solid var(--tinta-2); }
+.gan-lectura { margin: 0; padding-top: 12px; border-top: 2px solid var(--tinta); font-size: 15px; line-height: 1.45; color: var(--tinta); min-height: 5.4em; }
+.gan-lectura.pista { color: var(--tinta-2); }
+@media (max-width: 700px) {
+  .gan-cuerpo { grid-template-columns: minmax(0, 1fr); }
+  .gan-leyenda { flex-direction: row; flex-wrap: wrap; gap: 6px 16px; }
+  .gan-lectura { min-height: 0; }
+}
 .mun-nota, .mun-sub, .mun-pista { margin: 0; font-size: 15px; line-height: 1.45; color: var(--tinta-2); max-width: 760px; }
 .mun-pista { font-size: 14px; }
 .mun-sub-fila { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 16px; margin-top: -4px; }
