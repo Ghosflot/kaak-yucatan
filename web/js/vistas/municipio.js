@@ -1,6 +1,6 @@
 // Página de un municipio (#/municipio/<id>): veredicto, años, cuándo se quema y la ficha para WhatsApp.
 import { t, traducir } from '../textos.js';
-import { fmt, frase, cifras, fechaDia, fechaCorta, fechaDiaAnio, deMesDia, el, datos } from '../comun.js';
+import { fmt, frase, cifras, fechaDia, fechaCorta, fechaDiaAnio, deMesDia, el, datos, visita } from '../comun.js';
 import { barrasAnios } from '../graficas.js';
 import { armarBuscador } from '../buscador.js';
 import { dibujarFicha, aBlob, descargar, compartir, SITIO } from '../ficha.js';
@@ -252,6 +252,7 @@ export function montar(raiz, { id }) {
     }
     cargando = false;
     if (!vivo) return;
+    visita.municipio = m.id;
     raiz.innerHTML = PLANTILLA;
     pintar();
     $('compartir').addEventListener('click', async () => {

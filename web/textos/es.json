@@ -1,6 +1,6 @@
 {
   "tituloPagina": "K'áak': ¿se quema más de lo normal en tu municipio?",
-  "descripcionPagina": "Focos de calor de 25 años en la península de Yucatán, vistos por satélite, para saber qué es normal en cada municipio.",
+  "descripcionPagina": "Focos de calor de la península de Yucatán desde 2001, vistos por satélite, para saber qué es normal en cada municipio.",
   "saltar": "Ir al contenido",
   "marcaAria": "K'áak', fuego en maya. Inicio",
   "navAria": "Secciones",
@@ -129,7 +129,7 @@
     "Más fuego que lo normal",
     "El doble de lo normal",
     "Más del doble de lo normal",
-    "Casi nunca hay quemas; no hay con qué comparar"
+    "Casi nunca hay fuego; no hay con qué comparar"
   ],
   "hechoMinimo": "La temporada con menos fuego desde {a}.",
   "hechoRacha": "Lleva {n} temporadas seguidas por debajo de lo normal.",
@@ -197,7 +197,7 @@
     "Hubo más fuego que en un año normal.",
     "Hubo el doble del fuego que en un año normal.",
     "Hubo más del doble del fuego que en un año normal.",
-    "Casi nunca hay quemas, así que no hay con qué comparar."
+    "Casi nunca hay fuego, así que no hay con qué comparar."
   ],
   "munCifras2": "{a} focos de calor de marzo a mayo de 2026; en un año normal, {b}.",
   "defFoco": "Un foco de calor es un cuadrito de 1 km donde un satélite detectó fuego en un día.",
@@ -265,7 +265,7 @@
   "zSobreTodoDespues": "sobre todo después de que cierran las fechas",
   "zSobreTodoAmbos": "unos antes de que se abran las fechas y otros después de que cierran",
   "zMinimo": ", y desde 2001 nunca han sido menos de {m} de cada 10",
-  "zTiraT": "Cuántos de cada 10 focos de enero a junio quedaron fuera de las fechas, año por año desde 2001 (siempre con las fechas de 2026)",
+  "zTiraT": "De cada 10 focos de enero a junio, cuántos quedaron fuera de las fechas cada año",
   "zTiraNota": "Las barras rayadas, de 2001 a 2011, son de satélites anteriores, pasados a la escala de hoy. La línea punteada es un año normal.",
   "zLee": "En {a} quedaron fuera {k} de cada 10, {cuando}.",
   "zLeeMitad": "En {a} quedó fuera la mitad de los focos, {cuando}.",
@@ -375,7 +375,7 @@
   "mHoraLa": "la {h}",
   "mHoraLas": "las {h}",
   "mFoco2": "El satélite ve cualquier fuego: no distingue una quema de milpa de un incendio. Y que no haya focos no quiere decir que no hubo fuego, porque las nubes y el humo lo tapan y un fuego muy chico se le puede escapar.",
-  "mUnirTitulo": "Cómo unimos 25 años de satélites",
+  "mUnirTitulo": "Cómo unimos cuatro satélites en una sola serie",
   "mUnir1": "Con los años se fueron sumando satélites, y sumar lo que ven todos inflaría los años recientes. Por eso usamos uno por periodo:",
   "mPeriodo": "{s} ({i}), del {d} al {h}",
   "mPeriodoDesde": "{s} ({i}), desde el {d}",
@@ -404,7 +404,7 @@
   "mSaltoCrudoSub": "En temporada, de marzo a mayo, los satélites contaron en promedio {a} focos de calor al año en {a1}–{a2} y {d} en {d1}–{d2}.",
   "mSaltoCorrTriple": "No se triplicó: cambió el satélite.",
   "mSaltoCorr": "No se multiplicó por {c}: cambió el satélite.",
-  "mSaltoCorrSub": "Ya corregido, el fuego de después de 2012 queda en unas {r} veces el de antes, es decir, sin salto.",
+  "mSaltoCorrSub": "Con los años de antes pasados a la escala de hoy, el promedio es de {ac} focos de calor al año en {a1}–{a2} y de {dc} en {d1}–{d2}.",
   "mInterruptor": "Corregir el cambio de satélite",
   "mCrudoAria": "Focos de calor por año en Yucatán, sin corregir: de {a} a {b} las barras quedan muy abajo y en 2012 el fuego parece saltar.",
   "mArmonizadoAria": "Focos de calor por año en Yucatán, ya corregidos: las barras de {a} a {b} suben y quedan a la altura de las de después.",

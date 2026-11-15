@@ -9,7 +9,7 @@ const zonaElegida = (page) => page.locator('#zZonas [aria-checked="true"]');
 
 // La afirmación ahora nombra el lugar y no «la zona 2» (spec, «Fechas»); la cifra sigue siendo la de la portada.
 test('abre en la zona 2: la misma cifra que la portada y sus 42 días permitidos', async ({ page }) => {
-  await abrir(page, '#/fechas');
+  await abrir(page, '#/fechas/2');
   await expect(page.locator('h1')).toHaveText('En el centro y norte de Yucatán, 4 de cada 10 focos de calor de 2026 aparecieron fuera de las fechas en que se permite quemar.');
   await expect(zonaElegida(page)).toHaveAttribute('data-zona', '2');
   await expect(page.locator('.fz-dia')).toHaveCount(181);
@@ -20,7 +20,7 @@ test('abre en la zona 2: la misma cifra que la portada y sus 42 días permitidos
 });
 
 test('cambiar de zona cambia el calendario, el titular y el enlace', async ({ page }) => {
-  await abrir(page, '#/fechas');
+  await abrir(page, '#/fechas/2');
   await page.click('#zZonas [data-zona="4"]');
   await expect(page.locator('h1')).toContainText('casi todos los focos');
   await expect(page.locator('.fz-dia.permitido')).toHaveCount(25);
@@ -35,7 +35,7 @@ test('el enlace #/fechas/1 abre la zona 1', async ({ page }) => {
 });
 
 test('«¿Cuál es mi zona?»: buscar el municipio elige su zona', async ({ page }) => {
-  await abrir(page, '#/fechas');
+  await abrir(page, '#/fechas/2');
   await page.fill('#busca3', 'tekax');
   await page.keyboard.press('Enter');
   await expect(zonaElegida(page)).toHaveAttribute('data-zona', '3');
@@ -48,13 +48,13 @@ test('«¿Cuál es mi zona?»: buscar el municipio elige su zona', async ({ page
 });
 
 test('tocar el mapa elige la zona del municipio tocado', async ({ page }) => {
-  await abrir(page, '#/fechas');
+  await abrir(page, '#/fechas/2');
   await page.click('#zMapa path[data-id="tekax"]', { force: true });
   await expect(zonaElegida(page)).toHaveAttribute('data-zona', '3');
 });
 
 test('tocar un día dice cuántos focos hubo y si se permitía quemar', async ({ page }) => {
-  await abrir(page, '#/fechas');
+  await abrir(page, '#/fechas/2');
   await page.click('.fz-dia[data-i="120"]');
   await expect(page.locator('#zLectura')).toContainText('1 de mayo');
   await expect(page.locator('#zLectura')).toContainText('Se permite quemar');
@@ -64,7 +64,7 @@ test('tocar un día dice cuántos focos hubo y si se permitía quemar', async ({
 });
 
 test('almanaque: 127 renglones y la ventana marcada en los meses de cada municipio de Yucatán', async ({ page }) => {
-  await abrir(page, '#/fechas');
+  await abrir(page, '#/fechas/2');
   await expect(page.locator('#almanaque tbody tr')).toHaveCount(127);
   const tekax = page.locator('#almanaque tr[data-id="tekax"]');
   await expect(tekax.locator('td.mes:nth-of-type(3) .v')).toHaveCount(1); // marzo
@@ -77,7 +77,7 @@ test('almanaque: 127 renglones y la ventana marcada en los meses de cada municip
 });
 
 test('buscar y filtrar por estado', async ({ page }) => {
-  await abrir(page, '#/fechas');
+  await abrir(page, '#/fechas/2');
   await page.fill('#almBuscar', 'tek');
   await expect(page.locator('#almanaque tbody tr:not([hidden])')).toHaveCount(5); // Tekal de Venegas, Tekantó, Tekax, Tekit y Tekom
   await page.fill('#almBuscar', '');
@@ -89,7 +89,7 @@ test('buscar y filtrar por estado', async ({ page }) => {
 });
 
 test('la descarga baja fechas.csv con los municipios del filtro, con BOM', async ({ page }) => {
-  await abrir(page, '#/fechas');
+  await abrir(page, '#/fechas/2');
   await page.click('[data-estado="Quintana Roo"]');
   const [descarga] = await Promise.all([page.waitForEvent('download'), page.click('#almCsv')]);
   expect(descarga.suggestedFilename()).toBe('fechas.csv');
@@ -102,7 +102,7 @@ test('la descarga baja fechas.csv con los municipios del filtro, con BOM', async
 });
 
 test('«2026» pinta los meses de este año', async ({ page }) => {
-  await abrir(page, '#/fechas');
+  await abrir(page, '#/fechas/2');
   const antes = await page.getAttribute('#almanaque tr[data-id="tekax"] td.mes:nth-of-type(4)', 'title');
   await page.click('[data-anio="2026"]');
   const despues = await page.getAttribute('#almanaque tr[data-id="tekax"] td.mes:nth-of-type(4)', 'title');
@@ -111,7 +111,7 @@ test('«2026» pinta los meses de este año', async ({ page }) => {
 });
 
 test('de entrada se ven 12 renglones; «Ver los restantes» abre y cierra la tabla', async ({ page }) => {
-  await abrir(page, '#/fechas');
+  await abrir(page, '#/fechas/2');
   const vistos = page.locator('#almanaque tbody tr:not([hidden])');
   await expect(vistos).toHaveCount(12);
   const mas = page.locator('#almMas');
@@ -131,7 +131,7 @@ test('de entrada se ven 12 renglones; «Ver los restantes» abre y cierra la tab
 });
 
 test('la zona de un renglón lleva a su calendario', async ({ page }) => {
-  await abrir(page, '#/fechas');
+  await abrir(page, '#/fechas/2');
   await page.fill('#almBuscar', 'tekax');
   await page.click('#almanaque tr[data-id="tekax"] .a-zona');
   await expect(zonaElegida(page)).toHaveAttribute('data-zona', '3');
@@ -139,7 +139,7 @@ test('la zona de un renglón lleva a su calendario', async ({ page }) => {
 });
 
 test('en inglés', async ({ page }) => {
-  await abrir(page, '#/fechas', { query: '?lang=en' });
+  await abrir(page, '#/fechas/2', { query: '?lang=en' });
   await expect(page.locator('h1')).toHaveText('In the center and north of Yucatán, 4 in 10 hot spots in 2026 fell outside the permitted burn window.');
   await expect(page.locator('.fz-mes-cab span').first()).toBeVisible();
   await page.click('#zZonas [data-zona="3"]');
@@ -194,7 +194,7 @@ test('la tira de 26 años: 2026 en rojo, 2001–2011 rayados y cada año se lee 
 });
 
 test('el mapa: cuatro zonas con nombre, que se eligen con las flechas', async ({ page }) => {
-  await abrir(page, '#/fechas');
+  await abrir(page, '#/fechas/2');
   const opciones = page.locator('#zZonas [role="radio"]');
   await expect(opciones).toHaveCount(4);
   await expect(page.locator('#zZonas')).toHaveAttribute('role', 'radiogroup');
@@ -209,14 +209,14 @@ test('el mapa: cuatro zonas con nombre, que se eligen con las flechas', async ({
 });
 
 test('al final, una oración lleva a «Cómo lo medimos»', async ({ page }) => {
-  await abrir(page, '#/fechas');
+  await abrir(page, '#/fechas/2');
   const sigue = page.locator('.fz-sigue a');
   await expect(sigue).toHaveText('¿Y por qué creerle a estas cifras?');
   await expect(sigue).toHaveAttribute('href', '#/metodo');
 });
 
 test('la tabla: el «Ninguno» es un cuadro vacío y los pasos de color van de claro a oscuro', async ({ page }) => {
-  await abrir(page, '#/fechas');
+  await abrir(page, '#/fechas/2');
   // Claridad relativa de cada paso: tiene que bajar siempre y con saltos que se noten.
   const claridad = await page.evaluate(() => [1, 2, 3, 4, 5].map((k) => {
     const i = document.createElement('i'); i.className = 'a-c' + k; document.body.appendChild(i);
@@ -230,7 +230,7 @@ test('la tabla: el «Ninguno» es un cuadro vacío y los pasos de color van de c
 });
 
 test('en el teléfono: días de 44 px de alto, nada de desplazamiento horizontal y fechas que no se parten', async ({ page }) => {
-  await abrir(page, '#/fechas', { ancho: 390, alto: 844 });
+  await abrir(page, '#/fechas/2', { ancho: 390, alto: 844 });
   const altos = await page.$$eval('.fz-dia', (ds) => ds.map((d) => d.getBoundingClientRect().height));
   expect(Math.min(...altos)).toBeGreaterThanOrEqual(44);
   for (const z of ['1', '2', '3', '4']) {
@@ -246,4 +246,17 @@ test('en el teléfono: días de 44 px de alto, nada de desplazamiento horizontal
   const texto = await fechas.textContent();
   expect(texto).toContain('20\u00A0abr\u00A0al\u00A031\u00A0may');
   expect(caja).toBeGreaterThan(60);
+});
+
+test('sin zona en la dirección abre la de más fuego del año, o la del municipio que se venía viendo', async ({ page }) => {
+  const Z = JSON.parse(fs.readFileSync('web/datos/zonas.json', 'utf8')).zonas;
+  const mayor = Z.reduce((a, b) => (b.tot > a.tot ? b : a)).n;
+  await abrir(page, '#/fechas');
+  await expect(zonaElegida(page)).toHaveAttribute('data-zona', mayor);
+  // Quien venía de ver Muna (zona 3) llega a su zona, y la página se lo dice.
+  await page.evaluate(() => { location.hash = '#/municipio/muna'; });
+  await expect(page.locator('#nombre')).toHaveText('Muna');
+  await page.evaluate(() => { location.hash = '#/fechas'; });
+  await expect(zonaElegida(page)).toHaveAttribute('data-zona', '3');
+  await expect(page.locator('#zMiZona')).toHaveText('Muna está en la zona 3.');
 });

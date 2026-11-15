@@ -6,7 +6,7 @@ const { abrir } = require('./ayudas');
 test('Tekax: veredicto, barras por año y llave', async ({ page }) => {
   await abrir(page, '#/municipio/tekax');
   await expect(page.locator('h1')).toHaveText('Tekax');
-  await expect(page.locator('#frase')).toContainText('la mitad');
+  await expect(page.locator('#frase')).toHaveText('Hubo menos fuego que en un año normal.');
   await expect(page.locator('#cifras')).toContainText('213');
   await expect(page.locator('#barrasMun .toque')).toHaveCount(26);
   await expect(page.locator('#ventana')).toBeVisible();
@@ -94,7 +94,14 @@ test('el enlace corto de la ficha (kaak.pages.dev/tekax) abre el municipio', asy
 
 test('en inglés, la página y la ficha cambian de idioma', async ({ page }) => {
   await abrir(page, '#/municipio/tekax', { query: '?lang=en' });
-  await expect(page.locator('#frase')).toHaveText('There was half as much fire as in a normal year.');
+  await expect(page.locator('#frase')).toHaveText('There was less fire than in a normal year.');
   await expect(page.locator('#llave')).toContainText('8 in 10 hot spots');
   await expect(page.locator('#ficha')).toHaveAttribute('aria-label', /Tekax’s card/);
+});
+
+test('«la mitad» se decide con las cifras que se leen: 19 contra 42 es menos de la mitad', async ({ page }) => {
+  // Umán: 19 focos de calor contra 42 en un año normal.
+  await abrir(page, '#/municipio/uman');
+  await expect(page.locator('#cifras')).toContainText('19 focos de calor');
+  await expect(page.locator('#frase')).toHaveText('Hubo menos de la mitad del fuego que en un año normal.');
 });

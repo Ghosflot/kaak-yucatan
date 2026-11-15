@@ -14,6 +14,9 @@ export function anunciar(texto) {
   requestAnimationFrame(() => { z.textContent = texto; });
 }
 
+// El último municipio que se abrió en esta visita: «Fechas de quema» abre en su zona.
+export const visita = { municipio: null };
+
 export const sinAcentos = (s) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
 
 // Fechas a partir de «2026-05-01» o de un Date.
@@ -31,8 +34,10 @@ export const ESCALA = ['muyabajo', 'abajo', 'normal', 'arriba', 'muyarriba'];
 // La frase del veredicto: más fina que la clase del color («la mitad», «el doble»).
 function indiceVeredicto(v26, normal, clase) {
   if (clase === 'poco' || !normal) return 7;
-  const r = v26 / normal;
-  return r < 0.45 ? 0 : r < 0.55 ? 1 : r < 0.8 ? 2 : r <= 1.25 ? 3 : r < 1.8 ? 4 : r <= 2.2 ? 5 : 6;
+  // Se decide con las cifras redondeadas, las que se leen al lado: 19 contra 42 es «menos de la
+  // mitad», no «la mitad». «La mitad» y «el doble» solo se dicen si de verdad quedan cerca.
+  const r = Math.round(v26) / Math.max(1, Math.round(normal));
+  return r < 0.47 ? 0 : r <= 0.53 ? 1 : r < 0.8 ? 2 : r <= 1.25 ? 3 : r < 1.9 ? 4 : r <= 2.1 ? 5 : 6;
 }
 // «191 focos de calor…» o «1 foco de calor…»: la clave con «Uno» lleva el singular.
 export const cifras = (clave, m) => t(Math.round(m.v26) === 1 ? clave + 'Uno' : clave, { a: fmt(m.v26), b: fmt(m.normal) });

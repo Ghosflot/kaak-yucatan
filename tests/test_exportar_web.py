@@ -260,7 +260,8 @@ def test_satelites_contra_la_serie(salida):
 
 def test_estados_son_la_union_de_sus_municipios():
     """Sin huecos ni astillas, y con sus islas: cada parte de un municipio de 1 km² o más
-    (Cozumel, Isla Mujeres, Holbox, Arrecife Alacranes…) queda dentro del contorno de su estado."""
+    (Cozumel, Isla Mujeres, Holbox…) queda dentro del contorno de su estado. Los arrecifes de mar
+    adentro no se dibujan (ver la prueba de los arrecifes)."""
     mun = ew.tabla_municipios()
     geo = ew.formas(mun)
     for estado in ew.ORDEN_ESTADOS:
@@ -271,7 +272,7 @@ def test_estados_son_la_union_de_sus_municipios():
         assert all(ew.km2(p) >= ew.ASTILLA_KM2 for p in partes)
         holgura = c.buffer(ew.CIERRE)
         for g in de_estado:
-            for p in ew._partes(g):
+            for p in ew._partes(ew.sin_arrecifes(g)):
                 if ew.km2(p) >= 1:
                     assert holgura.contains(p.representative_point()), (estado, p.representative_point())
     # Cozumel (Quintana Roo) es una parte aparte.
@@ -383,3 +384,16 @@ def test_metodo_salto_sale_de_la_validacion(salida):
     v = next(p for p in _json(salida, "validacion.json")["pruebas"] if p["id"] == "salto_2012")["valores"]
     assert (f"{s['crudo']:.2f}", f"{s['armonizado']:.2f}") == (v["razonCrudaYucatan"], v["razonArmonizadaYucatan"])
     assert (s["antes"], s["despues"]) == ([v["antesDesde"], v["antesHasta"]], [v["despuesDesde"], v["despuesHasta"]])
+
+
+def test_el_mapa_no_dibuja_arrecifes_de_mar_adentro():
+    """Alacranes (Progreso), Triángulos (Celestún) y Cayo Arcas (Campeche) quedan fuera del mapa;
+    las islas cercanas (Cozumel, Isla Mujeres, Banco Chinchorro) se quedan."""
+    geo = ew.formas(ew.tabla_municipios())
+    for i in ("progreso", "celestun", "campeche"):
+        completo, recortado = geo[i][1], ew.sin_arrecifes(geo[i][1])
+        assert len(ew._partes(recortado)) < len(ew._partes(completo))
+        principal = max(ew._partes(completo), key=lambda p: p.area)
+        assert all(p.distance(principal) <= ew.ARRECIFE_GRADOS for p in ew._partes(recortado))
+    for i in ("cozumel", "isla-mujeres", "othon-p-blanco"):
+        assert len(ew._partes(ew.sin_arrecifes(geo[i][1]))) == len(ew._partes(geo[i][1]))

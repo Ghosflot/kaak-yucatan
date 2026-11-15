@@ -2,7 +2,7 @@
 // prueba de 26 años y el mapa para elegir otra; después, el calendario día por día y el de cada municipio por mes.
 // El calendario cubre de enero a junio, igual que la tira de la portada: las dos dicen la misma cifra.
 import { t, traducir, idioma } from '../textos.js';
-import { fmt, sinAcentos, fechaDia, fechaDiaAnio, fechaCorta, deMesDia, el, datos, reducirMovimiento } from '../comun.js';
+import { fmt, sinAcentos, fechaDia, fechaDiaAnio, fechaCorta, deMesDia, el, datos, reducirMovimiento, visita } from '../comun.js';
 import { ruta } from '../app.js';
 import { descargar } from '../ficha.js';
 import { armarBuscador } from '../buscador.js';
@@ -82,7 +82,7 @@ const PLANTILLA = `
     <h2 id="almTitulo" data-t="fechasPagina"></h2>
     <p class="alm-sub" data-t="almSub"></p>
     <div class="alm-controles">
-      <div class="alm-buscar"><label for="almBuscar" data-t="almBuscar"></label><input id="almBuscar" type="search" autocomplete="off" data-t-ph="buscaPh"></div>
+      <div class="alm-buscar"><label for="almBuscar" data-t="almBuscar"></label><input id="almBuscar" type="search" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" data-t-ph="buscaPh"></div>
       <div class="alm-grupo" role="group" aria-labelledby="almEstadoT"><span id="almEstadoT" data-t="almEstado"></span><div class="alm-botones" id="almEstados"></div></div>
       <div class="alm-grupo" role="group" aria-labelledby="almMostrarT"><span id="almMostrarT" data-t="almMostrar"></span><div class="alm-botones"><button type="button" data-anio="normal" data-t="almNormal"></button><button type="button" data-anio="2026">2026</button></div></div>
     </div>
@@ -103,7 +103,7 @@ const PLANTILLA = `
 export function montar(raiz, params) {
   let Z = null, lista = null, F = null, P = null, vivo = true;
   const observadores = [];
-  const estado = { zona: params.zona || '2', q: '', e: '', anio: 'normal', fijo: null, mio: null, todos: false };
+  const estado = { zona: params.zona || null, q: '', e: '', anio: 'normal', fijo: null, mio: null, todos: false };
   const $ = (s) => raiz.querySelector('#' + s);
 
   const zonaDe = (n) => Z.zonas.find((z) => z.n === n);
@@ -579,6 +579,14 @@ export function montar(raiz, params) {
       return;
     }
     if (!vivo) return;
+    // Sin zona en la dirección: la del municipio que se venía viendo y, si no, la de más fuego este año.
+    if (!estado.zona) {
+      const m = lista.find((x) => x.id === visita.municipio && x.estado === 'Yucatán');
+      if (m) {
+        estado.zona = m.zona.replace(/^\D+/, '');
+        estado.mio = { n: m.nombre, z: estado.zona, probable: m.zona_inferida };
+      } else estado.zona = Z.zonas.reduce((a, b) => (b.tot > a.tot ? b : a)).n;
+    }
     raiz.innerHTML = PLANTILLA;
     pintar();
     escuchar();

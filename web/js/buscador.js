@@ -24,7 +24,7 @@ export function armarBuscador(cont, n, { municipios, alElegir, alUbicar = null, 
   const previo = cont.querySelector('input')?.value || '';
   cont.innerHTML =
     '<label for="busca' + n + '"></label>' +
-    '<input id="busca' + n + '" type="text" autocomplete="off" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-controls="lista' + n + '">' +
+    '<input id="busca' + n + '" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-controls="lista' + n + '">' +
     '<ul class="opciones" id="lista' + n + '" role="listbox" hidden></ul>' +
     '<div class="debajo"><span class="ejemplo"><span></span> <button type="button"></button></span></div>';
   const inp = cont.querySelector('input'), lista = cont.querySelector('ul');

@@ -1,6 +1,6 @@
 // Portada: la temporada en tres momentos (foto, repaso y cierre) y el panel con la respuesta.
 import { t, traducir } from '../textos.js';
-import { $, fmt, fechaDia, fechaDiaAnio, fechaCorta, COLOR, ESCALA, veredicto, el, reducirMovimiento, datos, anunciar } from '../comun.js';
+import { $, fmt, fechaDia, fechaDiaAnio, fechaCorta, COLOR, ESCALA, veredicto, el, reducirMovimiento, datos, anunciar, visita } from '../comun.js';
 import { barrasAnios, subirBarras } from '../graficas.js';
 import { armarBuscador, EJEMPLO } from '../buscador.js';
 import { ruta } from '../app.js';
@@ -926,6 +926,7 @@ export function montar(raiz) {
     if (!munPorId.has(id)) return;
     if (modo !== 'final') { pausar(); t0 = ULTIMO; actualizarTiempo(); ponerModo('final'); }
     seleccion = id;
+    visita.municipio = id;
     const m = munPorId.get(id);
     const s = $('seleccion');
     s.textContent = '';
@@ -1072,7 +1073,7 @@ export function montar(raiz) {
     const ultimo = [...panel.children].filter((e) => e.offsetHeight).pop();
     const fin = ultimo.getBoundingClientRect().bottom + panel.scrollTop - panel.getBoundingClientRect().top + parseFloat(getComputedStyle(panel).paddingBottom);
     const holgura = panel.clientHeight - fin;
-    const nuevo = Math.round(limitarA(altoBarras + holgura - 8, 46, 150));
+    const nuevo = Math.round(limitarA(altoBarras + holgura - 8, 46, 260));
     if (nuevo !== altoBarras) { altoBarras = nuevo; dibujar(); }
   }
   function armarPanel() {

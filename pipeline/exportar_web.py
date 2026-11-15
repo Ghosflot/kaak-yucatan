@@ -84,6 +84,9 @@ DESCARGAS = {"serie_armonizada.csv"}
 ORDEN_ESTADOS = ["Quintana Roo", "Campeche", "Yucatán"]
 CIERRE = 0.0005
 ASTILLA_KM2 = 0.1
+# Los arrecifes de mar adentro (Alacranes, Triángulos, Cayo Arcas) son de un municipio, pero en el
+# mapa de fuego serían una mancha de color en medio del mar: no se dibujan.
+ARRECIFE_GRADOS = 0.6  # unos 65 km de la parte principal del municipio
 KM_GRADO = 111.32
 
 DIAS_RECIENTES = 7  # «los últimos 7 días» de la portada fuera de temporada
@@ -205,9 +208,19 @@ def km2(g) -> float:
     return g.area * KM_GRADO ** 2 * math.cos(math.radians(g.centroid.y))
 
 
+def sin_arrecifes(g):
+    """La geometría sin las partes a más de ARRECIFE_GRADOS de su parte más grande."""
+    partes = _partes(g)
+    if len(partes) < 2:
+        return g
+    principal = max(partes, key=lambda p: p.area)
+    return MultiPolygon([p for p in partes if p is principal or p.distance(principal) <= ARRECIFE_GRADOS])
+
+
 def contorno_estado(geoms: list):
-    """La unión de los municipios de un estado, sin huecos ni astillas; las islas se quedan."""
-    u = shapely.union_all(geoms).buffer(CIERRE, join_style="mitre").buffer(-CIERRE, join_style="mitre")
+    """La unión de los municipios de un estado, sin huecos, astillas ni arrecifes de mar adentro;
+    las islas cercanas se quedan."""
+    u = shapely.union_all([sin_arrecifes(g) for g in geoms]).buffer(CIERRE, join_style="mitre").buffer(-CIERRE, join_style="mitre")
     partes = [Polygon(p.exterior) for p in _partes(u)]
     return MultiPolygon([p for p in partes if km2(p) >= ASTILLA_KM2])
 
@@ -218,7 +231,7 @@ def geometria_mapa(mun: pd.DataFrame, geo: dict[str, tuple[str, object]]) -> tup
     for i, (estado, g) in geo.items():
         cx, cy = dw.proyectar(*g.representative_point().coords[0])
         muns.append({"id": i, "n": nombres[i], "e": estado,
-                     "d": camino(g), "cx": round(float(cx), 1), "cy": round(float(cy), 1)})
+                     "d": camino(sin_arrecifes(g)), "cx": round(float(cx), 1), "cy": round(float(cy), 1)})
     estados = [{"n": e, "d": camino(contorno_estado([g for est, g in geo.values() if est == e]))}
                for e in ORDEN_ESTADOS]
     return muns, estados

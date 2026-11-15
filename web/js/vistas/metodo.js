@@ -313,7 +313,8 @@ function lecturaSat(M, S) {
 function razones(M) {
   const prom = ([a, b], campo) => { const xs = M.anios.filter((x) => x.y >= a && x.y <= b); return xs.reduce((s, x) => s + x[campo], 0) / xs.length; };
   const antes = prom(M.salto.antes, 'crudo'), despues = prom(M.salto.despues, 'crudo');
-  return { antes, despues, crudo: despues / antes, corr: prom(M.salto.despues, 'armonizado') / prom(M.salto.antes, 'armonizado') };
+  const antesCorr = prom(M.salto.antes, 'armonizado'), despuesCorr = prom(M.salto.despues, 'armonizado');
+  return { antes, despues, antesCorr, despuesCorr, crudo: despues / antes, corr: despuesCorr / antesCorr };
 }
 
 /**
@@ -612,7 +613,7 @@ export function montar(raiz) {
     $('mRayas').classList.toggle('visible', corr);
     // La oración usa cifras redondas: la gráfica es de marzo a mayo; las exactas, del año completo, van en la primera pregunta.
     const r = razones(M), triple = Math.round(r.crudo) === 3, s = M.salto;
-    const v = { c: dec(r.crudo, 1), r: dec(r.corr, 1), a: fmt(r.antes), d: fmt(r.despues), a1: s.antes[0], a2: s.antes[1], d1: s.despues[0], d2: s.despues[1] };
+    const v = { c: dec(r.crudo, 1), r: dec(r.corr, 1), a: fmt(r.antes), d: fmt(r.despues), ac: fmt(r.antesCorr), dc: fmt(r.despuesCorr), a1: s.antes[0], a2: s.antes[1], d1: s.despues[0], d2: s.despues[1] };
     const frases = {
       crudo: [t(triple ? 'mSaltoCrudoTriple' : 'mSaltoCrudo', v), t('mSaltoCrudoSub', v)],
       armonizado: [t(triple ? 'mSaltoCorrTriple' : 'mSaltoCorr', v), t('mSaltoCorrSub', v)],

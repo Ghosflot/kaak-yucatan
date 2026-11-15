@@ -49,7 +49,8 @@ test('abre con el salto de 2012 sin corregir, y el interruptor lo corrige', asyn
   await sw.click();
   await expect(sw).toHaveAttribute('aria-checked', 'true');
   await expect(activo.locator('.m-salto-t')).toHaveText(ES.mSaltoCorrTriple);
-  await expect(activo.locator('.m-salto-s')).toHaveText(llenar(ES.mSaltoCorrSub, { r: uno(RAZON_CORR) }));
+  await expect(activo.locator('.m-salto-s')).toContainText(Math.round(prom(M.salto.antes, 'armonizado')).toLocaleString('es-MX'));
+  await expect(activo.locator('.m-salto-s')).not.toContainText('{');
   await expect(page.locator('#mRayas')).toHaveClass(/visible/);
   // El lector de pantalla oye la oración nueva.
   await expect(page.locator('#anuncio')).toContainText(ES.mSaltoCorrTriple);
