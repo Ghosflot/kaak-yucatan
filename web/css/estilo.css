@@ -417,54 +417,80 @@ body.con-subtitulos { --subtitulos: 72px; padding-bottom: var(--subtitulos); }
 
 /* ---------- Fechas de quema (tablero «Fechas») ---------- */
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-.fechas { max-width: 1400px; margin: 0 auto; padding: 24px max(32px, env(safe-area-inset-right, 0px)) 40px max(32px, env(safe-area-inset-left, 0px)); display: flex; flex-direction: column; }
-.fz { display: grid; grid-template-columns: minmax(0, 1fr) 400px; grid-template-areas: "cal cabeza" "cal mapa"; grid-template-rows: auto 1fr; gap: 18px 48px; align-items: start; }
-.fz-cabeza { grid-area: cabeza; display: flex; flex-direction: column; gap: 14px; }
-.fz-cal { grid-area: cal; min-width: 0; }
-.fz-lado-mapa { grid-area: mapa; display: flex; flex-direction: column; gap: 6px; }
-.fz-elegir { display: flex; flex-direction: column; gap: 6px; }
-.fz-elegir label { font-size: 14px; font-weight: 800; }
-.fz-elegir select { width: 100%; height: 44px; padding: 0 10px; border: 2px solid var(--tinta); border-radius: 0; background: #FFFFFF; color: var(--tinta); font: inherit; font-size: 16px; cursor: pointer; }
-.fz-buscar { max-width: none; }
+.fechas { max-width: 1400px; margin: 0 auto; padding: 32px max(32px, env(safe-area-inset-right, 0px)) 40px max(32px, env(safe-area-inset-left, 0px)); display: flex; flex-direction: column; }
+/* Arriba, la afirmación a todo lo ancho; debajo, su prueba (la tira de los años) y el mapa para elegir otra zona. */
+.fz { display: grid; grid-template-columns: minmax(0, 1fr) minmax(340px, 440px); grid-template-areas: "afirma afirma" "prueba mapa"; gap: 28px 64px; align-items: start; }
+.fz-afirma { grid-area: afirma; display: flex; flex-direction: column; gap: 14px; }
+.fz-afirma h1 { margin: 0; max-width: 30em; font-family: var(--display); font-weight: 400; font-size: clamp(28px, 2.6vw, 40px); line-height: 1.14; text-wrap: balance; }
+.fz-patron { margin: 0; max-width: 62ch; font-size: 19px; line-height: 1.5; text-wrap: pretty; }
+.fz-prueba { grid-area: prueba; display: flex; flex-direction: column; gap: 10px; min-width: 0; max-width: 720px; }
+.fz-tira-t { margin: 0; font-size: 15px; font-weight: 800; line-height: 1.4; text-wrap: pretty; }
+.fz-tira { min-width: 0; }
+.fz-tira svg { display: block; max-width: 100%; height: auto; touch-action: pan-y; }
+.fz-tira svg text { pointer-events: none; }
+.fz-tira svg:focus { outline: none; }
+.fz-tira svg:focus-visible { outline: 3px solid #F5A04C; outline-offset: 3px; }
+/* La lectura de un año: dos renglones fijos para que la página no salte al recorrer la tira. */
+.fz-tira-lee { margin: 0; min-height: 1.45em; font-size: 15px; font-weight: 700; line-height: 1.45; }
+.fz-nota { margin: 0; font-size: 14px; line-height: 1.45; color: var(--tinta-2); text-wrap: pretty; }
+/* El aviso va a la vista, junto a la afirmación: un foco fuera de fechas no siempre es una quema de milpa. */
+.fz-aviso { margin: 6px 0 0; padding-left: 12px; border-left: 3px solid var(--tinta); font-size: 15px; line-height: 1.5; text-wrap: pretty; }
+
+/* El mapa de las zonas: el gesto de la página. */
+.fz-lado-mapa { grid-area: mapa; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.fz-mapa-t { margin: 0; font-size: 15px; font-weight: 800; }
+.fz-mapa { position: relative; width: 100%; aspect-ratio: 416 / 309; }
+.fz-mapa svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.fz-zona path { fill: #D3CEC6; stroke: #D3CEC6; stroke-width: 1.2px; vector-effect: non-scaling-stroke; pointer-events: none; transition: fill 0.15s ease, stroke 0.15s ease; }
+.fz-zona.encima path { fill: #ADA598; stroke: #ADA598; }
+.fz-zona.en-zona path { fill: var(--tinta); stroke: var(--tinta); }
+.fz-municipios path { fill: transparent; stroke: #FFFFFF; stroke-opacity: 0.35; stroke-width: 0.5px; vector-effect: non-scaling-stroke; pointer-events: fill; cursor: pointer; }
+.fz-municipios path.en-zona { cursor: default; }
+@media (prefers-reduced-motion: reduce) { .fz-zona path, .fz-etq { transition: none; } }
+/* El nombre de cada zona es un botón que se ve tocable; la elegida va en negro, como su zona. */
+.fz-etq { position: absolute; transform: translate(-50%, -50%); display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 11px 0 4px; border: 1.5px solid var(--tinta); border-radius: 16px; background: #FFFFFF; color: var(--tinta); font-size: 13.5px; font-weight: 700; white-space: nowrap; cursor: pointer; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.22); transition: background 0.15s ease; }
+.fz-etq b { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; background: var(--tinta); color: #FFFFFF; font-family: var(--mono); font-size: 12px; }
+.fz-etq:hover, .fz-etq.encima { background: #EFECE6; }
+.fz-etq[aria-checked="true"] { background: var(--tinta); color: #FFFFFF; border-color: #FFFFFF; cursor: default; box-shadow: 0 0 0 1.5px var(--tinta); }
+.fz-etq[aria-checked="true"] b { background: #FFFFFF; color: var(--tinta); }
+.fz-etq:focus-visible { outline-offset: 3px; }
+.fz-buscar { max-width: none; margin-top: 6px; }
 .fz-buscar label { font-size: 14px; }
-.fz-mizona { font-size: 15px !important; font-weight: 800; }
-.fz-cabeza h1 { margin: 4px 0 0; font-family: var(--display); font-weight: 400; font-size: 27px; line-height: 1.16; text-wrap: balance; }
-.fz-cabeza p { margin: 0; font-size: 16px; line-height: 1.5; }
-.fz-cabeza .fz-nota { font-size: 14px; line-height: 1.45; color: var(--tinta-2); }
+.fz-mizona { margin: 0; font-size: 15px; font-weight: 800; }
+
+/* Día por día: los seis meses en una fila; la página ya no deja hueco bajo ellos. */
+.fz-dia-a-dia { margin-top: 56px; padding-top: 28px; border-top: 1px solid var(--linea); display: flex; flex-direction: column; gap: 18px; }
+.fz-intro { display: flex; flex-direction: column; gap: 8px; max-width: 76ch; }
+.fz-sec-t { margin: 0 0 4px; font-family: var(--display); font-size: 26px; line-height: 1.15; }
+.fz-intro p:not(.fz-sec-t):not(.fz-nota) { margin: 0; font-size: 16px; line-height: 1.5; }
 .fz-ley { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 28px; margin-bottom: 14px; font-size: 14px; }
 .fz-ley > span { display: flex; align-items: center; gap: 8px; }
 .fz-ley-punto { display: inline-flex; align-items: center; gap: 4px; }
-.fz-muestra { width: 28px; height: 28px; display: flex; justify-content: center; padding-top: 3px; background: #E4DFD1; border-bottom: 3px solid var(--tinta); font-family: var(--mono); font-size: 11px; font-weight: 700; }
+.fz-muestra { width: 28px; height: 28px; display: flex; justify-content: center; padding-top: 3px; background: var(--permitido); border-bottom: 3px solid var(--tinta); font-family: var(--mono); font-size: 11px; font-weight: 700; }
 .fz-muestra.futuro { background: none; border-bottom-color: transparent; color: #707070; font-weight: 400; }
-.fz-punto { display: inline-block; flex-shrink: 0; border-radius: 50%; background: var(--rojo); }
-.fz-meses { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px 26px; }
-.fz-mes-cab { display: flex; align-items: baseline; justify-content: space-between; gap: 6px; padding-bottom: 3px; border-bottom: 2px solid var(--tinta); }
+.fz-punto { display: inline-block; flex-shrink: 0; border-radius: 50%; background: var(--fuego); }
+.fechas { --permitido: #E3E3E3; } /* gris de verdad: el día permitido y su muestra en la leyenda */
+.fz-meses { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 24px 22px; }
+/* El nombre del mes y, debajo, lo que se permite: el mismo alto en los seis para que los días queden parejos. */
+.fz-mes-cab { display: flex; flex-direction: column; padding-bottom: 3px; border-bottom: 2px solid var(--tinta); }
 .fz-mes-cab h2 { margin: 0; font-family: var(--display); font-weight: 400; font-size: 18px; line-height: 1.2; }
-.fz-mes-cab span { font-size: 12px; font-weight: 700; text-align: right; }
+.fz-mes-cab span { min-height: 17px; font-size: 12px; font-weight: 700; line-height: 1.4; }
 .fz-semana, .fz-dias { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); }
 .fz-semana { margin: 5px 0 3px; font-family: var(--mono); font-size: 11px; color: #5C5C5C; text-align: center; }
 .fz-dias { row-gap: 2px; }
 .fz-dia { height: 38px; display: flex; flex-direction: column; align-items: center; border-bottom: 3px solid transparent; cursor: pointer; }
 .fz-dia b { padding-top: 2px; font-family: var(--mono); font-size: 12px; line-height: 14px; font-weight: 400; color: #2A2A2A; }
-.fz-dia i { display: block; margin: auto 0; border-radius: 50%; background: var(--rojo); }
-.fz-dia.permitido { background: #E4DFD1; border-bottom-color: var(--tinta); }
+.fz-dia i { display: block; margin: auto 0; border-radius: 50%; background: var(--fuego); }
+.fz-dia.permitido { background: var(--permitido); border-bottom-color: var(--tinta); }
 .fz-dia.permitido b { font-weight: 700; }
 .fz-dia.futuro { cursor: default; }
 .fz-dia.futuro b { color: #707070; }
 .fz-dia:hover, .fz-dia.activo { box-shadow: inset 0 0 0 2px var(--tinta); }
 .fz-lectura { margin: 16px 0 0; min-height: 24px; font-size: 16px; font-weight: 700; }
 .fz-lectura.pista { font-weight: 400; color: var(--tinta-2); font-size: 14px; }
-.fz-mapa { position: relative; width: 100%; aspect-ratio: 416 / 309; }
-.fz-mapa svg { position: absolute; inset: 0; width: 100%; height: 100%; }
-.fz-mapa path { fill: #DDD8CF; stroke: #FFFFFF; stroke-width: 1; vector-effect: non-scaling-stroke; cursor: pointer; transition: fill 0.15s ease; }
-.fz-mapa path:hover { fill: #B8B0A3; }
-.fz-mapa path.en-zona { fill: var(--tinta); cursor: default; }
-.fz-etq { position: absolute; transform: translate(-50%, -50%); font-size: 12.5px; font-weight: 700; color: var(--tinta); white-space: nowrap; pointer-events: none; text-shadow: 0 0 3px #FFFFFF, 0 0 3px #FFFFFF, 0 0 6px #FFFFFF; }
-.fz-etq.actual { font-size: 14px; font-weight: 800; color: #FFFFFF; text-shadow: 0 0 3px #000000, 0 0 3px #000000, 0 0 6px #000000; }
-.fz-pista { margin: 0; font-size: 14px; color: var(--tinta-2); }
 
-/* Almanaque */
-.alm { margin-top: 64px; display: flex; flex-direction: column; gap: 12px; }
+/* Calendario del fuego por mes (el almanaque) */
+.alm { margin-top: 64px; padding-top: 28px; border-top: 1px solid var(--linea); display: flex; flex-direction: column; gap: 12px; }
 .alm h2 { margin: 0; font-family: var(--display); font-weight: 400; font-size: 30px; line-height: 1.1; }
 .alm-sub { margin: 0; max-width: 760px; font-size: 16px; line-height: 1.5; color: var(--tinta-2); }
 .alm-controles { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 16px 28px; margin-top: 6px; }
@@ -477,25 +503,33 @@ body.con-subtitulos { --subtitulos: 72px; padding-bottom: var(--subtitulos); }
 .alm-botones button { height: 41px; padding: 0 12px; border: 0; background: #FFFFFF; font-size: 14px; font-weight: 700; white-space: nowrap; cursor: pointer; }
 .alm-botones button + button { border-left: 1.5px solid var(--tinta); }
 .alm-botones button[aria-pressed="true"] { background: var(--tinta); color: #FFFFFF; }
-.alm-ley { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 16px; margin-top: 4px; font-size: 13px; }
+.alm-ley { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 28px; margin-top: 4px; font-size: 13px; }
+.alm-pasos { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; }
 .alm-ley span { display: inline-flex; align-items: center; gap: 6px; }
 .alm-ley i { width: 18px; height: 14px; }
-.alm-ley .v-muestra { width: 22px; height: 4px; background: var(--tinta); }
-.c0 { background: #F1EEE8; }
-.c1 { background: #F8E1B0; }
-.c2 { background: #F1BC6E; }
-.c3 { background: #E3863F; }
-.c4 { background: #BF4B28; }
-.c5 { background: #7A2315; }
+/* La muestra de la raya es un cuadro vacío con la raya debajo, como en un renglón de la tabla. */
+.alm-ley .v-muestra { width: 22px; height: 16px; background: none; box-shadow: inset 0 0 0 1px #BDB7AE; border-bottom: 4px solid var(--tinta); }
+/* Un solo matiz de claro a oscuro, con saltos de claridad parejos (OKLCH, L de 0.91 a 0.39): se distinguen
+   también con daltonismo y en una pantalla mala. «Ninguno» es un cuadro vacío con borde: se ve a propósito. */
+.a-c0 { background: #FFFFFF; box-shadow: inset 0 0 0 1px #CDC8C0; }
+.a-c1 { background: #FED9BD; }
+.a-c2 { background: #E7A875; }
+.a-c3 { background: #C87A30; }
+.a-c4 { background: #9A5505; }
+.a-c5 { background: #673702; }
 .alm-tabla { width: 100%; table-layout: fixed; border-collapse: separate; border-spacing: 2px 8px; margin-top: -4px; }
-.alm-tabla col.nombre { width: 250px; }
+.alm-tabla col.nombre { width: 270px; }
 .alm-tabla thead th { position: sticky; top: var(--barra-alto); z-index: 2; padding: 8px 0 5px; background: var(--papel); font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--tinta-2); text-align: center; }
 .alm-tabla thead th:first-child { font-family: var(--texto); font-size: 13px; text-align: left; }
 .alm-tabla .corto { display: none; }
 .alm-tabla tbody th { padding: 3px 10px 3px 0; text-align: left; font-weight: 400; vertical-align: middle; }
-.alm-tabla tbody th a { font-size: 15px; font-weight: 700; text-underline-offset: 3px; overflow-wrap: anywhere; }
+.alm-tabla tbody th > a { font-size: 15px; font-weight: 700; text-underline-offset: 3px; overflow-wrap: anywhere; }
+.a-flecha { display: inline-block; margin-left: 5px; text-decoration: none; transition: transform 0.15s ease; }
+.alm-tabla tbody th > a:hover .a-flecha { transform: translateX(3px); }
+@media (prefers-reduced-motion: reduce) { .a-flecha { transition: none; } }
 .a-linea { display: block; margin-top: 1px; font-size: 12.5px; line-height: 1.35; color: var(--tinta-2); }
-.a-zona { display: inline-flex; align-items: center; min-height: 24px; padding: 0; border: 0; background: none; color: var(--tinta); font-size: inherit; text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
+.a-zona { display: inline-flex; align-items: center; gap: 2px; min-height: 24px; padding: 0; border: 0; background: none; color: var(--tinta); font-size: inherit; font-weight: 700; text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
+.a-zona span { text-decoration: none; }
 /* La raya de las fechas permitidas va debajo de los cuadros de su renglón, como el borde de los días permitidos del calendario. */
 .alm-tabla td.mes { position: relative; height: 38px; padding: 0; }
 .alm-tabla .f { position: absolute; left: 0; right: 0; top: 0; bottom: 6px; }
@@ -504,38 +538,51 @@ body.con-subtitulos { --subtitulos: 72px; padding-bottom: var(--subtitulos); }
 .alm-mas { margin-top: 14px; }
 .alm-pie { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; margin-top: 6px; }
 .alm-pie p { margin: 0; font-size: 14px; color: var(--tinta-2); }
+/* El paso siguiente del recorrido: una oración con su enlace. */
+.fz-sigue { margin: 48px 0 0; font-size: 19px; font-weight: 700; }
+.fz-sigue a { text-underline-offset: 4px; }
 .fechas > .pie { margin-top: 28px; }
-@media (max-width: 1100px) {
-  .fz { grid-template-columns: minmax(0, 1fr); grid-template-areas: "cabeza" "cal" "mapa"; grid-template-rows: none; }
-  .fz-lado-mapa { max-width: 440px; }
+@media (max-width: 1180px) {
+  .fz-meses { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px 28px; }
+}
+@media (max-width: 1000px) {
+  .fz { grid-template-columns: minmax(0, 1fr); grid-template-areas: "afirma" "prueba" "mapa"; }
+  .fz-lado-mapa { max-width: 520px; }
 }
 @media (max-width: 860px) {
-  .fechas { padding: 16px max(16px, env(safe-area-inset-right, 0px)) 32px max(16px, env(safe-area-inset-left, 0px)); }
-  .fz-cabeza h1 { font-size: 24px; }
-  .fz-meses { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 14px; }
-  .fz-mes-cab { flex-direction: column; align-items: flex-start; gap: 0; }
-  /* La nota va debajo del mes; vacía también ocupa su renglón para que los dos meses de la fila queden parejos. */
-  .fz-mes-cab span { min-height: 16px; text-align: left; font-size: 11.5px; }
-  .fz-dia { height: 34px; }
+  .fechas { padding: 20px max(16px, env(safe-area-inset-right, 0px)) 32px max(16px, env(safe-area-inset-left, 0px)); }
+  .fz { gap: 22px; }
+  .fz-afirma h1 { font-size: 26px; }
+  .fz-patron { font-size: 17px; }
+  .fz-dia-a-dia { margin-top: 40px; }
+  .fz-sec-t { font-size: 22px; }
+  .fz-meses { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 14px; }
+  .fz-mes-cab span { font-size: 11.5px; }
+  /* Con el dedo: cada día mide 44 px de alto. */
+  .fz-dia { height: 44px; }
   .fz-dia b { font-size: 11px; }
   .fz-ley { gap: 8px 18px; font-size: 13px; }
+  /* Los nombres del mapa crecen hasta 44 px para el dedo sin crecer a la vista. */
+  .fz-etq { height: 30px; font-size: 12.5px; padding-right: 9px; }
+  .fz-etq::after { content: ''; position: absolute; inset: -8px -2px; }
   .alm { margin-top: 48px; }
   .alm h2 { font-size: 25px; }
   .alm-buscar { width: 100%; }
   .alm-botones button { height: 44px; padding: 0 10px; }
   .alm-tabla { border-spacing: 1px 8px; }
-  .alm-tabla col.nombre { width: 43%; }
+  .alm-tabla col.nombre { width: 46%; }
   .alm-tabla .largo { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   .alm-tabla .corto { display: inline; }
   .alm-tabla tbody th { padding-right: 6px; }
-  .alm-tabla tbody th a { font-size: 14px; display: inline-flex; align-items: center; min-height: 26px; }
+  .alm-tabla tbody th > a { font-size: 14px; display: inline-flex; align-items: center; min-height: 26px; }
   /* Con el dedo: toda la celda del nombre abre el municipio, y «Zona N» crece hasta 44 px sin mover nada. */
   .alm-tabla tbody th { position: relative; }
-  .alm-tabla tbody th a::after { content: ''; position: absolute; inset: 0; }
+  .alm-tabla tbody th > a::after { content: ''; position: absolute; inset: 0; }
   .a-zona { position: relative; z-index: 1; min-height: 44px; padding: 8px 6px 12px; margin: -8px -6px -12px; }
   .a-linea { font-size: 11.5px; }
   .alm-tabla td.mes { height: 44px; }
   .alm-pie .b-borde { height: 48px; }
+  .fz-sigue { font-size: 17px; margin-top: 36px; }
 }
 
 /* Al saltar a un título, que no quede debajo de la barra fija. */
