@@ -163,11 +163,16 @@ INEGI y de la Secretaría de Economía (abiertos el 14 nov 2026), salvo donde se
   58,036 unidades agropecuarias activas, de las que se sembraron 339,044 (Censo 2022). La
   Encuesta Nacional Agropecuaria 2025 da **306,991 ha** en unidades activas (reporte 45/26,
   cuadro 1, 7 oct 2026). Es una encuesta por muestra: no decir que el campo «bajó».
-- **Gente:** 53,630 productores; **96 de cada 100 se consideran indígenas**; 50.7 % tiene la
-  primaria como nivel de estudios; solo el 2.0 % de las unidades obtuvo crédito (infografía del
-  Censo 2022).
+- **Gente:** 58,036 unidades de producción activas. La mano de obra permanente es de 115,595
+  personas: 52,589 productores que trabajaron directamente en su unidad, 46,438 familiares y
+  16,568 trabajadores contratados; además hubo 57,273 puestos eventuales (comunicado 698/23).
+  **96 de cada 100 productores se consideraron indígenas** y, de ellos, 90.4 % habla alguna
+  lengua indígena (comunicado 698/23); 50.7 % tiene la primaria como nivel de estudios; solo el
+  2.0 % de las unidades obtuvo crédito (infografía del Censo 2022). Ojo: 53,630 son las cabezas
+  de ovinos, no los productores.
 - **Materia prima:** maíz grano blanco, principal cultivo anual (47.5 mil t); pasto cultivado,
-  principal perenne (946.1 mil t); 381,535 bovinos, 1,606,202 porcinos y 38,116,894 aves;
+  principal perenne (946.1 mil t); 381,535 bovinos, 1,606,202 porcinos y 38,116,894 aves en
+  unidades de producción (con los de traspatio: 388,399 bovinos);
   8.4 mil litros de leche de vaca al día; 81.3 % de la superficie agrícola es de temporal
   (infografía del Censo 2022).
 - **Exportación:** la carne fue el 2.º sector exportado de Yucatán en 2023, con 329 millones de
@@ -208,8 +213,8 @@ CICY.
   el 59 % de los incendios forestales (283 de 481) y el 53 % de las hectáreas (35,524 de
   67,512); el 58 % de esos incendios (164 de 283) empezó por el campo.
 - Mérida: lugar 19 en fuego total y 77 de 106 por km²; ninguno de sus 6 incendios de CONAFOR
-  fue por el campo. Sus 3 fuegos de 5 días o más (jul 2025, ago y oct 2026) son fuera de
-  temporada y probablemente fuentes de calor fijas que los focos recientes traen sin marca.
+  fue por el campo. Sus 3 fuegos de 5 días o más son fuera de temporada (ver «Pendiente de
+  verificar»).
 
 ### Lo que la ley pide al municipio
 Ley de Prevención y Combate de Incendios Agropecuarios y Forestales del Estado de Yucatán
@@ -227,12 +232,15 @@ Ley de Prevención y Combate de Incendios Agropecuarios y Forestales del Estado 
   representantes de los pobladores.
 
 ### El calendario de cada zona atrapa el doble que la ventana oficial
-Prueba hacia adelante, VIIRS S-NPP (`analisis/campo_y_fuego.py`). Zona de quema = cuadrito con
+Prueba hacia adelante, VIIRS S-NPP 2012–2025, 14 temporadas (`analisis/campo_y_fuego.py`). No
+usa la serie armonizada de 25 años: MODIS no ve los fuegos chicos (docs/02, tarea 6). Zona de quema = cuadrito con
 fuego en 30 % o más de los años anteriores; cada zona es una mancha de 3 o más cuadritos
 vecinos dentro de un municipio.
 - **Calendario:** el fuego de cada año (2019–2025) que cae en las 4 semanas más fuertes de la
   historia de su zona: **49 %** (entre 45 y 55 % cada año). En la ventana oficial de SEDER de esa
-  zona: **23 %**.
+  zona: **23 %**. Se mide dentro de las zonas de quema, no en todo el fuego del estado (para todo
+  el estado: 19 % en 2025, «Hallazgo»). La ventana dice cuándo está permitido quemar, no cuándo
+  se quema; en las zonas 1 y 2 dura 46 y 42 días, más que las 4 semanas, y aun así atrapa menos.
 - **Dónde:** las zonas de quema reciben el 46 % de la quema de 1 a 2 días del año siguiente
   (2018–2025) y ocupan el 23.5 % de la tierra. El 68 % de la tierra de Yucatán ha tenido fuego
   alguna vez desde 2012.
@@ -603,6 +611,9 @@ NOAA-20 por S-NPP y Terra por Aqua. Lista completa en `salidas/dias_sin_datos.cs
   llegada de brigadas de 4 h 26 min de 2026 (Por Esto): vienen de resúmenes de búsqueda y no se
   abrieron las notas. La página del reto de Space Apps no abrió (error de certificado): no
   decir que el reto pide un calendario.
+- **Mérida:** sus 3 fuegos de 5 días o más (jul 2025, ago y oct 2026) son fuera de temporada.
+  Falta comprobar si son fuentes de calor fijas que los focos recientes traen sin marca (docs/04,
+  tarea 5).
 
 - **Por qué Aqua vio menos fuego en 2022** («2022: Aqua estuvo apagado 17 días»). Lo
   comprobado: no son los fuegos de ese año (Terra sale normal) y empieza en marzo, antes del
