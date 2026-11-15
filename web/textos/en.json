@@ -58,6 +58,7 @@
   "ubicando": "Finding your location…",
   "ubicacionFuera": "Your location is outside the Yucatán Peninsula. Search for a municipality by name.",
   "ubicacionError": "Your location could not be found. Search for your municipality by name.",
+  "puntosPasan": "The dots are each day’s hot spots in 2026:",
   "leyendaPunto": "Each dot is a hot spot seen on {f}, the day with the most fire this season: {n} across the peninsula.",
   "verTemporada": "Watch the season day by day",
   "filaNormal": "Normal year",
