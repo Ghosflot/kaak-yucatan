@@ -216,29 +216,35 @@ queda para las versiones largas. La estructura es gancho, problema, solución co
 cierre de una frase. El problema en el campo y la solución salen del aterrizaje (docs/04): el
 fuego es una herramienta del campo, y K'áak' dice dónde y cuándo se quema más en cada municipio.
 
-Son 65 palabras en inglés. Con la voz de macOS (`say`) dura entre 26.4 y 28.8 segundos, según
-la voz; la versión anterior, de 81 palabras, daba de 30.1 a 31.4. Quedan entre 1 y 3 segundos
-de margen: hay que cronometrarla con el demo real. Si no cabe, lo primero que se quita es
-«Here,».
+Son 67 palabras en inglés. Con 65 palabras, la voz de macOS (`say`) daba entre 26.4 y 28.8
+segundos; con las 67 de ahora deben quedar de 27.2 a 29.7, así que el margen es de casi nada:
+hay que cronometrarla con el demo real. Si no cabe, lo primero que se quita es «historically».
+
+**Campeche en la frase 4 (15 nov).** La solución habla de la península y cierra con «Campeche
+leads»: Campeche es el estado con más fuego, cerca de 1.7 veces Yucatán al año, y los cinco
+municipios con más fuego de la península son suyos (docs/01, «Lo que ve el satélite»). La
+página ya cubre los tres estados, así que el demo lo puede enseñar. Para hacerle espacio se
+quitó «Here,» de la frase 2. El cierre («Yucatán's fire calendar») y la frase 2, que habla de
+los 10 municipios de Yucatán, no cambian.
 
 | Seg. | Parte | Se dice | En pantalla |
 |---|---|---|---|
 | 0–6 | Gancho | En 2024, el humo de los incendios puso a Mérida entre las ciudades más contaminadas de México. | Mérida con humo, o la frase en grande |
-| 6–12 | El problema en el campo | Aquí el fuego es una herramienta del campo: los 10 municipios que más arden siembran milpa o crían ganado. | Mapa de la península con los 10 municipios con más fuego iluminados (docs/04, sección 2) |
+| 6–12 | El problema en el campo | El fuego es una herramienta del campo: los 10 municipios que más arden siembran milpa o crían ganado. | Mapa de la península con los 10 municipios con más fuego iluminados (docs/04, sección 2) |
 | 12–18 | El problema técnico | Pero los satélites no coinciden: unos ven entre tres y cinco veces más fuego. | La gráfica del salto de 2012 |
-| 18–26 | La solución | K'áak' calibra 25 años y muestra dónde y cuándo se ha quemado más históricamente en Yucatán, municipio por municipio. | Demo: el mapa de la península y luego «Ver las fechas de quema» de un municipio. Texto chico: «Se actualiza 4 veces al día» |
+| 18–26 | La solución | K'áak' calibra 25 años y muestra dónde y cuándo se ha quemado más históricamente en la península, municipio por municipio. Campeche va primero. | Demo: el mapa de la península, con Campeche encendido, y luego «Ver las fechas de quema» de un municipio. Texto chico: «Se actualiza 4 veces al día» |
 | 26–30 | Cierre | Para Protección Civil, SEDER y cada municipio: K'áak', el calendario del fuego de Yucatán. | Logo y kaak.pages.dev |
 
 **En inglés (lo que se graba):**
 
 > In 2024, wildfire smoke put Mérida among Mexico's most polluted cities.
 >
-> Here, fire is a farming tool: the ten most-burned towns grow milpa or raise cattle.
+> Fire is a farming tool: the ten most-burned towns grow milpa or raise cattle.
 >
 > But satellites disagree: some see three to five times more fire.
 >
-> K'áak' calibrates 25 years and shows where and when Yucatán has historically burned most,
-> town by town.
+> K'áak' calibrates 25 years and shows where and when the peninsula has historically burned
+> most, town by town. Campeche leads.
 >
 > For Civil Protection, SEDER and every town: K'áak', Yucatán's fire calendar.
 
@@ -246,7 +252,7 @@ En inglés, «towns» quiere decir municipios. «SEDER» se dice como palabra (�
 letra por letra.
 
 La solución dice «históricamente» para que quede claro que K'áak' no predice: muestra lo que ya
-pasó. Dice «dónde y cuándo se ha quemado más en Yucatán, municipio por municipio», no «dónde se
+pasó. Dice «dónde y cuándo se ha quemado más en la península, municipio por municipio», no «dónde se
 quema dentro de cada municipio»: el dónde es el mapa de los municipios, y el cuándo, el
 calendario de cada uno, hecho con los 25 años calibrados. La página de cada municipio sí enseña,
 en «¿Dónde se quema?», los cuadritos de 1 km donde el fuego se repite (5 o más temporadas de
