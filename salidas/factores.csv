@@ -1,6 +1,6 @@
 zona,epoca,satelite,factor,factor_min,factor_max,cuadritos_dia_usados,debil
 Península,temporada,NOAA-20,1.0077,1.0059,1.0145,187752,False
-Península,resto,NOAA-20,0.9812,0.9684,0.9878,35438,False
+Península,resto,NOAA-20,0.9814,0.9685,0.988,35285,False
 Yucatán 1,temporada,Aqua,2.8402,2.8004,2.8882,7664,False
 Yucatán 1,resto,Aqua,4.305,3.9643,6.5625,259,False
 Yucatán 2,temporada,Aqua,3.8325,3.7464,4.0157,2340,False

@@ -19,7 +19,7 @@ export function ruta(hash = location.hash, camino = location.pathname) {
   const [nombre, id] = hash.replace(/^#\/?/, '').split('/');
   if (nombre === 'municipio' && id) return { vista: 'municipio', params: { id: decodificar(id) } };
   // La zona de #/fechas/<zona> no vuelve a montar la vista: la vista la sigue sola.
-  if (nombre === 'fechas') return { vista: nombre, params: { zona: /^[1-4]$/.test(id || '') ? id : '2' } };
+  if (nombre === 'fechas') return { vista: nombre, params: { zona: /^[1-4]$/.test(id || '') ? id : null } };
   if (nombre === 'metodo') return { vista: nombre, params: {} };
   return { vista: 'portada', params: {} };
 }

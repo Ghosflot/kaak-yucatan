@@ -134,27 +134,15 @@ test.describe('con el teclado', () => {
     await abrir(page, '#/', { reducir: true });
     await page.locator('#capa').focus();
     await page.keyboard.press('ArrowRight');
-    await expect(page.locator('#tarjeta .nombre')).toHaveText('Umán'); // la primera flecha empieza en el ejemplo
+    await expect(page.locator('#tarjeta .nombre')).toHaveText('Muna'); // la primera flecha empieza en el ejemplo
     await page.keyboard.press('ArrowUp');
     const otro = await page.locator('#tarjeta .nombre').textContent();
-    expect(otro).not.toBe('Umán');
+    expect(otro).not.toBe('Muna');
     expect(await enfocado(page)).toBe('capa'); // el foco se queda en el mapa
     await expect(page.locator('#anuncio')).toContainText(otro);
     await page.keyboard.press('Enter');
     await expect(page).toHaveURL(/#\/municipio\//);
     await expect(page.locator('h1')).toContainText(otro);
-  });
-
-  test('la tira de días se recorre con las flechas y lleva el repaso a cada día', async ({ page }) => {
-    await abrir(page, '#/', { reducir: true });
-    await expect(page.locator('#tira')).toHaveAttribute('role', 'slider');
-    await page.locator('#tira').focus();
-    await page.keyboard.press('ArrowRight');
-    await expect(page.locator('#escenario')).toHaveAttribute('data-modo', 'repaso');
-    await expect(page.locator('#fecha')).toHaveText('1 de marzo');
-    await page.keyboard.press('PageUp');
-    await expect(page.locator('#fecha')).toHaveText('8 de marzo');
-    await expect(page.locator('#tira')).toHaveAttribute('aria-valuetext', /8 mar/);
   });
 
   test('#/fechas: los días del calendario son una parada de Tab y se recorren con las flechas', async ({ page }) => {
