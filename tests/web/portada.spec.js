@@ -468,8 +468,8 @@ test.describe('funciones escondidas', () => {
   });
 });
 
-// Campos que la tanda de datos suma a portada.json (diseño, «Contrato de datos»). La página tiene que
-// usarlos cuando lleguen y quedar bien sin ellos: aquí se inyectan.
+// Campos que portada.json suma (diseño, «Contrato de datos»). La página los usa cuando vienen y
+// queda bien si faltan: aquí se inyectan o se quitan.
 test.describe('datos nuevos de portada.json', () => {
   const conCampos = (extra) => async ({ page }) => {
     await page.route('**/datos/portada.json', (r) => r.fulfill({ contentType: 'application/json', body: JSON.stringify(extra(structuredClone(PORTADA))) }));
@@ -483,6 +483,7 @@ test.describe('datos nuevos de portada.json', () => {
   });
 
   test('sin «reciente», la línea solo dice cuándo cerró; en temporada, no sale', async ({ page }) => {
+    await conCampos((d) => { delete d.reciente; return d; })({ page });
     await abrir(page, '#/');
     await expect(page.locator('#fueraTemporada')).toHaveText('La temporada de quemas cerró el 31 de mayo. Los datos se actualizan cuatro veces al día.');
     await conCampos((d) => ({ ...d, datoHasta: { 'S-NPP': '2026-04-20' } }))({ page });
@@ -504,6 +505,7 @@ test.describe('datos nuevos de portada.json', () => {
   });
 
   test('sin «satDia», 2026 no inventa satélite; otro año dice el suyo', async ({ page }) => {
+    await conCampos((d) => { delete d.satDia; return d; })({ page });
     await abrir(page, '#/', { query: '?modo=repaso&t=60' });
     await expect(page.locator('#satelite')).toHaveText('');
     await page.goto('/#/?modo=final&anio=2005');
@@ -511,8 +513,10 @@ test.describe('datos nuevos de portada.json', () => {
   });
 
   test('la franja de lo normal sale detrás de las barras solo si llega «yuc.rango»', async ({ page }) => {
+    await conCampos((d) => { delete d.yuc.rango; return d; })({ page });
     await abrir(page, '#/');
     await expect(page.locator('#barras .rango')).toHaveCount(0);
+    await page.unroute('**/datos/portada.json');
     await conCampos((d) => { d.yuc.rango = [5500, 9600]; return d; })({ page });
     await page.reload();
     await page.waitForSelector('#rellenos path', { state: 'attached' });
