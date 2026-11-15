@@ -604,5 +604,6 @@
     "NOAA-21 has been in FIRMS since March 2023, so it overlaps S-NPP for only two full years. It has no factor and is not part of the series."
   ],
   "mIA": "We built this project with the help of artificial intelligence (Claude, by Anthropic) for research, code and drafting. The team chose the method and checked every figure against its source.",
-  "mIAEnlace": "What the AI did and did not do"
+  "mIAEnlace": "What the AI did and did not do",
+  "mEquipo": "Made in Mérida, Yucatán, by David Alcocer, Nicolás Moguel, Guillermo Peña, Leonardo Sanmartín, Melany Suárez and Gadiel Uicab, for NASA Space Apps 2026."
 }

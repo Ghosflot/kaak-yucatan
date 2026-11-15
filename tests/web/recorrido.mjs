@@ -1,5 +1,5 @@
 // Graba el recorrido de la página para el PR, con subtítulos dentro de la página (?subtitulos=1).
-// Uso: node tests/web/recorrido.mjs <nombre> [portada|temporada|fechas|pulido|revision|repaso|ia|direccion|demo|ganadero]
+// Uso: node tests/web/recorrido.mjs <nombre> [portada|temporada|fechas|pulido|revision|repaso|ia|direccion|demo|ganadero|pie]
 //   →   videos/<nombre>-escritorio.mp4 y videos/<nombre>-telefono.mp4
 //
 // Cada cuadro sale de Chrome en JPEG de alta calidad (el teléfono, a doble resolución) y ffmpeg lo
@@ -698,6 +698,21 @@ async function ganadero() {
   });
 }
 
-await ({ portada, temporada, fechas, pulido, revision, repaso, ia, direccion, demo, ganadero })[RECORRIDO]();
+// El pie de «Cómo lo medimos» con el equipo, en español y en inglés, en computadora y teléfono.
+async function pie() {
+  for (const [nombre, opciones] of [['escritorio', PORTATIL], ['telefono', TELEFONO]]) {
+    await grabar(nombre, opciones, '#/metodo', '#mEquipo', async ({ page, espera, sub }) => {
+      await espera(800);
+      await page.evaluate(() => document.querySelector('#mEquipo').scrollIntoView({ block: 'center' }));
+      await sub('Al pie de «Cómo lo medimos», quiénes hicimos K\'áak\'.', 4500);
+      await page.evaluate(() => { document.querySelector('[data-idioma="en"]').click(); });
+      await espera(600);
+      await page.evaluate(() => document.querySelector('#mEquipo').scrollIntoView({ block: 'center' }));
+      await sub('Y en inglés.', 3500);
+    });
+  }
+}
+
+await ({ portada, temporada, fechas, pulido, revision, repaso, ia, direccion, demo, ganadero, pie })[RECORRIDO]();
 await navegador.close();
 process.exit(0);

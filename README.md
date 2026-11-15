@@ -22,6 +22,10 @@ where it recurs year after year.
   25-year normal.
 - **Official burn windows.** Fire detections are crossed with the state's official burning
   calendar by zone.
+- **Where it burns.** Each municipality page maps the 1 km squares where fire has recurred in
+  five or more seasons since 2012, and every 2026 hot spot with its date and satellite.
+- **Cattle land.** For Yucatán, pasture, cattle and hot spots on pasture by municipality
+  (INEGI).
 - **A shareable sheet.** Each municipality has a downloadable summary that a community leader
   can forward by messaging app.
 
@@ -100,6 +104,11 @@ was verified against the cited sources. The site says so at the foot of "How we 
 
 The full disclosure, with what the AI did and did not do and each member's use, is in
 [entrega/uso-de-ia.md](entrega/uso-de-ia.md). No image on the site was generated with AI.
+
+## Team
+
+David Alcocer, Nicolás Moguel, Guillermo Peña, Leonardo Sanmartín, Melany Suárez and Gadiel
+Uicab. Made in Mérida, Yucatán, for NASA Space Apps 2026.
 
 ## License
 

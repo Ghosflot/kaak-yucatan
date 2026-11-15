@@ -4,6 +4,16 @@
 que los dos se aprenden el pitch completo y lo practican. Si faltan los dos, cubren Gadiel y
 Melany.
 
+**El pitch dura 5 minutos:** se presenta la «Versión de 5 minutos». La de 3 minutos queda de
+respaldo.
+
+**El ejemplo del demo es Muna**, el pueblo del abuelo, y es también el botón «Por ejemplo» de la
+página. En las diapositivas, el clip del demo busca «Muna» y el QR abre `kaak.pages.dev/muna`.
+
+**En la portada de las diapositivas**, el equipo va con nombre y primer apellido, en orden
+alfabético por apellido: David Alcocer, Nicolás Moguel, Guillermo Peña, Leonardo Sanmartín, Melany Suárez y Gadiel Uicab. Así sale también al pie de
+«Cómo lo medimos».
+
 Falta: cronometrar con el demo real y que Nico revise las cifras (cada una sale de docs/01).
 
 ## Versión de 30 segundos (video del demo)
@@ -45,8 +55,9 @@ letra por letra.
 La solución dice «históricamente» para que quede claro que K'áak' no predice: muestra lo que ya
 pasó. Dice «dónde y cuándo se ha quemado más en Yucatán, municipio por municipio», no «dónde se
 quema dentro de cada municipio»: el dónde es el mapa de los municipios, y el cuándo, el
-calendario de cada uno, hecho con los 25 años calibrados. Las zonas de quema dentro del
-municipio y el calendario de cada zona (14 años de VIIRS) todavía no están en la página.
+calendario de cada uno, hecho con los 25 años calibrados. La página de cada municipio sí enseña,
+en «¿Dónde se quema?», los cuadritos de 1 km donde el fuego se repite (5 o más temporadas de
+2012 a 2025); el calendario de cada zona (14 años de VIIRS) todavía no está en la página.
 
 ## Versión de 3 minutos
 
