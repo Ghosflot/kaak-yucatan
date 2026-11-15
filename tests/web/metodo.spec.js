@@ -110,7 +110,9 @@ test('un satélite por periodo, con sus fechas, y por qué no seguir con Terra y
   await expect(periodos.nth(0)).toContainText('Terra');
   await expect(periodos.nth(2)).toContainText('del 20 de enero de 2012 al 2 de noviembre de 2026');
   await expect(periodos.nth(3)).toContainText('desde el 3 de noviembre de 2026');
-  await expect(page.locator('#mUnir')).toContainText(`entre ${uno(M.factores.aqua[0])} y ${uno(M.factores.aqua[1])}`);
+  // En números redondos y con todas las zonas y épocas: lo mismo que dice el pitch («entre tres y cinco»).
+  expect(M.factores.aquaTodas).toEqual([2.8, 5.3]);
+  await expect(page.locator('#mUnir')).toContainText('S-NPP ve entre 3 y 5, según la zona y la época del año');
   // La gráfica chica de la hora de paso: tres líneas con su nombre y su última hora.
   const paso = page.locator('#pasoSvg');
   await expect(paso).toHaveAttribute('role', 'img');
@@ -288,16 +290,16 @@ test('las gráficas de las pruebas dicen lo mismo que sus PNG, en el mismo orden
     let i = -1;
     for (const p of partes) { const j = todo.indexOf(p, i + 1); expect(j, p).toBeGreaterThan(i); i = j; }
   };
-  enOrden(await textos('salto_2012'), ['Cuadritos-día por año, sin calibrar', 'promedio 8,680', 'promedio 28,281',
-    'Cuadritos-día por año, calibrada', 'promedio 31,295', 'Promedio 2013–15 ÷ promedio 2009–11', 'umbral',
-    'rango natural 0.87–1.16', 'Sin calibrar: 3.26', 'Calibrada: 0.90', '✓', '(sin salto)']);
-  enOrden(await textos('aqua_fuera_muestra'), ['Cuadritos-día por año', 'S-NPP (observado)', 'Aqua × factor por zona y época',
+  enOrden(await textos('salto_2012'), ['Focos de calor al año, sin corregir', 'promedio 8,680', 'promedio 28,281',
+    'Focos de calor al año, ya corregidos', 'promedio 31,295', 'Promedio 2013–15 ÷ promedio 2009–11', 'meta',
+    'variación normal 0.87–1.16', 'Sin corregir: 3.26', 'Corregida: 0.90', '✓', '(sin salto)']);
+  enOrden(await textos('aqua_fuera_muestra'), ['Focos de calor al año', 'S-NPP (observado)', 'Aqua × factor por zona y época',
     'Aqua × factor único', 'Error de Aqua contra S-NPP (%)', '11 %', '✓', 'Por zona', '(elegido)', '13 %', 'Único', 'límite 25 %']);
   enOrden(await textos('conafor'), ['Incendios de CONAFOR', 'Azar: mismo lugar, otro año', 'Azar: mismas fechas, a 20 km',
     'Incendios con un foco de S-NPP cerca (%)', 'a menos de 2 km, ±1 día', '53 %', '✓', '9 %', '9 %', '3 × el azar mayor = 26 %',
     'Incendios que vio S-NPP,', 'según su tamaño (%)', '0–5', '(275)', '84', '✓', 'mínimo 75 %', '> 100', '(395)',
     'Tamaño del incendio en hectáreas (cuántos hay)', 'Incendios sin rango de tamaño, no se muestran: 1']);
-  enOrden(await textos('viirs'), ['umbral 0.90–1.10', 'Focos de NOAA ÷ focos de S-NPP', '(1 = cuentan lo mismo)',
+  enOrden(await textos('viirs'), ['meta 0.90–1.10', 'Focos de NOAA ÷ focos de S-NPP', '(1 = cuentan lo mismo)',
     'NOAA-20 con su factor', '✓', 'NOAA-21 sin factor (informativa)', '✓', 'año completo', 'año parcial (no decide)', 'NOAA-20 sin factor']);
   // Ningún texto de las gráficas se sale de su dibujo, tampoco en el teléfono.
   for (const ancho of [1280, 390]) {
@@ -327,7 +329,7 @@ test('en inglés: el interruptor, las preguntas y las gráficas', async ({ page 
   await abrirTodo(page);
   await expect(page.locator('.m-prueba[data-prueba="viirs"] figcaption')).toHaveText('Test 4 · NOAA-20 and NOAA-21 against S-NPP');
   await expect(page.locator('.m-prueba[data-prueba="viirs"] svg')).toContainText('NOAA-20 with its factor');
-  await expect(page.locator('.m-prueba[data-prueba="salto_2012"] svg')).toContainText('Calibrated: 0.90');
+  await expect(page.locator('.m-prueba[data-prueba="salto_2012"] svg')).toContainText('Corrected: 0.90');
   // Al cambiar de idioma, lo abierto sigue abierto.
   await page.click('[data-idioma="es"]');
   await expect(page.locator('.m-prueba[data-prueba="viirs"] svg')).toContainText('NOAA-20 con su factor');

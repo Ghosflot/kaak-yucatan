@@ -196,6 +196,7 @@ def test_metodo_satelites_factores_y_conafor(salida):
     assert m["periodos"][3]["hasta"] is None
     f = m["factores"]
     assert 2 < f["aqua"][0] < f["aqua"][1] < 5  # Aqua en temporada, zonas de Yucatán
+    assert f["aquaTodas"] == [2.8, 5.3]  # todas las zonas y épocas: docs/01, «entre tres y cinco veces»
     assert "noaa20" not in f  # lo cuenta la prueba «viirs» de la validación
     # Las cifras de docs/01, «Validación con CONAFOR».
     c = m["conafor"]
@@ -234,13 +235,25 @@ def test_validacion_para_la_pagina(salida):
 
 def test_graficas_de_la_validacion_como_sus_png(salida):
     """Las gráficas de la página tienen lo mismo que las PNG de pipeline/validar.py: los mismos
-    textos (validar.ETIQUETAS) y los mismos datos (validar.tabla_grafica)."""
+    textos (validar.ETIQUETAS) y los mismos datos (validar.tabla_grafica). Siete rótulos dicen lo
+    mismo con las palabras del resto de la página («corregido», «foco de calor», «meta»): las PNG
+    van selladas con la validación y conservan las suyas."""
     import validar
 
+    de_la_pagina = {
+        "es": {"sin_calibrar": "Sin corregir", "calibrada": "Corregida",
+               "focos_sin_calibrar": "Focos de calor al año, sin corregir",
+               "focos_calibrada": "Focos de calor al año, ya corregidos",
+               "umbral": "meta", "rango_natural": "variación normal", "focos_anio": "Focos de calor al año"},
+        "en": {"sin_calibrar": "Uncorrected", "calibrada": "Corrected",
+               "focos_sin_calibrar": "Hot spots per year, uncorrected",
+               "focos_calibrada": "Hot spots per year, corrected",
+               "umbral": "target", "rango_natural": "normal variation", "focos_anio": "Hot spots per year"},
+    }
     for idioma in ("es", "en"):
         textos = json.loads((ew.RAIZ / "web" / "textos" / f"{idioma}.json").read_text(encoding="utf-8"))
         for k, texto in validar.ETIQUETAS[idioma].items():
-            assert textos["mGv" + validar._camel(k)] == texto, (idioma, k)
+            assert textos["mGv" + validar._camel(k)] == de_la_pagina[idioma].get(k, texto), (idioma, k)
     original = {p["id"]: p for p in json.loads(ew.VALIDACION.read_text(encoding="utf-8"))["pruebas"]}
     g = {p["id"]: p["grafica"] for p in _json(salida, "validacion.json")["pruebas"]}
     t = {i: validar.tabla_grafica(p) for i, p in original.items()}

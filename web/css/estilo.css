@@ -351,7 +351,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
   .ciudad { font-size: 11.5px; }
   .panel { border-left: 0; border-top: 1px solid var(--linea); padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
   .pagina { padding: 28px max(16px, env(safe-area-inset-right, 0px)) 48px max(16px, env(safe-area-inset-left, 0px)); }
-  .ejemplo button { min-height: 44px; padding: 0 4px; }
+  .ejemplo button { min-height: 44px; min-width: 44px; padding: 0 4px; }
   .ubicacion { min-height: 44px; }
   .volver { min-height: 44px; }
   .idioma button { height: 44px; }

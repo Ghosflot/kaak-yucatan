@@ -3,7 +3,8 @@ import { t } from './textos.js';
 import { sinAcentos } from './comun.js';
 import { ubicar, municipioEn } from './ubicacion.js';
 
-export const EJEMPLO = 'uman';
+export const EJEMPLO = 'muna';
+const OTRO_EJEMPLO = 'tekax'; // en la página de Muna, «Ver otro municipio» propone Tekax
 
 // Ciudades, y municipios nuevos que los límites del mapa no traen, con el municipio que las contiene:
 // quien busque «Cancún» encuentra Benito Juárez.
@@ -28,7 +29,7 @@ export function armarBuscador(cont, n, { municipios, alElegir, alUbicar = null, 
     '<ul class="opciones" id="lista' + n + '" role="listbox" hidden></ul>' +
     '<div class="debajo"><span class="ejemplo"><span></span> <button type="button"></button></span></div>';
   const inp = cont.querySelector('input'), lista = cont.querySelector('ul');
-  const ejemplo = municipios.find((m) => m.id === EJEMPLO);
+  const ejemplo = municipios.find((m) => m.id === EJEMPLO) || municipios.find((m) => m.id === OTRO_EJEMPLO);
   cont.querySelector('label').textContent = t(etiqueta);
   inp.placeholder = t('buscaPh');
   inp.value = previo;
@@ -36,6 +37,7 @@ export function armarBuscador(cont, n, { municipios, alElegir, alUbicar = null, 
   cont.querySelector('.ejemplo span').textContent = t('ejemplo');
   const boton = cont.querySelector('.ejemplo button');
   boton.textContent = ejemplo?.n || '';
+  cont.querySelector('.ejemplo').hidden = !ejemplo;
   // Lo que se puede buscar: cada municipio por su nombre y las ciudades por el suyo.
   const porId = new Map(municipios.map((m) => [m.id, m]));
   const buscables = municipios.map((m) => ({ m, nombre: m.n, lugar: m.e }))

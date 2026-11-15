@@ -224,6 +224,8 @@ test('fuera de Yucatán la página y la ficha dicen cuándo se quema ahí', asyn
 test('el cierre lleva a las fechas de su zona y a otro municipio', async ({ page }) => {
   await abrir(page, '#/municipio/muna');
   await expect(page.locator('#irFechas')).toHaveAttribute('href', '#/fechas/3');
+  // El ejemplo de la página es Muna; estando en Muna, se propone Tekax.
+  await expect(page.locator('#buscadorOtro .ejemplo button')).toHaveText('Tekax');
   await page.fill('#buscao', 'tekax');
   await page.keyboard.press('Enter');
   await expect(page).toHaveURL(/#\/municipio\/tekax$/);

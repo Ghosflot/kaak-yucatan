@@ -485,7 +485,9 @@ export function montar(raiz) {
         : t('mPeriodoDesde', { s: p.sat, i: SENSOR[p.sat], d: fechaDiaAnio(p.desde) }));
       return li;
     }));
-    $('mUnir2').textContent = t('mUnir2', { a: dec(M.factores.aqua[0], 1), b: dec(M.factores.aqua[1], 1) });
+    // En números redondos, los mismos del pitch: «entre tres y cinco». Si los dos redondean igual, con un decimal.
+    const fa = M.factores.aquaTodas || M.factores.aqua, redondos = Math.round(fa[0]) !== Math.round(fa[1]);
+    $('mUnir2').textContent = t('mUnir2', { a: redondos ? String(Math.round(fa[0])) : dec(fa[0], 1), b: redondos ? String(Math.round(fa[1])) : dec(fa[1], 1) });
     const D = deriva(M.paso);
     texto($('mPaso1'), t('mPaso1', { u: D.estable, y: D.fin, t0: hora(D.T.ref), a0: hora(D.A.ref), t1: hora(D.T.ultimo), a1: hora(D.A.ultimo) }));
     dibujarPaso();

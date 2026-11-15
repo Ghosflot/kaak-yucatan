@@ -35,7 +35,7 @@ export function rangoDias(a, b) {
 }
 
 // Colores del mapa (escala semáforo).
-export const COLOR = { muyabajo: '#17704F', abajo: '#6DB892', normal: '#E6D394', arriba: '#F29A4A', muyarriba: '#D7412B', poco: '#7F8682' };
+export const COLOR = { muyabajo: '#0F5C4A', abajo: '#6DB892', normal: '#E6D394', arriba: '#F29A4A', muyarriba: '#D7412B', poco: '#7F8682' };
 export const ESCALA = ['muyabajo', 'abajo', 'normal', 'arriba', 'muyarriba'];
 
 // La frase del veredicto: más fina que la clase del color («la mitad», «el doble»).

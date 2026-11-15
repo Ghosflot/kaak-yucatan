@@ -547,6 +547,7 @@ def metodo(elegidos: pd.DataFrame, validos: pd.DataFrame, crudos: pd.DataFrame) 
     factores = pd.read_csv(FACTORES)
     temporada = factores["epoca"] == "temporada"
     aqua = factores[temporada & (factores["satelite"] == "Aqua") & factores["zona"].str.startswith("Yucatán")]
+    todas = factores[factores["satelite"] == "Aqua"]
 
     cruce = pd.read_csv(CRUCE_CONAFOR)
     visto = cruce["n_snpp"] > 0
@@ -560,7 +561,9 @@ def metodo(elegidos: pd.DataFrame, validos: pd.DataFrame, crudos: pd.DataFrame) 
         "paso": paso(validos), "nocturnos": nocturnos(validos),
         "sinDatos": sin_datos(), "fuenteFija": fuente_fija(crudos),
         # NOAA-20 contra S-NPP ya no va aquí: lo cuenta la prueba «viirs» de la validación.
-        "factores": {"aqua": [round(float(aqua["factor"].min()), 1), round(float(aqua["factor"].max()), 1)]},
+        # aqua: Yucatán en temporada. aquaTodas: todas las zonas y épocas, lo que dice el guion («entre tres y cinco»).
+        "factores": {"aqua": [round(float(aqua["factor"].min()), 1), round(float(aqua["factor"].max()), 1)],
+                     "aquaTodas": [round(float(todas["factor"].min()), 1), round(float(todas["factor"].max()), 1)]},
         "conafor": {"incendios": len(cruce), "desde": int(cruce["anio"].min()), "hasta": int(cruce["anio"].max()),
                     "vistos": round(100 * float(visto.mean())),
                     "grandes": round(100 * float(visto[grande].mean())), "nGrandes": int(grande.sum()), "ha": GRANDE_HA,
