@@ -11,7 +11,7 @@ on:
   #   11:23 UTC ( 5:23 en Mérida): ya están los pasos de la noche; el día anterior queda completo.
   #   14:23 UTC ( 8:23 en Mérida): respaldo de la mañana.
   # GitHub atrasa o se salta los trabajos programados a la hora en punto, cuando tiene más carga
-  # (algunas corridas de las 13:00 salieron horas tarde), por eso el minuto 23 y cuatro corridas en lugar de una.
+  # por eso el minuto 23 y cuatro corridas en lugar de una.
   # Correr de más no hace daño: cada corrida pide desde el último día que ya tiene cada satélite,
   # no repite focos y no sube nada si no hay cambios.
   schedule:
