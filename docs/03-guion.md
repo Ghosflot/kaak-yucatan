@@ -160,6 +160,44 @@ arriba o hacia abajo.
 Mi abuelo Jesús lleva 50 años aprendiendo el calendario del fuego de una parcela. Nosotros se
 lo damos a todo el estado.
 
+## Bloque del campo (propuesta para la versión de 3 minutos)
+
+Va entre «El abuelo» y «El problema, a escala del estado». Son unos 50 segundos: para no pasarse
+de 3 minutos, se dice solo la primera y la última frase de cada párrafo (unos 25 segundos).
+Cifras en docs/01, «El campo de Yucatán», «Los municipios con más fuego viven del campo» y «El
+calendario de cada zona atrapa el doble que la ventana oficial». Detalle en docs/04.
+
+**Qué es el campo.** En Yucatán, 4 de cada 10 hectáreas son campo. Ahí trabajan más de 53 mil
+productores, y más de 9 de cada 10 son indígenas mayas. De esa tierra sale la materia prima de lo
+que comemos: el maíz de la tortilla, el pasto del ganado, la leche, los cítricos y la carne, que
+es el segundo producto que Yucatán más vende al extranjero.
+
+**Dónde está el fuego.** Revisamos los 10 municipios con más fuego del estado. Los 10 viven del
+campo: el oriente ganadero, como Tizimín, Panabá y Buctzotz, y el sur milpero, como Tekax,
+Yaxcabá y Peto. No hay ni una ciudad. Esos 10 municipios suman casi 6 de cada 10 incendios
+forestales del estado.
+
+**Por qué prevenir.** Para sembrar se quema: es su herramienta de trabajo. Pero cuando el fuego
+se escapa, el que pierde es la misma gente del campo. En Oxkutzcab, una quema que se salió de
+control acabó con 15 hectáreas de limón de la parcela de al lado. Y es gente que no tiene con qué
+recuperarse: 8 de cada 10 hectáreas dependen de la lluvia, y solo 2 de cada 100 productores
+obtuvieron crédito.
+
+**Conclusión.** Prevenir un incendio en Yucatán no es solo cuidar el monte. Es cuidar el trabajo
+y la comida de miles de familias mayas, y la materia prima de toda la cadena alimentaria del
+estado.
+
+**El calendario, en una frase** (para «Pruebas» o el cierre): «El calendario oficial atina a 1 de
+cada 4 fuegos. El calendario de cada zona que arma K'áak' con 25 años de satélites atina a 1 de
+cada 2.»
+
+| En vez de | Di |
+|---|---|
+| «9 de cada 10 personas que trabajan en el campo son indígenas» | «Más de 9 de cada 10 productores se consideran indígenas» |
+| «El campo es el segundo sector de la economía» | «La carne es el segundo producto que más exporta Yucatán» |
+| «Los incendios los causan los campesinos» | «El fuego es su herramienta de trabajo; cuando se escapa, ellos son los primeros que pierden» |
+| «Todos los municipios del top son rurales» | «Los 10 tienen producción agropecuaria; 9 viven por completo del campo» |
+
 ## De dónde sale cada cifra (docs/01)
 
 | Se dice | Fuente en docs/01 |
@@ -173,6 +211,11 @@ lo damos a todo el estado.
 | Umán: 42 focos en un año normal y 63 en 2025; 2025, segundo año más tranquilo | «Cifras de la página» (Umán) y «Las temporadas 2025 y 2026 fueron las más tranquilas del registro» |
 | Más de la mitad y 84 % de los de más de 100 ha; azar menos del 10 % | «Validación con CONAFOR» |
 | 19 % dentro de la ventana de su zona (2025) | «Hallazgo: la mayor parte del fuego cae fuera de la ventana» |
+| *(campo)* 4 de cada 10 hectáreas son campo; más de 53 mil productores; más de 9 de cada 10 indígenas; carne, 2.ª exportación | «El campo de Yucatán: territorio, gente y materia prima» |
+| *(campo)* Los 10 municipios con más fuego viven del campo; casi 6 de cada 10 incendios forestales | «Los municipios con más fuego viven del campo» |
+| *(campo)* 8 de cada 10 hectáreas de temporal; 2 de cada 100 con crédito | «El campo de Yucatán: territorio, gente y materia prima» |
+| *(campo)* Oxkutzcab: 15 ha de limón | «Lo que viven Protección Civil y SEDER» (Casos) |
+| *(calendario)* La ventana oficial atina a 1 de cada 4; el calendario de cada zona, a 1 de cada 2 | «El calendario de cada zona atrapa el doble que la ventana oficial» |
 | *(5 min)* 765 ha en 2023, 20,334 en 2024 y 2,215 en 2025 | «¿Hay muchos incendios en Yucatán?» (CONAFOR) |
 | *(5 min)* Mérida entre las cinco ciudades más contaminadas, mayo de 2024 | «El humo llega a Mérida» |
 | *(5 min)* MODIS en retiro, S-NPP sin datos desde el 2 de nov, cuatro satélites | «Contexto» y «S-NPP deja de entregar datos» |
@@ -223,6 +266,11 @@ Respuestas cortas, con su fuente en docs/01.
 - «Quemas ilegales»: un foco fuera de su ventana puede tener otras causas.
 - Que K'áak' predice incendios, que es un sistema oficial de alerta o que el satélite ve todo
   el fuego.
+- Que el agropecuario es el segundo sector de la economía de Yucatán, o «el 63 % de la economía
+  alimenticia»: no hay fuente. Sí: la carne es el segundo producto que más exporta.
+- «Medio millón de hectáreas agrícolas» (son 300 a 436 mil) ni que el campo «bajó» de 2022 a
+  2025 (el censo y la encuesta miden distinto).
+- Que el reto pide un calendario: no pudimos abrir la página del reto para confirmarlo.
 - Nada sobre si Protección Civil informa o no a la gente: no está en docs/01 y es un usuario
   principal del proyecto.
 - Del humo de Yaxkukul: que se esparció por otros municipios del norte o que afectó la salud
