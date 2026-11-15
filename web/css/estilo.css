@@ -51,7 +51,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .atajos-boton { align-self: flex-start; min-height: 28px; padding: 0; border: 0; background: none; color: var(--tinta-2); font-size: 12.5px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 .atajos-boton kbd, .atajos kbd { display: inline-block; min-width: 1.6em; padding: 1px 6px; border: 1px solid #BDB7AE; border-bottom-width: 2px; background: #FFFFFF; font-family: var(--mono); font-size: 12px; text-align: center; color: var(--tinta); }
 @media (hover: none), (max-width: 860px) { .atajos-boton { display: none; } }
-.atajos { width: min(520px, calc(100vw / var(--zoom, 1) - 32px)); padding: 24px 26px 22px; border: 0; background: var(--papel); color: var(--tinta); box-shadow: 0 18px 48px rgba(0, 0, 0, 0.45); }
+.atajos { width: min(520px, calc(100vw - 32px)); padding: 24px 26px 22px; border: 0; background: var(--papel); color: var(--tinta); box-shadow: 0 18px 48px rgba(0, 0, 0, 0.45); }
 .atajos::backdrop { background: rgba(5, 8, 13, 0.55); }
 .atajos h2 { margin: 0 40px 14px 0; font-size: 20px; font-weight: 800; }
 .atajos dl { display: grid; grid-template-columns: auto 1fr; gap: 9px 16px; margin: 0; font-size: 14.5px; }
@@ -69,7 +69,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 
 /* Páginas de texto (municipio, fechas, método) */
 .pagina { max-width: 1120px; margin: 0 auto; padding: 40px max(32px, env(safe-area-inset-right, 0px)) 64px max(32px, env(safe-area-inset-left, 0px)); display: flex; flex-direction: column; gap: 16px; }
-.pagina h1 { font-size: clamp(30px, 3.2vw / var(--zoom, 1), 44px); color: var(--tinta); }
+.pagina h1 { font-size: clamp(30px, 3.2vw, 44px); color: var(--tinta); }
 .pagina p { margin: 0; max-width: 62ch; font-size: 17px; line-height: 1.5; }
 .pagina .sub { color: var(--tinta-2); }
 .pagina .ir { align-self: flex-start; }
