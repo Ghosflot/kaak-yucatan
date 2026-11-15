@@ -58,6 +58,7 @@
   "ubicando": "Buscando tu ubicación…",
   "ubicacionFuera": "Tu ubicación queda fuera de la península de Yucatán. Busca un municipio por su nombre.",
   "ubicacionError": "No se pudo saber tu ubicación. Busca tu municipio por su nombre.",
+  "puntosPasan": "Los puntos son los focos de calor de cada día de 2026:",
   "leyendaPunto": "Cada punto es un foco de calor del {f}, el día con más fuego de la temporada: {n} en toda la península.",
   "verTemporada": "Ver la temporada día por día",
   "filaNormal": "Año normal",
@@ -147,14 +148,6 @@
   "atajosBoton": "Atajos de teclado",
   "atajosTitulo": "Atajos de teclado",
   "atajos": [
-    [
-      "[Espacio]",
-      "Empezar o pausar la temporada"
-    ],
-    [
-      "[←] [→]",
-      "Un día atrás o adelante"
-    ],
     [
       "[/]",
       "Buscar un municipio"

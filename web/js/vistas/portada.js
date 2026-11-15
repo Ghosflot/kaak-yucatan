@@ -46,11 +46,12 @@ const PLANTILLA = `
       </svg>
       <div class="rotulos" id="rotulos"></div>
     </div>
+    <canvas id="ambiente" aria-hidden="true"></canvas>
   </div>
 
   <div class="cartel" id="cartel">
     <h1 id="titulo"></h1>
-    <div class="bloque" id="bloqueFoto">
+    <div class="bloque" id="bloqueFoto" hidden>
       <p class="fuera-temporada" id="fueraTemporada" hidden></p>
       <p class="bajada" data-t="bajada"></p>
       <div class="buscador" id="buscador1"></div>
@@ -64,7 +65,9 @@ const PLANTILLA = `
       <p class="resultado" id="resultado" tabindex="-1"></p>
       <button type="button" class="volver" id="volver" hidden><span aria-hidden="true">←</span> <span data-t="volver2026"></span></button>
       <div class="escala-color" id="escalaColor"></div>
+      <p class="leyenda-punto pasan" id="leyendaDia"><i aria-hidden="true"></i><span><span data-t="puntosPasan"></span> <b id="ambFecha" aria-hidden="true"></b></span></p>
       <div class="buscador" id="buscador2"></div>
+      <p class="pie" id="pie"></p>
     </div>
   </div>
 
@@ -119,7 +122,6 @@ const PLANTILLA = `
   <p class="tira-pista" id="pistaAnio"></p>
   <p class="escala-hoy"><span data-t="escalaHoy"></span> <a class="ir" href="#/metodo" data-t="verComprobamos"></a></p>
   <a class="ir siguiente" href="#/fechas" data-t="sigueFechas"></a>
-  <p class="pie" id="pie"></p>
   <button type="button" class="atajos-boton" id="verAtajos" aria-haspopup="dialog"></button>
 </aside>
 <dialog class="atajos" id="atajos" aria-labelledby="atajosTitulo">
@@ -151,7 +153,8 @@ export function montar(raiz) {
   // del visor. Mientras la persona no mueva el mapa, la cámara sigue el encuadre de cada momento.
   let W = 0, H = 0, cam = null, camAuto = true, caja = null;
   const mg = () => cartel.offsetLeft; // margen del escenario (--mg en el CSS)
-  const arribaInstr = () => H - Math.round(mg() * 0.6) - INSTR;
+  // En el cierre no hay instrumento: el mapa usa todo el alto.
+  const arribaInstr = () => H - Math.round(mg() * 0.6) - (modo === 'final' ? 0 : INSTR);
   // Lo que queda libre de texto en el visor. El instrumento ocupa su lugar aunque esté escondido:
   // así la foto y el repaso tienen el mismo encuadre y empezar no mueve el mapa.
   function libre(tipo) {
@@ -182,7 +185,9 @@ export function montar(raiz) {
     const sy = (L.y0 + L.y1 - (R.y1 - R.y0) * k) / 2;
     return { k, cx: R.x0 + (W / 2 - sx) / k, cy: R.y0 + (H / 2 - sy) / k };
   }
-  const kFinal = () => encajar(conAire(YUC, 0.04), libre('final'), false).k;
+  // La escala del encuadre del cierre: se calcula una vez por tamaño de ventana (medir la pone en cero).
+  let kFin = 0;
+  const kFinal = () => kFin || (kFin = encajeFinal().k);
   const kMin = () => Math.max(W / (FOTO.x1 - FOTO.x0), H / (FOTO.y1 - FOTO.y0));
   const kMax = () => Math.max(kMin(), ACERCAR_MAX * kFinal());
   // La foto llena siempre el visor: la cámara no se sale de ella.
@@ -191,8 +196,38 @@ export function montar(raiz) {
     const mx = W / 2 / k, my = H / 2 / k;
     return { k, cx: limitarA(c.cx, FOTO.x0 + mx, FOTO.x1 - mx), cy: limitarA(c.cy, FOTO.y0 + my, FOTO.y1 - my) };
   }
+  // La tarjeta de los años va en la esquina de abajo a la derecha, la que Yucatán deja libre. Si con el
+  // encuadre completo taparía parte del estado, Yucatán se encuadra a su izquierda o arriba de ella,
+  // donde quede más grande.
+  function cajaAnios() {
+    const p = raiz.querySelector('.panel');
+    if (telefono() || !p || !p.offsetWidth) return null;
+    const r = p.getBoundingClientRect(), e = visor.getBoundingClientRect();
+    return { x0: r.left - e.left, y0: r.top - e.top, x1: r.right - e.left, y1: r.bottom - e.top };
+  }
+  function tapaYucatan(c, a) {
+    const yuc = $('estados').querySelector('.yucatan');
+    if (!yuc || !yuc.isPointInFill) return false;
+    const pt = $('capa').createSVGPoint();
+    for (let i = 0; i <= 10; i++) {
+      // Puntos a lo largo del borde de arriba y del borde izquierdo de la tarjeta, con 10 px de aire.
+      for (const [sx, sy] of [[a.x0 - 10 + ((a.x1 - a.x0) * i) / 10, a.y0 - 10], [a.x0 - 10, a.y0 - 10 + ((a.y1 - a.y0) * i) / 10]]) {
+        pt.x = c.cx + (sx - W / 2) / c.k;
+        pt.y = c.cy + (sy - H / 2) / c.k;
+        if (yuc.isPointInFill(pt)) return true;
+      }
+    }
+    return false;
+  }
+  function encajeFinal() {
+    const R = conAire(YUC, 0.04), L = libre('final'), a = cajaAnios();
+    const completo = encajar(R, L, false);
+    if (!a || !tapaYucatan(completo, a)) return completo;
+    const izq = encajar(R, { ...L, x1: a.x0 - 16 }, false), arriba = encajar(R, { ...L, y1: a.y0 - 16 }, false);
+    return izq.k > arriba.k ? izq : arriba;
+  }
   function encuadre(tipo) {
-    if (tipo === 'final') return limitar(encajar(conAire(YUC, 0.04), libre('final'), false));
+    if (tipo === 'final') return limitar(encajeFinal());
     return limitar(encajar(PENINSULA, libre('vista'), !telefono()));
   }
   // El mapa se acomoda con su posición y su tamaño, no con transform: así los bordes, los nombres y la
@@ -275,10 +310,12 @@ export function montar(raiz) {
   function medir() {
     W = visor.clientWidth; H = visor.clientHeight;
     if (!W || !H) return;
+    kFin = 0;
     cancelAnimationFrame(vuelo);
     cam = camAuto || !cam ? encuadre(modo === 'final' ? 'final' : 'vista') : limitar(cam);
     pintarCamara();
     ajustarLienzo(cam.k);
+    ambMedir();
     despejarRotulos();
     if (seleccion) { escenario.classList.toggle('estrecho', estrecho()); ubicarTarjeta(seleccion); }
   }
@@ -299,7 +336,7 @@ export function montar(raiz) {
     const rotulos = raiz.querySelectorAll('.rotulos .ciudad, .rotulos .estado, .rotulos .agua, .rotulos .nota-mapa');
     if (telefono() || !caja) { rotulos.forEach((r) => r.classList.remove('tapado')); return; }
     const er = visor.getBoundingClientRect();
-    const tapan = [...raiz.querySelectorAll('#titulo, .bloque:not([hidden]), .instrumento:not([hidden]), .zoom:not([hidden]), .tarjeta.fija:not([hidden])')].map((e) => {
+    const tapan = [...raiz.querySelectorAll('#titulo, .bloque:not([hidden]), .instrumento:not([hidden]), .zoom:not([hidden]), .tarjeta.fija:not([hidden]), .panel')].map((e) => {
       const r = e.getBoundingClientRect();
       return { x0: r.left - er.left - 8, x1: r.right - er.left + 8, y0: r.top - er.top - 6, y1: r.bottom - er.top + 6 };
     });
@@ -321,21 +358,23 @@ export function montar(raiz) {
     const c = (s) => Math.round(((x >> s) & 255) * (1 - f) + ((y >> s) & 255) * f);
     return 'rgb(' + c(16) + ',' + c(8) + ',' + c(0) + ')';
   }
-  function colorEdad(e) {
+  function colorEdad(e, tabla = EDAD) {
     let j = 0;
-    while (j < EDAD.length - 2 && e > EDAD[j + 1][0]) j++;
-    const [e0, c0] = EDAD[j], [e1, c1] = EDAD[j + 1];
+    while (j < tabla.length - 2 && e > tabla[j + 1][0]) j++;
+    const [e0, c0] = tabla[j], [e1, c1] = tabla[j + 1];
     return mezcla(c0, c1, Math.max(0, Math.min(1, (e - e0) / (e1 - e0))));
   }
   // Un punto se dibuja una vez en un lienzo chico y después solo se copia: es lo más rápido.
-  function punto(color, r) {
+  // Con «aro», el punto lleva un borde oscuro: se distingue sobre cualquier color del mapa.
+  function punto(color, r, aro = 0) {
     const c = document.createElement('canvas');
-    const s = Math.ceil(r * 2) + 2;
+    const s = Math.ceil((r + aro) * 2) + 2;
     c.width = c.height = s;
     const g = c.getContext('2d');
-    g.fillStyle = color;
     g.beginPath();
     g.arc(s / 2, s / 2, r, 0, Math.PI * 2);
+    if (aro) { g.lineWidth = aro * 2; g.strokeStyle = 'rgba(5, 8, 13, 0.62)'; g.stroke(); }
+    g.fillStyle = color;
     g.fill();
     return c;
   }
@@ -376,6 +415,59 @@ export function montar(raiz) {
       const x = Math.round(px(c[0])), y = Math.round(py(c[1]));
       for (const d of c[2]) if (d >= 0 && d < DIAS) porDia[d].push([x, y]);
     }
+  }
+
+  /* ---------- Los focos de la temporada, pasando sobre el mapa a color ---------- */
+  // Un lienzo fijo al visor: en cada cuadro los puntos se dibujan donde la cámara los deja, nítidos y del
+  // mismo tamaño aunque el mapa se acerque. Solo corre con 2026 en el mapa y sin «reducir movimiento».
+  const AMB_VEL = 9; // días de temporada por segundo: una vuelta dura unos 10 s
+  const AMB_PAUSA = 9; // días en blanco entre una vuelta y la siguiente
+  const AMB_VIDA = VIDA; // cada foco se ve los días que dura su brasa: nace claro, se enfría a rojo y se apaga
+  // Sobre los colores del mapa la brasa va más roja que sobre la foto, para que contraste.
+  const AMB_EDAD = [[0, '#FFF3B0'], [0.5, '#FFC233'], [1.3, '#FF7A1A'], [2.4, '#E3241A'], [AMB_VIDA, '#A01410']];
+  const amb = $('ambiente'), actx = amb.getContext('2d');
+  let ambT = 0, ambId = 0, ambAntes = 0, ambDia = -1, ambDpr = 1, ambSprites = [], ambActivo = null, repDia = [];
+  function ambMedir() {
+    ambDpr = Math.min(2, window.devicePixelRatio || 1);
+    amb.width = Math.round(W * ambDpr);
+    amb.height = Math.round(H * ambDpr);
+    const r = (telefono() ? 2 : 2.6) * ambDpr;
+    ambSprites = [];
+    for (let i = 0; i < TONOS; i++) {
+      const e = (i / (TONOS - 1)) * VIDA;
+      ambSprites.push(punto(colorEdad(e, AMB_EDAD), r * (1 - 0.35 * (e / VIDA)), 0.5 * ambDpr));
+    }
+  }
+  function ambCuadro(ahora) {
+    ambId = requestAnimationFrame(ambCuadro);
+    const activo = modo === 'final' && anio === ANIO && !!D && !!caja && amb.width > 0 && !reducirMovimiento();
+    if (activo !== ambActivo) {
+      ambActivo = activo;
+      $('leyendaDia').style.visibility = activo ? '' : 'hidden';
+      if (!activo) actx.clearRect(0, 0, amb.width, amb.height);
+      ambAntes = ahora;
+    }
+    if (!activo) return;
+    ambT += Math.min(0.1, (ahora - ambAntes) / 1000) * AMB_VEL;
+    ambAntes = ahora;
+    if (ambT >= ULTIMO + AMB_VIDA + AMB_PAUSA) ambT = 0;
+    actx.clearRect(0, 0, amb.width, amb.height);
+    const hoy = Math.floor(ambT);
+    const kx = (caja.w / W0) * ambDpr, ky = (caja.h / H0) * ambDpr, ox = caja.x * ambDpr, oy = caja.y * ambDpr;
+    for (let d = Math.max(0, hoy - AMB_VIDA + 1); d <= Math.min(ULTIMO, hoy); d++) {
+      const edad = ambT - d;
+      if (edad >= AMB_VIDA) continue;
+      const s = ambSprites[Math.min(TONOS - 1, Math.round((edad / AMB_VIDA) * (TONOS - 1)))], m = s.width / 2;
+      actx.globalAlpha = edad < AMB_VIDA - 1.5 ? 1 : Math.max(0, (AMB_VIDA - edad) / 1.5);
+      for (const c of repDia[d]) {
+        const x = ox + c[0] * kx, y = oy + (c[1] - Y0) * ky;
+        if (x < -m || y < -m || x > amb.width + m || y > amb.height + m) continue;
+        actx.drawImage(s, x - m, y - m);
+      }
+    }
+    actx.globalAlpha = 1;
+    const dia = Math.min(ULTIMO, hoy);
+    if (dia !== ambDia) { ambDia = dia; poner('ambFecha', fechaDia(diaDeTemporada(dia))); }
   }
 
   /* ---------- Línea de tiempo: una barra por día y lo normal detrás ---------- */
@@ -464,7 +556,7 @@ export function montar(raiz) {
   }
   function direccion() {
     const q = new URLSearchParams();
-    if (modo !== 'foto') q.set('modo', modo);
+    if (modo !== 'final') q.set('modo', modo);
     if (modo === 'repaso' && !jugando) q.set('t', String(Math.round(t0)));
     if (anio !== ANIO) q.set('anio', String(anio));
     if (seleccion) q.set('sel', seleccion);
@@ -488,33 +580,26 @@ export function montar(raiz) {
     aplicando = true;
     try {
       const a = D.porAnio.anios.includes(e.anio) ? e.anio : ANIO;
-      if (e.modo === 'repaso') irADia(Number.isFinite(e.t) ? e.t : 45);
-      else if (e.modo === 'final' || e.sel || a !== ANIO || reducirMovimiento()) {
-        if (modo !== 'final') { pausar(); irFinal(); }
-        if (a !== anio) ponerAnio(a);
-        if (e.sel && munPorId.has(e.sel)) { if (e.sel !== seleccion) seleccionar(e.sel, { quedar: true, camara: 'volar' }); }
-        else if (seleccion) quitarSeleccion();
-      } else {
-        pausar();
-        volverA2026();
-        t0 = 0;
-        ponerModo('foto');
-      }
-    } finally { aplicando = false; }
+      // La página abre siempre en el mapa a color; las direcciones viejas del repaso también.
+      if (modo !== 'final') { pausar(); irFinal(); }
+      if (a !== anio) ponerAnio(a);
+      if (e.sel && munPorId.has(e.sel)) { if (e.sel !== seleccion) seleccionar(e.sel, { quedar: true, camara: 'volar' }); }
+      else if (seleccion) quitarSeleccion();
+    } finally { aplicando = false; abierto = true; }
   }
 
   /* ---------- Momentos: foto, repaso y cierre ---------- */
   function descripcion() {
     $('capaDesc').textContent = modo === 'foto' ? t('descFoto', { f: D ? fechaDiaAnio(D.diaMax.fecha) : '' }) : (modo === 'repaso' ? t('descRepaso') : t('descFinal', { a: anio }) + ' ' + t('mapaTeclado'));
   }
-  let barrasSubieron = false;
+  let barrasSubieron = false, abierto = false;
   function ponerModo(m) {
     const cambiaEncuadre = (m === 'final') !== (modo === 'final');
     modo = m;
     escenario.dataset.modo = m;
     $('bloqueFoto').hidden = m !== 'foto';
     $('bloqueFinal').hidden = m !== 'final';
-    $('instrumento').hidden = m === 'foto';
+    $('instrumento').hidden = m !== 'repaso';
     $('zoom').hidden = m !== 'final';
     // En el cierre, el mapa se recorre con las flechas: es una parada de Tab.
     if (m === 'final') $('capa').setAttribute('tabindex', '0'); else $('capa').removeAttribute('tabindex');
@@ -527,7 +612,7 @@ export function montar(raiz) {
       camAuto = true;
       const destino = encuadre(m === 'final' ? 'final' : 'vista');
       ajustarLienzo(destino.k);
-      volar(destino);
+      volar(destino, abierto ? 650 : 0); // la página abre ya encuadrada, sin vuelo
     } else { despejarRotulos(); dibujar(); }
   }
   // Las barras del panel suben una por una la primera vez que se llega al cierre, cuando se ven.
@@ -885,6 +970,9 @@ export function montar(raiz) {
     const z = $('zoom');
     let tope = W - 12;
     if (!z.hidden && y < z.offsetTop + z.offsetHeight + 10) tope = z.offsetLeft - 10;
+    // Tampoco tapa la gráfica de los años cuando va a la derecha (ventanas bajas).
+    const pa = raiz.querySelector('.panel').getBoundingClientRect(), er = escenario.getBoundingClientRect();
+    if (pa.left - er.left > W / 2 && y + h > pa.top - er.top - 10) tope = Math.min(tope, pa.left - er.left - 10);
     return { x: limitarA(x, Math.max(12, x0), Math.max(x0, tope - w)), y };
   }
   function mostrarTarjeta(id, ev) {
@@ -1056,9 +1144,11 @@ export function montar(raiz) {
   // Las barras de cada año, dibujadas al ancho real del panel: así las letras miden lo mismo en cualquier pantalla.
   // En escritorio la gráfica crece o se encoge con el alto del panel, para que todo quepa sin desplazarlo.
   let anchoBarras = 0, altoPanel = 0, altoBarras = 88;
-  function barrasPanel(ajustar = false) {
+  function barrasPanel() {
     const y = D.yuc, svg = $('barras'), panel = svg.closest('.panel');
     anchoBarras = svg.parentNode.clientWidth;
+    // En computadora la gráfica va en una tarjeta sobre el mapa: su alto depende del alto de la ventana.
+    altoBarras = telefono() ? 88 : W <= 1100 ? 46 : H >= 700 ? 92 : H >= 520 ? 62 : 46;
     const anios = Object.keys(y.anios).map(Number).sort((a, b) => a - b).map((a) => ({ y: a, total: y.anios[a] }));
     const dibujar = () => barrasAnios(svg, {
       anios, normal: y.normal, alTocar: elegirAnio, alBarrer: barrerAnio, seleccionado: anio === ANIO ? null : anio,
@@ -1067,14 +1157,7 @@ export function montar(raiz) {
       aria: t('barrasAria', { n: fmt(y.normal), a: fmt(y.anios[ANIO]) }),
     });
     dibujar();
-    if (!ajustar || telefono()) return;
     altoPanel = panel.clientHeight;
-    // Lo que sobra (o falta) entre lo último que se ve del panel y su borde de abajo.
-    const ultimo = [...panel.children].filter((e) => e.offsetHeight).pop();
-    const fin = ultimo.getBoundingClientRect().bottom + panel.scrollTop - panel.getBoundingClientRect().top + parseFloat(getComputedStyle(panel).paddingBottom);
-    const holgura = panel.clientHeight - fin;
-    const nuevo = Math.round(limitarA(altoBarras + holgura - 8, 46, 260));
-    if (nuevo !== altoBarras) { altoBarras = nuevo; dibujar(); }
   }
   function armarPanel() {
     const y = D.yuc;
@@ -1089,7 +1172,7 @@ export function montar(raiz) {
     $('leyNormalTexto').textContent = como ? t('loNormalComo', { n: fmt(y.normal), a: como.y }) : t('loNormal', { n: fmt(y.normal) });
     $('explicaNormal').textContent = t('explicaNormal') + (y.rango ? ' ' + t('explicaRango', { a: fmt(y.rango[0]), b: fmt(y.rango[1]) }) : '');
     $('pie').textContent = t('pie', { f: fechaDiaAnio(D.actualizado) });
-    barrasPanel(true);
+    barrasPanel();
   }
 
   /* ---------- Textos que dependen de los datos o del idioma ---------- */
@@ -1122,6 +1205,7 @@ export function montar(raiz) {
       m.style.left = i === 0 ? '0' : i === 3 ? '100%' : (((d + 0.5) / DIAS) * 100).toFixed(2) + '%';
     });
     diaPintado = -1;
+    ambDia = -1;
     $('tiempo').setAttribute('aria-label', t('diaTemporada', { a: anio }));
     $('zoom').setAttribute('aria-label', t('zoomGrupo'));
     for (const [id, k] of [['acercar', 'acercar'], ['alejar', 'alejar'], ['verTodo', 'verTodo']]) $(id).setAttribute('aria-label', t(k));
@@ -1134,8 +1218,7 @@ export function montar(raiz) {
     // Con la ubicación se va directo a la página del municipio, donde está su ficha.
     const alUbicar = (m) => { location.hash = '#/municipio/' + encodeURIComponent(m.id); };
     armarBuscador($('buscador1'), 1, { municipios: D.mun, alElegir, alUbicar });
-    // En el cierre no cabe: ahí el buscador va sin el botón de ubicación.
-    armarBuscador($('buscador2'), 2, { municipios: D.mun, alElegir });
+    armarBuscador($('buscador2'), 2, { municipios: D.mun, alElegir, alUbicar });
     armarRotulos();
     armarEscala();
     armarPanel();
@@ -1186,10 +1269,11 @@ export function montar(raiz) {
     }
     // Lo que ya usa esas teclas (botones, deslizadores, el mapa, las barras) se queda con ellas.
     if (e.target.closest('button, a, [role="slider"], [role="button"], [role="toolbar"], #capa, dialog')) return;
+    if (modo === 'final') return; // en el mapa a color, el espacio y las flechas son del navegador
     if (e.key === ' ') {
       e.preventDefault();
       if (modo === 'foto') { jugar(0); $('control').focus({ preventScroll: true }); } else $('control').click();
-    } else if ((e.key === 'ArrowRight' || e.key === 'ArrowLeft') && modo !== 'foto') {
+    } else if ((e.key === 'ArrowRight' || e.key === 'ArrowLeft') && modo === 'repaso') {
       e.preventDefault();
       irADia(Math.round(t0) + (e.key === 'ArrowRight' ? 1 : -1));
     }
@@ -1300,7 +1384,8 @@ export function montar(raiz) {
     esperaMedir = requestAnimationFrame(() => {
       medir();
       const panel = $('barras').closest('.panel');
-      if (D && ($('barras').parentNode.clientWidth !== anchoBarras || panel.clientHeight !== altoPanel)) barrasPanel(true);
+      // La tarjeta de los años cambia de alto con la ventana: el mapa se vuelve a encuadrar con su tamaño nuevo.
+      if (D && ($('barras').parentNode.clientWidth !== anchoBarras || panel.clientHeight !== altoPanel)) { barrasPanel(); medir(); }
     });
   });
   observador.observe(escenario);
@@ -1321,7 +1406,10 @@ export function montar(raiz) {
     medir();
     prepararDias();
     dibujar();
+    repDia = Array.from({ length: DIAS }, () => []);
+    for (const c of D.rep) for (const d of c[2]) if (d >= 0 && d < DIAS) repDia[d].push(c);
     aplicar(leerEstado());
+    ambId = requestAnimationFrame(ambCuadro);
   }).catch((e) => {
     if (!vivo) return;
     console.error(e);
@@ -1338,6 +1426,7 @@ export function montar(raiz) {
     cancelAnimationFrame(cuadroId);
     cancelAnimationFrame(esperaMedir);
     cancelAnimationFrame(vuelo);
+    cancelAnimationFrame(ambId);
     clearTimeout(esperaFinal);
     clearTimeout(esperaQuieto);
     observador.disconnect();
