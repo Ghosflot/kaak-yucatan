@@ -62,6 +62,22 @@ export function armarBuscador(cont, n, { municipios, alElegir, alUbicar = null, 
     });
     if (idx >= 0) inp.setAttribute('aria-activedescendant', 'op' + n + '-' + idx); else inp.removeAttribute('aria-activedescendant');
     lista.hidden = false; inp.setAttribute('aria-expanded', 'true');
+    acomodar();
+    if (idx >= 0) lista.children[idx].scrollIntoView({ block: 'nearest' });
+  };
+  // La lista se abre hacia donde quepa (abajo, o arriba si abajo no hay lugar) y, si no cabe entera,
+  // se desplaza por dentro: nunca se sale de la ventana ni queda debajo de la barra de arriba.
+  const acomodar = () => {
+    lista.style.maxHeight = 'none';
+    const r = inp.getBoundingClientRect();
+    const techo = Math.max(0, document.querySelector('.barra')?.getBoundingClientRect().bottom || 0);
+    const abajo = innerHeight - r.bottom - 10, arriba = r.top - techo - 10;
+    const alto = lista.scrollHeight;
+    const haciaArriba = alto > abajo && arriba > abajo;
+    lista.classList.toggle('arriba', haciaArriba);
+    lista.style.top = haciaArriba ? 'auto' : inp.offsetTop + inp.offsetHeight + 4 + 'px';
+    lista.style.bottom = haciaArriba ? cont.offsetHeight - inp.offsetTop + 4 + 'px' : 'auto';
+    lista.style.maxHeight = Math.max(96, Math.min(alto, haciaArriba ? arriba : abajo)) + 'px';
   };
   inp.addEventListener('input', () => {
     const q = sinAcentos(inp.value.trim());

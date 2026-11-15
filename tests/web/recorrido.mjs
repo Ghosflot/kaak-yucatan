@@ -124,12 +124,10 @@ async function pasosPortada({ page, espera, sub, centro }) {
   await page.keyboard.press('Escape');
   await page.click('#leyNormal');
   await sub('Tocar «Lo normal» explica qué es.', 4000);
-  const tira = await page.locator('#tira').boundingBox();
-  const dias = 181;
-  for (const d of [80, 85, 90]) await page.mouse.move(tira.x + ((d + 0.5) / dias) * tira.width, tira.y + tira.height * 0.45, { steps: 6 });
-  await sub('Al pasar por la tira se ve cada día; tocarlo lleva el mapa a ese día.', 2500);
-  await page.mouse.click(tira.x + (90.5 / dias) * tira.width, tira.y + tira.height * 0.45);
-  await espera(2500);
+  // La tira de días de la zona 2 salió del panel con la dirección visual: los días se tocan en la línea de tiempo.
+  const tira = await page.locator('#tiempo').boundingBox();
+  await page.mouse.click(tira.x + (31.5 / 92) * tira.width, tira.y + tira.height * 0.45);
+  await sub('Tocar un día de la línea de tiempo lleva el mapa a ese día.', 2500);
   const linea = await page.locator('#tiempo').boundingBox();
   const y = linea.y + linea.height * 0.5;
   await page.mouse.move(linea.x + linea.width * 0.34, y);
@@ -459,8 +457,8 @@ async function repaso() {
     await page.keyboard.press('?');
     await sub('«?» muestra todos los atajos; en la computadora también hay un botón al pie del panel.', 5000);
     await page.keyboard.press('Escape');
-    await page.locator('#tira').focus();
-    await sub('La tira de días también se recorre con las flechas y lleva el mapa a cada día.', 800);
+    await page.locator('#tiempo').focus();
+    await sub('La línea de tiempo también se recorre con las flechas y lleva el mapa a cada día.', 800);
     for (let i = 0; i < 6; i++) { await page.keyboard.press('PageUp'); await espera(450); }
     await espera(1500);
     await page.click('.nav a[data-vista="fechas"]');

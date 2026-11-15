@@ -61,7 +61,8 @@ for (const ruta of RUTAS) {
 test('el idioma elegido se queda al cambiar de página', async ({ page }) => {
   await abrir(page, '#/');
   await page.click('[data-idioma="en"]');
-  await expect(page.locator('#titulo')).toHaveText(EN.titulo);
+  // La pregunta cambia de tiempo verbal cuando la temporada ya cerró.
+  expect([EN.titulo, EN.tituloPasado]).toContain(await page.locator('#titulo').textContent());
   await page.click('.nav a[href="#/fechas"]');
   await expect(page.locator('h2#almTitulo')).toHaveText(EN.fechasPagina);
   await page.reload();
