@@ -664,7 +664,7 @@ async function demo() {
       document.getElementById('verTodo').click();
     });
     // El cursor se desliza con aceleración suave y llega a tiempo: cada paso se calcula con el reloj.
-    let cx = 870, cy = 600;
+    let cx = 760, cy = 104;
     await page.mouse.move(cx, cy);
     const deslizar = async (x, y, ms) => {
       const x0 = cx, y0 = cy, inicio = Date.now();
@@ -683,22 +683,27 @@ async function demo() {
     const pulso = () => page.evaluate(() => window.kaakPulso());
 
     // 1, el gancho: la península entera, con el mar y la tierra vecina, y los focos de 2026 pasando día por
-    // día sobre la foto. El cursor va sin prisa hacia Campeche.
+    // día sobre la foto. El cursor espera quieto sobre el mar, al norte de Yucatán.
     await sub('In 2024, wildfire smoke put Mérida among Mexico’s most polluted cities.', 0);
     marca('frase 1');
-    await hasta(f2 - 2600);
-    await aMunicipio('candelaria', 2400);
-    // 2, el problema en el campo: los municipios con más fuego, con su tarjeta breve. Los dos primeros son
-    // de Campeche; mientras tanto termina la temporada y entran los colores.
+    await hasta(f2 - 1600);
+    await deslizar(700, 112, 900);
+    // 2, el problema en el campo: tres de los 10 municipios de Yucatán con más fuego (docs/04), con su
+    // tarjeta breve: Tekax y Yaxcabá, de milpa, y Tizimín, ganadero. Entre uno y otro el cursor va rápido
+    // para no abrir de paso las tarjetas de otros municipios. Mientras tanto entran los colores.
+    await hasta(f2 - 450);
+    await aMunicipio('tekax', 450);
     await hasta(f2);
     await sub('Fire is a farming tool: the ten most-burned towns grow milpa or raise cattle.', 0);
     marca('frase 2');
-    await hasta(f2 + 1000);
-    await aMunicipio('champoton', 800);
-    await hasta(f2 + 2150);
-    await aMunicipio('tizimin', 900);
-    await hasta(pero - 1350);
-    await hacia('.nav a[data-vista="metodo"]', 1100);
+    await hasta(f2 + 1100);
+    await aMunicipio('yaxcaba', 330);
+    await hasta(f2 + 2350);
+    await aMunicipio('tizimin', 380);
+    // Sale al mar por el norte y de ahí sube al menú, sin cruzar otros municipios.
+    await hasta(pero - 1050);
+    await deslizar(cx, 104, 300);
+    await hacia('.nav a[data-vista="metodo"]', 650);
     // 3, el problema técnico: el salto de 2012 sin corregir.
     await hasta(pero);
     await sub('But satellites disagree: some see three to five times more fire.', 0);
@@ -720,8 +725,9 @@ async function demo() {
     await page.waitForSelector('#escenario[data-modo="final"]', { timeout: 15000 });
     await hacia('#verTodo', 900);
     await clic();
+    // «town by town»: Champotón, el segundo de la península, y en «Campeche leads» Candelaria, el primero.
     await hasta(muestra + 2600);
-    await aMunicipio('tekax', 900);
+    await aMunicipio('champoton', 900);
     await hasta(campeche - 1300);
     await aMunicipio('candelaria', 1100);
     await hasta(campeche);
