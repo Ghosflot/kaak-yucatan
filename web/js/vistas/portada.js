@@ -67,6 +67,7 @@ const PLANTILLA = `
       <div class="escala-color" id="escalaColor"></div>
       <p class="leyenda-punto pasan" id="leyendaDia"><i aria-hidden="true"></i><span><span data-t="puntosPasan"></span> <b id="ambFecha" aria-hidden="true"></b></span></p>
       <div class="buscador" id="buscador2"></div>
+      <p class="pie" id="pie"></p>
     </div>
   </div>
 
@@ -121,7 +122,6 @@ const PLANTILLA = `
   <p class="tira-pista" id="pistaAnio"></p>
   <p class="escala-hoy"><span data-t="escalaHoy"></span> <a class="ir" href="#/metodo" data-t="verComprobamos"></a></p>
   <a class="ir siguiente" href="#/fechas" data-t="sigueFechas"></a>
-  <p class="pie" id="pie"></p>
   <button type="button" class="atajos-boton" id="verAtajos" aria-haspopup="dialog"></button>
 </aside>
 <dialog class="atajos" id="atajos" aria-labelledby="atajosTitulo">
@@ -194,8 +194,37 @@ export function montar(raiz) {
     const mx = W / 2 / k, my = H / 2 / k;
     return { k, cx: limitarA(c.cx, FOTO.x0 + mx, FOTO.x1 - mx), cy: limitarA(c.cy, FOTO.y0 + my, FOTO.y1 - my) };
   }
+  // La tarjeta de los años va en la esquina de abajo a la derecha, la que Yucatán deja libre. Si con el
+  // encuadre completo taparía parte del estado, Yucatán se encuadra a su izquierda o arriba de ella,
+  // donde quede más grande.
+  function cajaAnios() {
+    const p = raiz.querySelector('.panel');
+    if (telefono() || !p || !p.offsetWidth) return null;
+    const r = p.getBoundingClientRect(), e = visor.getBoundingClientRect();
+    return { x0: r.left - e.left, y0: r.top - e.top, x1: r.right - e.left, y1: r.bottom - e.top };
+  }
+  function tapaYucatan(c, a) {
+    const yuc = $('estados').querySelector('.yucatan');
+    if (!yuc || !yuc.isPointInFill) return false;
+    const pt = $('capa').createSVGPoint();
+    for (let i = 0; i <= 10; i++) {
+      // Puntos a lo largo del borde de arriba y del borde izquierdo de la tarjeta, con 10 px de aire.
+      for (const [sx, sy] of [[a.x0 - 10 + ((a.x1 - a.x0) * i) / 10, a.y0 - 10], [a.x0 - 10, a.y0 - 10 + ((a.y1 - a.y0) * i) / 10]]) {
+        pt.x = c.cx + (sx - W / 2) / c.k;
+        pt.y = c.cy + (sy - H / 2) / c.k;
+        if (yuc.isPointInFill(pt)) return true;
+      }
+    }
+    return false;
+  }
   function encuadre(tipo) {
-    if (tipo === 'final') return limitar(encajar(conAire(YUC, 0.04), libre('final'), false));
+    if (tipo === 'final') {
+      const R = conAire(YUC, 0.04), L = libre('final'), a = cajaAnios();
+      const completo = limitar(encajar(R, L, false));
+      if (!a || !tapaYucatan(completo, a)) return completo;
+      const izq = encajar(R, { ...L, x1: a.x0 - 16 }, false), arriba = encajar(R, { ...L, y1: a.y0 - 16 }, false);
+      return limitar(izq.k > arriba.k ? izq : arriba);
+    }
     return limitar(encajar(PENINSULA, libre('vista'), !telefono()));
   }
   // El mapa se acomoda con su posición y su tamaño, no con transform: así los bordes, los nombres y la
@@ -1358,7 +1387,8 @@ export function montar(raiz) {
     esperaMedir = requestAnimationFrame(() => {
       medir();
       const panel = $('barras').closest('.panel');
-      if (D && ($('barras').parentNode.clientWidth !== anchoBarras || panel.clientHeight !== altoPanel)) barrasPanel();
+      // La tarjeta de los años cambia de alto con la ventana: el mapa se vuelve a encuadrar con su tamaño nuevo.
+      if (D && ($('barras').parentNode.clientWidth !== anchoBarras || panel.clientHeight !== altoPanel)) { barrasPanel(); medir(); }
     });
   });
   observador.observe(escenario);
