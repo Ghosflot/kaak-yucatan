@@ -1,16 +1,17 @@
 # Dirección visual de la página: diseño
 
-Fecha: 15 de noviembre de 2026. Rama base: `guille/direccion-visual`.
+Fecha: 15 de noviembre de 2026. Publicado en `main` con el #68, el #77 y el #80.
 
 ## Para qué
 
 La página tiene que decir por sí sola por qué gana. Quien la toque dos minutos debe salir con
-razones a favor y sin una lista de «le faltó». Hoy carga rápido y dice la verdad, pero:
+razones a favor y sin una lista de «le faltó». Antes de este rediseño cargaba rápido y decía la
+verdad, pero:
 
-- no se ve que resuelve el reto (unir MODIS y VIIRS es una nota de 9 px en la portada);
-- se rompe en la laptop más común (a 1366×629 y 1024×600 la barra de la temporada tapa el buscador);
-- los datos guardan mejores historias que las que enseña;
-- la página, el guion y el README no dan las mismas cifras.
+- no se veía que resuelve el reto (unir MODIS y VIIRS es una nota de 9 px en la portada);
+- se rompía en la laptop más común (a 1366×629 y 1024×600 la barra de la temporada tapa el buscador);
+- los datos guardaban mejores historias que las que enseñaba;
+- la página, el guion y el README no daban las mismas cifras.
 
 ## Reglas (valen para todo lo que se construya)
 
@@ -50,7 +51,7 @@ sigue el enlace.
 | Cómo lo medimos | ¿Por qué creerle? | El interruptor de 2012 | El fuego «se triplica» en 2012 y con un toque el salto desaparece |
 | Municipio y ficha | ¿Y en mi pueblo? | Mandarla por WhatsApp | Su mapa, sus hechos y su ficha |
 
-## Contrato de datos (lo escribe la tanda de datos; lo leen las páginas)
+## Contrato de datos (lo escribe el pipeline; lo leen las páginas)
 
 Los campos nuevos se **suman**; ningún campo existente cambia de nombre ni de forma.
 
@@ -164,7 +165,7 @@ focos de una fuente fija al suroeste de Mérida. Se descartan los cuadritos con 
   enlace a la siguiente página: «¿Y se quemó en las fechas permitidas?».
 - Pie con la fecha de actualización, como hoy.
 
-## Segunda tanda (se detalla al arrancarla)
+## Las demás páginas
 
 - **Municipio y ficha:** mapa del municipio con `focos26` y `repetidos`; hechos de `hechos`;
   franja de lo normal; criterio de «la mitad» corregido (menos de la mitad si es menos de 0.5);
@@ -179,10 +180,9 @@ focos de una fuente fija al suroeste de Mérida. Se descartan los cuadritos con 
 - **Todo el sitio:** pie con el equipo y el repositorio; un formato de cifras y fechas; los 316
   textos en inglés reescritos; las cifras del guion y del README alineadas con la página.
 
-## Estado al 15 de noviembre (segunda tanda construida)
+## Estado al 15 de noviembre (todo construido y en `main`)
 
-Todo lo de arriba está en la rama `guille/direccion-visual`, sin subir. Lo que cambió respecto
-a lo escrito:
+Todo lo de arriba está publicado (#68, #77 y #80). Lo que cambió respecto a lo escrito:
 
 - **Municipio y ficha:** hechos propios bajo el veredicto (`web/js/hechos.js`), franja de lo
   normal en sus barras, sección «¿Dónde se quema?» (mapa del municipio con los vecinos rotulados,
@@ -200,9 +200,27 @@ a lo escrito:
 - **Inglés:** «hot spot», «a normal year» y «burn window» en todo el sitio.
 - La tarjeta de vista previa del enlace (`web/og/inicio.jpg`) usa la extensión de la foto nueva.
 
-Pendiente de decisión del dueño: los nombres del equipo y el enlace al repositorio en el pie (el
-repositorio es privado), y las decisiones 1, 2 y 4 de abajo. La 3 se construyó como se recomendó
-y se puede quitar entera (es una sección).
+- **Cómo lo medimos lleva color** (regla 4): el salto de 2012 enseña en gris lo que contó el
+  satélite y, encima, en rojo claro rayado, lo que añade la corrección.
+- **El mapa del territorio ganadero** (#60) va dentro del bloque «Territorio ganadero» de cada
+  municipio de Yucatán, en un solo tono de tierra.
+- **El pie de «Cómo lo medimos» nombra al equipo**, sin enlace al repositorio.
+
+## Cambios sobre trabajo de otros integrantes
+
+Para quien hizo cada parte:
+
+- **La escala automática de la página en pantallas chicas (#64, Nico) se quitó.** Arreglaba dos
+  choques de la portada anterior; la portada nueva ya cabe sin choques de 1024 × 600 a
+  2560 × 1440, y con la escala la letra más chica bajaba a 8 o 9 px en una laptop de
+  1366 × 768. Se quedan su foco de dos tonos, sus contrastes y sus íconos en tinta.
+  `tests/web/resolucion.spec.js` se quitó con la escala.
+- **Las gráficas de las pruebas (#58, Leo)** conservan sus datos y su dibujo. Cambiaron tres
+  cosas: la letra no baja de 11 px (por eso se movieron cuatro rótulos que se encimaban), las
+  palabras son las del resto de la página (la equivalencia está en docs/01, «Cifras de la
+  página») y el color sigue la regla 4. Las PNG de `salidas/graficas` no cambiaron.
+- **Los colores del municipio (#65, Nico) se quedaron** y son ahora la regla 4 de todo el sitio.
+- **El ejemplo es Muna** en la página, el guion y las diapositivas (docs/03).
 
 ## Lo que no se toca
 
@@ -213,12 +231,16 @@ limitaciones», «Aún no sabemos por qué», la nota de uso de IA, la página d
 velocidad de carga (1.2 MB la primera vez: no subirla más de 600 KB, que es lo que pesa de más
 la foto nueva).
 
-## Decisiones del dueño que siguen abiertas
+## Decisiones tomadas
 
-1. Municipio de ejemplo: Muna en lugar de Umán (con Leo).
-2. Colores del mapa: medir con simulador de daltonismo y ajustar la claridad sin cambiar la familia.
-3. Mapa de «dónde se quema» en cada municipio: entra o no.
-4. «El satélite ya veía fuego cerca el día anterior»: fuera de la página.
+1. Municipio de ejemplo: Muna en lugar de Umán.
+2. Colores del mapa: el verde de «mucho menos» pasó a `#0F5C4A`. Con protanopia, la diferencia
+   con el rojo sube de 19 a 27 (ΔE), sin cambiar la familia.
+3. El mapa de «¿Dónde se quema?» de cada municipio se queda.
+4. «Cómo lo medimos» dice «entre 3 y 5», la cifra del guion, en lugar de «entre 2.8 y 3.8».
+
+Sigue abierta una: la frase «El satélite ya veía fuego cerca el día anterior» está fuera de la
+página.
 
 ## Cómo se comprueba
 

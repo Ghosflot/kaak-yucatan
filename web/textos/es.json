@@ -604,5 +604,6 @@
     "NOAA-21 está en FIRMS desde marzo de 2023, así que coincide con S-NPP solo dos años completos. Va sin factor y no entra en la serie."
   ],
   "mIA": "Hicimos este proyecto con ayuda de inteligencia artificial (Claude, de Anthropic) para investigar, programar y redactar. El equipo decidió el método y revisó cada cifra contra su fuente.",
-  "mIAEnlace": "Qué hizo la IA y qué no"
+  "mIAEnlace": "Qué hizo la IA y qué no",
+  "mEquipo": "Hecho en Mérida, Yucatán, por David Alcocer, Nicolás Moguel, Guillermo Peña, Leonardo Sanmartín, Melany Suárez y Gadiel Uicab, para NASA Space Apps 2026."
 }

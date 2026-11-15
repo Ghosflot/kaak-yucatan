@@ -360,3 +360,13 @@ test('al final, una oración lleva a buscar tu municipio', async ({ page }) => {
   await fin.locator('a').click();
   await expect(page.locator('#vista')).toHaveClass(/vista-portada/);
 });
+
+test('el pie de «Cómo lo medimos» nombra al equipo, en español y en inglés', async ({ page }) => {
+  await abrir(page, '#/metodo');
+  await expect(page.locator('#mEquipo')).toHaveText('Hecho en Mérida, Yucatán, por David Alcocer, Nicolás Moguel, Guillermo Peña, Leonardo Sanmartín, Melany Suárez y Gadiel Uicab, para NASA Space Apps 2026.');
+  await abrir(page, '#/metodo', { query: '?lang=en' });
+  await expect(page.locator('#mEquipo')).toHaveText('Made in Mérida, Yucatán, by David Alcocer, Nicolás Moguel, Guillermo Peña, Leonardo Sanmartín, Melany Suárez and Gadiel Uicab, for NASA Space Apps 2026.');
+  // En el teléfono cabe sin desplazarse de lado.
+  await abrir(page, '#/metodo', { ancho: 390, alto: 844 });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(0);
+});

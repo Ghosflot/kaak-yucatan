@@ -619,7 +619,14 @@ satélite» abajo).
   - NOAA-20 ve 0.99 focos por cada uno de S-NPP en temporada (prueba de los VIIRS).
 - **El factor de Aqua en temporada** (`salidas/factores.csv`, zonas de Yucatán): S-NPP ve entre
   2.8 y 3.8 focos por cada uno de Aqua (2.84 en la zona 1, 3.83 en la 2, 3.10 en la 3 y 3.84 en
-  la 4). «Cómo lo medimos» muestra ese rango.
+  la 4). «Cómo lo medimos» dice «entre 3 y 5», la cifra del guion: con todas las zonas y épocas
+  el factor va de 2.84 a 5.34 (`web/datos/metodo.json`, `factores.aquaTodas`).
+- **Las gráficas de las pruebas, en la página y en PNG, traen los mismos datos con otras
+  palabras.** La página (`web/js/graficas-validacion.js`) usa las del resto del sitio; las PNG
+  de `salidas/graficas` van selladas con la validación y conservan las suyas: «corregida» es
+  «calibrada», «focos de calor al año» es «cuadritos-día por año», «meta» es «umbral» y
+  «variación normal» es «rango natural». En la página, lo gris es lo que contó el satélite, lo
+  rojo claro rayado es lo que añade la corrección y lo rojo es lo ya corregido.
 - **127 municipios en el mapa, no 130:** los límites de geoBoundaries no traen Dzitbalché,
   Seybaplaya ni Puerto Morelos, que son municipios recientes; sus focos caen en los municipios
   de los que se separaron. Yucatán sí tiene sus 106.

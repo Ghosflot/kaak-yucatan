@@ -22,7 +22,9 @@ Every team member used Claude.
   - the fix to the daily update after the FIRMS API changed its limits
     (`pipeline/actualizar_diario.py`);
   - the input contracts and shared metrics of the validation (`pipeline/validar.py`);
-  - a redesign of the site in a separate branch.
+  - the redesign of the site published on 15 November (the home, municipality, burn window
+    and method pages) and the cattle-land map, which Guille directed and reviewed screen by
+    screen.
 - **Writing.** Claude drafted planning documents in `docs/`, which the team then edited.
 - **Design.** Claude produced HTML mock-ups of the site. The team chose the direction and
   discarded most of the proposals.
@@ -34,7 +36,7 @@ Every team member used Claude.
 
 | Member | Role | AI use |
 |---|---|---|
-| Guille (Ghosflot) | Coordination, the site and the submission | Claude, for research, analysis scripts, the site skeleton, the daily-update fix, mock-ups and document drafts |
+| Guille (Ghosflot) | Coordination, the site and the submission | Claude, for research, analysis scripts, the site skeleton and its redesign, the daily-update fix, mock-ups and document drafts |
 | Gadiel (uicabg1) | Harmonization: the 1 km fire grid, the MODIS→VIIRS and NOAA-20 factors and the 25-year series (`pipeline/rejilla.py`, `armonizar.py`, `serie.py`, `cargar.py`) | Claude, to draft code and tests for the grid, the factors and the series, which he reviewed |
 | Nico (Nicomoguel) | Validation: the four tests of the harmonization, their pass criteria and how the site reports them (`pipeline/validar.py`), and the provisional calendar (`pipeline/calendario_provisional.py`) | Built the validation code and its tests with Claude Code as a coding assistant, and reviewed every part of it. Claude drafted the charts, a literature review on how to report results without overstating them, and drafts of the result sentences in Spanish and English. Nico set the pass criteria, checked the results against the data and edited the sentences. He also built the provisional calendar with Claude Code as a coding assistant and reviewed it |
 | Leo (leosanlo30) | The site, the field data and the local problem: who burns in Yucatán, what the municipality must do by law, and the fire calendar of each zone (`docs/04-campo-y-fuego.md`) | Claude, for a redesign of the site, to write down the field notes, to research and summarise official sources (the INEGI agricultural census and survey, the state fire law, the Ministry of Economy), to draft the analysis script `analisis/campo_y_fuego.py`, and to draft `docs/04`, the new sections of `docs/01` and the countryside block of the pitch. Leo chose the focus (the municipality and the countryside), the questions, which findings to keep and every claim in the countryside block of the pitch |
