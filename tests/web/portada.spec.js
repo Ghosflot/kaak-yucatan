@@ -8,7 +8,7 @@ const PORTADA = JSON.parse(fs.readFileSync(path.join(__dirname, '..', '..', 'web
 
 for (const [ancho, alto] of [[1440, 900], [1280, 720]]) {
   test(`a ${ancho}×${alto} se ven la respuesta, el buscador, el mapa y las barras de los años sin desplazarse`, async ({ page }) => {
-    await abrir(page, '#/', { ancho, alto });
+    await abrir(page, '#/', { ancho, alto, query: '?modo=final' });
     for (const sel of ['#resultado', '#busca2', '#visor', '#barras']) {
       const r = await page.locator(sel).boundingBox();
       expect(r, sel).not.toBeNull();
@@ -16,18 +16,18 @@ for (const [ancho, alto] of [[1440, 900], [1280, 720]]) {
     }
   });
 
-  test(`a ${ancho}×${alto} abre en el mapa a color, sin línea de tiempo y con los focos pasando`, async ({ page }) => {
+  test(`a ${ancho}×${alto} abre con los focos pasando sobre la foto, sin línea de tiempo, y al terminar entran los colores`, async ({ page }) => {
     await abrir(page, '#/', { ancho, alto });
-    await expect(page.locator('#escenario')).toHaveAttribute('data-modo', 'final');
+    await expect(page.locator('#escenario')).toHaveAttribute('data-modo', 'repaso');
     await expect(page.locator('#instrumento')).toBeHidden();
     await expect(page.locator('#bloqueFoto')).toBeHidden();
-    // Los focos de 2026 pasan sobre el mapa y la leyenda dice el día.
+    // La fecha del repaso va bajo el título.
+    await expect(page.locator('#repasoDia')).toBeVisible();
     await expect(page.locator('#ambFecha')).toHaveText(/\d+ de (marzo|abril|mayo)/);
-    await expect.poll(() => page.evaluate(() => {
-      const c = document.getElementById('ambiente'), d = c.getContext('2d').getImageData(0, 0, c.width, c.height).data;
-      for (let i = 3; i < d.length; i += 4) if (d[i]) return true;
-      return false;
-    })).toBe(true);
+    // Al terminar la temporada (unos 10 s) entran los colores, con la explicación de qué significan.
+    await expect(page.locator('#escenario')).toHaveAttribute('data-modo', 'final', { timeout: 20000 });
+    await expect(page.locator('#repasoDia')).toBeHidden();
+    await expect(page.locator('#explicaColor')).toHaveText(/2026/);
   });
 }
 
@@ -37,22 +37,36 @@ const hayPuntos = (page) => page.evaluate(() => {
   return false;
 });
 
-test('con otro año en el mapa no pasan focos, y al volver a 2026 pasan otra vez', async ({ page }) => {
-  await abrir(page, '#/');
-  await expect.poll(() => hayPuntos(page)).toBe(true);
+test('sobre el mapa a color no pasan focos, en 2026 ni en otro año', async ({ page }) => {
+  await abrir(page, '#/', { query: '?modo=final' });
+  await page.waitForTimeout(600);
+  expect(await hayPuntos(page)).toBe(false);
   await page.locator('#barras .toque[data-y="2003"]').click();
-  await expect.poll(() => hayPuntos(page)).toBe(false);
-  await expect(page.locator('#leyendaDia')).toHaveCSS('visibility', 'hidden');
-  await page.locator('#volver').click();
-  await expect.poll(() => hayPuntos(page)).toBe(true);
-  await expect(page.locator('#leyendaDia')).toHaveCSS('visibility', 'visible');
+  await expect(page.locator('#explicaColor')).toHaveText(/2003/);
+  expect(await hayPuntos(page)).toBe(false);
 });
 
-test('con «reducir movimiento» no pasan focos', async ({ page }) => {
+test('«Ver el mapa ya» salta el repaso y lleva al mapa a color', async ({ page }) => {
+  await abrir(page, '#/');
+  await page.locator('#saltarRepaso').click();
+  await expect(page.locator('#escenario')).toHaveAttribute('data-modo', 'final');
+  await expect(page.locator('#resultado')).toBeFocused();
+});
+
+test('al volver a «Temporada» desde otra sección se ve el mapa a color, sin repetir el repaso', async ({ page }) => {
+  await abrir(page, '#/');
+  await page.locator('#saltarRepaso').click();
+  await page.evaluate(() => { location.hash = '#/metodo'; });
+  await page.waitForSelector('#mSwitch');
+  await page.evaluate(() => { location.hash = '#/'; });
+  await expect(page.locator('#escenario')).toHaveAttribute('data-modo', 'final');
+});
+
+test('con «reducir movimiento» abre en el mapa a color, sin repaso ni focos', async ({ page }) => {
   await abrir(page, '#/', { reducir: true });
-  await page.waitForTimeout(400);
+  await expect(page.locator('#escenario')).toHaveAttribute('data-modo', 'final');
+  await expect(page.locator('#repasoDia')).toBeHidden();
   expect(await hayPuntos(page)).toBe(false);
-  await expect(page.locator('#leyendaDia')).toHaveCSS('visibility', 'hidden');
 });
 
 // Lo que solo se ve en uso: con los focos pasando, nada cambia de tamaño ni de lugar entre un cuadro y el
@@ -85,7 +99,7 @@ for (const [ancho, alto] of [[1366, 629], [1667, 898], [390, 844]]) {
 // desplaza, la foto cubre todo el escenario y la tarjeta de los años no toca el texto, los botones
 // del mapa ni Yucatán.
 const ESCRITORIOS = [[1024, 600], [1280, 720], [1366, 629], [1366, 768], [1536, 864], [1920, 1080], [2560, 1440]];
-const MOMENTOS = { cierre: { query: '' }, 'cierre con la dirección vieja del repaso': { query: '?modo=repaso&t=45' } };
+const MOMENTOS = { cierre: { query: '?modo=final' }, 'cierre con la dirección vieja del repaso': { query: '?modo=repaso&t=45' } };
 
 async function medirPortada(page) {
   return page.evaluate(() => {
@@ -167,7 +181,7 @@ test.describe('disposición sin choques', () => {
 });
 
 test('en el teléfono, el titular, el buscador y el mapa empiezan en la primera pantalla', async ({ page }) => {
-  await abrir(page, '#/', { ancho: 390, alto: 844 });
+  await abrir(page, '#/', { ancho: 390, alto: 844, query: '?modo=final' });
   for (const sel of ['#resultado', '#busca2', '#mapa']) {
     const r = await page.locator(sel).boundingBox();
     expect(r.y, sel).toBeLessThan(844);
@@ -425,7 +439,7 @@ test.describe('funciones escondidas', () => {
   });
 
   test('«?» muestra los atajos y «/» lleva al buscador; el espacio y las flechas no sacan del mapa', async ({ page }) => {
-    await abrir(page, '#/');
+    await abrir(page, '#/', { query: '?modo=final' });
     await page.locator('.barra').click({ position: { x: 700, y: 28 } });
     await page.keyboard.press('?');
     await expect(page.locator('#atajos')).toBeVisible();

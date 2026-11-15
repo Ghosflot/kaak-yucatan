@@ -29,6 +29,10 @@ const ICONO_MAS = '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="
 const ICONO_MENOS = '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14" stroke="currentColor" stroke-width="2.4" fill="none"/></svg>';
 const ICONO_TODO = '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" stroke="currentColor" stroke-width="2.2" fill="none"/></svg>';
 
+// La portada abre con el repaso de la temporada una sola vez por visita: al volver a «Temporada» desde
+// otra sección ya se ve el mapa a color.
+let repasoVisto = false;
+
 const PLANTILLA = `
 <section class="escenario" id="escenario" data-modo="foto">
   <div class="visor" id="visor">
@@ -51,6 +55,10 @@ const PLANTILLA = `
 
   <div class="cartel" id="cartel">
     <h1 id="titulo"></h1>
+    <div class="repaso-dia" id="repasoDia" hidden>
+      <p class="leyenda-punto pasan" id="leyendaDia"><i aria-hidden="true"></i><span><span data-t="puntosPasan"></span> <b id="ambFecha" aria-hidden="true"></b></span></p>
+      <button type="button" class="saltar-repaso" id="saltarRepaso" data-t="verMapaYa"></button>
+    </div>
     <div class="bloque" id="bloqueFoto" hidden>
       <p class="fuera-temporada" id="fueraTemporada" hidden></p>
       <p class="bajada" data-t="bajada"></p>
@@ -63,9 +71,9 @@ const PLANTILLA = `
     </div>
     <div class="bloque" id="bloqueFinal" hidden>
       <p class="resultado" id="resultado" tabindex="-1"></p>
+      <p class="explica-color" id="explicaColor"></p>
       <button type="button" class="volver" id="volver" hidden><span aria-hidden="true">←</span> <span data-t="volver2026"></span></button>
       <div class="escala-color" id="escalaColor"></div>
-      <p class="leyenda-punto pasan" id="leyendaDia"><i aria-hidden="true"></i><span><span data-t="puntosPasan"></span> <b id="ambFecha" aria-hidden="true"></b></span></p>
       <div class="buscador" id="buscador2"></div>
       <p class="pie" id="pie"></p>
     </div>
@@ -440,10 +448,10 @@ export function montar(raiz) {
   }
   function ambCuadro(ahora) {
     ambId = requestAnimationFrame(ambCuadro);
-    const activo = modo === 'final' && anio === ANIO && !!D && !!caja && amb.width > 0 && !reducirMovimiento();
+    // Los focos pasan en el repaso, sobre la foto; sobre el mapa a color, no: los colores se leen solos.
+    const activo = false;
     if (activo !== ambActivo) {
       ambActivo = activo;
-      $('leyendaDia').style.visibility = activo ? '' : 'hidden';
       if (!activo) actx.clearRect(0, 0, amb.width, amb.height);
       ambAntes = ahora;
     }
@@ -521,6 +529,7 @@ export function montar(raiz) {
     if (dia === diaPintado) return;
     diaPintado = dia;
     poner('fecha', fechaDia(diaDeTemporada(dia)));
+    poner('ambFecha', fechaDia(diaDeTemporada(dia)));
     const sat = sateliteDelDia(dia);
     poner('satelite', sat ? t('vistoPor', { s: sat }) : '');
     $('hastaRect').setAttribute('width', String((dia + 1) * 10));
@@ -580,7 +589,14 @@ export function montar(raiz) {
     aplicando = true;
     try {
       const a = D.porAnio.anios.includes(e.anio) ? e.anio : ANIO;
-      // La página abre siempre en el mapa a color; las direcciones viejas del repaso también.
+      // La primera vez, los focos de 2026 pasan día por día sobre la foto, sin colores, y al terminar
+      // entran los colores. Una dirección que pide otra cosa (un año, un municipio o ?modo=…) o
+      // «reducir movimiento» abren directo en el mapa a color.
+      if (!abierto && !repasoVisto && !e.modo && !e.sel && a === ANIO && !reducirMovimiento()) {
+        repasoVisto = true;
+        jugar(0);
+        return;
+      }
       if (modo !== 'final') { pausar(); irFinal(); }
       if (a !== anio) ponerAnio(a);
       if (e.sel && munPorId.has(e.sel)) { if (e.sel !== seleccion) seleccionar(e.sel, { quedar: true, camara: 'volar' }); }
@@ -599,7 +615,8 @@ export function montar(raiz) {
     escenario.dataset.modo = m;
     $('bloqueFoto').hidden = m !== 'foto';
     $('bloqueFinal').hidden = m !== 'final';
-    $('instrumento').hidden = m !== 'repaso';
+    $('instrumento').hidden = true; // sin barra de tiempo: la fecha del repaso va en el cartel
+    $('repasoDia').hidden = m !== 'repaso';
     $('zoom').hidden = m !== 'final';
     // En el cierre, el mapa se recorre con las flechas: es una parada de Tab.
     if (m === 'final') $('capa').setAttribute('tabindex', '0'); else $('capa').removeAttribute('tabindex');
@@ -762,6 +779,7 @@ export function montar(raiz) {
     resultado.append(antes, junto, despues);
     rodar(cifra, n, cifraVista);
     cifraVista = n;
+    $('explicaColor').textContent = t('explicaColor', { a: anio });
     $('pistaAnio').textContent = anio === ANIO ? t('tocaAnioMapa') : t('anioEnMapa', { a: anio, s: sateliteDe(anio).replace('-', '\u2011') });
   }
   function rodar(caja, n, antes) {
@@ -1285,6 +1303,7 @@ export function montar(raiz) {
   $('verTemporada').addEventListener('click', () => { jugar(0); $('control').focus({ preventScroll: true }); });
   // En la foto, tocar el mapa también empieza la temporada: es lo primero que se toca.
   visor.addEventListener('click', () => { if (modo === 'foto' && D) { jugar(0); $('control').focus({ preventScroll: true }); } });
+  $('saltarRepaso').addEventListener('click', () => { irFinal(); $('resultado').focus({ preventScroll: true }); });
   $('volver').addEventListener('click', () => { volverA2026(); descripcion(); guardar(true); $('resultado').focus({ preventScroll: true }); });
   $('control').addEventListener('click', () => {
     // Con «reducir movimiento», «Repetir» lleva al primer día sin animar: se avanza con la línea de tiempo.
