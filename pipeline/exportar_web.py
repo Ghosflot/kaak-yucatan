@@ -332,35 +332,46 @@ def metodo(elegidos: pd.DataFrame) -> dict:
     }
 
 
-# Tamaños de incendio de la CONAFOR, en orden, con su rótulo corto para la gráfica.
-TAMANOS_CONAFOR = [("0 a 5 Hectáreas", "0–5"), ("6 a 10 Hectáreas", "6–10"), ("11 a 20 Hectáreas", "11–20"),
-                   ("21 a 50 Hectáreas", "21–50"), ("51 a 100 Hectáreas", "51–100"), ("Mayor a 100 Hectáreas", ">100")]
-
-
 def grafica_validacion(p: dict) -> dict:
-    """Lo que dibuja la página para cada prueba: lo mismo que su PNG en salidas/graficas/."""
-    m = p["metricas"]
+    """Lo que dibuja la página para cada prueba: lo mismo que su PNG en salidas/graficas/.
+
+    Sale de validar.tabla_grafica, la misma tabla con que se hacen las PNG, para que la página
+    tenga cada barra, cada promedio, cada meta y cada ✓ que tiene la imagen.
+    """
+    import validar
+
+    g = validar.tabla_grafica(p)
+    r2 = lambda x: round(float(x), 4)  # noqa: E731 (la página redondea al mostrar, como las PNG)
     if p["id"] == "salto_2012":
-        pen = m["peninsula"]
-        return {"totales": [{"y": t["anio"], "crudo": round(t["crudo"]), "cal": round(t["armonizado"]),
-                             "transicion": t["transicion"]} for t in pen["totales"]],
-                "razonCruda": round(pen["razon_cruda"], 2), "razonCal": round(pen["razon_armonizada"], 2),
-                "natural": [round(pen["rango_natural"]["min"], 2), round(pen["rango_natural"]["max"], 2)],
-                "meta": [p["umbral"]["razon_min"], p["umbral"]["razon_max"]]}
+        return {"anios": [{"y": f["anio"], "crudo": r2(f["crudo"]), "cal": r2(f["armonizado"]),
+                           "transicion": bool(f["transicion"])} for f in g["anios"]],
+                "antes": list(validar.ANIOS_ANTES), "despues": list(validar.ANIOS_DESPUES),
+                "promAntes": {"crudo": r2(g["promedio_antes"]["crudo"]), "cal": r2(g["promedio_antes"]["armonizado"])},
+                "promDespues": {"crudo": r2(g["promedio_despues"]["crudo"]),
+                                "cal": r2(g["promedio_despues"]["armonizado"])},
+                "razonCruda": r2(g["razon_cruda"]), "razonCal": r2(g["razon_armonizada"]),
+                "natural": [r2(v) for v in g["rango_natural"]], "umbral": list(g["umbral"]), "pasa": g["pasa"]}
     if p["id"] == "aqua_fuera_muestra":
-        return {"anios": [{"y": a["anio"], "snpp": round(a["observado"]), "zonaEpoca": round(a["predicho_zona_epoca"]),
-                           "unico": round(a["predicho_unico"])} for a in m["por_anio"]],
-                "modelo": m["modelo"]}
+        return {"anios": [{"y": f["anio"], "snpp": r2(f["observado"]), "zonaEpoca": r2(f["zona_epoca"]),
+                           "unico": r2(f["unico"])} for f in g["anios"]],
+                "error": {"zonaEpoca": r2(100 * g["wape"]["zona_epoca"]), "unico": r2(100 * g["wape"]["unico"])},
+                "elegido": "zonaEpoca" if g["elegido"] == "zona_epoca" else "unico",
+                "limite": r2(100 * g["umbral"]), "pasa": g["pasa"]}
     if p["id"] == "conafor":
-        s = m["por_satelite"]["S-NPP"]
-        return {"real": round(s["real"]), "azar": round(s["azar_mayor"]),
-                "tamanos": [{"t": corto, "n": m["por_tamano"][largo]["incendios"],
-                             "pct": round(m["por_tamano"][largo]["snpp"])} for largo, corto in TAMANOS_CONAFOR],
-                "metaGrandes": round(p["umbral"]["grandes_min"])}
+        s = g["snpp"]
+        return {"real": r2(s["real"]), "controlAnio": r2(s["control_anio"]), "controlLugar": r2(s["control_lugar"]),
+                "metaAzar": r2(g["meta_azar"]), "superaAzar": bool(g["supera_azar"]),
+                "tamanos": [{"t": validar._tamano_corto(f["tamano"]).removesuffix(" ha"), "n": int(f["incendios"]),
+                             "pct": r2(f["snpp"]), "grande": f["tamano"] == g["grandes"]} for f in g["tamanos"]],
+                "sinRango": int(g["sin_rango"]), "minimo": r2(g["umbral_grandes"]), "veGrandes": bool(g["ve_grandes"])}
     if p["id"] == "viirs":
-        return {sat.replace("-", "").lower(): [{"y": a["anio"], "razon": round(a["razon"], 3), "completo": a["completo"]}
-                                              for a in m[sat]["por_anio"]] for sat in ("NOAA-20", "NOAA-21")} | {
-                "meta": [p["umbral"]["razon_min"], p["umbral"]["razon_max"]]}
+        sats = g["satelites"]
+        punto = lambda f: {"y": f["anio"], "razon": None if f["razon"] is None else r2(f["razon"]),  # noqa: E731
+                           "cruda": None if f["razon_cruda"] is None else r2(f["razon_cruda"]),
+                           "completo": bool(f["completo"])}
+        return {"noaa20": [punto(f) for f in sats["NOAA-20"]], "noaa21": [punto(f) for f in sats["NOAA-21"]],
+                "banda": list(g["banda"]), "eje": [r2(v) for v in g["eje"]],
+                "cumple": {"noaa20": g["cumple"]["NOAA-20"], "noaa21": g["cumple"]["NOAA-21"]}}
     raise ValueError(f"prueba sin gráfica: {p['id']}")
 
 

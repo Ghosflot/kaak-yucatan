@@ -345,6 +345,8 @@ export function montar(raiz) {
     // Si la validación no carga, la sección se queda con su título y su introducción.
     $('mPruebas').replaceChildren(...(V ? V.pruebas.map(tarjeta) : []));
     dibujarGraficas();
+    // Las gráficas acomodan sus textos midiéndolos: se vuelven a dibujar con la letra ya cargada.
+    if (document.fonts) document.fonts.ready.then(() => { if (vivo) dibujarGraficas(); });
     $('mSat').hidden = !SAT;
     if (SAT) {
       $('mSatChips').replaceChildren(...SAT.satelites.map((x) => {

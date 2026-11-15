@@ -572,6 +572,8 @@ h1, h2, h3 { scroll-margin-top: calc(var(--barra-alto) + 12px); }
 .m-prueba-graf svg { display: block; width: 100%; height: auto; }
 .m-prueba-graf .m-sat-ley { gap: 4px 14px; font-size: 13px; }
 .metodo .m-graf-t { font-size: 13px; font-weight: 700; color: var(--tinta); }
+/* El título de cada prueba va centrado sobre su gráfica, como en las PNG de la validación. */
+.m-prueba-graf .m-graf-t { font-size: 15px; font-weight: 400; text-align: center; text-wrap: balance; }
 .m-ley-cuadro { width: 12px; height: 12px; background: var(--c); border: 1px solid rgba(0, 0, 0, 0.12); }
 .m-ley-raya { width: 18px; height: 0; border-top: 2px dashed var(--c); }
 .m-ley-punto { width: 10px; height: 10px; border-radius: 50%; background: var(--c); }
