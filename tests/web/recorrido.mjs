@@ -10,7 +10,7 @@
 // En el PR, el video se sube con `gh pr edit --attach` (gh 2.99 o más nuevo) o con el endpoint
 // user-attachments; solo así GitHub muestra su reproductor con barra de tiempo.
 import { spawn, spawnSync } from 'node:child_process';
-import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
@@ -42,7 +42,7 @@ function codificar(cuadros, fin, carpeta, destino) {
   const lista = path.join(carpeta, 'lista.txt');
   writeFileSync(lista, lineas.join('\n') + '\n');
   const r = spawnSync(FFMPEG, ['-hide_banner', '-loglevel', 'error', '-y', '-f', 'concat', '-safe', '0', '-i', lista,
-    '-vf', 'fps=30,scale=trunc(iw/2)*2:trunc(ih/2)*2:flags=lanczos,format=yuv420p',
+    '-vf', `fps=${process.env.KAAK_FPS || 30},scale=trunc(iw/2)*2:trunc(ih/2)*2:flags=lanczos,format=yuv420p`,
     '-c:v', 'libx264', '-preset', 'slow', '-crf', CRF, '-movflags', '+faststart', destino], { stdio: 'inherit' });
   if (r.status !== 0) throw new Error('ffmpeg no pudo codificar ' + destino);
 }
@@ -629,9 +629,12 @@ async function demo() {
     const t0 = Date.now();
     const hasta = (ms) => espera(Math.max(0, ms - (Date.now() - t0)));
     const marca = (n) => { if (process.env.KAAK_DEMO_TIEMPOS) console.log('  ', n, Date.now() - t0, 'ms'); };
+    const [f2, f3, f4, f5, nombre, fin] = (process.env.KAAK_DEMO_FRASES || '5.4,11.3,16.2,23.3,26.1,27.8')
+      .split(',').map((x) => Number(x) * 1000);
     // Chrome solo manda un cuadro cuando la pantalla cambia, y si cambia mientras espera la confirmación del
     // cuadro anterior, lo pierde: una vista quieta recién pintada no llegaba al video. Un punto invisible
-    // que cambia sin parar mantiene el flujo de cuadros.
+    // que cambia sin parar mantiene el flujo de cuadros. El video no muestra el cursor del sistema: se dibuja
+    // uno que sigue al ratón, con un destello en cada clic.
     await page.evaluate(() => {
       const st = document.createElement('style');
       st.textContent = '@keyframes kaak-latido{from{opacity:.01}to{opacity:.02}}'
@@ -639,61 +642,107 @@ async function demo() {
         + '.marca.insinua .marca-dice{opacity:0!important}';
       const d = document.createElement('div');
       d.style.cssText = 'position:fixed;left:0;top:0;width:1px;height:1px;background:#000;z-index:10000;pointer-events:none;animation:kaak-latido .1s linear infinite alternate';
-      document.head.appendChild(st); document.body.appendChild(d);
+      const cur = document.createElement('div');
+      cur.innerHTML = '<svg width="26" height="26" viewBox="0 0 24 24"><path d="M4 2v17l4.5-4 3 7 3-1.2-2.9-6.8H18z" fill="#fff" stroke="#111" stroke-width="1.4" stroke-linejoin="round"/></svg>';
+      cur.style.cssText = 'position:fixed;left:0;top:0;z-index:10002;pointer-events:none;transform:translate(-80px,-80px);filter:drop-shadow(0 1px 2px rgba(0,0,0,.35))';
+      document.head.appendChild(st); document.body.append(d, cur);
+      let x = -80, y = -80;
+      addEventListener('mousemove', (e) => { x = e.clientX; y = e.clientY; cur.style.transform = `translate(${x - 4}px,${y - 2}px)`; }, true);
+      window.kaakCursor = (ver) => { cur.style.display = ver ? '' : 'none'; };
+      window.kaakPulso = () => {
+        const r = document.createElement('div');
+        r.style.cssText = `position:fixed;left:${x - 18}px;top:${y - 18}px;width:36px;height:36px;border-radius:50%;background:rgba(194,87,12,.45);`
+          + 'z-index:10001;pointer-events:none;transform:scale(.25);opacity:1;transition:transform .4s ease-out,opacity .4s ease-out';
+        document.body.appendChild(r);
+        requestAnimationFrame(() => requestAnimationFrame(() => { r.style.transform = 'scale(1.3)'; r.style.opacity = '0'; }));
+        setTimeout(() => r.remove(), 500);
+      };
+      addEventListener('mousedown', () => window.kaakPulso(), true);
     });
-    const [f2, f3, f4, f5, nombre, fin] = (process.env.KAAK_DEMO_FRASES || '5.4,11.3,16.2,23.3,26.1,27.8')
-      .split(',').map((x) => Number(x) * 1000);
-    // 1, el gancho: la foto satelital de la península, con Mérida rotulada; sin año en pantalla.
+    // El cursor se desliza con aceleración suave, en pasos de unos 16 ms.
+    let cx = 1000, cy = 420;
+    await page.mouse.move(cx, cy);
+    const deslizar = async (x, y, ms) => {
+      const n = Math.max(1, Math.round(ms / 16)), x0 = cx, y0 = cy;
+      for (let k = 1; k <= n; k++) {
+        const e = k / n, s = e < 0.5 ? 2 * e * e : 1 - (-2 * e + 2) ** 2 / 2;
+        cx = x0 + (x - x0) * s; cy = y0 + (y - y0) * s;
+        await page.mouse.move(cx, cy); await espera(8);
+      }
+    };
+    const hacia = async (sel, ms) => { const b = await page.locator(sel).first().boundingBox(); if (b) await deslizar(b.x + b.width / 2, b.y + b.height / 2, ms); };
+    const pulso = () => page.evaluate(() => window.kaakPulso());
+
+    // 1, el gancho: la foto satelital de la península, con Mérida rotulada; sin año en pantalla. El cursor va
+    // sin prisa hacia «Watch the season day by day».
     await sub('In 2024, wildfire smoke put Mérida among Mexico’s most polluted cities.', 0);
-    marca('In 2024, wildfire sm');
+    marca('frase 1');
+    await hasta(f2 - 2600);
+    await hacia('#verTemporada', 2300);
     await hasta(f2);
     // 2, el problema en el campo: la temporada se enciende día por día.
     await sub('Here, fire is a farming tool: the ten most-burned towns grow milpa or raise cattle.', 0);
-    marca('Here, fire is a farm');
-    await page.click('#verTemporada');
+    marca('frase 2');
+    await page.mouse.down(); await page.mouse.up();
+    await espera(1200);
+    await hacia('.nav a[data-vista="metodo"]', 1600);
     await hasta(f3);
-    // 3, el problema técnico: el salto de 2012 sin corregir.
-    // Por la dirección y no con un clic: con la temporada corriendo, el clic tarda segundos en aplicarse.
+    // 3, el problema técnico: el salto de 2012 sin corregir. Por la dirección y no con un clic: con la
+    // temporada corriendo, el clic tarda segundos en aplicarse.
     await sub('But satellites disagree: some see three to five times more fire.', 0);
-    marca('But satellites disag');
+    marca('frase 3');
+    await pulso();
     await page.evaluate(() => { location.hash = '#/metodo'; });
     await page.waitForSelector('#mSwitch');
-    marca('mSwitch listo');
+    await hasta(f3 + 900);
+    await hacia('#mSwitch', 1400);
     await hasta(f4);
-    // 4, la solución: se corrige el salto, el mapa municipio por municipio y Muna, cuándo se quema.
+    // 4, la solución: se corrige el salto, el mapa municipio por municipio y Muna.
     await sub('K’áak’ calibrates 25 years and shows where and when Yucatán has historically burned most, town by town.', 0);
-    marca('K’áak’ calibrates 25');
-    await page.click('#mSwitch');
-    await hasta(f4 + 1800);
+    marca('frase 4');
+    await page.mouse.down(); await page.mouse.up();
+    await hasta(f4 + 1500);
+    await pulso();
     await page.evaluate(() => { location.hash = '#/?modo=final'; });
     await page.waitForSelector('#escenario[data-modo="final"]', { timeout: 15000 });
+    await hacia('#buscador2 .ejemplo button', 700);
+    await page.mouse.down(); await page.mouse.up();
     await page.click('#buscador2 .ejemplo button');
-    await hasta(f4 + 4200);
+    await hasta(f4 + 4300);
+    await hacia('text=See Muna in detail', 650);
+    await pulso();
     await page.evaluate(() => { location.hash = '#/municipio/muna'; });
     await page.waitForSelector('#ficha');
     await hasta(f5);
     // 5, el cierre: la ficha que se manda por WhatsApp y, con el nombre, la tarjeta final.
     await sub('For Civil Protection, SEDER and every town: K’áak’, Yucatán’s fire calendar.', 0);
-    marca('For Civil Protection');
+    marca('frase 5');
     // Baja hasta que el botón de WhatsApp quede completo encima de la franja de subtítulos (72 px).
     await page.evaluate(() => {
       const r = document.getElementById('compartir').getBoundingClientRect();
       window.scrollBy({ top: r.bottom - (innerHeight - 72 - 24), behavior: 'smooth' });
     });
+    await espera(700);
+    await hacia('#compartir', 900);
     await hasta(nombre - 250);
-    await page.evaluate(() => {
+    await page.evaluate(() => window.kaakCursor(false));
+    const qr = readFileSync(path.join(RAIZ, 'tests', 'web', 'demo-qr.svg'), 'utf8');
+    await page.evaluate((qr) => {
       const c = document.createElement('div');
       c.style.cssText = 'position:fixed;inset:0 0 72px 0;z-index:9999;background:#0A0E14;color:#F6F4F0;display:flex;'
-        + 'flex-direction:column;align-items:center;justify-content:center;gap:14px;opacity:0;transition:opacity .35s ease-out;'
-        + 'font-family:var(--texto);text-align:center';
-      c.innerHTML = '<div style="font-family:var(--display);font-size:112px;line-height:1;letter-spacing:.01em">K’ÁAK’</div>'
-        + '<div style="font-weight:700;font-size:34px">Yucatán’s fire calendar</div>'
-        + '<div style="font-family:var(--mono);font-weight:700;font-size:30px;margin-top:10px;padding:6px 16px;border:2px solid #F6F4F0">kaak.pages.dev</div>'
-        + '<div style="font-size:17px;color:#CEC9C1;margin-top:26px">Team K’áak’ · Mérida, Yucatán · NASA Space Apps Challenge 2026</div>'
-        + '<div style="font-size:17px;color:#CEC9C1">Data: NASA FIRMS (MODIS and VIIRS) · Updated four times a day</div>';
+        + 'align-items:center;justify-content:center;gap:88px;opacity:0;transition:opacity .35s ease-out;font-family:var(--texto)';
+      c.innerHTML = '<div style="display:flex;flex-direction:column;align-items:flex-start;gap:12px">'
+        + '<div style="font-family:var(--display);font-size:104px;line-height:1;letter-spacing:.01em">K’ÁAK’</div>'
+        + '<div style="font-weight:700;font-size:32px">Yucatán’s fire calendar</div>'
+        + '<div style="font-family:var(--mono);font-weight:700;font-size:28px;margin-top:8px;padding:6px 16px;border:2px solid #F6F4F0">kaak.pages.dev</div>'
+        + '<div style="font-size:16px;color:#CEC9C1;margin-top:22px">Team K’áak’ · Mérida, Yucatán · NASA Space Apps Challenge 2026</div>'
+        + '<div style="font-size:16px;color:#CEC9C1">Data: NASA FIRMS (MODIS and VIIRS) · Updated four times a day</div></div>'
+        + '<div style="display:flex;flex-direction:column;align-items:center;gap:12px">'
+        + '<div style="width:280px;height:280px;background:#FAFAF7">' + qr.replace('width="960" height="960"', 'width="280" height="280"') + '</div>'
+        + '<div style="font-size:17px;color:#CEC9C1">Scan to find your town</div></div>';
       document.body.appendChild(c);
       requestAnimationFrame(() => requestAnimationFrame(() => { c.style.opacity = '1'; }));
-    });
+    }, qr);
     await hasta(Math.min(fin + 1600, 29000));
   });
 }
