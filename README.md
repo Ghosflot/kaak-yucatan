@@ -44,6 +44,7 @@ all fire, and no detections does not mean no fire. "Normal" is a reference, not 
 1. [Verified facts](docs/01-hechos-verificados.md): fire figures and their sources.
 2. [Method](docs/02-metodo.md): what the site does, the method and each task.
 3. [Pitch script](docs/03-guion.md).
+4. [The countryside and fire](docs/04-campo-y-fuego.md): who burns, why it matters and the fire calendar of each municipality.
 
 ## Getting started
 
