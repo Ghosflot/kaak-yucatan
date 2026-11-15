@@ -337,8 +337,11 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
   .tiempo { grid-column: 1 / -1; height: 62px; }
   .tiempo svg { top: 4px; height: 38px; }
   .tiempo .cabezal, .tiempo .fantasma { top: 0; height: 42px; }
-  .zoom { top: 8px; right: 8px; }
+  /* En el teléfono van en fila en la esquina de abajo del mapa (que mide 100vw × 681/825): arriba a la
+     derecha taparían el oriente de Yucatán. */
+  .zoom { top: calc(100vw * 681 / 825 - 52px); right: 8px; flex-direction: row; }
   .zoom button { width: 44px; height: 44px; }
+  .zoom button + button { border-top: 0; border-left: 1px solid var(--linea); }
   .agua, .estado, .nota-mapa.enlace { display: none; }
   .ciudad { font-size: 11.5px; }
   .panel { border-left: 0; border-top: 1px solid var(--linea); padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
