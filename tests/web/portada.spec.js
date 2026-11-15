@@ -59,9 +59,11 @@ test('con la página escalada, la tarjeta sale junto al puntero', async ({ page 
   const x = caja.x + caja.width / 2, y = caja.y + caja.height / 2;
   await page.mouse.move(x, y);
   const tarjeta = await page.locator('#tarjeta').boundingBox();
-  // 18 px de la página, a la escala de 624 / 850.
-  expect(tarjeta.x - x).toBeCloseTo(18 * 624 / 850, 0);
-  expect(tarjeta.y - y).toBeCloseTo(18 * 624 / 850, 0);
+  // 18 px de la página, a la escala de 624 / 850. Firefox redondea la posición al píxel de la pantalla: ±2 px. Sin
+  // pasar el puntero a píxeles de la página, la tarjeta quedaría decenas de píxeles más lejos.
+  const esperado = 18 * 624 / 850;
+  expect(Math.abs(tarjeta.x - x - esperado)).toBeLessThan(2);
+  expect(Math.abs(tarjeta.y - y - esperado)).toBeLessThan(2);
 });
 
 test('en el teléfono, el titular, el buscador y el mapa empiezan en la primera pantalla', async ({ page }) => {
