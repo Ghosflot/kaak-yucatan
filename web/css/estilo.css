@@ -14,7 +14,7 @@
   --rojo: #D7261E;
   --noche: #0A0E14;
   --sobre: #F6F4F0;
-  --sobre-2: #C5CAD2;
+  --sobre-2: #CEC9C1;
   --barra: #8F877D;
   --display: 'Alfa Slab One', 'Rockwell', Georgia, serif;
   --texto: 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', system-ui, sans-serif;
@@ -32,7 +32,9 @@ body { background: var(--papel); color: var(--tinta); font-family: var(--texto);
 body[data-vista="portada"] { background: var(--noche); }
 button, input { font: inherit; color: inherit; }
 a { color: inherit; }
-:focus-visible { outline: 3px solid #F5A04C; outline-offset: 2px; }
+/* Foco de dos tonos (técnica C40 de WCAG): el ámbar y la banda oscura tienen 9.22:1 entre sí, así que uno de los dos
+   pasa 3:1 sobre cualquier fondo, del papel blanco a la foto. Es un outline de verdad para que no se pierda con colores forzados. */
+:focus-visible { outline: 3px solid #F5A04C; outline-offset: 0; box-shadow: 0 0 0 6px #0A0E14; }
 #vista:focus { outline: none; }
 .cifra { font-variant-numeric: tabular-nums lining-nums; }
 svg text { font-family: var(--mono); }
@@ -236,7 +238,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .tarjeta .fila { display: flex; justify-content: space-between; gap: 12px; font-size: 14px; }
 .tarjeta .fila b { font-family: var(--mono); }
 .tarjeta .veredicto { display: flex; align-items: center; gap: 8px; margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--linea); font-size: 14px; font-weight: 700; }
-.tarjeta .veredicto i { width: 14px; height: 14px; flex-shrink: 0; }
+.tarjeta .veredicto i { width: 14px; height: 14px; flex-shrink: 0; border: 1px solid var(--tinta-2); }
 .tarjeta a { display: flex; align-items: center; min-height: 44px; margin: 2px 0 -10px; font-size: 14px; font-weight: 700; text-underline-offset: 3px; }
 .tarjeta .pista-historia { margin-top: 6px; font-size: 12.5px; color: var(--tinta-2); }
 .tarjeta .historia-titulo { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 10px; font-size: 12.5px; font-weight: 700; }
@@ -270,7 +272,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .pie { margin-top: auto; font-size: 11.5px !important; line-height: 1.45; color: var(--tinta-2); }
 /* Las pistas de lo que se puede tocar llevan un ícono de toque y van en tinta, no en gris chico. */
 .tira-pista { display: flex; align-items: flex-start; gap: 8px; font-size: 13.5px !important; font-weight: 700; color: var(--tinta); }
-.tira-pista::before { content: ""; flex-shrink: 0; width: 16px; height: 16px; margin-top: 2px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='3.2' fill='%23D7261E'/%3E%3Ccircle cx='8' cy='8' r='6.4' fill='none' stroke='%23D7261E' stroke-width='1.4'/%3E%3C/svg%3E") no-repeat center / contain; }
+.tira-pista::before { content: ""; flex-shrink: 0; width: 16px; height: 16px; margin-top: 2px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='3.2' fill='%23121212'/%3E%3Ccircle cx='8' cy='8' r='6.4' fill='none' stroke='%23121212' stroke-width='1.4'/%3E%3C/svg%3E") no-repeat center / contain; }
 #tira .toque { cursor: pointer; }
 #tira .guia-dia { stroke: var(--tinta); stroke-width: 1; pointer-events: none; }
 #tira .rotulo-dia { font-size: 11px; font-weight: 700; fill: var(--tinta); pointer-events: none; }
@@ -376,7 +378,7 @@ body.con-subtitulos { --subtitulos: 72px; padding-bottom: var(--subtitulos); }
 .dias-barras span { flex: 1; background: #8A857E; }
 .dias-barras.con-anio span { position: relative; align-self: stretch; background: none; }
 .dias-barras.con-anio i { position: absolute; bottom: 0; }
-.dias-barras.con-anio .n { left: 0; right: 0; background: #D3CEC6; }
+.dias-barras.con-anio .n { left: 0; right: 0; background: #928D85; }
 .dias-barras.con-anio .a { left: 18%; right: 18%; }
 .dias-fechas { position: relative; height: 18px; font-family: var(--mono); font-size: 13px; color: var(--tinta-2); }
 .dias-fechas span { position: absolute; transform: translateX(-50%); white-space: nowrap; }
@@ -455,7 +457,7 @@ body.con-subtitulos { --subtitulos: 72px; padding-bottom: var(--subtitulos); }
 .fz-lectura.pista { font-weight: 400; color: var(--tinta-2); font-size: 14px; }
 .fz-mapa { position: relative; width: 100%; aspect-ratio: 416 / 309; }
 .fz-mapa svg { position: absolute; inset: 0; width: 100%; height: 100%; }
-.fz-mapa path { fill: #DDD8CF; stroke: #FFFFFF; stroke-width: 1; vector-effect: non-scaling-stroke; cursor: pointer; transition: fill 0.15s ease; }
+.fz-mapa path { fill: #DDD8CF; stroke: #8F877D; stroke-width: 1; vector-effect: non-scaling-stroke; cursor: pointer; transition: fill 0.15s ease; }
 .fz-mapa path:hover { fill: #B8B0A3; }
 .fz-mapa path.en-zona { fill: var(--tinta); cursor: default; }
 .fz-etq { position: absolute; transform: translate(-50%, -50%); font-size: 12.5px; font-weight: 700; color: var(--tinta); white-space: nowrap; pointer-events: none; text-shadow: 0 0 3px #FFFFFF, 0 0 3px #FFFFFF, 0 0 6px #FFFFFF; }
@@ -575,7 +577,7 @@ h1, h2, h3 { scroll-margin-top: calc(var(--barra-alto) + 12px); }
 .metodo .m-graf-t { font-size: 13px; font-weight: 700; color: var(--tinta); }
 /* El título de cada prueba va centrado sobre su gráfica, como en las PNG de la validación. */
 .m-prueba-graf .m-graf-t { font-size: 15px; font-weight: 400; text-align: center; text-wrap: balance; }
-.m-ley-cuadro { width: 12px; height: 12px; background: var(--c); border: 1px solid rgba(0, 0, 0, 0.12); }
+.m-ley-cuadro { width: 12px; height: 12px; background: var(--c); border: 1px solid var(--tinta-2); }
 .m-ley-raya { width: 18px; height: 0; border-top: 2px dashed var(--c); }
 .m-ley-punto { width: 10px; height: 10px; border-radius: 50%; background: var(--c); }
 .m-ley-caja { width: 10px; height: 10px; background: var(--c); }
@@ -598,7 +600,7 @@ h1, h2, h3 { scroll-margin-top: calc(var(--barra-alto) + 12px); }
 .m-sat-caja { position: relative; }
 #mSatSvg .m-sat-txt { font-family: var(--texto); }
 #mSatSvg .m-sat-zona:focus { outline: none; }
-#mSatSvg .m-sat-zona:focus-visible { fill: rgba(245, 160, 76, 0.18); }
+#mSatSvg .m-sat-zona:focus-visible { fill: rgba(18, 18, 18, 0.06); stroke: var(--tinta); stroke-width: 2; }
 .m-sat-punta { position: absolute; pointer-events: none; background: var(--tinta); color: var(--papel); font-size: 13px; line-height: 1.4; padding: 8px 10px; white-space: nowrap; transform: translate(-50%, -100%); z-index: 2; }
 .m-sat-punta b { font-family: var(--mono); }
 @media (prefers-reduced-motion: no-preference) { #mSatSvg .m-sat-linea { transition: opacity 0.25s ease; } }
@@ -630,4 +632,4 @@ h1, h2, h3 { scroll-margin-top: calc(var(--barra-alto) + 12px); }
   .m-descargar { height: auto; min-height: 48px; }
 }
 /* El mapa del cierre se recorre con las flechas: el contorno del foco va por dentro del recuadro. */
-#capa:focus-visible { outline: 3px solid #F5A04C; outline-offset: -3px; }
+#capa:focus-visible { outline: 3px solid #F5A04C; outline-offset: -3px; box-shadow: inset 0 0 0 6px #0A0E14; }

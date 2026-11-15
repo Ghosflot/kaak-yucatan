@@ -130,7 +130,7 @@ export function montar(raiz, { id }) {
     const barras = $('diasBarras');
     barras.textContent = '';
     barras.classList.toggle('con-anio', deAnio);
-    // Con un año elegido, cada día lleva dos barras: un año normal en gris, detrás, y el año en color, delante.
+    // Con un año elegido, cada día lleva dos barras: un año normal en gris, detrás, y el año delante: 2026 en rojo, los demás en tinta.
     const color = anio === 2026 ? '#D7261E' : '#121212';
     const alto = (v) => (v > 0 ? Math.max(1.5, (v / tope) * 97) + '%' : '0');
     dias.forEach((v, i) => {
@@ -164,7 +164,7 @@ export function montar(raiz, { id }) {
     }
     const sub = $('cuandoSub');
     if (deAnio && suma(dias) <= 0) sub.textContent = t('sinFocosAnio', { a: anio });
-    else sub.textContent = deAnio ? t('cuandoAnio', { a: anio }) : t('cuandoNormal');
+    else sub.textContent = deAnio ? (anio === 2026 ? t('cuandoAnio2026') : t('cuandoAnio', { a: anio })) : t('cuandoNormal');
     $('verNormal').hidden = !deAnio;
     const nombreSerie = deAnio ? String(anio) : t('unAnioNormal');
     const llaveTxt = $('llave').hidden ? '' : ' ' + $('llaveTexto').textContent + '.';

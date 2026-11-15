@@ -42,7 +42,7 @@ const PLANTILLA = `
       <div class="buscador" id="buscador1"></div>
       <p class="leyenda-punto"><i aria-hidden="true"></i><span id="leyendaPunto"></span></p>
       <button type="button" class="boton" id="verTemporada">
-        <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5 L19.5 12 L7 19.5 Z" fill="#D7261E"></path></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5 L19.5 12 L7 19.5 Z" fill="#121212"></path></svg>
         <span data-t="verTemporada"></span>
       </button>
     </div>
