@@ -3,7 +3,9 @@
 // aquí, en el HTML que entrega Cloudflare Pages. kaak.pages.dev/tekax lleva la tarjeta de Tekax;
 // las demás direcciones, la de la página. Las tarjetas y sus textos los escribe pipeline/tarjetas.mjs
 // en web/og/. Si algo falla, la página sale tal cual, con la tarjeta general de index.html.
-// Con ?lang=en (los jueces de Space Apps) todo sale en inglés, de web/og/en/, también en la portada.
+// La vista previa sale en inglés (web/og/en/), para que la vean así los jueces de Space Apps aunque
+// compartan el enlace tal cual; con ?lang=es sale en español (web/og/). La página, al abrirse, sigue
+// eligiendo su idioma como siempre (web/js/textos.js).
 //
 // También pone el contador de visitas de Cloudflare Web Analytics (sin cookies; da páginas, país,
 // de dónde llega la visita y tipo de dispositivo). Solo en la dirección pública, para que las
@@ -99,15 +101,16 @@ export async function onRequest(contexto) {
     if (request.method !== 'GET' || respuesta.status !== 200) return respuesta;
     if (!(respuesta.headers.get('content-type') || '').includes('text/html')) return respuesta;
     const url = new URL(request.url);
-    const ingles = url.searchParams.get('lang') === 'en';
+    const lang = url.searchParams.get('lang');
+    const ingles = lang !== 'es';
     const carpeta = ingles ? '/og/en/' : '/og/';
     const T = await leerTextos(env, url, carpeta);
     const corto = url.pathname.match(/^\/([a-z0-9-]+)\/?$/);
     const id = corto && T.municipios[corto[1]] ? corto[1] : null;
     const tarjeta = id ? T.municipios[id] : T.inicio;
     const imagen = url.origin + carpeta + (id ? id + '.png' : 'inicio.jpg');
-    // El enlace compartido en inglés abre la página en inglés.
-    const direccion = url.origin + (id ? '/' + id : '/') + (ingles ? '?lang=en' : '');
+    // Se conserva el ?lang= que traiga: Facebook vuelve a leer la tarjeta de og:url.
+    const direccion = url.origin + (id ? '/' + id : '/') + (lang === 'en' || lang === 'es' ? '?lang=' + lang : '');
     let reescribir = new HTMLRewriter()
       .on('meta[property="og:image"]', new Contenido(imagen))
       .on('meta[name="twitter:image"]', new Contenido(imagen))
@@ -115,15 +118,12 @@ export async function onRequest(contexto) {
     if (ANALITICA_TOKEN && url.hostname === ANALITICA_HOST) {
       reescribir = reescribir.on('head', new Analitica(ANALITICA_TOKEN));
     }
-    // La portada en español usa el <head> de index.html; en inglés hay que cambiarlo todo.
-    if (id || ingles) {
-      reescribir = reescribir
-        .on('title', new Titulo(id ? tarjeta.titulo + " · K'áak'" : tarjeta.titulo))
-        .on('meta[name="description"]', new Contenido(tarjeta.descripcion))
-        .on('meta[property="og:title"]', new Contenido(tarjeta.titulo))
-        .on('meta[property="og:description"]', new Contenido(tarjeta.descripcion))
-        .on('meta[property="og:image:alt"]', new Contenido(tarjeta.titulo));
-    }
+    reescribir = reescribir
+      .on('title', new Titulo(id ? tarjeta.titulo + " · K'áak'" : tarjeta.titulo))
+      .on('meta[name="description"]', new Contenido(tarjeta.descripcion))
+      .on('meta[property="og:title"]', new Contenido(tarjeta.titulo))
+      .on('meta[property="og:description"]', new Contenido(tarjeta.descripcion))
+      .on('meta[property="og:image:alt"]', new Contenido(tarjeta.titulo));
     if (ingles) {
       reescribir = reescribir
         .on('html', new Atributo('lang', 'en'))
