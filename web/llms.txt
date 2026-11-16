@@ -12,6 +12,11 @@ The site is a single-page app: a reader that does not run JavaScript sees only i
 - When it burns against the official dates: the week with the most fire in a normal year, and, for each burn zone of Yucatán, how many of every 10 hot spots fell outside the burning window set by the state agriculture ministry (SEDER), each year since 2001.
 - A one-page card per municipality to forward by WhatsApp, and CSV downloads of the data behind every chart.
 - How we measure it: the four validation tests, in plain language, with their charts.
+- An almanac of every municipality, month by month, for a normal year or for 2026.
+
+### Why day by day, and why March to May
+
+SEDER sets the allowed burning windows by date, so the site shows the calendar day by day; the almanac shows each month and the downloadable harmonized series each week. The comparison with normal covers the burning season, March to May. Outside it, 119 of the 127 municipalities have a median of zero hot spots in the first half of November, so comparing the current month would say nothing.
 
 ## How the harmonization works
 
