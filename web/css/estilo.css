@@ -52,6 +52,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .marca { position: relative; display: flex; align-items: center; height: 100%; font-family: var(--display); font-size: 24px; letter-spacing: 0.01em; text-decoration: none; line-height: 1; }
 .marca-dice { position: absolute; left: 0; top: calc(100% - 8px); padding: 5px 9px; background: var(--tinta); color: var(--papel); font-family: var(--texto); font-size: 13px; font-weight: 700; letter-spacing: 0; white-space: nowrap; pointer-events: none; opacity: 0; transform: translateY(-4px); transition: opacity 0.18s ease, transform 0.18s ease; }
 .marca:hover .marca-dice, .marca:focus-visible .marca-dice, .marca.insinua .marca-dice { opacity: 1; transform: none; }
+.marca-dice::before { content: ''; position: absolute; left: 16px; bottom: 100%; border: 6px solid transparent; border-top: 0; border-bottom-color: var(--tinta); }
 /* Atajos de teclado (función escondida de la portada) */
 .atajos-boton { align-self: flex-start; min-height: 28px; padding: 0; border: 0; background: none; color: var(--tinta-2); font-size: 12.5px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 .atajos-boton kbd, .atajos kbd { display: inline-block; min-width: 1.6em; padding: 1px 6px; border: 1px solid #BDB7AE; border-bottom-width: 2px; background: #FFFFFF; font-family: var(--mono); font-size: 12px; text-align: center; color: var(--tinta); }

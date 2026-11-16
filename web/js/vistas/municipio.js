@@ -57,6 +57,7 @@ const PLANTILLA = `
           </ul>
           <p class="donde-lectura" id="dondeLectura" aria-live="polite"></p>
           <p class="mun-nota donde-nota" data-t="dondeNota"></p>
+          <p class="mun-nota donde-nota" id="dondeAjuste" hidden></p>
         </div>
       </div>
       <details class="donde-lista" id="dondeLista" hidden><summary data-t="dondeLista"></summary><div class="donde-tabla" id="dondeTabla"></div></details>
@@ -467,6 +468,11 @@ export function montar(raiz, { id }) {
     $('leyFoco').hidden = !cuenta.F;
     $('leyRep').hidden = !cuenta.R;
     $('dondeLista').hidden = !cuenta.F;
+    // El encabezado lleva a la escala de S-NPP los focos de los días que cubrió NOAA-20; los puntos se
+    // cuentan uno por uno. Si por eso las dos cifras no coinciden, la nota lo explica.
+    const ajuste = cuenta.F > 0 && fmt(m.v26) !== fmt(cuenta.F);
+    $('dondeAjuste').hidden = !ajuste;
+    $('dondeAjuste').textContent = ajuste ? t('dondeAjuste', { a: fmt(m.v26), F: fmt(cuenta.F) }) : '';
     // Sin focos ni cuadritos repetidos no hay nada que poner en el mapa: queda la oración.
     raiz.querySelector('.donde-cuerpo').hidden = !cuenta.F && !cuenta.R;
     mapaDonde();
