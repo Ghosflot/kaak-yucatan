@@ -930,3 +930,5 @@ h1, h2, h3 { scroll-margin-top: calc(var(--barra-alto) + 12px); }
 /* El repaso al abrir: bajo el título, el botón para ir directo al mapa a color y la fecha que pasa. */
 .repaso-dia { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; }
 .explica-color { margin: 6px 0 12px; font-size: 14px; line-height: 1.45; color: var(--sobre); }
+/* Texto de index.html para quien lee sin JavaScript: con JavaScript no se ve (la app lo borra al pintar). */
+.sin-js { display: none; max-width: 720px; padding: 32px 20px; }

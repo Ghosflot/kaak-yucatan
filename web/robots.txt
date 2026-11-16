@@ -1,0 +1,8 @@
+# K'áak' — kaak.pages.dev
+# Summary for language models: https://kaak.pages.dev/llms.txt
+
+User-agent: *
+Content-Signal: search=yes, ai-input=yes
+Allow: /
+
+Sitemap: https://kaak.pages.dev/sitemap.xml

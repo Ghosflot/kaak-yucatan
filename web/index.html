@@ -25,6 +25,10 @@
   <link rel="preload" href="/fuentes/AtkinsonHyperlegibleNext-400.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="preload" href="/datos/portada.json" as="fetch" crossorigin>
   <link rel="stylesheet" href="/css/estilo.css">
+  <link rel="alternate" type="text/markdown" href="/llms.txt" title="K'áak' for language models">
+  <noscript><style>.sin-js { display: block; }</style></noscript>
+  <!-- Datos estructurados (schema.org) para buscadores y agentes de IA, que no ejecutan JavaScript. -->
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","@id":"https://kaak.pages.dev/#app","name":"K'áak'","url":"https://kaak.pages.dev/","description":"Free website that gives each municipality of the Yucatán Peninsula a fire calendar built from 25 years of NASA MODIS and VIIRS fire detections, harmonized to the VIIRS scale with a factor for each burn zone and time of year.","applicationCategory":"ScienceApplication","operatingSystem":"Web browser","inLanguage":["es","en"],"isAccessibleForFree":true,"author":[{"@type":"Person","name":"David Alcocer"},{"@type":"Person","name":"Nicolás Moguel"},{"@type":"Person","name":"Guillermo Peña"},{"@type":"Person","name":"Leonardo Sanmartín"},{"@type":"Person","name":"Melany Suárez"},{"@type":"Person","name":"Gadiel Uicab"}],"sameAs":"https://github.com/Ghosflot/kaak-yucatan"},{"@type":"Dataset","@id":"https://kaak.pages.dev/#serie","name":"Harmonized MODIS and VIIRS fire series of the Yucatán Peninsula","description":"Active fire detections from NASA FIRMS (MODIS on Terra and Aqua, VIIRS on Suomi NPP and NOAA-20) counted as 1 km grid cell-days per municipality of the Yucatán Peninsula since 2001, with MODIS calibrated to the VIIRS scale by burn zone and time of year (factors from 2.8 to 5.3, fitted on 2013 to 2020).","url":"https://kaak.pages.dev/?lang=en#/metodo","temporalCoverage":"2001-01-01/..","spatialCoverage":{"@type":"Place","name":"Yucatán Peninsula, Mexico (Campeche, Quintana Roo and Yucatán)"},"variableMeasured":"Hot spots: 1 km grid cells with at least one active fire detection on a given day, on the VIIRS scale","isBasedOn":"https://firms.modaps.eosdis.nasa.gov/","creator":[{"@type":"Person","name":"David Alcocer"},{"@type":"Person","name":"Nicolás Moguel"},{"@type":"Person","name":"Guillermo Peña"},{"@type":"Person","name":"Leonardo Sanmartín"},{"@type":"Person","name":"Melany Suárez"},{"@type":"Person","name":"Gadiel Uicab"}],"license":"https://www.apache.org/licenses/LICENSE-2.0","distribution":{"@type":"DataDownload","encodingFormat":"text/csv","contentUrl":"https://kaak.pages.dev/datos/serie_armonizada.csv"}},{"@type":"SoftwareSourceCode","name":"K'áak'","codeRepository":"https://github.com/Ghosflot/kaak-yucatan","programmingLanguage":["Python","JavaScript"],"license":"https://www.apache.org/licenses/LICENSE-2.0","author":[{"@type":"Person","name":"David Alcocer"},{"@type":"Person","name":"Nicolás Moguel"},{"@type":"Person","name":"Guillermo Peña"},{"@type":"Person","name":"Leonardo Sanmartín"},{"@type":"Person","name":"Melany Suárez"},{"@type":"Person","name":"Gadiel Uicab"}]}]}</script>
   <script type="module" src="/js/app.js"></script>
 </head>
 <body>
@@ -41,7 +45,22 @@
       <button type="button" data-idioma="en" lang="en" aria-pressed="false">EN</button>
     </div>
   </header>
-  <main id="vista" tabindex="-1"></main>
+  <main id="vista" tabindex="-1">
+    <!-- Para quien lee sin JavaScript (buscadores, agentes de IA): la app borra este bloque al pintar
+         y, con JavaScript, estilo.css lo oculta desde el principio. Mismo contenido que /llms.txt. -->
+    <div class="sin-js" lang="en">
+      <h1>K'áak': the fire calendar of the Yucatán Peninsula</h1>
+      <p>K'áak' (Yucatec Maya for "fire") is a free website, in English and Spanish, that gives each municipality of the Yucatán Peninsula a fire calendar built from 25 years of NASA MODIS and VIIRS fire detections. MODIS sees three to five times less fire than VIIRS, so we calibrate MODIS to the VIIRS scale with a factor for each burn zone and time of year. This site needs JavaScript; <a href="/llms.txt">/llms.txt</a> describes everything it shows.</p>
+      <ul>
+        <li>Whether this season runs above or below normal (the median of 2001 to 2025) in each municipality.</li>
+        <li>Where fire returns almost every year: the 1 km cells with fire in 5 or more of the 14 seasons from 2012 to 2025, each linked to Google Maps.</li>
+        <li>When it burns against the official burning window of each zone of Yucatán.</li>
+        <li>A card per municipality to forward by WhatsApp, and the data behind every chart as CSV.</li>
+      </ul>
+      <p>Validation, with criteria fixed before running the tests: the false jump of 2012 goes from ×3.26 before calibration to ×0.90 after; the factor holds on the Aqua years 2021 to 2025, which the calibration did not use; and against CONAFOR's ground records, Suomi NPP sees 53 % of 1,222 recorded forest fires, against 9 % by chance.</p>
+      <p>It does not predict fires or send alerts. Code and data: <a href="https://github.com/Ghosflot/kaak-yucatan">github.com/Ghosflot/kaak-yucatan</a>. Project for the NASA Space Apps Challenge 2026.</p>
+    </div>
+  </main>
   <div id="anuncio" class="sr" role="status"></div>
 </body>
 </html>
