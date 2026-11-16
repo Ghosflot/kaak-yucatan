@@ -27,11 +27,11 @@ SEDER sets the allowed burning windows by date, so the site shows the calendar d
 
 ## Validation (pass/fail rules fixed in code, pipeline/validar.py, before computing the results)
 
-- Consistency check: the false jump of 2012 disappears. For the whole peninsula over the full year, the ratio of 2013–2015 to 2009–2011 goes from ×3.26 before calibration to ×0.90 after, inside the natural range of 0.87 to 1.16. It is a consistency check rather than an independent test, since 2013 to 2015 are among the calibration years.
+- Consistency check: the false jump of 2012 disappears. For the whole peninsula over the full year, the ratio of 2013–2015 to 2009–2011 goes from ×3.26 before calibration to ×0.90 after, inside the natural range of 0.87 to 1.16. It is a consistency check rather than an independent test, since 2013 to 2015 are among the calibration years; rerun with factors calibrated only on 2016 to 2020, it gives ×0.91 (×0.90 with the current factors).
 - The factor holds on the Aqua years 2021 to 2025, which the calibration did not use: 11 % error with a factor per zone and time of year, against 13 % with a single factor (limit: 25 %).
 - NOAA-20 can carry the series on: from 2019 to 2025, NOAA-20 with its factor counted between 0.99 and 1.03 hot spots per Suomi NPP hot spot each year, inside the 0.90 to 1.10 target. This matters now that Suomi NPP stopped delivering data on 2 November 2026.
 - Against CONAFOR's ground records of forest fires, Suomi NPP sees 53 % of 1,222 recorded fires, against 9 % expected by chance, and 84 % of those larger than 100 ha.
-- One assumption cannot be tested: before 2012 only MODIS flew, so the factor measured from 2013 to 2020 is assumed to hold for 2001 to 2011. The site draws those years as striped bars.
+- One assumption cannot be tested: before 2012 only MODIS flew, so the factor measured from 2013 to 2020 is assumed to hold for 2001 to 2011. Two indirect checks support it: Aqua's median fire radiative power in March to May barely changed (29.9 MW in 2003–2011, 29.1 MW in 2013–2020), and a curve instead of a constant factor does not reduce the error. For a single municipality, an Aqua-era year can be about 20 % off (about 8 % for a whole zone; the Terra years 2001–2002, about 45 %), so the long series is solid for zones and the state and a reference for one municipality in one old year. The site draws those years as striped bars.
 
 ## Findings
 
