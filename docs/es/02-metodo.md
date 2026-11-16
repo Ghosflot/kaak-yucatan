@@ -239,6 +239,19 @@ que se repartió el trabajo; donde la página quedó distinta, la referencia es 
   2013–2020, y se guardan el menor y el mayor (`factor_min`, `factor_max`). Es un **rango**,
   no un intervalo de confianza: en docs y en el pitch se dice «rango». Un número sin su rango
   es más fácil de atacar en las preguntas de los jueces.
+- **Lo que el rango no mide:** el rango es el menor y el mayor de 8 recálculos, cada uno
+  dejando fuera un año. Dice qué tan estable es el factor promedio, no cuánto puede
+  desviarse un año reconstruido. En estadística cubre apenas unos ±0.5 errores estándar
+  jackknife (error estándar jackknife ≈ √(n−1) × desviación estándar de los valores sin un
+  año, n = 8). El desvío de un año se midió de la misma forma, dejando fuera un año de
+  2013–2020 (marzo a mayo, municipio-años con al menos 20 cuadritos-día de S-NPP). Con Aqua,
+  un año suele desviarse cerca de 8 % en una zona entera y cerca de 20 % en un solo
+  municipio; por municipio, el percentil 90 es cerca de 62 %, y cerca de 1 de cada 6
+  municipio-años se desvía más de 50 %. Con Terra es cerca de 14 % por zona y cerca de 45 %
+  por municipio. Se probaron factores por municipio (también acercados al factor de su zona)
+  y una curva de potencia, y no lo bajaron: es ruido de un año a otro, así que lo decimos en
+  vez de cambiar el método. Un intervalo mejor sería un bootstrap por bloques de años
+  (Künsch 1989, *Ann. Stat.* 17:1217); queda como trabajo futuro.
 - **Depende de:** 2 · **Horas:** 6 · **Saber:** pandas, proporciones.
 
 #### 4. Factor NOAA-20→S-NPP

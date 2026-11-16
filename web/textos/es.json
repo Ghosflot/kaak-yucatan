@@ -483,7 +483,7 @@
   "mValGrafica": "Ver la gráfica",
   "mValVer": "Ver las limitaciones",
   "mDetSalto2012": "La meta era quitar al menos la mitad del salto y quedar entre {m0} y {m1}. Entre periodos de S-NPP, sin cambio de satélite, la razón va de {naturalMin} a {naturalMax}: esa es la variación normal entre años. Solo en el estado de Yucatán, el mismo cálculo da {razonCrudaYucatan} sin corregir y {razonArmonizadaYucatan} ya corregido.",
-  "mDetAqua": "Con un solo factor para toda la península, el desvío fue de {wapeUnicoPct} %; con uno por zona y época, de {wapeZonaEpocaPct} %. Es lo que pueden desviarse los años en que la serie usa a Aqua.",
+  "mDetAqua": "Con un solo factor para toda la península, el desvío fue de {wapeUnicoPct} %; con uno por zona y época, de {wapeZonaEpocaPct} %. Es lo que puede desviarse un año de Aqua en una zona entera. En un solo municipio, un año de 2002 a 2011 suele desviarse cerca de 20 %, y 1 de cada 6 años más de 50 %; los años de Terra (2001 y parte de 2002), cerca de 45 %. Por eso la serie larga es firme para zonas y para el estado. Para un solo municipio en un año viejo, es una referencia.",
   "mDetConafor": "Son {incendios} incendios forestales registrados de {desde} a {hasta}. La meta era que los incendios con focos cerca fueran al menos el triple de los que coincidirían por azar, y {meta} de cada 100 de los grandes.",
   "mDetConaforDuracion": "Los incendios que duran más se ven más: contando cualquier satélite, no solo S-NPP, hubo focos cerca de {d1} de cada 100 incendios que duraron un día y de {d4} de cada 100 de los que duraron más de una semana.",
   "mGvTituloSalto": "Prueba 1 · Salto de 2012 · Península de Yucatán",
