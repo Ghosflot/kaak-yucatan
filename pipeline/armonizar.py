@@ -6,7 +6,7 @@ Calcula los factores NOAA-20→S-NPP (tarea 4) y Aqua→S-NPP y Terra→S-NPP (t
 con factores_por_epoca(), y escribe salidas/factores.csv. La tarea 5 arma la serie.
 
 Qué es un factor: el número por el que se multiplican los cuadritos-día de un satélite para
-expresarlos en cuadritos-día de S-NPP (la tabla de periodos de docs/02 dice «× su factor»):
+expresarlos en cuadritos-día de S-NPP (la tabla de periodos de docs/02 dice "× its factor"):
 
     factor = cuadritos-día de S-NPP / cuadritos-día del otro satélite
 
@@ -65,7 +65,7 @@ PERIODO_NOAA20 = (date(2018, 4, 1), date(2026, 11, 1))
 RANGO_ESPERADO_NOAA20 = (0.95, 1.06)
 
 # MODIS (tarea 3): se calibra con 2013–2020, los dos satélites funcionando y antes de la
-# deriva de órbita de MODIS (docs/02, «Método»).
+# deriva de órbita de MODIS (docs/02, "Method").
 MODIS = ["Aqua", "Terra"]
 PERIODO_MODIS = (date(2013, 1, 1), date(2020, 12, 31))
 ZONAS = ["Yucatán 1", "Yucatán 2", "Yucatán 3", "Yucatán 4", "Campeche", "Quintana Roo"]

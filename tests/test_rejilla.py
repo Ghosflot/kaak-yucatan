@@ -164,7 +164,7 @@ def test_semana_de_1_a_52(dia, semana):
 
 
 # ---------------------------------------------------------------------------
-# Filtro de focos (datos_peninsula/LEEME.md)
+# Filtro de focos (datos_peninsula/README.md)
 
 
 def test_filtro_deja_solo_vegetacion():

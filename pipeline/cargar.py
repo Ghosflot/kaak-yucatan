@@ -13,7 +13,7 @@ Qué hace cargar_focos(), en este orden:
 2. Quita repetidos: el mismo satélite, fecha, hora, latitud y longitud es el mismo foco.
    Si está dos veces, una como SP (definitivo) y otra como NRT (casi en tiempo real), se
    queda la SP.
-3. Filtra (datos_peninsula/LEEME.md): solo vegetación (`type` 0 o vacío) y confianza
+3. Filtra (datos_peninsula/README.md): solo vegetación (`type` 0 o vacío) y confianza
    nominal o alta (VIIRS `n` o `h`; MODIS 30 o más).
 4. Pone un nombre claro a cada satélite (`satelite`: Terra, Aqua, S-NPP, NOAA-20, NOAA-21).
    La columna `sensor` dice «MODIS» para Terra y para Aqua, así que no sirve para

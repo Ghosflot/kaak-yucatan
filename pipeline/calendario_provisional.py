@@ -3,12 +3,12 @@
 Uso: python pipeline/calendario_provisional.py [--salida RUTA]
 
 Escribe salidas/calendario.parquet con el mismo contrato que tendrá el calendario
-armonizado (docs/02, «Contrato de datos»), pero solo con S-NPP (20 ene 2012 – 2 nov 2026)
+armonizado (docs/02, "Data contract"), pero solo con S-NPP (20 ene 2012 – 2 nov 2026)
 y sin calibrar. La página puede trabajar con él mientras llega la serie de 25 años
 (tarea 5); entonces solo se reemplaza el archivo.
 
-Cobertura: es el periodo en que S-NPP es el satélite de la serie (docs/02, «Un satélite
-por periodo»): del 20 ene 2012 al 2 nov 2026, en día solar local. Es un dato fijo, no se
+Cobertura: es el periodo en que S-NPP es el satélite de la serie (docs/02, "One satellite
+per period"): del 20 ene 2012 al 2 nov 2026, en día solar local. Es un dato fijo, no se
 deduce de los focos: que no haya focos no quiere decir que el satélite no observó, y que
 el último foco sea de una fecha no quiere decir que ahí terminó la observación. Si algún
 cuadrito-día cae fuera del periodo, el generador se detiene.
@@ -53,7 +53,7 @@ MUNICIPIOS_ZONA = RAIZ / "analisis" / "municipios_zona.csv"
 SALIDA = RAIZ / "salidas" / "calendario.parquet"
 
 SENSOR = "S-NPP"
-# Periodo de S-NPP en la serie (docs/02, «Un satélite por periodo»), en día solar local.
+# Periodo de S-NPP en la serie (docs/02, "One satellite per period"), en día solar local.
 COBERTURA = (date(2012, 1, 20), date(2026, 11, 2))
 CONFIANZAS = {"n", "h"}
 SEMANAS = 52

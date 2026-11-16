@@ -1,4 +1,4 @@
-"""El campo y el fuego en Yucatán: las cifras de docs/04-campo-y-fuego.md.
+"""El campo y el fuego en Yucatán: las cifras de docs/04-countryside-and-fire.md.
 
 Preguntas:
   1. ¿Qué municipios tienen más fuego, y qué parte del fuego y de los incendios concentran?

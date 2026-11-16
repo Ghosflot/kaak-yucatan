@@ -1,7 +1,7 @@
 # El campo de Yucatán y el fuego: problema y solución
 
 *14 nov 2026. Aterrizaje de la problemática para el pitch y para implementar. Versión en PDF:
-`docs/04-campo-y-fuego.pdf`. Las cifras propias se reproducen con `analisis/campo_y_fuego.py`;
+`docs/es/04-campo-y-fuego.pdf`. Las cifras propias se reproducen con `analisis/campo_y_fuego.py`;
 las demás, en docs/01, «El campo de Yucatán».*
 
 **En corto:** casi la mitad de Yucatán es campo, y ahí está el fuego: los 10 municipios con
@@ -129,7 +129,7 @@ repite el fuego, fuegos largos y lista diaria); todavía no está en el repo (ta
 ## 5. Bloque del campo para el pitch
 
 Unos 50 segundos, entre «El abuelo» y «El problema, a escala del estado» en la versión de 3
-minutos (docs/03-guion.md, «Bloque del campo»). Para no pasarse de tiempo, se dice solo la
+minutos (docs/es/03-guion.md, «Bloque del campo»). Para no pasarse de tiempo, se dice solo la
 primera y la última frase de cada párrafo.
 
 **Qué es el campo.** En Yucatán, 4 de cada 10 hectáreas son campo. Ahí trabajan de planta más

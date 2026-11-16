@@ -35,16 +35,20 @@ all fire, and no detections does not mean no fire. "Normal" is a reference, not 
 | `web/` | The static site (HTML, CSS and JavaScript with no libraries: an SVG map over a cloud-free satellite mosaic, and SVG charts), published on Cloudflare Pages |
 | `pipeline/` | Python code that turns the harmonized series into the files the site reads |
 | `analisis/` | Scripts that download and prepare the raw data and reproduce the figures |
-| `datos_peninsula/` | Ready-to-use fire detections, CONAFOR fire records and boundaries for the peninsula (25 MB). See [its guide](datos_peninsula/LEEME.md) |
+| `datos_peninsula/` | Ready-to-use fire detections, CONAFOR fire records and boundaries for the peninsula (25 MB). See [its guide](datos_peninsula/README.md) |
 | `tests/` | Automated tests, run on every pull request (ruff, pytest, and Playwright with axe-core for the site in `tests/web/`) |
-| `docs/` | Project documentation (in Spanish) |
+| `docs/` | Project documentation in English. The Spanish originals are in `docs/es/` |
 
-## Documentation (in Spanish)
+## Documentation
 
-1. [Verified facts](docs/01-hechos-verificados.md): fire figures and their sources.
-2. [Method](docs/02-metodo.md): what the site does, the method and each task.
-3. [Pitch script](docs/03-guion.md).
-4. [The countryside and fire](docs/04-campo-y-fuego.md): who burns, why it matters and the fire calendar of each municipality.
+The documentation is in English. The Spanish versions are in [docs/es/](docs/es/) (the pitch is
+presented in Spanish). Terms are fixed in the [glossary](docs/GLOSSARY.md).
+
+1. [Verified facts](docs/01-verified-facts.md): fire figures and their sources.
+2. [Method](docs/02-method.md): what the site does, the method and each task.
+3. [Pitch script](docs/03-script.md).
+4. [The countryside and fire](docs/04-countryside-and-fire.md): who burns, why it matters and the fire calendar of each municipality.
+5. [Explained simply](docs/05-explained-simply.md): the problem and the solution in plain words, and the four lines for the jury.
 
 ## Getting started
 
@@ -87,7 +91,7 @@ secret).
 - Official burning calendar of SEDER (Yucatán).
 - [geoBoundaries](https://www.geoboundaries.org/) (CC BY 4.0) and Natural Earth: boundaries.
 
-Each figure is traced to its source in [docs/01](docs/01-hechos-verificados.md).
+Each figure is traced to its source in [docs/01](docs/01-verified-facts.md).
 
 ## Use of AI (required disclosure for Space Apps)
 

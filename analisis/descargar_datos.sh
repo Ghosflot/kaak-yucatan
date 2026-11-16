@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Descarga los datos públicos que respaldan docs/01-hechos-verificados.md.
+# Descarga los datos públicos que respaldan docs/01-verified-facts.md.
 # Uso: ./analisis/descargar_datos.sh   (deja todo en data/, que no va a Git)
 #
 # - FIRMS (NASA): archivos anuales por país, sin clave de acceso.

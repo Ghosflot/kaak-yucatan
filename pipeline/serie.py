@@ -14,7 +14,7 @@ de la semana y del acumulado del año. Escribe:
 - salidas/dias_sin_datos.csv: los días en que el satélite del periodo no mandó datos, cuáles
   se rellenaron con el respaldo y cuáles solo se reportan (columnas: COLUMNAS_HUECOS).
 
-Reglas (docs/02, «Método»):
+Reglas (docs/02, "Method"):
 - Un satélite por periodo, nunca sumados, en día solar local:
     Terra    1 ene 2001 – 3 jul 2002
     Aqua     4 jul 2002 – 19 ene 2012
@@ -81,13 +81,13 @@ PERIODOS = [
 INICIO = PERIODOS[0][1]
 MODIS = {"Terra", "Aqua"}
 VIIRS = {"S-NPP", "NOAA-20"}
-# Años de «lo normal» (docs/02: «sobre 2001–2025 armonizado»).
+# Años de «lo normal» (docs/02: "over harmonized 2001–2025").
 ANIOS_BASE = range(2001, 2026)
 # Un tramo más corto que esto puede no tener fuego de verdad (por ejemplo, Aqua del 1 al
 # 19 ene 2012 o los primeros días de NOAA-20); no se exige que tenga datos.
 TRAMO_MINIMO = 30
 
-# Días sin datos (H1, docs/06 «Método»): el satélite que cubre un día si el del periodo no
+# Días sin datos (H1, docs/02 "Method"): el satélite que cubre un día si el del periodo no
 # mandó datos. Siempre de la misma familia (VIIRS por VIIRS, MODIS por MODIS). Terra
 # (2001–2002) no tiene respaldo: Aqua aún no mandaba datos. NOAA-20 tampoco: NOAA-21 no
 # tiene factor y en los datos nunca hizo falta.
@@ -95,7 +95,7 @@ RESPALDO = {"S-NPP": "NOAA-20", "Aqua": "Terra"}
 # Caídas que NASA confirma. Se reportan en salidas/dias_sin_datos.csv pero NO se rellenan
 # (decisión del 14 nov): S-NPP 2022 cae fuera de temporada y la regla del umbral no la
 # detecta; se deja visible a propósito. Terra 2001 no tiene con qué rellenarse.
-# Fuentes (docs/01, «Días sin datos del satélite»):
+# Fuentes (docs/01, "Days without satellite data"):
 # - https://www.earthdata.nasa.gov/data/alerts-outages/suomi-npp-recovers-from-safe-mode
 # - https://mcst.gsfc.nasa.gov/iot/am1weekly2001-1672001-173 (apagado el 15 jun 2001) y
 #   https://mcst.gsfc.nasa.gov/iot/am1weekly2001-1812001-187 (de vuelta el 2 jul, 22:48 UTC)
