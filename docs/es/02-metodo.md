@@ -190,6 +190,9 @@ calendario provisional y, cuando llega el armonizado, solo se reemplaza el archi
 | `salidas/cuadritos_recurrencia.parquet` | cuadrito de 1 km | `lat`, `lon`, `temporadas_con_fuego` (de 14) |
 | `salidas/validacion.json` | prueba | nombre, número, frase en lenguaje simple y ruta de su gráfica |
 | `salidas/serie_armonizada.csv` | municipio × año × semana | lo mismo que el calendario, para descargar |
+| `datos_peninsula/ganaderia_municipios.csv` | municipio de Yucatán | `municipio`, `estado`, `bovinos_2022` (total del Censo Agropecuario 2022), `bovinos_up_2022` (solo unidades de producción), `km2`, `km2_pastizal` (cultivado e inducido, INEGI Serie VII), `pct_pastizal`, `bovinos_km2`, `focos` y `focos_pastizal` (S-NPP 2013–2025). Lo arma `analisis/preparar_ganaderia.py` (#60) |
+| `datos_peninsula/pastizal_yucatan.geojson` | municipio de Yucatán | `municipio` y el pastizal ganadero de la Serie VII, simplificado a 50 m (menos de 2 MB) |
+| `web/datos/ganaderia.json` | — | `periodo`, `yucatan` (totales del estado) y `municipios` (`id`, `bovinos`, `bovinosKm2`, `pctPastizal`, `focos`, `focosPastizal`), para la opción «Territorio ganadero» del mapa |
 | `salidas/dias_sin_datos.csv` | día sin datos del satélite del periodo | `dia_local`, `satelite_periodo`, `respaldo`, `cuadritos_respaldo`, `motivo` (`umbral` o `caida_confirmada`), `rellenado`, `nota` |
 
 ---

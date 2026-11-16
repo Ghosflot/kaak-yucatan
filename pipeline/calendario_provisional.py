@@ -165,12 +165,25 @@ def _es_vegetacion(tipo: pd.Series) -> pd.Series:
     return vacio | (numero == 0)
 
 
+def _celda_texto(focos: pd.DataFrame) -> pd.Series:
+    return focos["latitude"].round(2).astype(str) + "|" + focos["longitude"].round(2).astype(str)
+
+
+def _sin_fuente_fija(focos: pd.DataFrame, todos: pd.DataFrame) -> pd.Series:
+    """Falso para un foco sin `type` (NRT) que cae en un cuadrito donde algún foco de `todos`
+    (de cualquier satélite) trae `type` 2: es una fuente fija que llegó sin marca."""
+    fijas = todos[pd.to_numeric(todos["type"], errors="coerce") == 2]
+    vacio = focos["type"].isna() | (focos["type"].astype("string").str.strip() == "")
+    return ~(vacio & _celda_texto(focos).isin(set(_celda_texto(fijas))))
+
+
 def filtrar_snpp(focos: pd.DataFrame, resumen: dict | None = None) -> pd.DataFrame:
     """S-NPP, vegetación, confianza nominal o alta y con municipio."""
     _faltan(focos, COLUMNAS_FOCOS, "los focos")
     pasos = [
         ("sensor S-NPP", lambda d: d["sensor"] == SENSOR),
         ("vegetación (type 0 o vacío)", lambda d: _es_vegetacion(d["type"])),
+        ("sin fuente fija (type vacío en un cuadrito con type 2)", lambda d: _sin_fuente_fija(d, focos)),
         ("confianza n o h", lambda d: d["confidence"].astype("string").str.strip().isin(CONFIANZAS)),
         ("con municipio", lambda d: d["municipio"].notna() & (d["municipio"].astype("string").str.strip() != "")),
     ]

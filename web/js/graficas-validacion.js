@@ -12,8 +12,9 @@ const TINTA_2 = '#4A4743';
 const LINEA = '#E4E1DC';    // la rejilla
 const EJE = '#928D83';      // los ejes (3.3:1 sobre el papel)
 const GRIS = '#8F877D';     // sin calibrar, el azar, S-NPP en la prueba de Aqua
-const ROJO = '#D7261E';     // calibrado / con su factor / lo que se mide
-const ROJO_CLARO = '#EFA29D';
+const ROJO = '#D7261E';     // el rojo de la página
+const FUERTE = ROJO;        // corregido / con su factor / lo que se mide
+const SUAVE = '#E9837D';    // el rojo claro de la página: el factor único, con puntos
 const BANDA = '#EFECE6';    // el umbral fijado de antemano
 const BANDA_2 = '#DCD6CC';  // el rango natural
 const BLANCO = '#FFFFFF';
@@ -59,10 +60,10 @@ function medida(n) {
   return { x, y: +n.getAttribute('y') - tam * 0.8, width: w, height: lineas * tam * 1.2 };
 }
 
-// Achica la letra (el texto no cambia) hasta que quepa en `max` px de ancho.
+// Achica la letra (el texto no cambia) hasta que quepa en `max` px de ancho, sin bajar de 11 px.
 function ajustar(n, max) {
   let tam = +n.getAttribute('font-size');
-  while (medida(n).width > max && tam > 7) {
+  while (medida(n).width > max && tam > 11) {
     tam -= 0.5;
     n.setAttribute('font-size', tam);
   }
@@ -84,7 +85,7 @@ function marca(svg, ok, junto, { izquierda = false, dx = 5 } = {}) {
   const b = medida(junto);
   const x = izquierda ? b.x - dx : b.x + b.width + dx;
   return texto(svg, x, b.y + b.height / 2, ok ? '✓' : '✗', {
-    tam: 15, peso: 700, color: ok ? TINTA : ROJO, ancla: izquierda ? 'end' : 'start', alinear: 'medio', palabras: true,
+    tam: 15, peso: 700, color: ok ? TINTA : FUERTE, ancla: izquierda ? 'end' : 'start', alinear: 'medio', palabras: true,
   });
 }
 
@@ -97,6 +98,14 @@ function rayas(svg, id, color) {
   const p = el('pattern', { id, width: 6, height: 6, patternUnits: 'userSpaceOnUse' }, defs(svg));
   el('rect', { width: 6, height: 6, fill: BLANCO }, p);
   el('path', { d: 'M-1,1 l2,-2 M0,6 l6,-6 M5,7 l2,-2', stroke: color, 'stroke-width': 1 }, p);
+  return `url(#${id})`;
+}
+
+// Lo que la corrección añade: rojo claro rayado, como en la gráfica del salto con que abre la página.
+function anadido(svg, id) {
+  const p = el('pattern', { id, width: 5, height: 5, patternUnits: 'userSpaceOnUse', patternTransform: 'rotate(45)' }, defs(svg));
+  el('rect', { width: 5, height: 5, fill: SUAVE }, p);
+  el('rect', { width: 2, height: 5, fill: BLANCO, 'fill-opacity': 0.55 }, p);
   return `url(#${id})`;
 }
 
@@ -147,7 +156,7 @@ function salto(svg, g, ancho, pre) {
   const paso = pasoBonito(alto);
   const a0 = g.anios[0].y, a1 = g.anios[g.anios.length - 1].y;
   let fondo = 0;
-  [['crudo', GRIS, 'FocosSinCalibrar'], ['cal', ROJO, 'FocosCalibrada']].forEach(([campo, color, clave], k) => {
+  [['crudo', GRIS, 'FocosSinCalibrar'], ['cal', FUERTE, 'FocosCalibrada']].forEach(([campo, color, clave], k) => {
     const x0 = lado ? izq + k * (anchoPanel + hueco) : izq;
     const top = lado ? 4 : 4 + k * (altoPlot + 62);
     titulo(svg, x0, top + 13, e(clave), x0 + anchoPanel);
@@ -156,21 +165,31 @@ function salto(svg, g, ancho, pre) {
     const u = anchoPanel / (a1 - a0 + 1.2);
     const X = (a) => x0 + (a - a0 + 0.6) * u;
     const relleno = rayas(svg, `${pre}-rayas-${campo}`, color);
+    const suma = campo === 'cal' ? anadido(svg, `${pre}-anadido`) : null;
     for (const a of g.anios) {
       const v = a[campo];
-      barra(svg, X(a.y) - 0.4 * u, Y(v), 0.8 * u, base, a.transicion ? relleno : color, `${a.y}: ${fmt(v)}`,
-        a.transicion ? { stroke: color, 'stroke-width': 1 } : {});
+      if (a.transicion) {
+        barra(svg, X(a.y) - 0.4 * u, Y(v), 0.8 * u, base, relleno, `${a.y}: ${fmt(v)}`, { stroke: color, 'stroke-width': 1 });
+      } else {
+        // Ya corregidos: en gris, lo que contó el satélite; encima, en rojo claro rayado, lo que la corrección añade.
+        const cuenta = campo === 'cal' ? Math.min(a.crudo, v) : v;
+        barra(svg, X(a.y) - 0.4 * u, Y(cuenta), 0.8 * u, base, GRIS, `${a.y}: ${fmt(v)}`);
+        if (v > cuenta) barra(svg, X(a.y) - 0.4 * u, Y(v), 0.8 * u, Y(cuenta), suma, `${a.y}: ${fmt(v)}`);
+      }
       texto(svg, X(a.y), base + 16, String(a.y), { ancla: 'middle' });
     }
     // El rótulo de la transición va después de las barras, para que ninguna lo tape.
     for (const a of g.anios.filter((x) => x.transicion)) {
-      texto(svg, X(a.y), Y(a[campo]) - 5, e('Transicion'), { tam: 9.5, ancla: 'middle', alinear: 'abajo', palabras: true });
+      const n = texto(svg, X(a.y), Y(a[campo]) - 6, e('Transicion'), { tam: 11, ancla: 'middle', alinear: 'abajo', palabras: true });
+      // Con fondo blanco: es más ancho que su barra y las vecinas, si son altas, le comerían las orillas.
+      const b = medida(n);
+      svg.insertBefore(el('rect', { x: f1(b.x - 3), y: f1(b.y - 1), width: f1(b.width + 6), height: f1(b.height + 3), rx: 3, fill: BLANCO }), n);
     }
     // Los promedios de antes y de después, con su número en una cajita.
     for (const [per, prom] of [[g.antes, g.promAntes], [g.despues, g.promDespues]]) {
       const v = prom[campo];
       el('line', { x1: f1(X(per[0] - 0.45)), x2: f1(X(per[1] + 0.45)), y1: f1(Y(v)), y2: f1(Y(v)), stroke: TINTA, 'stroke-width': 2.2 }, svg);
-      const n = texto(svg, X((per[0] + per[1]) / 2), Y(v), `${e('Promedio')} ${fmt(v)}`, { tam: 10, color: TINTA, ancla: 'middle', alinear: 'medio', palabras: true });
+      const n = texto(svg, X((per[0] + per[1]) / 2), Y(v), `${e('Promedio')} ${fmt(v)}`, { tam: 11, color: TINTA, ancla: 'middle', alinear: 'medio', palabras: true });
       const b = medida(n);
       svg.insertBefore(el('rect', { x: f1(b.x - 4), y: f1(b.y - 2), width: f1(b.width + 8), height: f1(b.height + 4), rx: 3, fill: BLANCO, stroke: TINTA, 'stroke-width': 0.8 }), n);
     }
@@ -180,20 +199,25 @@ function salto(svg, g, ancho, pre) {
   // Promedio 2013–15 ÷ promedio 2009–11, en una recta.
   const r0 = fondo + 14;
   titulo(svg, izq, r0 + 13, e('RazonSalto'), ancho - 4, 0);
-  const top = r0 + 26, altoR = 64, baseR = top + altoR, centro = top + altoR / 2;
   const [lo, hi] = g.umbral, [nmin, nmax] = g.natural;
   const xmin = Math.min(0, g.razonCal - 0.75), xmax = Math.max(g.razonCruda, g.razonCal, hi) * 1.25;
   const derR = ancho - 4;
   const R = (v) => izq + ((v - xmin) / (xmax - xmin)) * (derR - izq);
+  // «umbral» va dentro de la banda, a la izquierda de la raya del 1; si no cabe, encima de la banda.
+  const umbral = texto(svg, R(lo) + 4, 0, e('Umbral'), { tam: 11, alinear: 'arriba', palabras: true });
+  const encima = medida(umbral).width > R(1) - R(lo) - 9;
+  const top = r0 + 26 + (encima ? 15 : 0), altoR = 64, baseR = top + altoR, centro = top + altoR / 2;
+  umbral.setAttribute('x', f1(encima ? R(lo) : R(lo) + 4));
+  umbral.setAttribute('y', f1((encima ? top - 14 : top + 4) + 11 * 0.8));
   el('rect', { x: f1(R(lo)), y: top, width: f1(R(hi) - R(lo)), height: altoR, fill: BANDA }, svg);
   el('rect', { x: f1(R(nmin)), y: f1(top + 0.3 * altoR), width: f1(R(nmax) - R(nmin)), height: f1(0.4 * altoR), fill: BANDA_2 }, svg);
   el('line', { x1: f1(R(1)), x2: f1(R(1)), y1: top, y2: baseR, stroke: TINTA, 'stroke-width': 0.8 }, svg);
   el('line', { x1: izq, x2: derR, y1: baseR + 0.5, y2: baseR + 0.5, stroke: EJE, 'stroke-width': 1 }, svg);
-  ajustar(texto(svg, R(lo) + 4, top + 4, e('Umbral'), { tam: 9.5, alinear: 'arriba', palabras: true }), R(1) - R(lo) - 9);
-  const natural = texto(svg, R(nmax) + 5, centro, `${e('RangoNatural')} ${nmin.toFixed(2)}–${nmax.toFixed(2)}`, { tam: 9.5, alinear: 'medio', palabras: true });
+  svg.appendChild(umbral); // encima de la banda que se acaba de pintar
+  const natural = texto(svg, R(nmax) + 5, centro, `${e('RangoNatural')} ${nmin.toFixed(2)}–${nmax.toFixed(2)}`, { tam: 11, alinear: 'medio', palabras: true });
   // Cada nombre hacia afuera: lo calibrado a la izquierda de su punto, lo crudo a la derecha.
   const etiq = [];
-  for (const [v, color, nombre, ok] of [[g.razonCruda, GRIS, 'SinCalibrar', null], [g.razonCal, ROJO, 'Calibrada', g.pasa]]) {
+  for (const [v, color, nombre, ok] of [[g.razonCruda, GRIS, 'SinCalibrar', null], [g.razonCal, FUERTE, 'Calibrada', g.pasa]]) {
     el('circle', { cx: f1(R(v)), cy: centro, r: 6.5, fill: color, stroke: BLANCO, 'stroke-width': 1.5 }, svg);
     const izquierda = ok !== null;
     const n = texto(svg, R(v) + (izquierda ? -11 : 11), centro, `${e(nombre)}: ${v.toFixed(2)}`, {
@@ -233,7 +257,7 @@ function aqua(svg, g, ancho, pre) {
   const w1 = lado ? ((total - hueco) * 1.7) / 2.45 : total;
   const x2 = lado ? izq + w1 + hueco : izq;
   const w2 = lado ? ((total - hueco) * 0.75) / 2.45 : Math.min(total, 300);
-  const conPuntos = puntos(svg, `${pre}-puntos`, ROJO_CLARO);
+  const conPuntos = puntos(svg, `${pre}-puntos`, SUAVE);
   // Cuadritos-día por año.
   titulo(svg, izq, 17, e('FocosAnio'), izq + w1);
   const arriba = 30, base = arriba + altoPlot;
@@ -241,7 +265,7 @@ function aqua(svg, g, ancho, pre) {
   const Y = ejeY(svg, { izq, der: izq + w1, arriba, base, max: max1, paso: pasoBonito(max1) });
   const u = w1 / (g.anios.length - 1 + 1.2);
   const X = (i) => izq + (i + 0.6) * u;
-  const series = [['snpp', GRIS, 'Snpp'], ['zonaEpoca', ROJO, 'AquaZona'], ['unico', conPuntos, 'AquaUnico']];
+  const series = [['snpp', GRIS, 'Snpp'], ['zonaEpoca', FUERTE, 'AquaZona'], ['unico', conPuntos, 'AquaUnico']];
   g.anios.forEach((a, i) => {
     series.forEach(([campo, color, nombre], k) => {
       barra(svg, X(i) + (k - 1) * 0.27 * u - 0.125 * u, Y(a[campo]), 0.25 * u, base, color, `${a.y} · ${e(nombre)}: ${fmt(a[campo])}`,
@@ -253,7 +277,7 @@ function aqua(svg, g, ancho, pre) {
   series.forEach(([, color, nombre], k) => {
     const y = arriba + 12 + k * 18;
     el('rect', { x: izq + 12, y: y - 5, width: 18, height: 10, fill: color }, svg);
-    ajustar(texto(svg, izq + 38, y, e(nombre), { tam: 10.5, color: TINTA, alinear: 'medio', palabras: true }), w1 - 44);
+    ajustar(texto(svg, izq + 38, y, e(nombre), { tam: 11, color: TINTA, alinear: 'medio', palabras: true }), w1 - 44);
   });
   // Error de Aqua contra S-NPP (%).
   const top2 = lado ? 4 : base + 34;
@@ -268,13 +292,13 @@ function aqua(svg, g, ancho, pre) {
   nombres[elegido] += `\n(${e('Elegido')})`;
   vals.forEach((v, k) => {
     const wb = (0.6 / 2.1) * w2;
-    barra(svg, X2(k) - wb / 2, Y2(v), wb, base2, k === 0 ? ROJO : conPuntos, `${nombres[k].replace('\n', ' ')}: ${pct(v)}`);
+    barra(svg, X2(k) - wb / 2, Y2(v), wb, base2, k === 0 ? FUERTE : conPuntos, `${nombres[k].replace('\n', ' ')}: ${pct(v)}`);
     const n = texto(svg, X2(k), Y2(v) - 5, pct(v), { tam: 11, color: TINTA, ancla: 'middle', peso: k === elegido ? 700 : null, palabras: true });
     if (k === elegido) marca(svg, g.pasa, n, { dx: 3 });
-    texto(svg, X2(k), base2 + 16, nombres[k], { tam: 10.5, ancla: 'middle', palabras: true });
+    texto(svg, X2(k), base2 + 16, nombres[k], { tam: 11, ancla: 'middle', palabras: true });
   });
   el('line', { x1: x2, x2: x2 + w2, y1: f1(Y2(g.limite)), y2: f1(Y2(g.limite)), stroke: TINTA, 'stroke-width': 1, 'stroke-dasharray': '4 3' }, svg);
-  texto(svg, X2(1.45), Y2(g.limite) - 4, `${e('Limite')} ${pct(g.limite)}`, { tam: 10, color: TINTA, ancla: 'end', palabras: true });
+  texto(svg, X2(1.45), Y2(g.limite) - 4, `${e('Limite')} ${pct(g.limite)}`, { tam: 11, color: TINTA, ancla: 'end', palabras: true });
   return base2 + 16 + 3 * 12.6 + 4;
 }
 
@@ -284,7 +308,7 @@ function conafor(svg, g, ancho, pre) {
   const hueco = 40, altoPlot = 170, total = ancho - 4;
   const wL = lado ? ((total - hueco) * 1.1) / 2.1 : total;
   // Los nombres de las filas, a la izquierda (se miden primero para saber dónde empieza el eje).
-  const filas = [['real', ROJO, 'Real'], ['controlAnio', GRIS, 'ControlAnio'], ['controlLugar', GRIS, 'ControlLugar']];
+  const filas = [['real', FUERTE, 'Real'], ['controlAnio', GRIS, 'ControlAnio'], ['controlLugar', GRIS, 'ControlLugar']];
   const nombres = filas.map(([, , k]) => texto(svg, 0, 0, e(k), { tam: 11, ancla: 'end', palabras: true }));
   const ax0 = Math.min(Math.max(...nombres.map((n) => medida(n).width)) + 10, wL * 0.48);
   nombres.forEach((n) => ajustar(n, ax0 - 10));
@@ -309,7 +333,7 @@ function conafor(svg, g, ancho, pre) {
     if (campo === 'real') marca(svg, g.superaAzar, n);
   });
   el('line', { x1: f1(P(g.metaAzar)), x2: f1(P(g.metaAzar)), y1: base, y2: f1(base - 0.88 * altoPlot), stroke: TINTA, 'stroke-width': 1, 'stroke-dasharray': '4 3' }, svg);
-  ajustar(texto(svg, P(g.metaAzar), Yr(2.45), `${e('VecesAzar')} = ${pct(g.metaAzar)}`, { tam: 10, color: TINTA, alinear: 'medio', palabras: true }), wL - P(g.metaAzar));
+  ajustar(texto(svg, P(g.metaAzar) + 5, Yr(2.45), `${e('VecesAzar')} = ${pct(g.metaAzar)}`, { tam: 11, color: TINTA, alinear: 'medio', palabras: true }), wL - P(g.metaAzar) - 5);
 
   // Incendios que vio S-NPP, según su tamaño (%).
   const x2 = lado ? wL + hueco : 0;
@@ -322,18 +346,18 @@ function conafor(svg, g, ancho, pre) {
   const XT = (k) => izqR + (k + 0.6) * u;
   const peque = u < 46;
   g.tamanos.forEach((c, k) => {
-    barra(svg, XT(k) - 0.3 * u, YR(c.pct), 0.6 * u, baseR, ROJO, `${c.t} ha: ${pct(c.pct)} (${fmt(c.n)})`);
+    barra(svg, XT(k) - 0.3 * u, YR(c.pct), 0.6 * u, baseR, FUERTE, `${c.t} ha: ${pct(c.pct)} (${fmt(c.n)})`);
     const v = texto(svg, XT(k), YR(c.pct) - 5, String(Math.round(c.pct)), { tam: 11, color: TINTA, ancla: 'middle', peso: c.grande ? 700 : null, palabras: true });
     if (c.grande) {
       marca(svg, g.veGrandes, v, { dx: 3 });
       el('line', { x1: f1(XT(k) - 0.45 * u), x2: f1(XT(k) + 0.45 * u), y1: f1(YR(g.minimo)), y2: f1(YR(g.minimo)), stroke: TINTA, 'stroke-width': 1.2, 'stroke-dasharray': '4 3' }, svg);
-      texto(svg, XT(k) - 0.5 * u - 2, YR(g.minimo) - 3, `${e('Minimo')} ${pct(g.minimo)}`, { tam: 10, color: TINTA, ancla: 'end', palabras: true });
+      texto(svg, XT(k) - 0.5 * u - 2, YR(g.minimo) - 3, `${e('Minimo')} ${pct(g.minimo)}`, { tam: 11, color: TINTA, ancla: 'end', palabras: true });
     }
-    texto(svg, XT(k), baseR + 15, `${c.t}\n(${fmt(c.n)})`, { tam: peque ? 9 : 10, ancla: 'middle', palabras: true });
+    texto(svg, XT(k), baseR + 15, `${c.t}\n(${fmt(c.n)})`, { tam: 11, ancla: 'middle', palabras: true });
   });
   const nota = e('Tamano') + (g.sinRango ? '\n' + e('SinRango', { n: g.sinRango }) : '');
   const yNota = baseR + 15 + 2 * 12 + 12;
-  ajustar(texto(svg, (izqR + derR) / 2, yNota, nota, { tam: 9.5, ancla: 'middle', palabras: true }), derR - x2);
+  ajustar(texto(svg, (izqR + derR) / 2, yNota, nota, { tam: 11, ancla: 'middle', palabras: true }), derR - x2);
   return yNota + (g.sinRango ? 11.4 : 0) + 8;
 }
 
@@ -347,7 +371,7 @@ function viirs(svg, g, ancho) {
   const u = (der - izq) / (a1 - a0 + 1.2);
   const X = (a) => izq + (a - a0 + 0.6) * u;
   el('rect', { x: izq, y: f1(Y(b1)), width: der - izq, height: f1(Y(b0) - Y(b1)), fill: BANDA }, svg);
-  texto(svg, izq + 6, Y(b1) + 5, `${e('Umbral')} ${b0.toFixed(2)}–${b1.toFixed(2)}`, { tam: 9.5, alinear: 'arriba', palabras: true });
+  texto(svg, izq + 6, Y(b1) + 5, `${e('Umbral')} ${b0.toFixed(2)}–${b1.toFixed(2)}`, { tam: 11, alinear: 'arriba', palabras: true });
   el('line', { x1: izq, x2: der, y1: f1(Y(1)), y2: f1(Y(1)), stroke: TINTA, 'stroke-width': 0.8 }, svg);
   for (let k = Math.round(lo * 20); k <= Math.round(hi * 20); k++) texto(svg, izq - 6, Y(k / 20), (k / 20).toFixed(2), { ancla: 'end', alinear: 'medio' });
   ejes(svg, izq, der, arriba, base);
@@ -355,9 +379,10 @@ function viirs(svg, g, ancho) {
     tam: 11, color: TINTA, ancla: 'middle', alinear: 'medio', palabras: true, transform: `rotate(-90 16 ${f1((arriba + base) / 2)})`,
   });
   ajustar(ylab, altoPlot);
-  for (const a of anios) texto(svg, X(a), base + 16, String(a), { ancla: 'middle', tam: u < 34 ? 9.5 : 11 });
+  for (const a of anios) texto(svg, X(a), base + 16, String(a), { ancla: 'middle', tam: 11 });
   // NOAA-21 (cuadros), NOAA-20 sin factor (rayitas) y NOAA-20 con su factor (círculos).
-  const dx = 0.08 * u;
+  // Separados lo bastante para que el círculo y el cuadro de un mismo año no se encimen en el teléfono.
+  const dx = Math.max(0.08 * u, 6);
   for (const a of g.noaa21.filter((x) => x.razon !== null)) {
     const s = el('rect', { x: f1(X(a.y) + dx - 4.5), y: f1(Y(a.razon) - 4.5), width: 9, height: 9, fill: a.completo ? TINTA_2 : BLANCO, stroke: TINTA_2, 'stroke-width': 1.8 }, svg);
     el('title', {}, s).textContent = `${a.y} · NOAA-21: ${a.razon.toFixed(2)}`;
@@ -366,7 +391,7 @@ function viirs(svg, g, ancho) {
     el('line', { x1: f1(X(a.y) - dx - 6), x2: f1(X(a.y) - dx + 6), y1: f1(Y(a.cruda)), y2: f1(Y(a.cruda)), stroke: GRIS, 'stroke-width': 1.5 }, svg);
   }
   for (const a of g.noaa20.filter((x) => x.razon !== null)) {
-    const c = el('circle', { cx: f1(X(a.y) - dx), cy: f1(Y(a.razon)), r: 5, fill: a.completo ? ROJO : BLANCO, stroke: ROJO, 'stroke-width': 1.8 }, svg);
+    const c = el('circle', { cx: f1(X(a.y) - dx), cy: f1(Y(a.razon)), r: 5, fill: a.completo ? FUERTE : BLANCO, stroke: FUERTE, 'stroke-width': 1.8 }, svg);
     el('title', {}, c).textContent = `${a.y} · NOAA-20: ${a.razon.toFixed(2)}`;
   }
   // El nombre de cada uno junto a su serie: NOAA-20 sobre su punto más alto; NOAA-21 a la
@@ -374,21 +399,26 @@ function viirs(svg, g, ancho) {
   const c20 = g.noaa20.filter((x) => x.razon !== null), c21 = g.noaa21.filter((x) => x.razon !== null);
   if (c20.length) {
     const p = c20.reduce((m, x) => (x.razon > m.razon ? x : m));
-    const n = texto(svg, X(p.y) - dx, Y(p.razon) - 14, e('Noaa20'), { tam: 10.5, peso: 700, color: TINTA, ancla: 'middle', palabras: true });
+    const n = texto(svg, X(p.y) - dx, Y(p.razon) - 14, e('Noaa20'), { tam: 11, peso: 700, color: TINTA, ancla: 'middle', palabras: true });
     const b = medida(n);
     if (b.x + b.width + 20 > der) { n.setAttribute('text-anchor', 'end'); n.setAttribute('x', f1(der - 22)); }
     marca(svg, g.cumple.noaa20, n);
   }
   if (c21.length) {
     const p = c21.reduce((m, x) => (x.y < m.y ? x : m));
-    const n = texto(svg, X(p.y) + dx - 12, Y(p.razon), e('Noaa21'), { tam: 10.5, peso: 700, color: TINTA, ancla: 'end', alinear: 'medio', palabras: true });
-    ajustar(n, X(p.y) + dx - 12 - izq - 24);
+    const o = { tam: 11, peso: 700, color: TINTA, ancla: 'end', alinear: 'medio', palabras: true };
+    let n = texto(svg, X(p.y) + dx - 12, Y(p.razon), e('Noaa21'), o);
+    // Si en un renglón no cabe entre el eje y su punto (teléfono), el paréntesis baja a un segundo renglón.
+    if (medida(n).width > X(p.y) + dx - 12 - izq - 24 && e('Noaa21').includes(' (')) {
+      n.remove();
+      n = texto(svg, X(p.y) + dx - 12, Y(p.razon), e('Noaa21').replace(' (', '\n('), o);
+    }
     marca(svg, g.cumple.noaa21, n, { izquierda: true });
   }
   // La leyenda, abajo a la izquierda: año completo, año parcial y NOAA-20 sin factor.
   const claves = [['punto', e('Completo')], ['hueco', e('Parcial')], ['raya', e('Noaa20Crudo')]];
   const anchos = claves.map(([, s]) => {
-    const n = texto(svg, 0, 0, s, { tam: 10.5, palabras: true });
+    const n = texto(svg, 0, 0, s, { tam: 11, palabras: true });
     const w = medida(n).width;
     n.remove();
     return w;
@@ -407,7 +437,7 @@ function viirs(svg, g, ancho) {
       if (forma === 'punto') el('circle', { cx: x0 + 5, cy: y, r: 5, fill: GRIS }, svg);
       else if (forma === 'hueco') el('circle', { cx: x0 + 5, cy: y, r: 4.2, fill: BLANCO, stroke: GRIS, 'stroke-width': 1.8 }, svg);
       else el('line', { x1: x0 - 1, x2: x0 + 11, y1: y, y2: y, stroke: GRIS, 'stroke-width': 1.5 }, svg);
-      texto(svg, x0 + 18, y, s, { tam: 10.5, color: TINTA, alinear: 'medio', palabras: true });
+      texto(svg, x0 + 18, y, s, { tam: 11, color: TINTA, alinear: 'medio', palabras: true });
     }
   });
   return base + 24;

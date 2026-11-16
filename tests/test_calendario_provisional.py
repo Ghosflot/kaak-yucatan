@@ -102,9 +102,18 @@ def test_u5_solo_confianza_nominal_y_alta():
 
 
 def test_u6_solo_vegetacion():
-    df = cp.filtrar_snpp(focos(foco(type=0.0), foco(type=np.nan), foco(type=2.0),
+    # El `type` 2 va en otro cuadrito: en el mismo quitaría los vacíos (la prueba siguiente).
+    df = cp.filtrar_snpp(focos(foco(type=0.0), foco(type=np.nan), foco(type=2.0, latitude=20.5),
                                foco(type=3.0), foco(type="0"), foco(type="")))
     assert len(df) == 4
+
+
+def test_sin_type_en_un_cuadrito_de_fuente_fija_no_entra():
+    """La misma regla que pipeline/cargar.py: un foco sin `type` (NRT) donde alguna vez hubo
+    un `type` 2, de cualquier satélite, es la fuente fija sin marca."""
+    df = cp.filtrar_snpp(focos(foco(type=2.0, sensor="NOAA-20"), foco(type=np.nan), foco(type=""),
+                               foco(type=0.0), foco(type=np.nan, latitude=20.5)))
+    assert sorted(df["latitude"]) == [20.123, 20.5]
 
 
 def test_solo_s_npp_y_con_municipio():

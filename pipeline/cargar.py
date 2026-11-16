@@ -14,7 +14,10 @@ Qué hace cargar_focos(), en este orden:
    Si está dos veces, una como SP (definitivo) y otra como NRT (casi en tiempo real), se
    queda la SP.
 3. Filtra (datos_peninsula/README.md): solo vegetación (`type` 0 o vacío) y confianza
-   nominal o alta (VIIRS `n` o `h`; MODIS 30 o más).
+   nominal o alta (VIIRS `n` o `h`; MODIS 30 o más). En los focos casi en tiempo real (NRT)
+   `type` llega vacío, y así se colaban las fuentes fijas (desde julio de 2026, un punto
+   industrial al suroeste de Mérida y otros en el municipio de Carmen): un foco sin `type` que cae en
+   un cuadrito donde FIRMS marcó alguna vez una fuente fija (`type` 2) no entra.
 4. Pone un nombre claro a cada satélite (`satelite`: Terra, Aqua, S-NPP, NOAA-20, NOAA-21).
    La columna `sensor` dice «MODIS» para Terra y para Aqua, así que no sirve para
    separarlos.
@@ -29,6 +32,8 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+
+from rejilla import ESCALA, celda
 
 RAIZ = Path(__file__).resolve().parent.parent
 FOCOS_HISTORICOS = RAIZ / "datos_peninsula" / "focos_peninsula.parquet"
@@ -110,10 +115,36 @@ def nombrar_satelites(focos: pd.DataFrame) -> pd.DataFrame:
     return focos.assign(satelite=focos["satellite"].map(SATELITES))
 
 
+def _clave_celda(focos: pd.DataFrame) -> np.ndarray:
+    """Un número por cuadrito de 0.01° (el mismo de rejilla.celda), para buscarlo rápido."""
+    return celda(focos["latitude"]).astype(np.int64) * 1_000_000 + celda(focos["longitude"])
+
+
+def celdas_fuente_fija(focos: pd.DataFrame) -> pd.DataFrame:
+    """Los cuadritos (lat_celda, lon_celda) donde FIRMS marcó alguna vez una fuente fija (`type` 2).
+
+    Se calcula con todos los focos, antes de filtrar: después ya no queda ningún `type` 2.
+    """
+    fijas = focos[pd.to_numeric(focos["type"], errors="coerce") == 2]
+    tabla = pd.DataFrame({"lat_celda": celda(fijas["latitude"]), "lon_celda": celda(fijas["longitude"])})
+    return (tabla.drop_duplicates() / ESCALA).sort_values(["lat_celda", "lon_celda"]).reset_index(drop=True)
+
+
+def en_fuente_fija(focos: pd.DataFrame) -> np.ndarray:
+    """¿Cae cada foco en un cuadrito con historial de fuente fija (en los mismos `focos`)?"""
+    fijas = focos[pd.to_numeric(focos["type"], errors="coerce") == 2]
+    return np.isin(_clave_celda(focos), _clave_celda(fijas))
+
+
 def filtrar(focos: pd.DataFrame) -> pd.DataFrame:
-    """Solo vegetación y confianza nominal o alta."""
+    """Solo vegetación y confianza nominal o alta.
+
+    Un foco sin `type` (NRT) en un cuadrito con historial de fuente fija tampoco es vegetación:
+    es la misma fuente, solo que llegó sin marca. Los que traen `type` 0 se quedan.
+    """
     tipo = pd.to_numeric(focos["type"], errors="coerce")
-    vegetacion = focos["type"].isna() | (tipo == 0)
+    sin_tipo = focos["type"].isna().to_numpy(dtype=bool)
+    vegetacion = (tipo == 0).to_numpy(dtype=bool) | (sin_tipo & ~en_fuente_fija(focos))
 
     es_modis = focos["satelite"].isin(MODIS).to_numpy(dtype=bool)
     confianza_modis = (
@@ -125,7 +156,7 @@ def filtrar(focos: pd.DataFrame) -> pd.DataFrame:
     )
     confiable = np.where(es_modis, confianza_modis, confianza_viirs)
 
-    return focos[vegetacion.to_numpy(dtype=bool) & confiable]
+    return focos[vegetacion & confiable]
 
 
 def hora_utc(acq_time: pd.Series) -> pd.Series:

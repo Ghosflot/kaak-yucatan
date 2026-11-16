@@ -22,6 +22,10 @@ where it recurs year after year.
   25-year normal.
 - **Official burn windows.** Fire detections are crossed with the state's official burning
   calendar by zone.
+- **Where it burns.** Each municipality page maps the 1 km squares where fire has recurred in
+  five or more seasons since 2012, and every 2026 hot spot with its date and satellite.
+- **Cattle land.** For Yucatán, pasture, cattle and hot spots on pasture by municipality
+  (INEGI).
 - **A shareable sheet.** Each municipality has a downloadable summary that a community leader
   can forward by messaging app.
 
@@ -46,7 +50,7 @@ presented in Spanish). Terms are fixed in the [glossary](docs/GLOSSARY.md).
 
 1. [Verified facts](docs/01-verified-facts.md): fire figures and their sources.
 2. [Method](docs/02-method.md): what the site does, the method and each task.
-3. [Pitch script](docs/03-script.md).
+3. [Pitch script](docs/03-script.md). The slides are in [Canva](https://www.canva.com/design/DAHa_7xCM_k/edit).
 4. [The countryside and fire](docs/04-countryside-and-fire.md): who burns, why it matters and the fire calendar of each municipality.
 5. [Explained simply](docs/05-explained-simply.md): the problem and the solution in plain words, and the four lines for the jury.
 
@@ -90,6 +94,10 @@ secret).
 - CONAFOR forest fire records (datos.gob.mx).
 - Official burning calendar of SEDER (Yucatán).
 - [geoBoundaries](https://www.geoboundaries.org/) (CC BY 4.0) and Natural Earth: boundaries.
+- [NASA GIBS](https://nasa-gibs.github.io/gibs-api-docs/): VIIRS Corrected Reflectance (True Color)
+  tiles from NOAA-20, Suomi NPP and NOAA-21, combined into the cloud-free satellite image of the peninsula.
+- INEGI: Land Use and Vegetation map, Series VII (2018), and Agricultural Census 2022, for the
+  cattle land of each municipality.
 
 Each figure is traced to its source in [docs/01](docs/01-verified-facts.md).
 
@@ -104,6 +112,11 @@ was verified against the cited sources. The site says so at the foot of "How we 
 
 The full disclosure, with what the AI did and did not do and each member's use, is in
 [entrega/uso-de-ia.md](entrega/uso-de-ia.md). No image on the site was generated with AI.
+
+## Team
+
+David Alcocer, Nicolás Moguel, Guillermo Peña, Leonardo Sanmartín, Melany Suárez and Gadiel
+Uicab. Made in Mérida, Yucatán, for NASA Space Apps 2026.
 
 ## License
 

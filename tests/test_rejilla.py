@@ -173,6 +173,23 @@ def test_filtro_deja_solo_vegetacion():
     assert sorted(f["latitude"]) == [20.123, 20.2]
 
 
+def test_sin_type_en_un_cuadrito_de_fuente_fija_no_entra():
+    """En NRT `type` llega vacío: si su cuadrito tuvo alguna vez una fuente fija (`type` 2),
+    es la misma fuente sin marca y no entra. Uno con `type` 0 ahí sí entra (lo clasificó FIRMS)."""
+    fija = foco(type=2.0, acq_date=pd.Timestamp("2025-01-10"))
+    f = preparar(fija,
+                 foco(type=np.nan, producto="NRT", acq_date=pd.Timestamp("2026-08-01"), latitude=20.1249),
+                 foco(type=np.nan, producto="NRT", acq_date=pd.Timestamp("2026-08-01"), latitude=20.2),
+                 foco(type=0.0, acq_date=pd.Timestamp("2024-04-10"), longitude=-89.4551))
+    assert dict(zip(f["latitude"], f["type"].fillna(-1))) == {20.123: 0.0, 20.2: -1}
+
+
+def test_celdas_fuente_fija():
+    f = pd.DataFrame([foco(type=2.0), foco(type=2.0, latitude=20.1249), foco(type=0.0, latitude=20.5)])
+    c = cargar.celdas_fuente_fija(f)
+    assert c.values.tolist() == [[20.12, -89.46]]
+
+
 def test_filtro_de_confianza_viirs():
     f = preparar(foco(confidence="l"), foco(confidence="n", latitude=20.2),
                  foco(confidence="h", latitude=20.3))
@@ -274,6 +291,34 @@ def reales():
 def test_reales_todos_los_focos_con_municipio_tienen_zona(reales):
     con_municipio = reales[reales["municipio"].notna()]
     assert con_municipio["zona"].notna().all()
+
+
+@hay_datos
+def test_reales_la_fuente_fija_de_merida_ya_no_entra_en_nrt(reales):
+    """La fuga de NRT: de agosto a noviembre de 2026 se colaban en Mérida los focos de un punto
+    industrial (sin `type`). Ya no queda ninguno en sus cuadritos con historial de `type` 2."""
+    crudos = cargar.leer_focos()
+    fijas = cargar.celdas_fuente_fija(crudos)
+    clave = list(zip(fijas["lat_celda"], fijas["lon_celda"]))
+    merida = reales[(reales["municipio"] == "Mérida") & (reales["acq_date"] >= "2026-08-01")]
+    celdas = list(zip(rejilla.celda(merida["latitude"]) / rejilla.ESCALA,
+                      rejilla.celda(merida["longitude"]) / rejilla.ESCALA))
+    assert not set(celdas) & set(clave)
+    # Antes del arreglo sí estaban: más de cien focos sin `type` de Mérida en esas celdas.
+    antes = crudos[(crudos["municipio"] == "Mérida") & crudos["type"].isna()
+                   & (crudos["acq_date"] >= "2026-08-01") & cargar.en_fuente_fija(crudos)]
+    assert len(antes) > 100
+
+
+@hay_datos
+def test_reales_el_arreglo_no_toca_ninguna_temporada():
+    """Lo único que quita el arreglo son focos NRT sin `type`, todos de julio de 2026 en
+    adelante: ninguna temporada (marzo a mayo) de ningún municipio cambia."""
+    crudos = cargar.leer_focos()
+    quitados = crudos[crudos["type"].isna() & cargar.en_fuente_fija(crudos)]
+    assert len(quitados) > 0
+    assert set(quitados["producto"]) == {"NRT"}
+    assert quitados["acq_date"].min() >= pd.Timestamp("2026-06-02")
 
 
 @hay_datos

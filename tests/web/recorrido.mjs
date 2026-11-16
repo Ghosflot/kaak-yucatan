@@ -1,5 +1,5 @@
 // Graba el recorrido de la página para el PR, con subtítulos dentro de la página (?subtitulos=1).
-// Uso: node tests/web/recorrido.mjs <nombre> [portada|temporada|fechas|pulido|revision|repaso|ia]
+// Uso: node tests/web/recorrido.mjs <nombre> [portada|temporada|fechas|pulido|revision|repaso|ia|direccion|demo|ganadero|pie|completo]
 //   →   videos/<nombre>-escritorio.mp4 y videos/<nombre>-telefono.mp4
 //
 // Cada cuadro sale de Chrome en JPEG de alta calidad (el teléfono, a doble resolución) y ffmpeg lo
@@ -71,24 +71,37 @@ async function grabar(nombre, opciones, ruta, listo, pasos) {
   // A escala 1, Chrome manda un cuadro cada vez que cambia la pantalla. Esa captura ignora la escala 2 del
   // teléfono, así que ahí se toman capturas completas una tras otra (unas 15 a 25 por segundo).
   let grabando = true, bucle = null;
+  // Un turno a la vez: si la página se desplaza a media captura, el cuadro sale movido (la barra fija, fuera de sitio).
+  let turno = Promise.resolve();
+  const porTurno = (f) => { const r = turno.then(f, f); turno = r.catch(() => {}); return r; };
   if (escala === 1) {
     cdp.on('Page.screencastFrame', ({ data, metadata, sessionId }) => {
       guardar(data, metadata.timestamp);
       cdp.send('Page.screencastFrameAck', { sessionId }).catch(() => {});
+    });
+    // Chrome solo manda un cuadro cuando la pantalla cambia y descarta los que salen mientras espera el acuse.
+    // Si la página venía animada y queda quieta al cambiar de vista, el último cambio se perdía: un punto de
+    // 2 px en la esquina de la franja de subtítulos cambia apenas de tono cinco veces por segundo y lo evita.
+    await page.evaluate(() => {
+      const p = document.createElement('i');
+      p.style.cssText = 'position:fixed;right:0;bottom:0;width:2px;height:2px;z-index:2147483647;pointer-events:none;background:#111';
+      document.body.append(p);
+      let n = 0;
+      setInterval(() => { p.style.background = (n ^= 1) ? '#131313' : '#111'; }, 200);
     });
     await cdp.send('Page.startScreencast', { format: 'jpeg', quality: 92, maxWidth: viewport.width, maxHeight: viewport.height });
   } else {
     // La escala del teléfono la aplica la sesión de Playwright: una sesión de CDP aparte capturaría a 1x.
     bucle = (async () => {
       while (grabando) {
-        const t = Date.now() / 1000;
-        const imagen = await page.screenshot({ type: 'jpeg', quality: 92, scale: 'device', caret: 'initial' });
+        let t = 0;
+        const imagen = await porTurno(() => { t = Date.now() / 1000; return page.screenshot({ type: 'jpeg', quality: 92, scale: 'device', caret: 'initial' }); });
         guardar(imagen.toString('base64'), t);
       }
     })();
   }
   await espera(900);
-  await pasos({ page, espera, sub, centro });
+  await pasos({ page, espera, sub, centro, porTurno });
   await sub('', 400);
   grabando = false;
   if (bucle) await bucle; else await cdp.send('Page.stopScreencast');
@@ -124,12 +137,10 @@ async function pasosPortada({ page, espera, sub, centro }) {
   await page.keyboard.press('Escape');
   await page.click('#leyNormal');
   await sub('Tocar «Lo normal» explica qué es.', 4000);
-  const tira = await page.locator('#tira').boundingBox();
-  const dias = 181;
-  for (const d of [80, 85, 90]) await page.mouse.move(tira.x + ((d + 0.5) / dias) * tira.width, tira.y + tira.height * 0.45, { steps: 6 });
-  await sub('Al pasar por la tira se ve cada día; tocarlo lleva el mapa a ese día.', 2500);
-  await page.mouse.click(tira.x + (90.5 / dias) * tira.width, tira.y + tira.height * 0.45);
-  await espera(2500);
+  // La tira de días de la zona 2 salió del panel con la dirección visual: los días se tocan en la línea de tiempo.
+  const tira = await page.locator('#tiempo').boundingBox();
+  await page.mouse.click(tira.x + (31.5 / 92) * tira.width, tira.y + tira.height * 0.45);
+  await sub('Tocar un día de la línea de tiempo lleva el mapa a ese día.', 2500);
   const linea = await page.locator('#tiempo').boundingBox();
   const y = linea.y + linea.height * 0.5;
   await page.mouse.move(linea.x + linea.width * 0.34, y);
@@ -217,7 +228,7 @@ async function fechas() {
       await espera(700);
     }
     await sub('Al pasar por un día se ve cuántos focos hubo y si se permitía quemar.', 4000);
-    await page.selectOption('#zona', '4');
+    await page.click('#zZonas [data-zona="4"]');
     await sub('Al cambiar de zona cambian el calendario, la cifra y el mapa.', 5000);
     const [mx, my] = await centro('#zMapa path[data-id="valladolid"]');
     await page.mouse.move(mx, my, { steps: 12 });
@@ -459,8 +470,8 @@ async function repaso() {
     await page.keyboard.press('?');
     await sub('«?» muestra todos los atajos; en la computadora también hay un botón al pie del panel.', 5000);
     await page.keyboard.press('Escape');
-    await page.locator('#tira').focus();
-    await sub('La tira de días también se recorre con las flechas y lleva el mapa a cada día.', 800);
+    await page.locator('#tiempo').focus();
+    await sub('La línea de tiempo también se recorre con las flechas y lleva el mapa a cada día.', 800);
     for (let i = 0; i < 6; i++) { await page.keyboard.press('PageUp'); await espera(450); }
     await espera(1500);
     await page.click('.nav a[data-vista="fechas"]');
@@ -515,6 +526,280 @@ async function repaso() {
   });
 }
 
-await ({ portada, temporada, fechas, pulido, revision, repaso, ia })[RECORRIDO]();
+// La dirección visual, de corrido: lo que un juez ve en minuto y medio, en una portátil de 1366×629
+// (la pantalla más chica en la que se revisa) y en el teléfono.
+const PORTATIL = { viewport: { width: 1366, height: 629 } };
+async function direccion() {
+  await grabar('escritorio', PORTATIL, '#/', '#rellenos path', async ({ page, espera, sub, centro }) => {
+    const bajar = (sel, bloque = 'center') => page.evaluate(([q, b]) => document.querySelector(q).scrollIntoView({ behavior: 'smooth', block: b }), [sel, bloque]);
+    await sub('Al abrir: la pregunta, la foto del satélite y un solo botón.', 4000);
+    await page.click('#verTemporada');
+    await sub('La temporada de 2026 en diez segundos: cada foco de calor se enciende el día en que el satélite lo vio.', 5000);
+    await page.waitForSelector('#escenario[data-modo="final"]', { timeout: 30000 });
+    await sub('Al cierre, la respuesta: 2026 contra un año normal, y cada municipio según su fuego. Campeche y Quintana Roo también.', 6000);
+    await page.click('#acercar');
+    await espera(500);
+    await page.click('#acercar');
+    const v = await page.locator('#visor').boundingBox();
+    const [ax, ay] = [v.x + v.width * 0.45, v.y + v.height * 0.5];
+    await page.mouse.move(ax, ay, { steps: 8 });
+    await page.mouse.down();
+    await sub('El mapa se acerca y se arrastra, sin salirse de la península.', 300);
+    await page.mouse.move(ax + 170, ay - 60, { steps: 40 });
+    await page.mouse.move(ax - 120, ay + 50, { steps: 50 });
+    await page.mouse.up();
+    await espera(1200);
+    await page.keyboard.press('0');
+    await espera(900);
+    await page.click('#busca2');
+    await page.keyboard.type('Muna', { delay: 140 });
+    await page.keyboard.press('Enter');
+    await sub('Buscar un municipio lleva la cámara a él. Su tarjeta dice sus focos de 2026, lo normal y el veredicto.', 5500);
+    await page.click('.tarjeta.fija a');
+    await page.waitForSelector('#hechos li');
+    await sub('Su página: el veredicto en una línea, sus 26 años y hasta tres hechos que solo son de ese municipio.', 6000);
+    await bajar('#dondeMapa');
+    await sub('¿Dónde se quema?: en rojo, los focos de 2026; en gris, los lugares donde el fuego se repite cada año.', 5500);
+    const punto = await page.locator('#dondeMapa .d-focos circle').nth(3).boundingBox();
+    await page.mouse.move(punto.x + punto.width / 2, punto.y + punto.height / 2, { steps: 12 });
+    await page.mouse.click(punto.x + punto.width / 2, punto.y + punto.height / 2);
+    await sub('Tocar un foco dice su fecha y su satélite, y abre el lugar en un mapa.', 5000);
+    await bajar('#irFechas');
+    await sub('La página termina con la pregunta que sigue: ¿el fuego cayó dentro de las fechas de quema?', 4500);
+    await page.click('#irFechas');
+    await page.waitForSelector('.fz-dia');
+    await sub('Fechas de quema abre en la zona de ese municipio: los días permitidos y el fuego que vio el satélite.', 6000);
+    for (const i of [62, 64, 120]) {
+      const [x, y] = await centro(`.fz-dia[data-i="${i}"]`);
+      await page.mouse.move(x, y, { steps: 10 });
+      await espera(700);
+    }
+    await page.click('.nav a[data-vista="metodo"]');
+    await page.waitForSelector('#mSwitch');
+    await sub('Cómo lo medimos: en 2012 cambió el satélite y, sin corregir, el fuego parece triplicarse…', 4500);
+    await page.click('#mSwitch');
+    await sub('…con la corrección, los 26 años quedan en la misma escala: no se triplicó, cambió el satélite.', 5500);
+    await bajar('#mConfiarT', 'start');
+    await espera(900);
+    await page.locator('.m-prueba summary').first().click();
+    await bajar('.m-prueba-graf', 'center');
+    await sub('¿Se puede confiar? Cuatro preguntas con la meta fijada antes de ver el resultado, cada una con su gráfica y sus límites.', 6500);
+    await page.click('[data-idioma="en"]');
+    await sub('Y todo está también en inglés.', 4000);
+  });
+  await grabar('telefono', TELEFONO, '#/', '#rellenos path', async ({ page, espera, sub, porTurno }) => {
+    // El desplazamiento suave del navegador deja cuadros movidos en la captura del teléfono: se baja paso a
+    // paso, cada paso entre dos capturas.
+    const bajar = async (sel) => {
+      const [y0, y1] = await page.evaluate((q) => {
+        const c = document.querySelector(q).getBoundingClientRect();
+        const tope = document.documentElement.scrollHeight - window.innerHeight;
+        return [window.scrollY, Math.max(0, Math.min(tope, window.scrollY + c.top + c.height / 2 - window.innerHeight / 2))];
+      }, sel);
+      const pasos = Math.max(8, Math.min(22, Math.round(Math.abs(y1 - y0) / 45)));
+      for (let i = 1; i <= pasos; i++) {
+        const k = i / pasos, e = k < 0.5 ? 2 * k * k : 1 - (-2 * k + 2) ** 2 / 2;
+        await porTurno(() => page.evaluate((y) => window.scrollTo(0, y), y0 + (y1 - y0) * e));
+        await espera(15);
+      }
+    };
+    await sub('En el teléfono: la pregunta, el buscador y el mapa en la primera pantalla.', 4000);
+    await page.tap('#busca1');
+    await page.keyboard.type('Muna', { delay: 120 });
+    await page.keyboard.press('Enter');
+    await sub('Buscar un municipio abre su tarjeta debajo del mapa.', 4000);
+    await bajar('.tarjeta.fija');
+    await espera(1200);
+    await page.tap('.tarjeta.fija a');
+    await page.waitForSelector('#hechos li');
+    await sub('Su página, pensada para leerse con el pulgar.', 4000);
+    await bajar('#hechos');
+    await sub('Sus hechos propios…', 3500);
+    await bajar('#dondeMapa');
+    await sub('…y dónde se quema, con los focos de 2026 que se pueden tocar.', 4500);
+    await bajar('#irFechas');
+    await espera(900);
+    await page.tap('#irFechas');
+    await page.waitForSelector('.fz-dia');
+    await sub('Fechas de quema, en la zona de ese municipio.', 4500);
+    await bajar('#zMapa');
+    await espera(2500);
+  });
+}
+
+// El demo de 30 segundos (#10), en inglés: sigue la tabla de docs/03-script.md, "30-second version".
+// 1280 × 648 de página más la franja de subtítulos dan un video de 1280 × 720.
+const DEMO = { viewport: { width: 1280, height: 648 } };
+async function demo() {
+  await grabar('30s', DEMO, '&lang=en#/', '#rellenos path', async ({ page, espera, sub, centro }) => {
+    const t0 = Date.now();
+    const hasta = (ms) => espera(Math.max(0, ms - (Date.now() - t0)));
+    // 0–6, el gancho: el mapa a color con los focos de 2026 pasando día por día.
+    await sub('In 2024, wildfire smoke put Mérida among Mexico’s most polluted cities.', 0);
+    await hasta(6000);
+    // 6–12, el problema en el campo: dos de los municipios con más fuego, uno ganadero y uno de milpa.
+    await sub('Here, fire is a farming tool: the ten most-burned towns grow milpa or raise cattle.', 0);
+    for (const [id, ms] of [['tizimin', 9000], ['tekax', 11700]]) {
+      const [x, y] = await centro(`.rellenos path[data-id="${id}"]`);
+      await page.mouse.move(x, y, { steps: 16 });
+      await hasta(ms);
+    }
+    await page.mouse.move(8, 640);
+    await hasta(12000);
+    // 12–18, el problema técnico: el salto de 2012, sin corregir y corregido.
+    await page.click('.nav a[data-vista="metodo"]');
+    await page.waitForSelector('#mSwitch');
+    await sub('But satellites disagree: some see three to five times more fire.', 0);
+    await hasta(15200);
+    await page.click('#mSwitch');
+    await hasta(18000);
+    // 18–26, la solución: el mapa con un municipio y, después, sus fechas de quema.
+    await page.evaluate(() => { location.hash = '#/'; });
+    await page.waitForSelector('#escenario[data-modo="final"]', { timeout: 30000 });
+    await sub('K’áak’ calibrates 25 years and shows where and when Yucatán has historically burned most, town by town.', 0);
+    await page.click('#buscador2 .ejemplo button');
+    await hasta(22300);
+    await page.evaluate(() => { location.hash = '#/fechas/3'; });
+    await page.waitForSelector('.fz-dia');
+    await hasta(26000);
+    // 26–30, el cierre: la marca y la dirección.
+    await page.evaluate(() => { location.hash = '#/'; });
+    await page.waitForSelector('#rellenos path');
+    await sub('For Civil Protection, SEDER and every town: K’áak’, Yucatán’s fire calendar. kaak.pages.dev', 0);
+    await hasta(28400);
+  });
+}
+
+
+// La portada a toda la página: abre en el mapa a color, sin barra de tiempo, con los focos pasando.
+async function completo() {
+  await grabar('escritorio', ESCRITORIO, '#/', '#rellenos path', async ({ page, espera, sub, centro }) => {
+    await sub('La portada abre directo en el mapa a color y ocupa toda la página: ya no hay barra de tiempo ni botón de reproducir.', 5000);
+    await sub('Los puntos son los focos de calor de 2026. Pasan día por día y a la izquierda se lee la fecha.', 6500);
+    const v = await page.locator('#visor').boundingBox();
+    const [ax, ay] = [v.x + v.width * 0.5, v.y + v.height * 0.8];
+    await page.mouse.move(ax, ay);
+    await page.mouse.down();
+    await page.mouse.move(ax - 170, ay - 100, { steps: 30 });
+    await page.mouse.up();
+    await sub('El mapa se arrastra desde el primer momento…', 2200);
+    await page.mouse.move(ax - 170, ay - 100);
+    for (let i = 0; i < 4; i++) { await page.mouse.wheel(0, -120); await espera(180); }
+    await sub('…y se acerca con la rueda o con los botones.', 3200);
+    await page.click('#verTodo');
+    await espera(1200);
+    const [vx, vy] = await centro('.rellenos path[data-id="valladolid"]');
+    await page.mouse.move(vx - 40, vy - 30);
+    await page.mouse.move(vx, vy, { steps: 12 });
+    await sub('Pasar el mouse por un municipio muestra su tarjeta.', 3200);
+    await page.click('#busca2');
+    await page.keyboard.type('Muna', { delay: 140 });
+    await page.keyboard.press('Enter');
+    await sub('Buscarlo por nombre lleva la cámara a él.', 4200);
+    await page.keyboard.press('Escape');
+    await page.locator('#barras .toque[data-y="2003"]').click();
+    await sub('Tocar un año en la tarjeta de abajo pinta ese año. Los puntos solo pasan en 2026.', 4800);
+    await page.locator('#barras .toque[data-y="2026"]').click();
+    await sub('De vuelta en 2026, los puntos vuelven a pasar.', 4000);
+  });
+  await grabar('telefono', TELEFONO, '#/', '#rellenos path', async ({ page, sub }) => {
+    await sub('En el teléfono: la respuesta, el buscador y el mapa a color con los puntos pasando.', 6000);
+    await page.tap('#buscador2 .ejemplo button');
+    await sub('«Por ejemplo, Muna» lleva el mapa al municipio y deja su tarjeta debajo.', 5000);
+    await page.evaluate(() => document.querySelector('#barras').scrollIntoView({ behavior: 'smooth', block: 'center' }));
+    await sub('Más abajo, los focos de cada año.', 3500);
+  });
+}
+
+// La portada vuelve al repaso sobre la foto, sin barra de tiempo, y al terminar entran los colores.
+const PORTATIL_REPASO = { viewport: { width: 1366, height: 629 } };
+async function apertura() {
+  await grabar('escritorio', PORTATIL_REPASO, '#/', '#rellenos path', async ({ page, espera, sub, centro }) => {
+    await sub('Al abrir se ve la península entera, con el golfo, el Caribe y la tierra vecina; los focos de 2026 pasan día por día.', 3500);
+    const v = await page.locator('#visor').boundingBox();
+    const [ax, ay] = [v.x + v.width * 0.55, v.y + v.height * 0.55];
+    await page.mouse.move(ax, ay, { steps: 12 });
+    for (let i = 0; i < 4; i++) { await page.mouse.wheel(0, -120); await espera(160); }
+    await sub('Mientras pasan los focos, el mapa ya se acerca con la rueda o con los botones…', 1800);
+    await page.mouse.down();
+    await page.mouse.move(ax - 160, ay - 60, { steps: 25 });
+    await page.mouse.up();
+    await sub('…y se arrastra. Los focos siguen pasando.', 1800);
+    const [mx, my] = await centro('.rellenos path[data-id="tekax"]');
+    await page.mouse.move(mx, my, { steps: 14 });
+    await sub('Al pasar por un municipio, una tarjeta breve que no tapa el mapa.', 1800);
+    await page.mouse.move(v.x + v.width - 40, v.y + 30, { steps: 10 });
+    await page.waitForSelector('#escenario[data-modo="final"]', { timeout: 20000 });
+    await sub('Al terminar entran los colores sin mover el mapa de donde quedó, y bajo el titular una línea dice qué significan.', 5000);
+  });
+  await grabar('saltar', PORTATIL_REPASO, '#/', '#rellenos path', async ({ page, sub }) => {
+    await sub('Bajo el título, el botón «Saltar al mapa a color» para quien no quiera esperar.', 2500);
+    await page.click('#saltarRepaso');
+    await sub('Lleva directo a los colores y a su explicación.', 3500);
+  });
+  await grabar('telefono', TELEFONO, '#/', '#rellenos path', async ({ page, sub }) => {
+    await sub('En el teléfono: el botón para saltar va bajo el título, antes de la fecha.', 4500);
+    await page.tap('#saltarRepaso');
+    await sub('Con «Saltar al mapa a color» se pasa directo a los colores y su explicación.', 4500);
+  });
+}
+
+// El mapa del territorio ganadero (#60, fase 3), en la página de Tizimín: computadora y teléfono.
+async function ganadero() {
+  await grabar('escritorio', PORTATIL, '#/municipio/tizimin', '#ganMapa a', async ({ page, espera, sub, centro }) => {
+    await sub('La página de Tizimín, un municipio ganadero de Yucatán.', 3000);
+    await page.evaluate(() => document.querySelector('#ganaderia').scrollIntoView({ behavior: 'smooth', block: 'start' }));
+    await sub('Territorio ganadero: cuánto pastizal y cuánto ganado tiene, y qué parte de sus focos de calor cae sobre pastizal.', 5500);
+    await page.evaluate(() => document.querySelector('.gan-cuerpo').scrollIntoView({ behavior: 'smooth', block: 'center' }));
+    await sub('El mapa de Yucatán por municipio, en un solo tono: más oscuro, más pastizal.', 2500);
+    for (const id of ['panaba', 'buctzotz', 'merida']) {
+      const [x, y] = await centro(`#ganMapa a[data-id="${id}"]`);
+      await page.mouse.move(x, y, { steps: 14 });
+      await espera(1500);
+    }
+    await page.click('[data-gan="bovinos"]');
+    await sub('La segunda opción: ganado bovino por km², con los cortes del censo en la leyenda.', 4500);
+    await page.click('[data-gan="focos"]');
+    await sub('La tercera: qué parte de los focos de calor de cada municipio cayó sobre pastizal.', 4500);
+    const [x, y] = await centro('#ganMapa a[data-id="panaba"]');
+    await page.mouse.move(x, y, { steps: 14 });
+    await espera(1800);
+    await page.mouse.click(x, y);
+    await page.waitForFunction(() => document.querySelector('h1')?.textContent === 'Panabá');
+    await sub('Tocar un municipio abre su página.', 3500);
+  });
+  await grabar('telefono', TELEFONO, '#/municipio/tizimin', '#ganMapa a', async ({ page, espera, sub, porTurno }) => {
+    const bajar = async (sel) => {
+      const y1 = await page.evaluate((q) => Math.max(0, document.querySelector(q).getBoundingClientRect().top + scrollY - 70), sel);
+      const y0 = await page.evaluate(() => scrollY), n = 16;
+      for (let i = 1; i <= n; i++) { const k = i / n, e = k * k * (3 - 2 * k); await porTurno(() => page.evaluate((y) => window.scrollTo(0, y), y0 + (y1 - y0) * e)); await espera(30); }
+    };
+    await sub('En el teléfono, la misma página.', 2500);
+    await bajar('#ganaderia');
+    await sub('El territorio ganadero de Tizimín y el mapa de Yucatán.', 4000);
+    await bajar('.gan-opciones');
+    await page.tap('[data-gan="bovinos"]');
+    await sub('Las tres opciones se tocan con el pulgar.', 3500);
+    await page.tap('[data-gan="focos"]');
+    await espera(3000);
+  });
+}
+
+// El pie de «Cómo lo medimos» con el equipo, en español y en inglés, en computadora y teléfono.
+async function pie() {
+  for (const [nombre, opciones] of [['escritorio', PORTATIL], ['telefono', TELEFONO]]) {
+    await grabar(nombre, opciones, '#/metodo', '#mEquipo', async ({ page, espera, sub }) => {
+      await espera(800);
+      await page.evaluate(() => document.querySelector('#mEquipo').scrollIntoView({ block: 'center' }));
+      await sub('Al pie de «Cómo lo medimos», quiénes hicimos K\'áak\'.', 4500);
+      await page.evaluate(() => { document.querySelector('[data-idioma="en"]').click(); });
+      await espera(600);
+      await page.evaluate(() => document.querySelector('#mEquipo').scrollIntoView({ block: 'center' }));
+      await sub('Y en inglés.', 3500);
+    });
+  }
+}
+
+await ({ portada, temporada, fechas, pulido, revision, repaso, ia, direccion, demo, ganadero, pie, completo, apertura })[RECORRIDO]();
 await navegador.close();
 process.exit(0);

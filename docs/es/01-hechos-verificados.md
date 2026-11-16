@@ -73,6 +73,13 @@ municipio es de Yucatán (`analisis/municipios_zona.csv`); las cifras de Yucatá
 - **Los días con más focos en Yucatán en 2024 fueron del 16 al 21 de abril** (332 el día 21).
   Coinciden con incendios registrados por CONAFOR en Tekax (Tres Banderas, desde el 21 de
   abril, 2,428 ha; Ejido Kancab, desde el 14 de abril, 1,804 ha).
+- **Campeche es el estado de la península con más fuego.** En la serie calibrada de la página
+  (`web/datos/serie_armonizada.csv`, suma de `cuadritos_viirs_eq` por estado, promedio
+  2001–2025), Campeche tiene unos 14,900 cuadritos de 1 km con fuego al año, Yucatán unos 8,700
+  y Quintana Roo unos 4,600: Campeche, cerca de 1.7 veces Yucatán. Va arriba de Yucatán en 24
+  de los 25 años (todos menos 2001). Los cinco municipios de la península con más fuego son de Campeche
+  (Candelaria, Champotón, Hopelchén, Carmen y Escárcega); el primero de Yucatán, Tizimín, es
+  el décimo. CONAFOR apunta igual en 2025: 51,980 ha en Campeche contra 2,215 en Yucatán.
 
 ## El problema técnico del reto, con números
 
@@ -403,6 +410,49 @@ Focos VIIRS de 2025 en Yucatán, cruzados con la zona de su municipio
 - Limitaciones: se aplicaron las ventanas de 2025 al año 2025 únicamente, y los límites
   municipales son aproximados (geoBoundaries).
 
+### Ganadería: el pastizal y el ganado están en el oriente, y ahí cae mucho fuego (#60)
+Cruce de los focos con dos fuentes de INEGI (`analisis/preparar_ganaderia.py` y
+`analisis/cifras_ganaderia.py`; datos en `datos_peninsula/ganaderia_municipios.csv` y
+`datos_peninsula/pastizal_yucatan.geojson`). Focos S-NPP de 2013 a 2025 en Yucatán, con los
+filtros de `analisis/cifras_yucatan.py`.
+
+- **Pastizal:** el pastizal cultivado e inducido, que es el de uso ganadero, ocupa unos
+  **6,800 km², el 17.2 % de Yucatán** (INEGI, Uso del Suelo y Vegetación 1:250 000, Serie VII,
+  año base 2018). El pastizal halófilo, pasto natural de la costa, no se cuenta.
+- **Ganado bovino:** **388,399 cabezas** en el estado al 15 de septiembre de 2022: 381,535 en
+  unidades de producción y 6,864 en traspatio (INEGI, Censo Agropecuario 2022, cuadro
+  ca2022_gan02). Tizimín tiene **139,472, el 35.9 %**.
+- **Dónde:** Buctzotz (81 % de pastizal, 51 bovinos por km²), Panabá (79 %, 49 por km²),
+  Sucilá (61 %, 36 por km²) y Tizimín (44 %, 36 por km²). Donde hay más pastizal hay más
+  ganado: la correlación entre las dos fuentes, municipio por municipio, es 0.81.
+- **Fuego sobre pastizal:** el **29.2 %** de los focos (36,134 de 123,545) cae sobre pastizal,
+  que es el 17.2 % de la superficie. Cada año va de 19.1 a 35.3 %.
+- **El noreste:** Tizimín, Panabá, Sucilá, Buctzotz, Cenotillo, Río Lagartos y San Felipe
+  tienen el **22.4 %** de los focos (27,734) en el **17.2 %** de la superficie, el 61.3 % del
+  ganado y el 53.3 % del pastizal. Tizimín solo: 16,177 focos (13.1 %) en el 9.7 % de la
+  superficie.
+- **Ventana de quema, 2025:** en esos 7 municipios, solo el **5.8 %** de los focos cayó dentro
+  de la ventana de su zona, contra 18.9 % en todo Yucatán. Sobre pastizal, 14.4 %; fuera de
+  pastizal, 20.9 %.
+- **CONAFOR 2015–2024:** solo 1 incendio forestal de Yucatán fue por «quema para pastoreo»
+  (Tizimín, 2023, 3.4 ha). En Campeche fueron 7, con 5,612 ha.
+- **El sector:** el PIB primario es el 3.7 % del PIB de Yucatán (secundario 23.9 %, terciario
+  66.5 %); en 2024 creció 14.4 %, y la cría y explotación de animales, 16.2 % (Por Esto, 6 dic
+  2025, con datos de INEGI). Yucatán produjo 241,488 t de carne de cerdo en 2024, tercer lugar
+  nacional (Por Esto, 24 oct 2026, con el Panorama Agroalimentario 2025). Hay al menos 13,441
+  unidades de producción de bovinos y la carne de bovino vale 2,800 millones de pesos al año
+  (CIAD, *Estudios Sociales* 36(67), 2026, con INEGI y SADER 2024); el mismo artículo cita
+  más de 52,000 empleos directos e indirectos, con un dato del Gobierno del Estado de 2018.
+- **Casos:** en Panabá, un incendio quemó decenas de hectáreas de pasto, postes y alambre, y
+  más de 6 ha de cocos del rancho San Isidro (Diario de Yucatán, 13 abr 2025). En Xcampepén,
+  Valladolid, una mujer murió al rescatar a su padre de la quema de su parcela, que se salió de
+  control (Por Esto, 31 may 2024; las notas no coinciden en su edad). Los ganaderos del oriente
+  abren guardarrayas antes del estiaje (Por Esto, 11 feb 2026).
+- **Límites:** la Serie VII es una foto de 2018 a escala 1:250 000 (los potreros chicos no
+  aparecen); los límites municipales son aproximados (geoBoundaries); el pastizal del geojson
+  está simplificado a 50 m. **Un foco sobre pastizal no dice quién quemó ni por qué**: el
+  satélite no ve la causa.
+
 ### Las temporadas 2025 y 2026 fueron las más tranquilas del registro
 Focos de vegetación en Yucatán de marzo a mayo (confianza nominal o alta). Los datos de 2026
 se bajaron por la API de FIRMS (`analisis/descargar_firms_api.py`).
@@ -532,7 +582,19 @@ satélite» abajo).
   en medio cambia de un día a otro, salían días en cero y saltos (Tekax tenía 20 focos el 31 de
   mayo después de cinco días en cero). Con la corrección, la frase «k de cada 10 focos aparecen
   después de…» cambió en 35 municipios (Dzitas pasó de 9 a 5); Tekax y los totales no cambian.
-- **Umán, el municipio de ejemplo de la página** (`web/datos/municipio/uman.json`; issue #30):
+- **Muna, el municipio de ejemplo de la página y del pitch desde el 15 de noviembre**
+  (`web/datos/municipio/muna.json`): 56 focos en un año normal (55.8) y 24 en 2026, menos de la
+  mitad (0.43 veces); 2026 fue su temporada con menos fuego de las 15 que van de 2012 a 2026.
+  En 2024 tuvo 81 («arriba») y en 2025, 57. Por su fuego en un año normal ocupa el lugar 33 de
+  los 106 municipios de Yucatán. Está en la zona 3 de SEDER, cuya ventana va del 10 de marzo al
+  3 de abril: en un año normal, 8 de cada 10 focos (82 %) aparecen después del 3 de abril. Su
+  fuego empieza (10 % del año) el 19 de marzo, la mitad llega el 20 de abril y su semana con más
+  fuego va del 16 al 22 de abril. En 31 cuadritos de 1 km hubo fuego en 5 o más de las 14
+  temporadas de 2012 a 2025 (`repetidos`). Reemplaza a Umán porque es el pueblo del abuelo con
+  que abre el pitch, y lo que él dice («en abril») es lo que muestra la página. La CONAFOR no
+  registra incendios forestales en Muna de 2015 a 2024
+  (`datos_peninsula/incendios_conafor_2015_2024.csv`), así que el ejemplo ya no lleva esa parte.
+- **Umán, el ejemplo anterior** (`web/datos/municipio/uman.json`; issue #30):
   42 focos en un año normal. En 2025, la segunda temporada más tranquila del registro, tuvo 63 (1.5 veces
   lo normal, «arriba»), y en 2024, 54 («arriba»); en 2026, 19 (antes de contar los días sin
   datos de S-NPP con NOAA-20 eran 14). Se ve al tocar 2025 en sus barras. Lo respalda CONAFOR: 5 incendios forestales en 2015–2024, todos en selva y 4 de ellos
@@ -542,8 +604,7 @@ satélite» abajo).
   el satélite no ve todos los incendios (ver «Validación con CONAFOR»). Reemplaza a Tekax como
   ejemplo porque muestra un año malo (2025) cuando el resto del estado estuvo tranquilo. Con los
   datos actuales Tekax 2024 también sale «arriba» (617 contra 390), no «dentro de lo normal».
-  Desde el 14 de noviembre también es el ejemplo del demo en el guion (docs/03), para que el
-  pitch muestre lo mismo que el botón «Por ejemplo» de la página.
+  El 14 de noviembre fue también el ejemplo del demo en el guion (docs/03); desde el 15 lo es Muna.
 - **Focos fuera de las fechas permitidas, de enero a junio de 2026** (`web/datos/zonas.json`):
 
   | Zona | Fechas permitidas | Fuera de fecha |
@@ -565,10 +626,97 @@ satélite» abajo).
   - NOAA-20 ve 0.99 focos por cada uno de S-NPP en temporada (prueba de los VIIRS).
 - **El factor de Aqua en temporada** (`salidas/factores.csv`, zonas de Yucatán): S-NPP ve entre
   2.8 y 3.8 focos por cada uno de Aqua (2.84 en la zona 1, 3.83 en la 2, 3.10 en la 3 y 3.84 en
-  la 4). «Cómo lo medimos» muestra ese rango.
+  la 4). «Cómo lo medimos» dice «entre 3 y 5», la cifra del guion: con todas las zonas y épocas
+  el factor va de 2.84 a 5.34 (`web/datos/metodo.json`, `factores.aquaTodas`).
+- **Las gráficas de las pruebas, en la página y en PNG, traen los mismos datos con otras
+  palabras.** La página (`web/js/graficas-validacion.js`) usa las del resto del sitio; las PNG
+  de `salidas/graficas` van selladas con la validación y conservan las suyas: «corregida» es
+  «calibrada», «focos de calor al año» es «cuadritos-día por año», «meta» es «umbral» y
+  «variación normal» es «rango natural». En la página, lo gris es lo que contó el satélite, lo
+  rojo claro rayado es lo que añade la corrección y lo rojo es lo ya corregido.
 - **127 municipios en el mapa, no 130:** los límites de geoBoundaries no traen Dzitbalché,
   Seybaplaya ni Puerto Morelos, que son municipios recientes; sus focos caen en los municipios
   de los que se separaron. Yucatán sí tiene sus 106.
+
+### Cifras nuevas de la página (dirección visual, 15 nov)
+Salen de `web/datos/` igual que las de arriba (`python pipeline/exportar_web.py`); los cálculos
+por municipio están en `pipeline/datos_web.py` (`hechos`). Los años de la página van de 2001 a
+2026 y «lo normal» es la mediana de 2001 a 2025. Cada hecho de municipio lleva su guarda: con
+menos de 5 focos en un año normal no se dice nada, y las fechas solo con 20 o más.
+
+- **La fuente fija de Mérida** (`metodo.json`, `fuenteFija`): de las 12,883 detecciones de FIRMS
+  en Mérida (todos los satélites, 2000–2026), 7,494 (58 %) son `type` 2, «otra fuente fija en
+  tierra», casi todas en tres cuadritos al suroeste de la ciudad (alrededor de 20.94 N,
+  −89.66 O). K'áak' las quita. No sabemos qué instalación es: no nombrarla.
+- **La fuga que se arregló el 15 nov** (`pipeline/cargar.py`, `filtrar`): en los datos casi en
+  tiempo real (NRT, desde julio de 2026) `type` llega vacío, y 914 focos de fuentes fijas con
+  confianza nominal o alta contaban como fuego: 728 en Carmen, 129 en Mérida, 49 en Campeche,
+  5 en Yaxkukul y 3 en Champotón. Ahora un foco sin `type` en un
+  cuadrito donde FIRMS marcó alguna vez `type` 2 no entra. Cambian los meses de agosto a
+  noviembre de 2026 de cuatro municipios (`fechas.json`, `meses26`): Mérida pasa de 10, 14, 17
+  y 9.8 a 2, 1, 5 y 0; Carmen de 50, 49, 36 y 31.5 a 14, 12, 7 y 9.8; Campeche y Yaxkukul
+  cambian por 1 a 4. **Ninguna temporada (marzo a mayo) cambia**: todo lo quitado es de julio
+  de 2026 en adelante (prueba `test_reales_el_arreglo_no_toca_ninguna_temporada`). El factor
+  de NOAA-20 fuera de temporada pasa de 0.9812 a 0.9814.
+- **La hora del paso de Terra y Aqua** (`metodo.json`, `paso`): la hora mediana de los focos de
+  día en Yucatán (hora de Mérida, UTC−6). Terra pasaba entre las 10:38 y las 10:52 de 2001 a
+  2022 (10:50 en 2001, 10:38 en 2022) y luego 10:21 (2023), 9:58 (2024), 9:42 (2025) y **9:09
+  (2026)**. Aqua, entre las 13:02 y las 13:21 de 2003 a 2022, y luego 13:27, 13:49, 14:12 y
+  **14:53**. S-NPP, entre las 13:07 y las 13:26 todos los años. Es la deriva de la órbita que
+  arriba («MODIS se está retirando») quedaba como hipótesis: ahora está medida. Que eso cambie
+  los conteos de MODIS recientes sigue sin medirse.
+- **De noche casi no se ve fuego** (`metodo.json`, `nocturnos`): el 5.6 % de los focos de S-NPP
+  en Yucatán (2012–2026) son del paso de la madrugada.
+- **El salto de 2012, una sola cifra** (`metodo.json`, `salto`): desde el 15 nov sale de la
+  prueba 1 de la validación (`salidas/validacion.json`, desglose de Yucatán, año completo):
+  ×3.06 sin calibrar y ×0.92 calibrado. Reemplaza al ×3.0 y ×0.93 de «Cifras de la página»,
+  que se calculaba aparte con solo marzo a mayo; la gráfica de años de «Cómo lo medimos»
+  (`metodo.json`, `anios`) sigue siendo de marzo a mayo.
+- **Días sin datos** (`metodo.json`, `sinDatos`): 47 días anotados, 12 rellenados (ver la
+  sección siguiente). En la temporada de 2026, NOAA-20 cuenta el 10, 11 y 12 de marzo y el 28,
+  29 y 30 de abril (`portada.json`, `satDia`).
+- **Lo normal tiene un rango** (`portada.json`, `yuc.rango`): la mitad central de las temporadas
+  de 2001 a 2025 en Yucatán va de 5,991 a 9,544 focos (percentiles 25 y 75).
+- **CONAFOR, por duración** (`metodo.json`, `conafor.porDuracion`): de los incendios que duraron
+  1 día, algún satélite vio 16 de cada 100 (139 incendios); de 2 a 3 días, 39 (351); de 4 a 7,
+  66 (359); de más de 7, 85 (373). «Visto» es lo mismo que arriba (un foco a menos de 2 km),
+  pero con **cualquier** satélite (`n_todos` de `cruce_conafor.csv`), no solo S-NPP: por eso no
+  se compara con el 53 % de S-NPP.
+- **Las zonas, año por año con las fechas de hoy** (`zonas.json`, `porAnio`, `tipico`,
+  `minFuera`). Se aplican las ventanas de 2026 a cada año de 2001 a 2026 (enero a junio): es
+  «cómo se vería con las reglas de hoy», no una medición de cumplimiento. Un año típico es la
+  mediana de 2012 a 2025 de cada parte (antes, dentro y después):
+
+  | Zona | Antes | Dentro | Después | Menor parte fuera de fechas (2001–2026) |
+  |---|---|---|---|---|
+  | 1, el sur y oriente | 1.0 % | 33.2 % | 65.5 % | 25.0 % (2009) |
+  | 2, el centro y norte | 46.7 % | 45.8 % | 2.9 % | 17.5 % (2008) |
+  | 3, el sur | 8.0 % | 15.9 % | 77.7 % | 60.1 % (2013) |
+  | 4, el norte y oriente | 3.0 % | 5.3 % | **91.6 %** | **68.4 %** (2005) |
+
+  En la zona 4, **9 de cada 10 focos aparecen después de que cierran las fechas**, y ningún año
+  bajó de 7 de cada 10 fuera de ellas. Sumando todos los focos de 2012 a 2025 (en vez de la
+  mediana de los años), la zona 4 da 88.7 % después. Igual que arriba: no son «quemas ilegales».
+- **Hechos por municipio** (`municipio/<id>.json`, `hechos`): 100 de los 106 municipios de
+  Yucatán tienen alguno (los otros 6 tienen menos de 5 focos en un año normal) y 69 tienen
+  fechas (20 o más). Para 40 municipios de Yucatán, 2026 fue su temporada con menos fuego desde
+  2012 (sin empates; con empates serían 46). 46 llevan 3 o más temporadas seguidas por debajo
+  de lo normal; Cantamayec lleva 12 (2015–2026). Ejemplos:
+  - **Tizimín** es el municipio de Yucatán con más fuego en un año normal (713; lugar 1 de 106).
+    Su fuego empieza (10 % del año) el 30 de marzo; el de su zona, el 1 de abril.
+  - **Muna:** la mitad del fuego de su año normal llega el 20 de abril; 2026 fue su temporada
+    con menos fuego desde 2012.
+  - **Mérida:** el 10 % de su fuego ya apareció el 22 de febrero (su zona, el 16 de marzo).
+  - **Calakmul** es el sexto de 11 municipios de Campeche.
+  Las fechas salen del fuego de cada día del año sumado de 2001 a 2025 (el 29 de febrero cuenta
+  como 28); la semana con más fuego, de semanas de 7 días desde el 1 de enero.
+- **Cuadritos que se repiten** (`municipio/<id>.json`, `repetidos`): 18,092 cuadritos de la
+  península tuvieron fuego en 5 o más de las 14 temporadas de 2012 a 2025, sin contar los que
+  tienen historial de fuente fija.
+- **El contorno de los estados** (`portada.json`, `estados`): ahora es la unión de sus
+  municipios (antes venía de Natural Earth y no calzaba con los bordes municipales). Se quitan
+  las rendijas entre municipios y las astillas de menos de 0.1 km²; Cozumel, Isla Mujeres,
+  Holbox y Arrecife Alacranes se quedan.
 
 ### Días sin datos del satélite (verificado el 14 nov)
 La serie usa un satélite por día. Si ese satélite no mandó datos, antes el día contaba como
@@ -687,6 +835,16 @@ NOAA-20 por S-NPP y Terra por Aqua. Lista completa en `salidas/dias_sin_datos.cs
   Diario de Yucatán, «Alarma en Umán por incendio cerca de dos fraccionamientos» (Carolina Uc Quintal, 25 mar 2025): <https://www.yucatan.com.mx/yucatan/2025/03/25/alarma-en-uman-incendio-cerca-de-dos-fraccionamientos.html>;
   Por Esto, «Quemas agrícolas y calor extremo elevan riesgo de incendios en Yucatán» (José Borges, 6 abr 2026): <https://www.poresto.com/yucatan/2026/4/6/quemas-agricolas-y-calor-extremo-elevan-riesgo-de-incendios-en-yucatan.html>;
   Por Esto, «Instalan el Comité del Programa de Prevención y Combate de Incendios Agrícolas y Forestales en Yucatán» (Omar Xool, 26 feb 2026): <https://www.poresto.com/yucatan/merida/2026/2/26/instalan-el-comite-del-programa-de-prevencion-y-combate-de-incendios-agricolas-y-forestales-en-yucatan.html>.
+- Ganadería (#60):
+  INEGI, Uso del Suelo y Vegetación 1:250 000, Serie VII, conjunto nacional: <https://www.inegi.org.mx/programas/usyv/>
+  (ficha: <https://www.inegi.org.mx/contenidos/temas/usosuelo/doc/USV_250K_SVII.pdf>);
+  INEGI, Censo Agropecuario 2022, cuadro ca2022_gan02 («Existencias ganaderas según principal especie pecuaria por entidad federativa, municipio y tipo de unidad de observación»): <https://www.inegi.org.mx/programas/ca/2022/>;
+  Por Esto, PIB de Yucatán 2024 (6 dic 2025): <https://www.poresto.com/yucatan/2025/12/6/producto-interno-bruto-de-yucatan-crece-y-coloca-al-estado-por-encima-del-desempeno-nacional.html>;
+  Por Esto, carne de cerdo (Israel Olguín, 24 oct 2026): <https://www.poresto.com/yucatan/2026/10/24/yucatan-lidera-crecimiento-produccion-carne-cerdo-mexico-aumento-agricultura.html>;
+  CIAD, Nava-Navarrete et al., «Estrategias de sostenibilidad y cadena de valor en la ganadería bovina extensiva en Yucatán, México», *Estudios Sociales* 36(67), 2026: <https://doi.org/10.24836/es.v36i67.1724>;
+  Diario de Yucatán, «Devastador incendio en Panabá» (13 abr 2025): <https://www.yucatan.com.mx/yucatan/2025/04/13/devastador-incendio-en-panaba.html>;
+  Por Esto, Xcampepén (Víctor Ku, 31 may 2024): <https://www.poresto.com/yucatan/sucesos/2024/5/31/mujer-muere-calcinada-tras-rescatar-a-su-padre-del-incendio-en-su-parcela-en-valladolid.html>;
+  Por Esto, guardarrayas de los ganaderos (Efraín Valencia, 11 feb 2026): <https://www.poresto.com/yucatan/2026/2/11/productores-pecuarios-de-yucatan-refuerzan-medidas-contra-incendios-ante-temporada-de-sequia.html>.
 - geoBoundaries, municipios de México (CC BY 4.0): <https://www.geoboundaries.org>
 - Lista de los 106 municipios de Yucatán: Wikipedia, «Anexo:Municipios de Yucatán».
 - NASA Earthdata, FIRMS y su latencia: <https://www.earthdata.nasa.gov/learn/articles/nasa-firms-helps-fight-wildland-fires-in-near-real-time>

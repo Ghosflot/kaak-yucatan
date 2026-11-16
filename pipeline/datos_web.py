@@ -8,11 +8,14 @@ web/datos/. Usan los mismos cuadritos-día y los mismos factores que la serie de
 - Lo normal es la mediana de 2001 a 2025: de los totales, para una cifra; del acumulado de
   cada día, para la curva. Al 31 de mayo las dos dan lo mismo.
 - El veredicto compara 2026 con lo normal (umbrales en clase()).
+- Los hechos de cada municipio (hechos()) llevan su guarda: con poca muestra no se dicen, y lo
+  que compara años usa solo DESDE_VIIRS en adelante (a escala de municipio, los años de MODIS
+  multiplicados por su factor salen exagerados).
 """
 from __future__ import annotations
 
 import math
-from datetime import date
+from datetime import date, timedelta
 
 import numpy as np
 import pandas as pd
@@ -22,6 +25,10 @@ import serie
 DIAS = 92
 ANIO_REF = 2026  # año de referencia para pasar «MM-DD» a día de la temporada (no bisiesto)
 MINIMO_NORMAL = 5  # con menos de 5 focos en un año normal no se compara
+MINIMO_FECHAS = 20  # con menos de 20 en un año normal, las fechas (inicio, mitad, pico) son ruido
+RACHA_MINIMA = 3  # una racha de 1 o 2 temporadas por debajo de lo normal no se dice
+DESDE_VIIRS = 2012  # primer año con el satélite de hoy: los puestos de un municipio se cuentan desde aquí
+DIAS_ANIO = 365  # el 29 de febrero se cuenta como 28 (mismo día del año en todos los años)
 K_X = math.cos(math.radians(19.8)) * 150
 CLASES = ["muyabajo", "abajo", "normal", "arriba", "muyarriba", "poco"]
 
@@ -110,3 +117,95 @@ def unicos(elegidos: pd.DataFrame, filtro: pd.Series) -> pd.Series:
     sub = elegidos[filtro.to_numpy(dtype=bool)]
     celdas = sub.groupby(["satelite", "dia_local", "lat_celda", "lon_celda"], observed=True)["eq"].mean()
     return celdas.groupby(level="dia_local").sum()
+
+
+def rango(totales) -> list[float]:
+    """[p25, p75] de los totales: la franja de lo normal."""
+    p25, p75 = np.percentile(np.asarray(list(totales), dtype=float), [25, 75])
+    return [round(float(p25), 1), round(float(p75), 1)]
+
+
+def dia_del_anio(fechas: pd.DatetimeIndex) -> np.ndarray:
+    """Fecha → día del año desde 0 (1 de enero) en un año de 365 días: el 29 de febrero cae
+    en el 28, para que el 1 de marzo sea el mismo día en todos los años."""
+    fechas = pd.DatetimeIndex(fechas)
+    doy = fechas.day_of_year.to_numpy() - 1
+    return doy - (fechas.is_leap_year & (doy >= 59)).astype(int)
+
+
+def mes_dia(i: int) -> str:
+    """Día del año desde 0 → «MM-DD» (en un año de 365 días)."""
+    return (date(ANIO_REF, 1, 1) + timedelta(days=int(i))).strftime("%m-%d")
+
+
+def perfil_anual(dias: pd.Series, anios) -> np.ndarray:
+    """Fuego de cada día del año (365 valores), sumado en los años `anios`: la forma de un año normal."""
+    anios = list(anios)
+    sub = dias[dias.index.year.isin(anios)] if len(dias) else dias
+    if not len(sub):
+        return np.zeros(DIAS_ANIO)
+    return np.bincount(dia_del_anio(sub.index), weights=sub.to_numpy(dtype=float), minlength=DIAS_ANIO)
+
+
+def dia_con_fraccion(perfil: np.ndarray, fraccion: float) -> int | None:
+    """Primer día del año en que el acumulado llega a `fraccion` del total (None sin fuego)."""
+    total = float(np.sum(perfil))
+    if total <= 0:
+        return None
+    return int(np.searchsorted(np.cumsum(perfil) / total, fraccion - 1e-12))
+
+
+def semana_pico(perfil: np.ndarray) -> tuple[int, int]:
+    """La semana con más fuego: semanas de 7 días desde el 1 de enero; la 52 se lleva el día
+    que sobra (como cargar.semana_del_anio). Devuelve el primer y el último día."""
+    semana = np.minimum(np.arange(DIAS_ANIO) // 7, 51)
+    k = int(np.argmax(np.bincount(semana, weights=perfil, minlength=52)))
+    dias = np.flatnonzero(semana == k)
+    return int(dias[0]), int(dias[-1])
+
+
+def puesto(totales: dict[int, float], anio: int, desde: int) -> tuple[int, int]:
+    """Lugar de `anio` entre las temporadas de `desde` a `anio`, de menos a más fuego (1 = la
+    de menos). Un empate se queda con el peor lugar: «la de menos fuego» solo si no la iguala
+    ninguna. Devuelve (lugar, temporadas)."""
+    valores = [totales[a] for a in range(desde, anio + 1)]
+    return sum(v <= totales[anio] for v in valores), len(valores)
+
+
+def racha_abajo(totales: dict[int, float], normal: float, hasta: int) -> int:
+    """Temporadas seguidas por debajo de lo normal, contando hacia atrás desde `hasta`."""
+    n = 0
+    for a in range(hasta, min(totales) - 1, -1):
+        if totales.get(a, 0.0) >= normal:
+            break
+        n += 1
+    return n
+
+
+def hechos(totales: dict[int, float], normal: float, perfil: np.ndarray, anio: int,
+           empieza_zona: int | None, lugar: tuple[int, int]) -> dict:
+    """Lo que se puede decir de un municipio; lo que no pasa su guarda no va (clave ausente).
+
+    - puesto26 y temporadas: lugar de `anio` entre sus temporadas desde DESDE_VIIRS (1 = la de menos).
+    - racha: temporadas seguidas por debajo de lo normal hasta `anio`, si son RACHA_MINIMA o más.
+    - lugar y de: su lugar en el estado por fuego de un año normal (1 = el de más).
+    - empieza (10 % del fuego del año), empiezaZona, mitad (50 %) y semanaPico: con
+      MINIMO_FECHAS o más en un año normal.
+    Todo lo anterior pide además lo normal ≥ MINIMO_NORMAL (lo mismo que el veredicto).
+    """
+    if normal < MINIMO_NORMAL:
+        return {}
+    lugar26, temporadas = puesto(totales, anio, DESDE_VIIRS)
+    h = {"puesto26": lugar26, "temporadas": temporadas}
+    racha = racha_abajo(totales, normal, anio)
+    if racha >= RACHA_MINIMA:
+        h["racha"] = racha
+    h["lugar"], h["de"] = lugar
+    empieza, mitad = dia_con_fraccion(perfil, 0.1), dia_con_fraccion(perfil, 0.5)
+    if normal >= MINIMO_FECHAS and empieza is not None:
+        h["empieza"] = mes_dia(empieza)
+        if empieza_zona is not None:
+            h["empiezaZona"] = mes_dia(empieza_zona)
+        h["semanaPico"] = [mes_dia(d) for d in semana_pico(perfil)]
+        h["mitad"] = mes_dia(mitad)
+    return h

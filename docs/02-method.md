@@ -193,6 +193,9 @@ provisional calendar and, when the harmonized one arrives, only the file is repl
 | `salidas/cuadritos_recurrencia.parquet` | 1 km grid cell | `lat`, `lon`, `temporadas_con_fuego` (of 14) |
 | `salidas/validacion.json` | test | name, number, plain-language sentence and path of its chart |
 | `salidas/serie_armonizada.csv` | municipality × year × week | the same as the calendar, for download |
+| `datos_peninsula/ganaderia_municipios.csv` | municipality of Yucatán | `municipio`, `estado`, `bovinos_2022` (total from the 2022 Agricultural Census), `bovinos_up_2022` (production units only), `km2`, `km2_pastizal` (cultivated and induced, INEGI Series VII), `pct_pastizal`, `bovinos_km2`, `focos` and `focos_pastizal` (S-NPP 2013–2025). Built by `analisis/preparar_ganaderia.py` (#60) |
+| `datos_peninsula/pastizal_yucatan.geojson` | municipality of Yucatán | `municipio` and the Series VII cattle pasture, simplified to 50 m (under 2 MB) |
+| `web/datos/ganaderia.json` | — | `periodo`, `yucatan` (state totals) and `municipios` (`id`, `bovinos`, `bovinosKm2`, `pctPastizal`, `focos`, `focosPastizal`), for the map's "Cattle territory" option |
 | `salidas/dias_sin_datos.csv` | day without data from the period's satellite | `dia_local`, `satelite_periodo`, `respaldo`, `cuadritos_respaldo`, `motivo` (`umbral` or `caida_confirmada`), `rellenado`, `nota` |
 
 ---

@@ -37,6 +37,10 @@ names that are spelled differently (Dzán, Tixmehuac).
 **Filter we use for the figures in docs/01:** `type == 0` (or empty in NRT) and nominal or high
 confidence (VIIRS `n`/`h`, MODIS ≥ 30).
 
+The calculation (`pipeline/cargar.py`) also drops NRT hot spots with no `type` that fall in a 0.01°
+cell where FIRMS has ever marked `type` 2: they are fixed sources that arrived unmarked (since July
+2026 the ones southwest of Mérida and in Carmen slipped in that way).
+
 ## Coverage by satellite
 
 | Satellite | From | To |

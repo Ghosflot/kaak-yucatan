@@ -74,6 +74,13 @@ is in Yucatán (`analisis/municipios_zona.csv`); Yucatán's figures come from
 - **The days with the most hot spots in Yucatán in 2024 were April 16 to 21** (332 on the 21st).
   They coincide with wildfires recorded by CONAFOR in Tekax (Tres Banderas, from April 21, 2,428
   ha; Ejido Kancab, from April 14, 1,804 ha).
+- **Campeche is the state of the peninsula with the most fire.** In the site's calibrated series
+  (`web/datos/serie_armonizada.csv`, sum of `cuadritos_viirs_eq` by state, 2001–2025 average),
+  Campeche has about 14,900 1 km grid cells with fire a year, Yucatán about 8,700 and Quintana Roo
+  about 4,600: Campeche, close to 1.7 times Yucatán. It is above Yucatán in 24 of the 25 years (all
+  but 2001). The five municipalities of the peninsula with the most fire are all in Campeche
+  (Candelaria, Champotón, Hopelchén, Carmen and Escárcega); the first one in Yucatán, Tizimín, is
+  tenth. CONAFOR points the same way in 2025: 51,980 ha in Campeche against 2,215 in Yucatán.
 
 ## The challenge's technical problem, in numbers
 
@@ -391,6 +398,47 @@ VIIRS hot spots of 2025 in Yucatán, crossed with the zone of their municipality
 - Limitations: the 2025 windows were applied to the year 2025 only, and municipal boundaries are
   approximate (geoBoundaries).
 
+### Cattle ranching: the pasture and the cattle are in the east, and a lot of fire falls there (#60)
+Crossing hot spots with two INEGI sources (`analisis/preparar_ganaderia.py` and
+`analisis/cifras_ganaderia.py`; data in `datos_peninsula/ganaderia_municipios.csv` and
+`datos_peninsula/pastizal_yucatan.geojson`). S-NPP hot spots from 2013 to 2025 in Yucatán, with
+the filters of `analisis/cifras_yucatan.py`.
+
+- **Pasture:** cultivated and induced pasture, which is the one for cattle use, covers about
+  **6,800 km², 17.2 % of Yucatán** (INEGI, Land Use and Vegetation 1:250 000, Series VII, base year
+  2018). Halophytic pasture, the natural grass of the coast, is not counted.
+- **Cattle:** **388,399 head** in the state as of September 15, 2022: 381,535 in production units
+  and 6,864 in backyards (INEGI, 2022 Agricultural Census, table ca2022_gan02). Tizimín has
+  **139,472, 35.9 %**.
+- **Where:** Buctzotz (81 % pasture, 51 cattle per km²), Panabá (79 %, 49 per km²), Sucilá (61 %,
+  36 per km²) and Tizimín (44 %, 36 per km²). Where there is more pasture there is more cattle: the
+  correlation between the two sources, municipality by municipality, is 0.81.
+- **Fire over pasture:** **29.2 %** of hot spots (36,134 of 123,545) fall on pasture, which is
+  17.2 % of the surface. Each year goes from 19.1 to 35.3 %.
+- **The northeast:** Tizimín, Panabá, Sucilá, Buctzotz, Cenotillo, Río Lagartos and San Felipe have
+  **22.4 %** of hot spots (27,734) on **17.2 %** of the surface, 61.3 % of the cattle and 53.3 % of
+  the pasture. Tizimín alone: 16,177 hot spots (13.1 %) on 9.7 % of the surface.
+- **Burning window, 2025:** in those 7 municipalities, only **5.8 %** of hot spots fell inside their
+  zone's window, against 18.9 % in all of Yucatán. Over pasture, 14.4 %; outside pasture, 20.9 %.
+- **CONAFOR 2015–2024:** only 1 forest wildfire in Yucatán was from "burning for grazing" (Tizimín,
+  2023, 3.4 ha). In Campeche there were 7, with 5,612 ha.
+- **The sector:** primary GDP is 3.7 % of Yucatán's GDP (secondary 23.9 %, tertiary 66.5 %); in
+  2024 it grew 14.4 %, and animal breeding and raising, 16.2 % (Por Esto, Dec 6, 2025, with INEGI
+  data). Yucatán produced 241,488 t of pork in 2024, third place nationally (Por Esto, Oct 24, 2026,
+  with the Agrifood Panorama 2025). There are at least 13,441 cattle production units and beef is
+  worth 2.8 billion pesos a year (CIAD, *Estudios Sociales* 36(67), 2026, with INEGI and SADER
+  2024); the same article cites more than 52,000 direct and indirect jobs, with a 2018 State
+  Government figure.
+- **Cases:** in Panabá, a fire burned dozens of hectares of grass, posts and fencing, and more than
+  6 ha of coconuts at the San Isidro ranch (Diario de Yucatán, Apr 13, 2025). In Xcampepén,
+  Valladolid, a woman died rescuing her father from the burn of his plot, which got out of control
+  (Por Esto, May 31, 2024; the articles disagree on her age). Ranchers in the east open firebreaks
+  before the dry season (Por Esto, Feb 11, 2026).
+- **Limits:** Series VII is a 2018 snapshot at 1:250 000 scale (small pastures don't appear);
+  municipal boundaries are approximate (geoBoundaries); the geojson's pasture is simplified to
+  50 m. **A hot spot over pasture doesn't say who burned or why**: the satellite doesn't see the
+  cause.
+
 ### The 2025 and 2026 seasons were the quietest on record
 Vegetation hot spots in Yucatán from March to May (nominal or high confidence). The 2026 data were
 downloaded through the FIRMS API (`analisis/descargar_firms_api.py`).
@@ -511,7 +559,19 @@ S-NPP's days without data are counted with NOAA-20 (see "Days without satellite 
   middle changes from one day to the next, days at zero and jumps came out (Tekax had 20 hot spots
   on May 31 after five days at zero). With the fix, the sentence "k of every 10 hot spots appear
   after…" changed in 35 municipalities (Dzitas went from 9 to 5); Tekax and the totals don't change.
-- **Umán, the site's example municipality** (`web/datos/municipio/uman.json`; issue #30): 42 hot
+- **Muna, the example municipality of the site and of the pitch since November 15**
+  (`web/datos/municipio/muna.json`): 56 hot spots in a normal year (55.8) and 24 in 2026, less than
+  half (0.43 times); 2026 was its season with the least fire of the 15 from 2012 to 2026. In 2024 it
+  had 81 ("above") and in 2025, 57. By its fire in a normal year it ranks 33rd of the 106
+  municipalities of Yucatán. It is in SEDER zone 3, whose window runs from March 10 to April 3: in a
+  normal year, 8 of every 10 hot spots (82 %) appear after April 3. Its fire starts (10 % of the
+  year) on March 19, half arrives on April 20 and its week with the most fire runs from April 16 to
+  22. In 31 1 km grid cells there was fire in 5 or more of the 14 seasons from 2012 to 2025
+  (`repetidos`). It replaces Umán because it is the grandfather's town that opens the pitch, and what
+  he says ("in April") is what the site shows. CONAFOR records no forest wildfires in Muna from 2015
+  to 2024 (`datos_peninsula/incendios_conafor_2015_2024.csv`), so the example no longer carries that
+  part.
+- **Umán, the previous example** (`web/datos/municipio/uman.json`; issue #30): 42 hot
   spots in a normal year. In 2025, the second quietest season on record, it had 63 (1.5 times
   normal, "above"), and in 2024, 54 ("above"); in 2026, 19 (before counting S-NPP's days without
   data with NOAA-20 it was 14). Seen by tapping 2025 in its bars. CONAFOR supports it: 5 forest
@@ -521,8 +581,8 @@ S-NPP's days without data are counted with NOAA-20 (see "Days without satellite 
   records 601 ha, but the satellite gives 26 hot spots, less than normal: the satellite doesn't see
   every wildfire (see "Validation with CONAFOR"). It replaces Tekax as the example because it shows
   a bad year (2025) when the rest of the state was quiet. With current data Tekax 2024 also comes
-  out "above" (617 against 390), not "within normal". Since Nov 14 it is also the demo's example in
-  the script (docs/03), so the pitch shows the same as the page's "For example" button.
+  out "above" (617 against 390), not "within normal". On Nov 14 it was also the demo's example in
+  the script (docs/03); since the 15th it is Muna.
 - **Hot spots outside the allowed dates, January to June 2026** (`web/datos/zonas.json`):
 
   | Zone | Allowed dates | Outside the dates |
@@ -544,10 +604,97 @@ S-NPP's days without data are counted with NOAA-20 (see "Days without satellite 
   - NOAA-20 sees 0.99 hot spots for each S-NPP one in season (VIIRS test).
 - **Aqua's in-season factor** (`salidas/factores.csv`, Yucatán zones): S-NPP sees between 2.8 and
   3.8 hot spots for each Aqua one (2.84 in zone 1, 3.83 in 2, 3.10 in 3 and 3.84 in 4). "How we
-  measured it" shows that range.
+  measured it" says "between 3 and 5", the script's figure: with all zones and seasons the factor
+  goes from 2.84 to 5.34 (`web/datos/metodo.json`, `factores.aquaTodas`).
+- **The test charts, on the page and as PNG, carry the same data in other words.** The page
+  (`web/js/graficas-validacion.js`) uses the wording of the rest of the site; the PNGs in
+  `salidas/graficas` are sealed with the validation and keep theirs: "corregida" is "calibrada",
+  "focos de calor al año" is "cuadritos-día por año", "meta" is "umbral" and "variación normal" is
+  "rango natural". On the page, gray is what the satellite counted, hatched light red is what the
+  correction adds and red is what is already corrected.
 - **127 municipalities on the map, not 130:** the geoBoundaries limits don't include Dzitbalché,
   Seybaplaya or Puerto Morelos, which are recent municipalities; their hot spots fall in the
   municipalities they split from. Yucatán does have its 106.
+
+### New page figures (visual direction, Nov 15)
+They come from `web/datos/` just like the ones above (`python pipeline/exportar_web.py`); the
+per-municipality calculations are in `pipeline/datos_web.py` (`hechos`). The page's years run from
+2001 to 2026 and "normal" is the 2001 to 2025 median. Each municipality fact carries its guard: with
+fewer than 5 hot spots in a normal year nothing is said, and dates only with 20 or more.
+
+- **Mérida's fixed source** (`metodo.json`, `fuenteFija`): of the 12,883 FIRMS detections in Mérida
+  (all satellites, 2000–2026), 7,494 (58 %) are `type` 2, "other fixed source on land", almost all in
+  three grid cells southwest of the city (around 20.94 N, −89.66 W). K'áak' removes them. We don't
+  know what installation it is: don't name it.
+- **The leak fixed on Nov 15** (`pipeline/cargar.py`, `filtrar`): in the near-real-time (NRT) data
+  (since July 2026) `type` arrives empty, and 914 fixed-source hot spots with nominal or high
+  confidence counted as fire: 728 in Carmen, 129 in Mérida, 49 in Campeche, 5 in Yaxkukul and 3 in
+  Champotón. Now a hot spot with no `type` in a cell where FIRMS has ever marked `type` 2 doesn't
+  enter. The August to November 2026 months of four municipalities change (`fechas.json`,
+  `meses26`): Mérida goes from 10, 14, 17 and 9.8 to 2, 1, 5 and 0; Carmen from 50, 49, 36 and 31.5
+  to 14, 12, 7 and 9.8; Campeche and Yaxkukul change by 1 to 4. **No season (March to May)
+  changes**: everything removed is from July 2026 onward (test
+  `test_reales_el_arreglo_no_toca_ninguna_temporada`). NOAA-20's out-of-season factor goes from
+  0.9812 to 0.9814.
+- **The pass time of Terra and Aqua** (`metodo.json`, `paso`): the median time of daytime hot spots
+  in Yucatán (Mérida time, UTC−6). Terra passed between 10:38 and 10:52 from 2001 to 2022 (10:50 in
+  2001, 10:38 in 2022) and then 10:21 (2023), 9:58 (2024), 9:42 (2025) and **9:09 (2026)**. Aqua,
+  between 13:02 and 13:21 from 2003 to 2022, and then 13:27, 13:49, 14:12 and **14:53**. S-NPP,
+  between 13:07 and 13:26 every year. It is the orbit drift that above ("MODIS is being retired")
+  was left as a hypothesis: now it is measured. Whether that changes recent MODIS counts is still
+  unmeasured.
+- **At night almost no fire is seen** (`metodo.json`, `nocturnos`): 5.6 % of S-NPP hot spots in
+  Yucatán (2012–2026) are from the early-morning pass.
+- **The 2012 jump, a single figure** (`metodo.json`, `salto`): since Nov 15 it comes from test 1 of
+  the validation (`salidas/validacion.json`, Yucatán breakdown, full year): ×3.06 uncalibrated and
+  ×0.92 calibrated. It replaces the ×3.0 and ×0.93 of "Page figures", which was calculated
+  separately with only March to May; the year chart of "How we measured it" (`metodo.json`,
+  `anios`) is still March to May.
+- **Days without data** (`metodo.json`, `sinDatos`): 47 days noted, 12 filled in (see the next
+  section). In the 2026 season, NOAA-20 counts March 10, 11 and 12 and April 28, 29 and 30
+  (`portada.json`, `satDia`).
+- **Normal has a range** (`portada.json`, `yuc.rango`): the middle half of the 2001 to 2025 seasons
+  in Yucatán goes from 5,991 to 9,544 hot spots (25th and 75th percentiles).
+- **CONAFOR, by duration** (`metodo.json`, `conafor.porDuracion`): of the wildfires that lasted 1
+  day, some satellite saw 16 of every 100 (139 wildfires); of 2 to 3 days, 39 (351); of 4 to 7, 66
+  (359); of more than 7, 85 (373). "Seen" is the same as above (a hot spot within 2 km), but with
+  **any** satellite (`n_todos` of `cruce_conafor.csv`), not only S-NPP: that is why it is not
+  compared with S-NPP's 53 %.
+- **The zones, year by year with today's dates** (`zonas.json`, `porAnio`, `tipico`, `minFuera`).
+  The 2026 windows are applied to each year from 2001 to 2026 (January to June): it is "how it
+  would look with today's rules", not a measure of compliance. A typical year is the 2012 to 2025
+  median of each part (before, inside and after):
+
+  | Zone | Before | Inside | After | Smallest part outside the dates (2001–2026) |
+  |---|---|---|---|---|
+  | 1, the south and east | 1.0 % | 33.2 % | 65.5 % | 25.0 % (2009) |
+  | 2, the center and north | 46.7 % | 45.8 % | 2.9 % | 17.5 % (2008) |
+  | 3, the south | 8.0 % | 15.9 % | 77.7 % | 60.1 % (2013) |
+  | 4, the north and east | 3.0 % | 5.3 % | **91.6 %** | **68.4 %** (2005) |
+
+  In zone 4, **9 of every 10 hot spots appear after the dates close**, and no year went below 7 of
+  every 10 outside them. Adding up all hot spots from 2012 to 2025 (instead of the median of the
+  years), zone 4 gives 88.7 % after. Same as above: they are not "illegal burns".
+- **Facts by municipality** (`municipio/<id>.json`, `hechos`): 100 of the 106 municipalities of
+  Yucatán have some (the other 6 have fewer than 5 hot spots in a normal year) and 69 have dates (20
+  or more). For 40 municipalities of Yucatán, 2026 was their season with the least fire since 2012
+  (no ties; with ties it would be 46). 46 have 3 or more seasons in a row below normal; Cantamayec
+  has 12 (2015–2026). Examples:
+  - **Tizimín** is the municipality of Yucatán with the most fire in a normal year (713; 1st of
+    106). Its fire starts (10 % of the year) on March 30; its zone's, on April 1.
+  - **Muna:** half of its normal year's fire arrives on April 20; 2026 was its season with the least
+    fire since 2012.
+  - **Mérida:** 10 % of its fire had already appeared by February 22 (its zone, March 16).
+  - **Calakmul** is the sixth of 11 municipalities in Campeche.
+  The dates come from each day of the year's fire added up from 2001 to 2025 (February 29 counts as
+  28); the week with the most fire, from 7-day weeks since January 1.
+- **Recurring grid cells** (`municipio/<id>.json`, `repetidos`): 18,092 cells of the peninsula had
+  fire in 5 or more of the 14 seasons from 2012 to 2025, not counting those with a fixed-source
+  history.
+- **The outline of the states** (`portada.json`, `estados`): it is now the union of their
+  municipalities (before it came from Natural Earth and didn't line up with the municipal edges).
+  The slits between municipalities and slivers under 0.1 km² are removed; Cozumel, Isla Mujeres,
+  Holbox and Arrecife Alacranes stay.
 
 ### Days without satellite data (verified Nov 14)
 The series uses one satellite per day. If that satellite sent no data, the day used to count as
@@ -667,6 +814,16 @@ NOAA-20 for S-NPP and Terra for Aqua. Full list in `salidas/dias_sin_datos.csv`.
   Diario de Yucatán, "Alarma en Umán por incendio cerca de dos fraccionamientos" (Carolina Uc Quintal, Mar 25, 2025): <https://www.yucatan.com.mx/yucatan/2025/03/25/alarma-en-uman-incendio-cerca-de-dos-fraccionamientos.html>;
   Por Esto, "Quemas agrícolas y calor extremo elevan riesgo de incendios en Yucatán" (José Borges, Apr 6, 2026): <https://www.poresto.com/yucatan/2026/4/6/quemas-agricolas-y-calor-extremo-elevan-riesgo-de-incendios-en-yucatan.html>;
   Por Esto, "Instalan el Comité del Programa de Prevención y Combate de Incendios Agrícolas y Forestales en Yucatán" (Omar Xool, Feb 26, 2026): <https://www.poresto.com/yucatan/merida/2026/2/26/instalan-el-comite-del-programa-de-prevencion-y-combate-de-incendios-agricolas-y-forestales-en-yucatan.html>.
+- Cattle ranching (#60):
+  INEGI, Land Use and Vegetation 1:250 000, Series VII, national set: <https://www.inegi.org.mx/programas/usyv/>
+  (sheet: <https://www.inegi.org.mx/contenidos/temas/usosuelo/doc/USV_250K_SVII.pdf>);
+  INEGI, 2022 Agricultural Census, table ca2022_gan02 ("Existencias ganaderas según principal especie pecuaria por entidad federativa, municipio y tipo de unidad de observación"): <https://www.inegi.org.mx/programas/ca/2022/>;
+  Por Esto, Yucatán GDP 2024 (Dec 6, 2025): <https://www.poresto.com/yucatan/2025/12/6/producto-interno-bruto-de-yucatan-crece-y-coloca-al-estado-por-encima-del-desempeno-nacional.html>;
+  Por Esto, pork (Israel Olguín, Oct 24, 2026): <https://www.poresto.com/yucatan/2026/10/24/yucatan-lidera-crecimiento-produccion-carne-cerdo-mexico-aumento-agricultura.html>;
+  CIAD, Nava-Navarrete et al., "Estrategias de sostenibilidad y cadena de valor en la ganadería bovina extensiva en Yucatán, México", *Estudios Sociales* 36(67), 2026: <https://doi.org/10.24836/es.v36i67.1724>;
+  Diario de Yucatán, "Devastador incendio en Panabá" (Apr 13, 2025): <https://www.yucatan.com.mx/yucatan/2025/04/13/devastador-incendio-en-panaba.html>;
+  Por Esto, Xcampepén (Víctor Ku, May 31, 2024): <https://www.poresto.com/yucatan/sucesos/2024/5/31/mujer-muere-calcinada-tras-rescatar-a-su-padre-del-incendio-en-su-parcela-en-valladolid.html>;
+  Por Esto, ranchers' firebreaks (Efraín Valencia, Feb 11, 2026): <https://www.poresto.com/yucatan/2026/2/11/productores-pecuarios-de-yucatan-refuerzan-medidas-contra-incendios-ante-temporada-de-sequia.html>.
 - geoBoundaries, municipalities of Mexico (CC BY 4.0): <https://www.geoboundaries.org>
 - List of the 106 municipalities of Yucatán: Wikipedia, "Anexo:Municipios de Yucatán".
 - NASA Earthdata, FIRMS and its latency: <https://www.earthdata.nasa.gov/learn/articles/nasa-firms-helps-fight-wildland-fires-in-near-real-time>

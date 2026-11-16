@@ -14,6 +14,9 @@ export function anunciar(texto) {
   requestAnimationFrame(() => { z.textContent = texto; });
 }
 
+// El último municipio que se abrió en esta visita: «Fechas de quema» abre en su zona.
+export const visita = { municipio: null };
+
 export const sinAcentos = (s) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
 
 // Fechas a partir de «2026-05-01» o de un Date.
@@ -24,15 +27,24 @@ export const fechaCorta = (f) => { const d = aFecha(f); return t('fechaCorta', {
 // «04-20» (mes-día de una ventana) → Date de 2026.
 export const deMesDia = (md) => new Date(2026, Number(md.slice(0, 2)) - 1, Number(md.slice(3)), 12);
 
+// «16 al 22 de abril», o «30 de abril al 6 de mayo» si cambia el mes (de dos «MM-DD»).
+export function rangoDias(a, b) {
+  const da = deMesDia(a), db = deMesDia(b);
+  if (da.getMonth() === db.getMonth()) return t('rangoMes', { a: da.getDate(), b: db.getDate(), m: t('meses')[da.getMonth()] });
+  return t('rango', { i: fechaDia(da), f: fechaDia(db) });
+}
+
 // Colores del mapa (escala semáforo).
-export const COLOR = { muyabajo: '#17704F', abajo: '#6DB892', normal: '#E6D394', arriba: '#F29A4A', muyarriba: '#D7412B', poco: '#7F8682' };
+export const COLOR = { muyabajo: '#0F5C4A', abajo: '#6DB892', normal: '#E6D394', arriba: '#F29A4A', muyarriba: '#D7412B', poco: '#7F8682' };
 export const ESCALA = ['muyabajo', 'abajo', 'normal', 'arriba', 'muyarriba'];
 
 // La frase del veredicto: más fina que la clase del color («la mitad», «el doble»).
 function indiceVeredicto(v26, normal, clase) {
   if (clase === 'poco' || !normal) return 7;
-  const r = v26 / normal;
-  return r < 0.45 ? 0 : r < 0.55 ? 1 : r < 0.8 ? 2 : r <= 1.25 ? 3 : r < 1.8 ? 4 : r <= 2.2 ? 5 : 6;
+  // Se decide con las cifras redondeadas, las que se leen al lado: 19 contra 42 es «menos de la
+  // mitad», no «la mitad». «La mitad» y «el doble» solo se dicen si de verdad quedan cerca.
+  const r = Math.round(v26) / Math.max(1, Math.round(normal));
+  return r < 0.47 ? 0 : r <= 0.53 ? 1 : r < 0.8 ? 2 : r <= 1.25 ? 3 : r < 1.9 ? 4 : r <= 2.1 ? 5 : 6;
 }
 // «191 focos de calor…» o «1 foco de calor…»: la clave con «Uno» lleva el singular.
 export const cifras = (clave, m) => t(Math.round(m.v26) === 1 ? clave + 'Uno' : clave, { a: fmt(m.v26), b: fmt(m.normal) });
@@ -51,9 +63,27 @@ export function el(tag, attrs, padre) {
 
 export const reducirMovimiento = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-// La escala de la página en pantallas de poca resolución (index.html). El puntero y getBoundingClientRect miden en
-// píxeles de la pantalla; los estilos (left, top) y offsetWidth, en píxeles de la página: se divide entre la escala.
-export const escalaPagina = () => Number(document.documentElement.style.getPropertyValue('--zoom')) || 1;
+
+// Hora de la última revisión de los datos (web/datos/revision.json, la escribe la actualización diaria).
+// Si falta, el pie solo dice de qué día es el último foco de calor.
+let revision = null;
+export async function cargarRevision() {
+  try {
+    const r = await fetch('/datos/revision.json');
+    if (r.ok) revision = (await r.json()).revisado || null;
+  } catch { /* sin la hora de revisión: el pie sigue sin ella */ }
+}
+const MERIDA = 'America/Merida';
+// El pie de una vista con la hora de la revisión al final, en hora de Mérida.
+export function pieDatos(clave, vars) {
+  const texto = t(clave, vars);
+  const d = revision ? new Date(revision) : null;
+  if (!d || Number.isNaN(d.getTime())) return texto;
+  const en = idioma() === 'en';
+  const dia = new Intl.DateTimeFormat('en-CA', { timeZone: MERIDA, year: 'numeric', month: '2-digit', day: '2-digit' }).format(d);
+  const hora = new Intl.DateTimeFormat(en ? 'en-US' : 'es-MX', { timeZone: MERIDA, hour: 'numeric', minute: '2-digit', hour12: en }).format(d);
+  return texto + ' ' + t('revisado', { f: fechaDiaAnio(dia), h: hora });
+}
 
 // Carga JSON de web/datos/ una sola vez por visita.
 const cache = new Map();
