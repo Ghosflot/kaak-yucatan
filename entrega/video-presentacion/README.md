@@ -1,20 +1,21 @@
-# Video de la presentación
+# Presentation video
 
-Convierte el deck de K'áak' (el artifact de Slides en claude.ai) en un MP4 de 1080p:
-cada diapositiva dura 6 segundos, en la del demo corre el video completo y entre
-diapositivas hay un fundido corto, como en el deck. Sale sin audio, de 1 min 20 s.
+Turns the K'áak' deck (the Slides artifact on claude.ai) into a 1080p MP4: each slide lasts
+6 seconds, the demo slide plays the whole demo video, and slides change with a short fade, as in
+the deck. The result has no audio and lasts 1 min 20 s.
 
-Hay que volver a renderizarlo cada vez que cambie el deck, por ejemplo cuando se
-cambie el video del demo.
+Spanish original: [es/LEEME.md](es/LEEME.md).
 
-## Lo que necesitas
+It has to be rendered again whenever the deck changes, for example when the demo video changes.
 
-- Python 3.11 o más nuevo.
-- Playwright para Python, con su Chromium: `pip install playwright && playwright install chromium`.
-- ffmpeg. La forma más fácil es `pip install imageio-ffmpeg`, que trae su propio
-  ffmpeg y no instala nada en el sistema. También sirve `brew install ffmpeg`.
+## What you need
 
-Lo más limpio es un entorno aparte:
+- Python 3.11 or later.
+- Playwright for Python, with its Chromium: `pip install playwright && playwright install chromium`.
+- ffmpeg. The easiest way is `pip install imageio-ffmpeg`, which brings its own ffmpeg and
+  installs nothing on the system. `brew install ffmpeg` also works.
+
+A separate environment is the cleanest option:
 
 ```sh
 python3 -m venv /tmp/kaak-video
@@ -22,19 +23,19 @@ python3 -m venv /tmp/kaak-video
 /tmp/kaak-video/bin/playwright install chromium
 ```
 
-## 1. Bajar el deck
+## 1. Download the deck
 
-Necesitas acceso de **edición** al artifact (pídeselo a Gadiel, menú Share). Con
-acceso de solo lectura, claude.ai no deja bajar los archivos.
+You need **edit** access to the artifact (ask Gadiel, Share menu). With view-only access,
+claude.ai does not let you download the files.
 
-Pídele a Claude Code:
+Ask Claude Code:
 
-> Lee el artifact `<link del deck>` y baja a `/tmp/kaak-deck` los archivos
-> `project/deck.json`, `project/deck.css` y todos los de `project/slides/`.
-> Luego baja a `/tmp/kaak-assets` cada asset que las diapositivas citan como
-> `/_blob/<id>` (fotos, capturas, QR y el video del demo).
+> Read the artifact `<deck link>` and download to `/tmp/kaak-deck` the files
+> `project/deck.json`, `project/deck.css` and everything in `project/slides/`.
+> Then download to `/tmp/kaak-assets` every asset the slides reference as
+> `/_blob/<id>` (photos, screenshots, QR codes and the demo video).
 
-Al final debe quedar:
+You should end up with:
 
 ```
 /tmp/kaak-deck/project/deck.json
@@ -43,33 +44,33 @@ Al final debe quedar:
 /tmp/kaak-assets/<id>.jpg | .png | .mp4
 ```
 
-El video del demo es el `.mp4` de `/tmp/kaak-assets`: es el `data-video` de
+The demo video is the `.mp4` in `/tmp/kaak-assets`: it is the `data-video` of
 `project/slides/demo.html`.
 
-## 2. Fotos de cada diapositiva
+## 2. Screenshot each slide
 
 ```sh
 /tmp/kaak-video/bin/python entrega/video-presentacion/render.py \
   /tmp/kaak-deck /tmp/kaak-assets /tmp/kaak-png
 ```
 
-Deja `01-portada.png`, `02-abuelo.png`… en `/tmp/kaak-png`. Ábrelas y revisa que
-ningún texto se salga de su lugar antes de seguir.
+It writes `01-portada.png`, `02-abuelo.png`… to `/tmp/kaak-png`. Open them and check that no
+text spills out of place before going on.
 
-## 3. Armar el MP4
+## 3. Build the MP4
 
 ```sh
 /tmp/kaak-video/bin/python entrega/video-presentacion/video.py \
-  /tmp/kaak-png /tmp/kaak-assets/<id-del-video>.mp4 Kaak-pitch-EN.mp4
+  /tmp/kaak-png /tmp/kaak-assets/<demo-video-id>.mp4 Kaak-pitch-EN.mp4
 ```
 
-Opciones: `--segundos 6` (por diapositiva), `--fundido 0.6` (entre diapositivas) y
-`--demo 20.5` (cuánto del video del demo se usa). Si el video nuevo dura otra cosa,
-cambia `--demo`.
+Options: `--segundos 6` (seconds per slide), `--fundido 0.6` (fade between slides) and
+`--demo 20.5` (how much of the demo video is used). If the new video has a different length,
+change `--demo`.
 
-## Otro camino, sin scripts
+## Another way, without scripts
 
-En el deck, **Share › Export** baja un `.pptx`. Ábrelo en Keynote
-(**Archivo › Exportar a › Película**) o en PowerPoint (**Archivo › Exportar › MP4**).
-Es más rápido, pero revisa que el video del demo se reproduzca dentro del MP4 y que
-los textos no se muevan: el `.pptx` no siempre conserva el diseño exacto.
+In the deck, **Share › Export** downloads a `.pptx`. Open it in Keynote
+(**File › Export To › Movie**) or in PowerPoint (**File › Export › Video**). It is faster, but
+check that the demo video plays inside the MP4 and that the text does not move: the `.pptx` does
+not always keep the exact layout.
