@@ -12,6 +12,7 @@
   --linea: #E4E1DC;
   --papel: #FFFFFF;
   --rojo: #D7261E;
+  --rojo-claro: #E9837D; /* años con más fuego que lo normal */
   /* El rojo es 2026 y nada más. El fuego de cada día va en este naranja sobre fondo claro. */
   --fuego: #C2570C;
   --noche: #0A0E14;
@@ -289,6 +290,10 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .tarjeta .historia { width: 100%; height: auto; margin-top: 4px; overflow: visible; }
 .tarjeta .hecho { margin-top: 6px; font-size: 13.5px; line-height: 1.4; text-wrap: pretty; }
 .historia rect, .historia .fondo-raya { fill: var(--barra); }
+.historia rect.sobre, .historia .fondo-raya.sobre { fill: var(--rojo-claro); }
+.historia rect.conv { fill: url(#tj-conv); }
+.historia rect.conv.sobre { fill: url(#tj-conv-sobre); }
+.historia .raya { fill: #FFFFFF; fill-opacity: 0.55; }
 .historia rect.este { fill: var(--rojo); }
 .historia .normal { stroke: var(--tinta); stroke-width: 1.2; stroke-dasharray: 4 3; }
 .historia .eje { stroke: var(--tinta); stroke-width: 1; }
