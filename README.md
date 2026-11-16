@@ -26,7 +26,7 @@ where it recurs year after year.
 
 - **One series, four satellites.** MODIS (Terra, Aqua) and VIIRS (S-NPP, NOAA-20) are put on
   the VIIRS scale with a MODIS→VIIRS factor per burn zone and time of year, and validated with
-  four independent checks. NOAA-21 also observes the peninsula, but it is not part of the series.
+  three tests and a comparison with CONAFOR's ground records. NOAA-21 also observes the peninsula, but it is not part of the series.
 - **A calendar per municipality.** Year against year and day by day, how today's season
   compares with the 25-year normal.
 - **Official burn windows.** Fire detections are crossed with the state's official burning
@@ -54,12 +54,12 @@ all fire, and no detections does not mean no fire. "Normal" is a reference, not 
 
 ## Documentation
 
-The documentation is in English. The Spanish versions are in [docs/es/](docs/es/) (the pitch is
-presented in Spanish). Terms are fixed in the [glossary](docs/GLOSSARY.md).
+The documentation is in English. The Spanish versions are in [docs/es/](docs/es/). Terms are fixed
+in the [glossary](docs/GLOSSARY.md).
 
 1. [Verified facts](docs/01-verified-facts.md): fire figures and their sources.
 2. [Method](docs/02-method.md): what the site does, the method and each task.
-3. [Pitch script](docs/03-script.md). The slides were made in Canva.
+3. [Pitch script](docs/03-script.md): the in-person presentation at the Mérida host site, in Spanish. The global submission is this repository, the site and the 30-second video.
 4. [The countryside and fire](docs/04-countryside-and-fire.md): who burns, why it matters and the fire calendar of each municipality.
 5. [Explained simply](docs/05-explained-simply.md): the problem and the solution in plain words, and the four lines for the jury.
 
