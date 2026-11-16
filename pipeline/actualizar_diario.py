@@ -86,6 +86,10 @@ class ActualizacionError(RuntimeError):
     """La API o los datos no trajeron lo que la actualización necesita."""
 
 
+class FirmsSinRespuesta(ActualizacionError):
+    """FIRMS no contestó para una fuente (red o error 5xx) después de los reintentos."""
+
+
 # ---------------------------------------------------------------------------
 # Descarga
 
@@ -132,10 +136,10 @@ def descargar(fuente: str, clave: str, inicio: date,
             motivo = e.read().decode("utf-8", "replace").strip().replace(clave, "***")[:200]
         except Exception:
             motivo = ""
-        raise ActualizacionError(
-            f"FIRMS respondió {e.code} para {fuente} desde {inicio}: {motivo or e.reason}") from None
+        error = FirmsSinRespuesta if e.code >= 500 else ActualizacionError
+        raise error(f"FIRMS respondió {e.code} para {fuente} desde {inicio}: {motivo or e.reason}") from None
     except (urllib.error.URLError, TimeoutError) as e:
-        raise ActualizacionError(f"FIRMS no respondió para {fuente}: {type(e).__name__}") from None
+        raise FirmsSinRespuesta(f"FIRMS no respondió para {fuente}: {type(e).__name__}") from None
     primera = texto.strip().splitlines()[0] if texto.strip() else ""
     if "latitude" not in primera.split(","):
         raise ActualizacionError(f"Respuesta inesperada de FIRMS para {fuente}: {texto[:200]!r}")
@@ -266,15 +270,24 @@ def actualizar(clave: str, leer: Callable[[str], str] = leer_url, hoy: date | No
     recientes = pd.read_parquet(RECIENTES).astype(TIPOS) if RECIENTES.is_file() else vacio()
     municipios, estados = leer_limites()
 
-    bajados = []
+    bajados, sin_respuesta = [], []
     for fuente, sensor in FUENTES.items():
         inicios = tramos(desde_cuando(sensor, historicos, recientes, hoy), hoy)
-        crudo = pd.concat([normalizar(descargar(fuente, clave, i, leer), sensor) for i in inicios],
-                          ignore_index=True)
+        try:
+            crudo = pd.concat([normalizar(descargar(fuente, clave, i, leer), sensor) for i in inicios],
+                              ignore_index=True)
+        except FirmsSinRespuesta as e:
+            # Un satélite que no contesta no detiene a los demás: la siguiente corrida lo vuelve a
+            # pedir desde su último día, así que no se pierde nada.
+            print(f"::warning::{e}. Se vuelve a pedir en la siguiente corrida.")
+            sin_respuesta.append(fuente)
+            continue
         focos = asignar_territorio(crudo, municipios, estados)
         print(f"{fuente}: {len(focos):,} focos en la península desde {inicios[0]}")
         bajados.append(focos)
 
+    if not bajados:
+        raise ActualizacionError("FIRMS no respondió para ningún satélite: " + ", ".join(sin_respuesta))
     nuevos = pd.concat(bajados, ignore_index=True)
     juntos = unir(nuevos, recientes, historicos)
     escribir_parquet(juntos, RECIENTES)
@@ -283,6 +296,7 @@ def actualizar(clave: str, leer: Callable[[str], str] = leer_url, hoy: date | No
         "focos_recientes": len(juntos),
         "focos_agregados_hoy": len(juntos) - len(recientes),
         "actualizado": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "sin_respuesta": sin_respuesta,
     }
     escribir_actualizacion(resumen, ACTUALIZACION)
     # La página dice cuándo se revisaron los datos por última vez, aunque no haya focos nuevos.
