@@ -131,7 +131,7 @@ tenemos la lista por municipio. Por eso:
 - el porcentaje de fuego fuera de la ventana solo se calcula para 2025 y 2026;
 - Campeche y Quintana Roo no tienen calendario por zona, así que no llevan ventana.
 
-**Filtro de focos** (el de `datos_peninsula/LEEME.md`): solo vegetación (`type` 0 o vacío) y
+**Filtro de focos** (el de `datos_peninsula/es/LEEME.md`): solo vegetación (`type` 0 o vacío) y
 confianza nominal o alta (VIIRS `n` o `h`; MODIS 30 o más).
 
 **Validación:** cuatro pruebas (tarea 7). La base con CONAFOR ya existe

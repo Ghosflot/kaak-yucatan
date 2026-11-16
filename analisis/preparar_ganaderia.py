@@ -1,4 +1,4 @@
-"""Pastizal y ganado bovino por municipio de Yucatán (issue #60, sección «Ganadería» de docs/01).
+"""Pastizal y ganado bovino por municipio de Yucatán (issue #60, section "Cattle ranching" of docs/01).
 
 Junta dos fuentes de INEGI que bajó ./analisis/descargar_ganaderia.sh a data/ganaderia/:
 - Uso del Suelo y Vegetación 1:250 000, Serie VII (año base 2018): solo pastizal cultivado e

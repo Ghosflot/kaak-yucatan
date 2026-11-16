@@ -12,8 +12,8 @@ Así no importa que VIIRS vea en píxeles de 375 m y MODIS en píxeles de 1 km: 
 VIIRS marca con varios focos dentro del mismo cuadrito cuenta una vez, igual que en MODIS.
 
 Reglas:
-- Cada satélite se cuenta por separado; nunca se suman (docs/02, «Un satélite por
-  periodo»). Por eso `satelite` va siempre en la clave.
+- Cada satélite se cuenta por separado; nunca se suman (docs/02, "One satellite per
+  period"). Por eso `satelite` va siempre en la clave.
 - cuadritos_dia(): por municipio. Un cuadrito partido por la frontera de dos municipios
   cuenta una vez para cada uno (≈0.5 % más cuadritos-día), igual que el calendario de la
   tarea 1. Los focos sin municipio no entran.

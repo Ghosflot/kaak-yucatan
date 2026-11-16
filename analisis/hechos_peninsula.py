@@ -1,4 +1,4 @@
-"""Reproduce las cifras de docs/01-hechos-verificados.md.
+"""Reproduce las cifras de docs/01-verified-facts.md.
 
 Uso:
     ./analisis/descargar_datos.sh

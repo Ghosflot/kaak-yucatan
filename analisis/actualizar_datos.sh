@@ -16,7 +16,8 @@ git pull -q --rebase origin main
 
 # La guía de los datos dice hasta qué día llegan: se actualiza sola.
 HASTA=$(.venv/bin/python -c "import pandas as pd; f=pd.read_parquet('datos_peninsula/focos_peninsula.parquet'); print(f.acq_date.max().date())")
-sed -i -E "s/Datos hasta el [^.]*\./Datos hasta el $HASTA (AAAA-MM-DD)./" datos_peninsula/LEEME.md
+sed -i -E "s/Datos hasta el [^.]*\./Datos hasta el $HASTA (AAAA-MM-DD)./" datos_peninsula/es/LEEME.md
+sed -i -E "s/Data through [^.]*\./Data through $HASTA (YYYY-MM-DD)./" datos_peninsula/README.md
 
 git add datos_peninsula
 if git diff --cached --quiet; then

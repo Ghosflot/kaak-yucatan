@@ -627,7 +627,7 @@ async function direccion() {
   });
 }
 
-// El demo de 30 segundos (#10), en inglés: sigue la tabla de docs/03-guion.md, «Versión de 30 segundos».
+// El demo de 30 segundos (#10), en inglés: sigue la tabla de docs/03-script.md, "30-second version".
 // 1280 × 648 de página más la franja de subtítulos dan un video de 1280 × 720.
 const DEMO = { viewport: { width: 1280, height: 648 } };
 async function demo() {

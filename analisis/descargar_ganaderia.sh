@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Descarga los datos de INEGI de la sección «Ganadería» de docs/01 (issue #60).
+# Descarga los datos de INEGI de la section "Cattle ranching" of docs/01 (issue #60).
 # Uso: ./analisis/descargar_ganaderia.sh   (deja todo en data/ganaderia/, que no va a Git)
 #
 # - Uso del Suelo y Vegetación 1:250 000, Serie VII, conjunto nacional (año base 2018, SHP, ~294 MB).

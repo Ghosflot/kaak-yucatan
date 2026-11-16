@@ -132,7 +132,7 @@ para calibrar.
 
 ### Lo que viven Protección Civil y SEDER
 Antecedentes para el storytelling y el pitch, reunidos por Leo de notas de prensa
-(`docs/campo-y-datos-pc-seder.pdf` trae la versión completa con referencias APA). Solo van
+(`docs/es/campo-y-datos-pc-seder.pdf` trae la versión completa con referencias APA). Solo van
 aquí las cifras que no chocan con otras fuentes. Todas las notas se abrieron el 14 nov 2026
 y cada dato aparece en su nota; los que no aparecían se quitaron.
 
@@ -825,7 +825,7 @@ NOAA-20 por S-NPP y Terra por Aqua. Lista completa en `salidas/dias_sin_datos.cs
   y <https://elcronistayucatan.mx/2026/04/14/merida-define-periodo-de-quemas-agricolas-del-20-de-abril-al-31-de-mayo-de-2026/>
 - Calendario de quemas 2025 con listas por zona: <https://www.yucatan.com.mx/yucatan/2025/03/06/calendario-de-quemas-2025-en-yucatan-fechas-y-municipios-autorizados.html>
 - Programa Especial de Protección Civil 2026 (Yucatán): <https://www.yucatan.gob.mx/docs/procivy/archivos/programa_especial_de_proteccion_civil_2026.pdf>
-- Protección Civil y SEDER (reunidas por Leo; referencias APA en `docs/campo-y-datos-pc-seder.pdf`):
+- Protección Civil y SEDER (reunidas por Leo; referencias APA en `docs/es/campo-y-datos-pc-seder.pdf`):
   Quadratín, «Recibe Procivy 19 reportes diarios de incendios» (24 mar 2023): <https://yucatan.quadratin.com.mx/?p=271037>;
   Diario de Yucatán, «Península de Yucatán, con 98 incendios forestales» (Daniel Valdez Cetz, 12 ene 2026): <https://www.yucatan.com.mx/mexico/2026/01/12/peninsula-de-yucatan-con-98-incendios-forestales.html>;
   Diario de Yucatán, «Temporada de quemas 2024 en Yucatán: Fechas, requisitos y recomendaciones» (Emanuel Rincón Becerra, 26 feb 2024): <https://www.yucatan.com.mx/merida/2024/02/26/temporada-de-quemas-2024-en-yucatan-fechas-requisitos-y-recomendaciones.html>;

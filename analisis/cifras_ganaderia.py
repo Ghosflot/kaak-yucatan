@@ -1,4 +1,4 @@
-"""Cifras de la sección «Ganadería» de docs/01 (issue #60).
+"""Cifras de la sección "Cattle ranching" de docs/01 (issue #60).
 
 Cruza los focos de Yucatán con el pastizal ganadero y el ganado bovino que prepara
 analisis/preparar_ganaderia.py. Usa los mismos focos que analisis/cifras_yucatan.py

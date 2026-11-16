@@ -196,9 +196,9 @@ def test_metodo_satelites_factores_y_conafor(salida):
     assert m["periodos"][3]["hasta"] is None
     f = m["factores"]
     assert 2 < f["aqua"][0] < f["aqua"][1] < 5  # Aqua en temporada, zonas de Yucatán
-    assert f["aquaTodas"] == [2.8, 5.3]  # todas las zonas y épocas: docs/01, «entre tres y cinco veces»
+    assert f["aquaTodas"] == [2.8, 5.3]  # todas las zonas y épocas: docs/01, "between three and five times"
     assert "noaa20" not in f  # lo cuenta la prueba «viirs» de la validación
-    # Las cifras de docs/01, «Validación con CONAFOR».
+    # Las cifras de docs/01, "Validation with CONAFOR".
     c = m["conafor"]
     assert (c["incendios"], c["desde"], c["hasta"]) == (1222, 2015, 2024)
     assert (c["vistos"], c["grandes"], c["nGrandes"]) == (53, 84, 395)
@@ -286,7 +286,7 @@ def test_ganaderia_para_el_mapa(salida):
     assert (y["bovinos"], y["bovinosUp"]) == (388_399, 381_535)  # Censo Agropecuario 2022
     assert y["bovinos"] == sum(m["bovinos"] for m in g["municipios"])
     assert y["focosPastizal"] == sum(m["focosPastizal"] for m in g["municipios"])
-    # Las cifras de docs/01, «Ganadería».
+    # Las cifras de docs/01, "Cattle ranching".
     assert (y["pctPastizal"], y["pctFocosPastizal"]) == (17.2, 29.2)
     tizimin = next(m for m in g["municipios"] if m["id"] == "tizimin")
     assert (tizimin["bovinos"], tizimin["focos"]) == (139_472, 16_177)
@@ -324,7 +324,7 @@ def test_satelites_contra_la_serie(salida):
 
 
 # ---------------------------------------------------------------------------
-# Contrato de datos de la dirección visual (docs/superpowers/specs/2026-11-15-direccion-visual-design.md)
+# Contrato de datos de la dirección visual (docs/es/superpowers/specs/2026-11-15-direccion-visual-design.md)
 
 
 def test_estados_son_la_union_de_sus_municipios():

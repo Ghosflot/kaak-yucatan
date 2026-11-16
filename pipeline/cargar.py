@@ -13,7 +13,7 @@ Qué hace cargar_focos(), en este orden:
 2. Quita repetidos: el mismo satélite, fecha, hora, latitud y longitud es el mismo foco.
    Si está dos veces, una como SP (definitivo) y otra como NRT (casi en tiempo real), se
    queda la SP.
-3. Filtra (datos_peninsula/LEEME.md): solo vegetación (`type` 0 o vacío) y confianza
+3. Filtra (datos_peninsula/README.md): solo vegetación (`type` 0 o vacío) y confianza
    nominal o alta (VIIRS `n` o `h`; MODIS 30 o más). En los focos casi en tiempo real (NRT)
    `type` llega vacío, y así se colaban las fuentes fijas (desde julio de 2026, un punto
    industrial al suroeste de Mérida y otros en el municipio de Carmen): un foco sin `type` que cae en

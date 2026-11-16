@@ -508,7 +508,7 @@ TAMANO_GRANDES = "Mayor a 100 Hectáreas"
 TAMANO_CHICOS = "0 a 5 Hectáreas"     # solo para el texto de las limitaciones (chicosSnpp)
 # Criterio congelado (commit 4972835, PR #3): regresión, no decide nada del método.
 UMBRAL_CONAFOR = {"veces_azar_min": 3.0, "grandes_min": 75.0}
-# Lo publicado en docs/01 («Validación con CONAFOR»), con la precisión con que se publicó
+# Lo publicado en docs/01 ("Validation with CONAFOR"), con la precisión con que se publicó
 # (porcentajes enteros). El «por azar» de MODIS se publicó como rango (4–5 %).
 PUBLICADO_DOCS01 = {
     "incendios": 1222,
@@ -806,7 +806,7 @@ def prueba_viirs(peninsula: pd.DataFrame, factores: pd.DataFrame) -> dict:
 # Textos: de cada resultado a su frase (S8)
 #
 # Las frases las escribe el equipo, nunca este archivo. Viven en web/textos/es.json y en.json
-# (los mismos de la página, docs/02: «nunca escritos dentro del código»), una por caso.
+# (los mismos de la página, docs/02: "never written inside the code"), una por caso.
 # Aquí solo se decide QUÉ caso es (por hechos ya calculados), se preparan los números y se
 # insertan igual que la página (web/js/textos.js: {nombre} → valor).
 # - Un caso sin texto (falta, null o vacío) queda «pendiente»: nunca se usa el de otro caso.
