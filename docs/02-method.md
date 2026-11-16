@@ -55,6 +55,8 @@ the years and adding them would inflate the series:
 | Jan 20, 2012 – Nov 2, 2026 | S-NPP (VIIRS) | It is the reference (factor 1) |
 | From Nov 3, 2026 | NOAA-20 (VIIRS) | × its NOAA-20→S-NPP factor |
 
+On the site, 2001–2002 (Terra) are drawn cross-hatched with the note "estimated with Terra, less precise": a single Terra-converted year is about 45 % off in one municipality (about 14 % for a whole zone, against about 20 % for Aqua years); they still count in "normal".
+
 Aqua is the reference MODIS because it passes at the same time as S-NPP (around 1:30 in the
 afternoon and in the early morning), and fire changes over the day. Terra only covers the year and
 a half before Aqua started.

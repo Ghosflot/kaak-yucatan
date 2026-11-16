@@ -8,6 +8,32 @@ const ROJO_CLARO = '#E9837D'; // el rojo claro de la página: años por encima d
 const TINTA = '#121212';
 const TINTA_2 = '#4A4743';
 
+// Los años que vio Terra (de 2001 a julio de 2002): el único lugar donde se dicen. Terra pasa a las 10:30 y en
+// Yucatán el fuego es sobre todo de tarde, así que ve poco y su factor es grande (4 a 9): un año suyo, convertido,
+// se equivoca cerca de 14 % en una zona y 45 % en un municipio (los de Aqua, cerca de 20 %). Siguen contando en
+// lo normal; las gráficas solo los marcan con un rayado cruzado y una nota.
+export const TERRA = [2001, 2002];
+export const esTerra = (y) => TERRA.includes(Number(y));
+
+/**
+ * El rayado de Terra: las mismas rayas claras del rayado de los años convertidos, en la otra diagonal.
+ * Va encima de la barra (que conserva su color), y con el rayado de abajo queda cruzado. Devuelve su url().
+ */
+export function patronTerra(defs, id) {
+  const p = el('pattern', { id, width: 4, height: 4, patternUnits: 'userSpaceOnUse', patternTransform: 'rotate(-45)' }, defs);
+  el('rect', { width: 1.6, height: 4, fill: '#FFFFFF', 'fill-opacity': 0.55, class: 'raya' }, p);
+  return 'url(#' + id + ')';
+}
+// Encima de cada barra de Terra, su rayado, en un grupo aparte: no se toca, no cuenta como barra y sube con ella.
+export function marcarTerra(svg, barras, anios, relleno) {
+  const g = el('g', { class: 'marca-terra', 'pointer-events': 'none' }, svg);
+  anios.forEach((a, i) => {
+    if (!esTerra(a.y)) return;
+    const b = barras[i];
+    el('rect', { x: b.getAttribute('x'), y: b.getAttribute('y'), width: b.getAttribute('width'), height: b.getAttribute('height'), fill: relleno, class: 'b-terra', 'data-y': a.y, 'data-i': i }, g);
+  });
+}
+
 /**
  * Barras de marzo a mayo de cada año, con lo normal punteado y el año destacado en rojo.
  * anios: [{y, total}] en orden; los años hasta `convertidoHasta` son MODIS convertido (rayados).
@@ -48,9 +74,10 @@ export function barrasAnios(svg, { anios, normal, destacado = 2026, alto = 96, a
       : sobre ? sobreNormal : GRIS;
     const b = el('rect', { x: x.toFixed(1), y: Y(a.total).toFixed(1), width: bw.toFixed(1), height: (base - Y(a.total)).toFixed(1), fill: relleno, class: 'b-anio' + (a.y === destacado ? ' destacada' : '') }, svg);
     if (a.y === seleccionado) { b.setAttribute('stroke', TINTA); b.setAttribute('stroke-width', 1.5); }
-    if (!alTocar) el('title', {}, b).textContent = a.y + ': ' + fmt(a.total);
+    if (!alTocar) el('title', {}, b).textContent = a.y + ': ' + fmt(a.total) + (esTerra(a.y) ? '. ' + t('terraAnio') : '');
     return b;
   });
+  marcarTerra(svg, barras, anios, patronTerra(defs, id + '-terra'));
   el('line', { x1: 0, x2: ancho, y1: base + 0.5, y2: base + 0.5, stroke: TINTA, 'stroke-width': 1 }, svg);
   const yn = Y(normal);
   el('line', { x1: 0, x2: ancho, y1: yn, y2: yn, stroke: TINTA, 'stroke-width': 1.6, 'stroke-dasharray': '5 3' }, svg);
@@ -113,7 +140,7 @@ export function barrasAnios(svg, { anios, normal, destacado = 2026, alto = 96, a
     const enTab = anios.some((a) => a.y === seleccionado) ? seleccionado : destacado;
     const toques = anios.map((a) => {
       const i = anios.indexOf(a);
-      const r = el('rect', { x: (i * paso).toFixed(1), y: 0, width: paso.toFixed(1), height: base, fill: 'transparent', class: 'toque', tabindex: a.y === enTab ? 0 : -1, role: 'button', 'data-y': a.y, 'aria-label': a.y + ': ' + fmt(a.total), 'aria-pressed': String(a.y === seleccionado) }, svg);
+      const r = el('rect', { x: (i * paso).toFixed(1), y: 0, width: paso.toFixed(1), height: base, fill: 'transparent', class: 'toque', tabindex: a.y === enTab ? 0 : -1, role: 'button', 'data-y': a.y, 'aria-label': a.y + ': ' + fmt(a.total) + (esTerra(a.y) ? '. ' + t('terraAnio') : ''), 'aria-pressed': String(a.y === seleccionado) }, svg);
       r.addEventListener('click', () => alTocar(a.y));
       r.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') marcar(i); });
       r.addEventListener('pointerleave', () => marcar(null));
@@ -185,6 +212,8 @@ export function subirBarras(svg) {
     const extra = b.classList.contains('destacada') ? 260 : 0;
     b.animate([{ transform: 'scaleY(0)' }, { transform: 'scaleY(1)' }], { ...ir, delay: i * 55 + extra });
   });
+  // El rayado de Terra sube con su barra.
+  svg.querySelectorAll('.b-terra').forEach((m) => m.animate([{ transform: 'scaleY(0)' }, { transform: 'scaleY(1)' }], { ...ir, delay: Number(m.dataset.i) * 55 }));
   const fin = barras.length * 55 + 420;
   svg.querySelectorAll('.cifra-max, .cifra-dest').forEach((c) => c.animate([{ opacity: 0 }, { opacity: 1 }], { ...ir, duration: 260, delay: fin }));
 }
@@ -228,6 +257,7 @@ export function tiraFuera(svg, { anios, normal = null, ancho = 520, destacado = 
       : sobre ? ROJO_CLARO : GRIS;
     return el('rect', { x: x.toFixed(1), y: Y(a.fuera).toFixed(1), width: bw.toFixed(1), height: (a.fuera * alto).toFixed(1), fill: relleno, class: 'b-anio' + (a.y === destacado ? ' destacada' : '') }, svg);
   });
+  marcarTerra(svg, barras, anios, patronTerra(defs, id + '-terra'));
   if (normal !== null) {
     el('line', { x1: izq, x2: W - der, y1: Y(normal), y2: Y(normal), stroke: TINTA, 'stroke-width': 1.6, 'stroke-dasharray': '5 3', 'pointer-events': 'none' }, svg);
   }
@@ -246,7 +276,8 @@ export function tiraFuera(svg, { anios, normal = null, ancho = 520, destacado = 
     barras.forEach((b, k) => b.classList.toggle('activa', k === i));
     const y = i === null ? destacado : anios[i].y;
     lectura.textContent = leer(y);
-    svg.setAttribute('aria-valuetext', leer(i === null ? anios[cursor ?? anios.length - 1].y : y));
+    const ya = i === null ? anios[cursor ?? anios.length - 1].y : y;
+    svg.setAttribute('aria-valuetext', leer(ya) + (esTerra(ya) ? ' ' + t('terraAnio') : ''));
   };
   const columna = (ev) => {
     const r = svg.getBoundingClientRect();

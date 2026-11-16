@@ -2,6 +2,7 @@
 import { t } from './textos.js';
 import { fmt, fechaDia, deMesDia, frase, cifras, rangoDias } from './comun.js';
 import { hechosDe } from './hechos.js';
+import { esTerra } from './graficas.js';
 
 export const ANCHO = 1080, ALTO = 1350;
 export const SITIO = 'kaak.pages.dev';
@@ -47,6 +48,19 @@ function rayado(ctx, paso, color = GRIS) {
   x.lineWidth = paso * 0.3;
   x.beginPath();
   for (const d of [-paso, 0, paso]) { x.moveTo(d, paso); x.lineTo(d + paso, 0); }
+  x.stroke();
+  return ctx.createPattern(c, 'repeat');
+}
+// El rayado de Terra (2001 y 2002, menos precisos): las mismas rayas claras en la otra diagonal, sin fondo.
+// Va encima de la barra rayada, que así queda cruzada (como en la página).
+function rayadoTerra(ctx, paso) {
+  const c = document.createElement('canvas');
+  c.width = c.height = paso;
+  const x = c.getContext('2d');
+  x.strokeStyle = 'rgba(255,255,255,0.55)';
+  x.lineWidth = paso * 0.3;
+  x.beginPath();
+  for (const d of [-paso, 0, paso]) { x.moveTo(d, 0); x.lineTo(d + paso, paso); }
   x.stroke();
   return ctx.createPattern(c, 'repeat');
 }
@@ -165,11 +179,23 @@ export async function dibujarFicha(canvas, m) {
     ctx.fillStyle = FRANJA;
     ctx.fillRect(M, ya, util, yb - ya);
   }
-  const rayas = rayado(ctx, 14), rayasSobre = rayado(ctx, 14, ROJO_CLARO);
+  const rayas = rayado(ctx, 14), rayasSobre = rayado(ctx, 14, ROJO_CLARO), rayasTerra = rayadoTerra(ctx, 14);
+  // La leyenda de Terra va en el renglón de los años, entre «2001» y la cifra de 2026: no quita alto a la ficha.
+  // Si no cabe, la ficha queda como antes, sin rayado cruzado (una marca sin leyenda no se entendería).
+  const yEje = base + 12 + 38;
+  ctx.font = `400 38px ${MONO}`;
+  const xTerra = M + ctx.measureText(String(anios[0].y)).width + 28;
+  ctx.font = `700 38px ${MONO}`;
+  const finTerra = ANCHO - M - ctx.measureText('2026: ' + fmt(m.v26)).width - 24;
+  const leyTerra = [32, 28].map((px) => {
+    ctx.font = `400 ${px}px ${TEXTO}`;
+    return { px, ancho: px + 12 + ctx.measureText(t('terraCorto')).width };
+  }).find((l) => xTerra + l.ancho <= finTerra);
   anios.forEach((a, i) => {
     const h = Math.max(4, (a.total / tope) * (alto - 8));
     ctx.fillStyle = a.y === 2026 ? ROJO : a.y <= CONVERTIDO_HASTA ? (a.total > m.normal ? rayasSobre : rayas) : a.total > m.normal ? ROJO_CLARO : GRIS;
     ctx.fillRect(M + i * (bw + hueco), base - h, bw, h);
+    if (leyTerra && esTerra(a.y)) { ctx.fillStyle = rayasTerra; ctx.fillRect(M + i * (bw + hueco), base - h, bw, h); }
   });
   ctx.setLineDash([]);
   ctx.fillStyle = TINTA;
@@ -179,9 +205,17 @@ export async function dibujarFicha(canvas, m) {
   ctx.beginPath(); ctx.moveTo(M, yn); ctx.lineTo(ANCHO - M, yn); ctx.stroke();
   ctx.setLineDash([]);
 
-  y = base + 12 + 38;
+  y = yEje;
   ctx.font = `400 38px ${MONO}`;
   ctx.fillText(String(anios[0].y), M, y);
+  if (leyTerra) {
+    const { px } = leyTerra, lado = px - 4;
+    ctx.fillStyle = rayas; ctx.fillRect(xTerra, y - lado + 2, lado, lado);
+    ctx.fillStyle = rayasTerra; ctx.fillRect(xTerra, y - lado + 2, lado, lado);
+    ctx.fillStyle = TINTA;
+    ctx.font = `400 ${px}px ${TEXTO}`;
+    ctx.fillText(t('terraCorto'), xTerra + px + 8, y - 2);
+  }
   ctx.font = `700 38px ${MONO}`;
   ctx.fillStyle = ROJO;
   ctx.textAlign = 'right';

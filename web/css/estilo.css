@@ -205,7 +205,14 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 #barras .toque:hover, #barras .toque:focus-visible { fill: rgba(18, 18, 18, 0.05); }
 #barras .toque:focus-visible { stroke: var(--tinta); stroke-width: 1; }
 /* La barra bajo el puntero se oscurece y dice su año: así se ve que se puede tocar. */
-.b-anio { transition: fill 0.12s ease; transform-box: fill-box; transform-origin: 50% 100%; }
+.b-anio, .b-terra { transition: fill 0.12s ease; transform-box: fill-box; transform-origin: 50% 100%; }
+/* 2001 y 2002 (Terra), menos precisos: rayado cruzado. La muestra de la nota es igual a la barra rayada. */
+.nota-terra { display: flex; align-items: baseline; gap: 7px; }
+.nota-terra::before { content: ""; flex-shrink: 0; align-self: center; width: 12px; height: 12px;
+  background: repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.55) 0 1.6px, transparent 1.6px 4px),
+    repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.55) 0 1.6px, transparent 1.6px 4px), var(--barra); }
+.grafica .nota-terra { margin-top: 2px; font-size: 13px !important; line-height: 1.35 !important; color: var(--tinta-2); }
+.tarjeta .nota-terra { margin-top: 4px; font-size: 12.5px; line-height: 1.35; color: var(--tinta-2); }
 .b-anio.activa { fill: var(--tinta-2); }
 .b-anio.destacada.activa { fill: #A51C15; }
 .lectura-anio { font-size: 12px; font-weight: 700; fill: var(--tinta); pointer-events: none; }
@@ -295,6 +302,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .historia rect.conv { fill: url(#tj-conv); }
 .historia rect.conv.sobre { fill: url(#tj-conv-sobre); }
 .historia .raya { fill: #FFFFFF; fill-opacity: 0.55; }
+.historia rect.b-terra { fill: url(#tj-terra); }
 .historia rect.este { fill: var(--rojo); }
 .historia .normal { stroke: var(--tinta); stroke-width: 1.2; stroke-dasharray: 4 3; }
 .historia .eje { stroke: var(--tinta); stroke-width: 1; }

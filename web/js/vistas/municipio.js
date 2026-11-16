@@ -43,6 +43,7 @@ const PLANTILLA = `
       <div class="mun-bloque-titulo"><h2 id="tAnios" data-t="munBarrasTitulo"></h2><span class="ley-fija cifra"><i aria-hidden="true"></i><span id="leyNormal"></span></span></div>
       <svg id="barrasMun"></svg>
       <p class="mun-nota" data-t="munBarrasNota"></p>
+      <p class="mun-nota nota-terra" id="notaTerra" data-t="terraNota"></p>
       <p class="mun-pista" data-t="tocaAnio"></p>
     </section>
     <section class="mun-bloque donde" aria-labelledby="dondeTitulo">
@@ -259,7 +260,7 @@ export function montar(raiz, { id }) {
     const ancho = Math.max(240, Math.round(svg.parentNode.clientWidth) - 44);
     barrasAnios(svg, {
       anios: m.anios, normal: m.normal, alto: 110, ancho, seleccionado: anio, alTocar: elegirAnio, rango: m.rango || null, sobreNormal: ROJO_CLARO,
-      aria: t('munBarrasAria', { m: m.nombre, n: fmt(m.normal), a: fmt(m.v26) }),
+      aria: t('munBarrasAria', { m: m.nombre, n: fmt(m.normal), a: fmt(m.v26) }) + ' ' + t('terraNota'),
     });
   }
 
