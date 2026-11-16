@@ -1,0 +1,66 @@
+# K'áak'
+
+> K'áak' (Yucatec Maya for "fire") is a free website, in English and Spanish, that gives each municipality of the Yucatán Peninsula (Mexico) a fire calendar built from 25 years of NASA MODIS and VIIRS fire detections. MODIS sees three to five times less fire than VIIRS, so the raw record seems to triple in 2012, when only the sensor changed. K'áak' calibrates MODIS to the VIIRS scale with a factor for each burn zone and time of year, and checks the result with tests whose criteria were fixed before running them. Project for the NASA Space Apps Challenge 2026 (Mérida host site), challenge "Harmonization of MODIS and VIIRS Hot Spots".
+
+The site is a single-page app: a reader that does not run JavaScript sees only its menu. This file and the repository describe everything the site shows.
+
+## What a user sees
+
+- The municipality is the area of interest, because by law it approves agricultural burns. A user types its name, taps it on the map or shares their location.
+- Whether this season runs above or below normal (the median of 2001 to 2025), year against year and day by day. A "hot spot" is a 1 km grid cell where a satellite detected fire on a given day.
+- Where fire returns almost every year: the 1 km cells with fire in 5 or more of the 14 seasons from 2012 to 2025, each linked to Google Maps.
+- When it burns against the official dates: the week with the most fire in a normal year, and, for each burn zone of Yucatán, how many of every 10 hot spots fell outside the burning window set by the state agriculture ministry (SEDER), each year since 2001.
+- A one-page card per municipality to forward by WhatsApp, and CSV downloads of the data behind every chart.
+- How we measure it: the four validation tests, in plain language, with their charts.
+
+## How the harmonization works
+
+1. Every MODIS (Terra and Aqua) and VIIRS (Suomi NPP and NOAA-20) detection over the peninsula from NASA FIRMS since 2001 is assigned to its municipality.
+2. Fire is counted on a common grid of about 1 km per day, so several detections of one fire count once, with one satellite per period: Terra until July 2002, then Aqua, then Suomi NPP from 2012, with NOAA-20 filling the days Suomi NPP sent no data.
+3. MODIS is calibrated to the VIIRS scale on 2013 to 2020, when both fly together, with a separate factor for each burn zone and time of year (2.8 to 5.3), because one factor does not fit: VIIRS sees 3.5 times more small fires than MODIS but only 1.2 times more of the fires larger than 100 ha.
+4. A scheduled job downloads new detections from the FIRMS API four times a day, and the site recomputes the current season.
+
+## Validation (criteria fixed before running the tests)
+
+- The false jump of 2012 disappears: the ratio of 2013–2015 to 2009–2011 goes from ×3.26 before calibration to ×0.90 after, inside the natural range of 0.87 to 1.16.
+- The factor holds on the Aqua years 2021 to 2025, which the calibration did not use: 11 % error with a factor per zone and time of year, against 13 % with a single factor (limit: 25 %).
+- The two VIIRS satellites agree: 0.99 NOAA-20 detections per Suomi NPP detection.
+- Against CONAFOR's ground records of forest fires, Suomi NPP sees 53 % of 1,222 recorded fires, against 9 % expected by chance, and 84 % of those larger than 100 ha.
+- One assumption cannot be tested: before 2012 only MODIS flew, so the factor measured from 2013 to 2020 is assumed to hold for 2001 to 2011. The site draws those years as striped bars.
+
+## Findings
+
+- For each burn zone, the four weeks with the most fire in its previous years caught 49 % of the next season's fire from 2019 to 2025, against 23 % for the official burning window. The window says when burning is allowed, not when it happens.
+- The 2026 season (March to May) in Yucatán: 3,320 hot spots against 6,712 in a normal year; 93 of 106 municipalities had less fire than normal. The 2025 and 2026 seasons were the calmest on record in Yucatán, so the project does not claim that fire is increasing.
+
+## What it does not do, and what is not done yet
+
+- It does not predict fires and does not send alerts; NASA FIRMS already sends free fire alerts.
+- A satellite does not see every fire, and no detections does not mean no fire. A detection outside the allowed dates is a question for SEDER and Civil Protection, not proof of an illegal burn.
+- Nobody from Civil Protection or SEDER has used the site yet; the next step is to show the cards of two municipalities to their Civil Protection offices before the 2027 season.
+- The area of interest is fixed to the municipality: drawing a free area or choosing any range of dates is not built.
+- The method only needs FIRMS detections, a map of local administrative units and the years when MODIS and VIIRS overlap, but it has only been run on the peninsula.
+
+## Pages
+
+- [Season](https://kaak.pages.dev/?lang=en): map of the peninsula with each municipality colored by its 2026 fire against normal, and the yearly chart of the state
+- [A municipality, e.g. Muna](https://kaak.pages.dev/muna?lang=en): its season, where it burns, when it burns, its card and its CSV files; every municipality has the same address pattern (see /sitemap.xml)
+- [Burn window](https://kaak.pages.dev/?lang=en#/fechas): how much fire fell outside SEDER's burning window in each zone of Yucatán, each year
+- [How we measure it](https://kaak.pages.dev/?lang=en#/metodo): the validation tests and the download of the harmonized series
+- [Harmonized series (CSV)](https://kaak.pages.dev/datos/serie_armonizada.csv): municipality × year × week
+
+## Code, data and documentation
+
+- Repository (Apache 2.0): https://github.com/Ghosflot/kaak-yucatan
+- [Verified facts](https://github.com/Ghosflot/kaak-yucatan/blob/main/docs/01-verified-facts.md): every figure with its source
+- [Method](https://github.com/Ghosflot/kaak-yucatan/blob/main/docs/02-method.md)
+- [The countryside and fire](https://github.com/Ghosflot/kaak-yucatan/blob/main/docs/04-countryside-and-fire.md): who burns and why it matters
+- [Use of AI](https://github.com/Ghosflot/kaak-yucatan/blob/main/entrega/uso-de-ia.md)
+
+## Data sources
+
+NASA FIRMS (MODIS and VIIRS active fire detections), NASA GIBS (VIIRS true-color imagery for the base map), CONAFOR (forest fire records), SEDER Yucatán (burning windows by zone), INEGI (land use and agricultural census), geoBoundaries and Natural Earth (boundaries).
+
+## Team
+
+David Alcocer, Nicolás Moguel, Guillermo Peña, Leonardo Sanmartín, Melany Suárez and Gadiel Uicab, from Mérida, Yucatán.
