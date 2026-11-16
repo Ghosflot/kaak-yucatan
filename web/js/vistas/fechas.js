@@ -379,10 +379,21 @@ export function montar(raiz, params) {
     });
   }
 
+  // El corte de 2026 es el día del último foco (el mismo del pie). Los meses que siguen todavía no
+  // llegan y van en blanco; el mes del corte va marcado «en curso» si no ha terminado.
+  function corte26() {
+    const fecha = new Date(Z.actualizado + 'T12:00:00');
+    const mes = fecha.getMonth();
+    const fin = new Date(fecha.getFullYear(), mes + 1, 0).getDate();
+    return { fecha, mes, enCurso: fecha.getDate() < fin ? mes : -1 };
+  }
+
   function renglones() {
     const cuerpo = $('almCuerpo');
     cuerpo.textContent = '';
     const meses = t('meses');
+    const C = corte26(), es26 = estado.anio === '2026';
+    $('almLeyParcial').hidden = !(es26 && C.enCurso >= 0);
     for (const r of F) {
       const tr = document.createElement('tr');
       tr.dataset.id = r.id;
@@ -410,10 +421,20 @@ export function montar(raiz, params) {
       valores.forEach((v, m) => {
         const td = document.createElement('td');
         td.className = 'mes';
-        td.title = t(estado.anio === '2026' ? 'almCelda26' : 'almCelda', { m: r.n, mes: meses[m], n: fmt(v) });
-        const f = document.createElement('b'); f.className = 'f a-c' + clase(v);
-        const sr = document.createElement('span'); sr.className = 'sr'; sr.textContent = fmt(v);
-        td.append(f, sr);
+        const sr = document.createElement('span'); sr.className = 'sr';
+        if (es26 && m > C.mes) {
+          td.classList.add('futuro');
+          td.title = t('almCelda26Futuro', { m: r.n, mes: meses[m] });
+          sr.textContent = t('almFuturo');
+          td.append(sr);
+        } else {
+          const parcial = es26 && m === C.enCurso;
+          td.title = parcial ? t('almCelda26Parcial', { m: r.n, mes: meses[m], n: fmt(v), d: fechaDia(C.fecha) })
+            : t(es26 ? 'almCelda26' : 'almCelda', { m: r.n, mes: meses[m], n: fmt(v) });
+          const f = document.createElement('b'); f.className = 'f a-c' + clase(v) + (parcial ? ' parcial' : '');
+          sr.textContent = fmt(v);
+          td.append(f, sr);
+        }
         const vm = ventanaEnMes(r, m);
         if (vm) { const i = document.createElement('i'); i.className = 'v'; i.style.left = vm.left; i.style.right = vm.right; td.appendChild(i); }
         tr.appendChild(td);
@@ -438,7 +459,13 @@ export function montar(raiz, params) {
     const v = document.createElement('span'); v.className = 'alm-ley-v';
     const i = document.createElement('i'); i.className = 'v-muestra'; i.setAttribute('aria-hidden', 'true');
     v.append(i, t('almLeyVentana'));
-    ley.append(pasos, v);
+    // El mes en curso de 2026 (solo con «2026» y si el mes no ha terminado).
+    const C = corte26();
+    const p = document.createElement('span'); p.id = 'almLeyParcial'; p.className = 'alm-ley-v';
+    const ip = document.createElement('i'); ip.className = 'a-c2 parcial'; ip.setAttribute('aria-hidden', 'true');
+    p.append(ip, t('almLeyParcial', { d: fechaDia(C.fecha) }));
+    p.hidden = !(estado.anio === '2026' && C.enCurso >= 0);
+    ley.append(pasos, v, p);
   }
 
   function botonesEstado() {
@@ -470,12 +497,12 @@ export function montar(raiz, params) {
   }
 
   function csv() {
-    const m = t('almCsvMeses');
+    const m = t('almCsvMeses'), C = corte26();
     const filas = [[t('almCsvBase'), ...m.map((x) => x + '_normal'), ...m.map((x) => x + '_2026')].join(',')];
     for (const r of visibles()) {
       const v = r.ventana;
       filas.push([csvCampo(r.n), csvCampo(r.e), r.ventana ? r.zona.replace(/^\D+/, '') : '',
-        v ? '2026-' + v.inicio : '', v ? '2026-' + v.fin : '', ...r.meses, ...r.meses26].join(','));
+        v ? '2026-' + v.inicio : '', v ? '2026-' + v.fin : '', ...r.meses, ...r.meses26.map((x, m) => (m > C.mes ? '' : x))].join(','));
     }
     return new Blob(['﻿' + filas.join('\r\n') + '\r\n'], { type: 'text/csv;charset=utf-8' });
   }

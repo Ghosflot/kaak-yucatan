@@ -412,6 +412,10 @@
   "almZonaAria": "See the calendar for zone {z}",
   "almCelda": "{m}, {mes}: {n} hot spots in a normal year",
   "almCelda26": "{m}, {mes}: {n} hot spots in 2026",
+  "almCelda26Parcial": "{m}, {mes}: {n} hot spots in 2026 through {d}; the month isn’t over",
+  "almCelda26Futuro": "{m}, {mes} 2026: not here yet",
+  "almFuturo": "not here yet",
+  "almLeyParcial": "Month in progress (through {d})",
   "almCsvBase": "municipality,state,zone,allowed_from,allowed_to",
   "almCsvMeses": [
     "jan",
