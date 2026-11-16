@@ -103,7 +103,9 @@ changed over the years (daylight saving time until 2022, and Quintana Roo in ano
 since 2015).
 
 **Week:** `min((day of year − 1) // 7 + 1, 52)`, from 1 to 52. The one or two days left over at the
-end of the year go to week 52, so that all weeks have the same weight.
+end of the year go to week 52, so every year has the same 52 weeks. They don't all weigh the same:
+week 52 has 8 days, or 9 in leap years. This only affects the weekly CSV in late December, outside
+the burning season; the site's verdict works by day, from March 1 to May 31.
 
 **State and zone of a hot spot:** they come from its municipality, with
 `analisis/municipios_zona.csv`. No other table is used for that. Hot spots with no municipality
@@ -114,17 +116,21 @@ in 10 years exceeds (90th percentile), the median (50th percentile) and the one 
 years falls below (10th percentile). The same for the **year's cumulative total** (all the fire
 from January 1 to that week).
 
-**How the year is going** (the sentence on the card and the color on the map). The year's
-cumulative total up to the last week with data is compared with normal for the cumulative total at
-that same week:
-- If normal is less than 5 grid cell-days (90th percentile of the cumulative total), the sentence
-  is "There is hardly any fire here at this time of year" and no comparison is made. That way, a
-  single hot spot doesn't turn a municipality that almost never burns red.
-- If it is above the 90th percentile: "above normal".
-- If it is below the 10th percentile: "below normal".
-- Otherwise: "within normal".
-The week alone is seen in the chart, but it doesn't decide the sentence: a single week changes a
-lot from year to year.
+**How the year is going** (the sentence on the card and the color on the map;
+`pipeline/datos_web.py`, `clase()`). The year's total from March 1 to May 31 (so far, while the
+season is running) is divided by normal, the **median of the 2001–2025 March–May totals** of that
+municipality:
+- If normal is less than 5 grid cell-days (`MINIMO_NORMAL = 5`), the class is `poco`: "There is
+  hardly any fire here at this time of year", and no comparison is made. That way, a single hot
+  spot doesn't turn a municipality that almost never burns red.
+- Ratio below 0.5: much below normal (`muyabajo`).
+- Ratio below 0.8: below normal (`abajo`).
+- Ratio up to 1.25: within normal (`normal`).
+- Ratio up to 2: above normal (`arriba`).
+- Ratio above 2: much above normal (`muyarriba`).
+The weekly p10, p50 and p90 (and those of the cumulative total) still exist in
+`salidas/calendario.parquet` and `serie_armonizada.csv`, but the verdict does not use them. A
+single week changes a lot from year to year, so it doesn't decide the sentence.
 
 **Official burning window:** there are official lists by zone only for 2025 and 2026, with the same
 dates both years (docs/01). Before that, the scheme was different (in 2024, two zones) and we

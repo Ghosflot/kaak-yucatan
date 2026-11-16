@@ -499,8 +499,20 @@ fire everywhere. The real value is about **6 times** chance.
   number of hot spots is 0.64 (Spearman). In 2024, the worst year, S-NPP saw 84 % of the 123
   recorded wildfires.
 - **The MODIS–VIIRS gap depends on size:** in small wildfires VIIRS sees 3.5 times more than MODIS,
-  and in those over 100 ha only 1.2 times more. It is an independent test that a single conversion
-  factor is not enough, and it supports calibrating by zone and by type of fire (docs/02).
+  and in those over 100 ha only 1.2 times more. That is why the factor is calibrated by zone and
+  season (docs/02). What matters for the series is whether the mix of fire sizes changed between
+  the years the factor is applied to and the years it was calibrated on; it didn't:
+  - **The size of the fires Aqua sees held steady.** Aqua hot spots with a municipality, March to
+    May: median FRP 29.9 MW in 2003–2011 against 29.1 MW in 2013–2020, and 29 % against 28 % of
+    hot spots above 50 MW.
+  - **The relation is slightly less than proportional, but a curve doesn't do better.** S-NPP
+    against Aqua, municipality × season totals, 2013–2020: log-log slope 0.75 to 0.93 depending on
+    the zone. A power curve instead of the constant factor doesn't reduce the leave-one-year-out
+    error (WAPE 0.160 against 0.158 for the constant), so the constant factor is kept.
+  - **Exception: zone Yucatán 2.** Its Aqua fires were bigger in 2003–2011 (median FRP 33.0 MW
+    against 26.4 MW in 2013–2020). Within zones, the year's factor falls about 0.23 % for every
+    1 % of median FRP, so its MODIS years may read about 5 % high (Yucatán 1, 34.2 against
+    30.6 MW: about 2.5 %).
 - **By state:** Campeche 72 %, Quintana Roo 57 % and Yucatán 42 %. Yucatán comes out lower because
   its wildfires are smaller (median of 20 ha, against 33 ha in Quintana Roo and 132 ha in
   Campeche). With 50 ha or more, Yucatán reaches 74 %.
@@ -562,6 +574,14 @@ S-NPP's days without data are counted with NOAA-20 (see "Days without satellite 
   (the 2001 to 2025 median): less than half. 93 of the 106 municipalities had less fire than normal
   and none had more. The day with the most fire in the peninsula was April 30, with 682 (seen by
   NOAA-20: that day S-NPP sent no data).
+- **Robustness: "below normal" with a trend in the normal.** Fire in Yucatán (March to May, sum of
+  its municipalities) went down over 2001–2025: Kendall τ = −0.54, p < 0.001; Theil–Sen slope of
+  about −257 hot spots a year, about −3.8 % of the median year. The decline is real and not the
+  calibration: Aqua alone, the same sensor, sees 28 % less from 2003–2011 to 2013–2020 (2,911
+  against 2,093 grid cell-days a year). So part of "below normal" means "below the 2000s". With
+  normal = the 2012–2025 median instead (only VIIRS years), 2026 is still below normal in **86**
+  of the 106 municipalities (93 with the 2001–2025 median), and 1 is above (none before), with the
+  same rule as the site (`clase()`: below = ratio under 0.8).
 - **The year with the most fire was 2003:** 16,850 hot spots, and 83 of the 106 municipalities had
   more fire than normal (seen by tapping 2003 in the front page's bars).
 - **Tekax:** 213 hot spots in 2026 against 390 in a normal year (a little more than half). In a
