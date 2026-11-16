@@ -73,6 +73,7 @@ in the [glossary](docs/GLOSSARY.md).
 3. [Pitch script](docs/03-script.md): the in-person presentation at the Mérida host site, in Spanish. The global submission is this repository, the site and the 30-second video.
 4. [The countryside and fire](docs/04-countryside-and-fire.md): who burns, why it matters and the fire calendar of each municipality.
 5. [Explained simply](docs/05-explained-simply.md): the problem and the solution in plain words, and the four lines for the jury.
+6. [Slides, in English](entrega/slides-en.pdf): the 12 slides of the pitch, with the figures of docs/01.
 
 ## Getting started
 
