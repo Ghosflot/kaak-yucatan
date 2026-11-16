@@ -14,6 +14,9 @@ module.exports = defineConfig({
   reporter: process.env.CI ? 'github' : 'list',
   use: {
     baseURL: `http://127.0.0.1:${puerto}`,
+    // La página elige el idioma por el navegador; las pruebas lo fijan en español y piden el
+    // inglés con ?lang=en (las de tests/web/comun.spec.js cambian el idioma del navegador).
+    locale: 'es-MX',
     ...(chrome ? { channel: 'chrome' } : {}),
   },
   webServer: {
