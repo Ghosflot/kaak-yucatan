@@ -1,6 +1,6 @@
 # K'áak'
 
-> K'áak' (Yucatec Maya for "fire") is a free website, in English and Spanish, that gives each municipality of the Yucatán Peninsula (Mexico) a fire calendar built from 25 years of NASA MODIS and VIIRS fire detections. MODIS on Aqua, which carries most of the record before 2012, sees three to five times less fire than VIIRS, so the raw record seems to triple in 2012, when only the sensor changed. K'áak' calibrates MODIS to the VIIRS scale with a factor for each burn zone and time of year, and checks the result with tests whose criteria were fixed before running them. Project for the NASA Space Apps Challenge 2026 (Mérida host site), challenge "Harmonization of MODIS and VIIRS Hot Spots".
+> K'áak' (Yucatec Maya for "fire") is a free website, in English and Spanish, that gives each municipality of the Yucatán Peninsula (Mexico) a fire calendar built from 25 years of NASA MODIS and VIIRS fire detections. MODIS on Aqua, which carries most of the record before 2012, sees three to five times less fire than VIIRS, so the raw record seems to triple around 2012, when only the sensor changed. K'áak' calibrates MODIS to the VIIRS scale with a factor for each zone and time of year, and checks the result with pass/fail rules fixed in code before computing the results, plus a comparison with CONAFOR's ground records. Project for the NASA Space Apps Challenge 2026 (Mérida host site), challenge "Harmonization of MODIS and VIIRS Hot Spots".
 
 The site is a single-page app: a reader that does not run JavaScript sees only its menu. This file and the repository describe everything the site shows.
 
@@ -9,7 +9,7 @@ The site is a single-page app: a reader that does not run JavaScript sees only i
 - The municipality is the area of interest, because by law it approves agricultural burns. A user types its name, taps it on the map or shares their location.
 - Whether this season runs above or below normal (the median of 2001 to 2025), year against year and day by day. A "hot spot" is a 1 km grid cell where a satellite detected fire on a given day.
 - Where fire returns almost every year: the 1 km cells with fire in 5 or more of the 14 seasons from 2012 to 2025, each linked to Google Maps.
-- When it burns against the official dates: the week with the most fire in a normal year, and, for each burn zone of Yucatán, how many of every 10 hot spots fell outside the burning window set by the state agriculture ministry (SEDER), each year since 2001.
+- When it burns against the official dates: the week with the most fire in a normal year, and, for each of SEDER's burning zones in Yucatán, how many of every 10 hot spots fell outside the burning window set by the state agriculture ministry (SEDER), each year since 2001.
 - A one-page card per municipality to forward by WhatsApp, and CSV downloads of the data behind every chart.
 - How we measure it: three tests and a comparison with CONAFOR's ground records, in plain language, with their charts.
 - An almanac of every municipality, month by month, for a normal year or for 2026.
@@ -22,10 +22,10 @@ SEDER sets the allowed burning windows by date, so the site shows the calendar d
 
 1. Every MODIS (Terra and Aqua) and VIIRS (Suomi NPP and NOAA-20) detection over the peninsula from NASA FIRMS since 2001 is assigned to its municipality.
 2. Fire is counted on a common grid of about 1 km per day, so several detections of one fire count once, with one satellite per period: Terra until July 2002, then Aqua, then Suomi NPP from 2012, with NOAA-20 filling the days Suomi NPP sent no data.
-3. MODIS is calibrated to the VIIRS scale on 2013 to 2020, when both fly together, with a separate factor for each burn zone and time of year (2.8 to 5.3 for Aqua; 4.0 to 9.7 for Terra, which flew alone until July 2002), because one factor does not fit: VIIRS sees 3.5 times more small fires than MODIS but only 1.2 times more of the fires larger than 100 ha.
+3. MODIS is calibrated to the VIIRS scale on 2013 to 2020, when both fly together, with a separate factor for each zone (SEDER's four burning zones in Yucatán, Campeche and Quintana Roo) and time of year (2.8 to 5.3 for Aqua; 4.0 to 9.7 for Terra, which flew alone until July 2002), because one factor does not fit: among CONAFOR's recorded wildfires, Suomi NPP detects 3.5 times as many of the small ones as MODIS does, but only 1.2 times as many of those larger than 100 ha, most of which MODIS already sees.
 4. A scheduled job downloads new detections from the FIRMS API four times a day, and the site recomputes the current season.
 
-## Validation (criteria fixed before running the tests)
+## Validation (pass/fail rules fixed in code, pipeline/validar.py, before computing the results)
 
 - Consistency check: the false jump of 2012 disappears. For the whole peninsula over the full year, the ratio of 2013–2015 to 2009–2011 goes from ×3.26 before calibration to ×0.90 after, inside the natural range of 0.87 to 1.16. It is a consistency check rather than an independent test, since 2013 to 2015 are among the calibration years.
 - The factor holds on the Aqua years 2021 to 2025, which the calibration did not use: 11 % error with a factor per zone and time of year, against 13 % with a single factor (limit: 25 %).
@@ -35,8 +35,8 @@ SEDER sets the allowed burning windows by date, so the site shows the calendar d
 
 ## Findings
 
-- Using VIIRS fire detections since 2012: for each burn zone, the four weeks with the most fire in its previous years caught 49 % of the next season's fire from 2019 to 2025, against 23 % for the official burning window. The window says when burning is allowed, not when it happens.
-- The 2026 season (March to May) in Yucatán: 3,320 hot spots against 6,712 in a normal year; 93 of 106 municipalities had less fire than normal. The 2025 and 2026 seasons were the calmest on record in Yucatán, so the project does not claim that fire is increasing.
+- Using VIIRS fire detections since 2012: in the places where fire recurs (1 km cells with fire in at least 30 % of earlier years), the four weeks with the most fire in their previous years caught 49 % of the next season's fire from 2019 to 2025, against 23 % for SEDER's current burning window (shown on the Burn window page). The window says when burning is allowed, not when it happens.
+- The 2026 season (March to May) in Yucatán: 3,320 hot spots against 6,712 in a normal year; 93 of 106 municipalities had less fire than normal. 2026 was the calmest season since 2001 in Yucatán and 2025 the second calmest, so the project does not claim that fire is increasing.
 
 ## What it does not do, and what is not done yet
 
