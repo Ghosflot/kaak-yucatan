@@ -300,7 +300,7 @@ test('el hallazgo de las cuatro semanas contra la ventana está en la página, e
   const sec = page.locator('section.fz-semanas');
   await expect(sec.locator('#zSemT')).toContainText('twice as much');
   await expect(sec.locator('.fz-sem-fila b')).toHaveText(['49 %', '23 %']);
-  await expect(sec.locator('.fz-sem-barras')).toHaveAttribute('aria-label', /49 %.*23 %/);
+  await expect(sec.locator('.fz-sem-barras')).toHaveAttribute('aria-label', /49\u00a0%.*23\u00a0%/);
   await page.click('[data-idioma="es"]');
   await expect(sec.locator('#zSemT')).toContainText('el doble');
 });
