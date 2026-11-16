@@ -6,7 +6,7 @@ Project for the **NASA Space Apps Challenge 2026** (Mérida host site, November 
 [Harmonization of MODIS and VIIRS Hot Spots](https://www.spaceappschallenge.org/2026/challenges/modis-and-viirs-hot-spots/).
 *K'áak'* means "fire" in Yucatec Maya.
 
-Live site: <https://kaak.pages.dev>
+Live site: <https://kaak.pages.dev> (in English: <https://kaak.pages.dev/?lang=en>)
 
 ![The home page of K'áak': each municipality of Yucatán colored by how its 2026 burning season compares with its normal year, over a cloud-free satellite image, with the yearly hot spot chart of the state](assets/readme-portada.png)
 
@@ -47,10 +47,17 @@ all fire, and no detections does not mean no fire. "Normal" is a reference, not 
 |---|---|
 | `web/` | The static site (HTML, CSS and JavaScript with no libraries: an SVG map over a cloud-free satellite mosaic, and SVG charts), published on Cloudflare Pages |
 | `pipeline/` | Python code that turns the harmonized series into the files the site reads |
-| `analisis/` | Scripts that download and prepare the raw data and reproduce the figures |
-| `datos_peninsula/` | Ready-to-use fire detections, CONAFOR fire records and boundaries for the peninsula (25 MB). See [its guide](datos_peninsula/README.md) |
+| `analisis/` *(analysis)* | Scripts that download and prepare the raw data and reproduce the figures |
+| `datos_peninsula/` *(peninsula data)* | Ready-to-use fire detections, CONAFOR fire records and boundaries for the peninsula (25 MB). See [its guide](datos_peninsula/README.md) |
 | `tests/` | Automated tests, run on every pull request (ruff, pytest, and Playwright with axe-core for the site in `tests/web/`) |
+| `salidas/` *(outputs)* | Computed results: the harmonized series, the MODIS→VIIRS factors, the daily and monthly calendars, the days without data, and the validation with its charts (`salidas/graficas/`) |
+| `functions/` | Cloudflare Pages function: link previews for each municipality page and the visit counter |
+| `entrega/` *(submission)* | The AI-use disclosure for Space Apps |
+| `assets/` | Logos, the team image and the images in this README |
 | `docs/` | Project documentation in English. The Spanish originals are in `docs/es/` |
+
+File names, code and code comments are in Spanish, the team's language. The documentation is in
+English, and [docs/GLOSSARY.md](docs/GLOSSARY.md) fixes the terms.
 
 ## Documentation
 
