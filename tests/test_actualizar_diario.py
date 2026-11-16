@@ -242,3 +242,45 @@ def test_lo_ya_bajado_adelanta_el_inicio(datos):
     pedidas = []
     ad.actualizar("clave", leer=api({}, pedidas), hoy=date(2026, 11, 12))
     assert [i for f, i in pedidas if f == "VIIRS_NOAA20_NRT"] == ["2026-11-10"]
+
+
+def api_con_caida(caidas: dict[str, Exception], dias: dict[str, list[str]]):
+    """La API falsa de arriba, pero las fuentes de `caidas` lanzan su error en vez de contestar."""
+    sana = api(dias)
+
+    def leer(url: str) -> str:
+        fuente = url.split("/")[-4]
+        if fuente in caidas:
+            raise caidas[fuente]
+        return sana(url)
+    return leer
+
+
+def test_un_satelite_que_no_responde_no_detiene_la_corrida(datos):
+    leer = api_con_caida({"VIIRS_NOAA21_NRT": urllib.error.URLError("timed out")},
+                         {"VIIRS_NOAA20_NRT": [fila_viirs(fecha="2026-11-09")]})
+    resumen = ad.actualizar("clave", leer=leer, hoy=date(2026, 11, 9))
+    assert resumen["sin_respuesta"] == ["VIIRS_NOAA21_NRT"]
+    recientes = pd.read_parquet(datos / "focos_recientes.parquet")
+    assert recientes["acq_date"].dt.strftime("%Y-%m-%d").tolist() == ["2026-11-09"]
+    assert (datos / "web" / "datos" / "revision.json").is_file()
+
+
+def test_un_error_500_de_firms_tampoco_detiene_la_corrida(datos):
+    error = urllib.error.HTTPError("u", 503, "Service Unavailable", {}, io.BytesIO(b"busy"))
+    leer = api_con_caida({"MODIS_NRT": error}, {})
+    assert ad.actualizar("clave", leer=leer, hoy=date(2026, 11, 9))["sin_respuesta"] == ["MODIS_NRT"]
+
+
+def test_un_error_400_de_firms_si_detiene_la_corrida(datos):
+    error = urllib.error.HTTPError("u", 400, "Bad Request", {}, io.BytesIO(b"Invalid MAP_KEY"))
+    with pytest.raises(ad.ActualizacionError, match="400"):
+        ad.actualizar("clave", leer=api_con_caida({"MODIS_NRT": error}, {}), hoy=date(2026, 11, 9))
+
+
+def test_si_ningun_satelite_responde_se_detiene(datos):
+    caida = urllib.error.URLError("timed out")
+    leer = api_con_caida({f: caida for f in ad.FUENTES}, {})
+    with pytest.raises(ad.ActualizacionError, match="ningún satélite"):
+        ad.actualizar("clave", leer=leer, hoy=date(2026, 11, 9))
+    assert not (datos / "salidas" / "actualizacion.json").exists()
