@@ -3,6 +3,7 @@
 // aquí, en el HTML que entrega Cloudflare Pages. kaak.pages.dev/tekax lleva la tarjeta de Tekax;
 // las demás direcciones, la de la página. Las tarjetas y sus textos los escribe pipeline/tarjetas.mjs
 // en web/og/. Si algo falla, la página sale tal cual, con la tarjeta general de index.html.
+// Con ?lang=en (los jueces de Space Apps) todo sale en inglés, de web/og/en/, también en la portada.
 //
 // También pone el contador de visitas de Cloudflare Web Analytics (sin cookies; da páginas, país,
 // de dónde llega la visita y tipo de dispositivo). Solo en la dirección pública, para que las
@@ -17,20 +18,26 @@ const ANALITICA_HOST = 'kaak.pages.dev';
 const VISITAS_ETIQUETA = 'spaceapps';
 const VISITAS_HUELLA = '4533717e87c2cfaa68e5b46b8d42e11737f204a922e1ab9b290cebacf2da5b17';
 const VISITAS_DIAS = 30;
-let textos = null;
+// Los textos de cada idioma, leídos una sola vez: '/og/' en español, '/og/en/' en inglés.
+const textos = {};
 
-async function leerTextos(env, url) {
-  if (!textos) {
-    const r = await env.ASSETS.fetch(new URL('/og/textos.json', url));
-    if (!r.ok) throw new Error('og/textos.json: ' + r.status);
-    textos = await r.json();
+async function leerTextos(env, url, carpeta) {
+  if (!textos[carpeta]) {
+    const r = await env.ASSETS.fetch(new URL(carpeta + 'textos.json', url));
+    if (!r.ok) throw new Error(carpeta + 'textos.json: ' + r.status);
+    textos[carpeta] = await r.json();
   }
-  return textos;
+  return textos[carpeta];
 }
 
 class Contenido {
   constructor(valor) { this.valor = valor; }
   element(e) { e.setAttribute('content', this.valor); }
+}
+
+class Atributo {
+  constructor(nombre, valor) { this.nombre = nombre; this.valor = valor; }
+  element(e) { e.setAttribute(this.nombre, this.valor); }
 }
 
 class Titulo {
@@ -92,12 +99,15 @@ export async function onRequest(contexto) {
     if (request.method !== 'GET' || respuesta.status !== 200) return respuesta;
     if (!(respuesta.headers.get('content-type') || '').includes('text/html')) return respuesta;
     const url = new URL(request.url);
-    const T = await leerTextos(env, url);
+    const ingles = url.searchParams.get('lang') === 'en';
+    const carpeta = ingles ? '/og/en/' : '/og/';
+    const T = await leerTextos(env, url, carpeta);
     const corto = url.pathname.match(/^\/([a-z0-9-]+)\/?$/);
     const id = corto && T.municipios[corto[1]] ? corto[1] : null;
     const tarjeta = id ? T.municipios[id] : T.inicio;
-    const imagen = url.origin + (id ? '/og/' + id + '.png' : '/og/inicio.jpg');
-    const direccion = url.origin + (id ? '/' + id : '/');
+    const imagen = url.origin + carpeta + (id ? id + '.png' : 'inicio.jpg');
+    // El enlace compartido en inglés abre la página en inglés.
+    const direccion = url.origin + (id ? '/' + id : '/') + (ingles ? '?lang=en' : '');
     let reescribir = new HTMLRewriter()
       .on('meta[property="og:image"]', new Contenido(imagen))
       .on('meta[name="twitter:image"]', new Contenido(imagen))
@@ -105,13 +115,19 @@ export async function onRequest(contexto) {
     if (ANALITICA_TOKEN && url.hostname === ANALITICA_HOST) {
       reescribir = reescribir.on('head', new Analitica(ANALITICA_TOKEN));
     }
-    if (id) {
+    // La portada en español usa el <head> de index.html; en inglés hay que cambiarlo todo.
+    if (id || ingles) {
       reescribir = reescribir
-        .on('title', new Titulo(tarjeta.titulo + " · K'áak'"))
+        .on('title', new Titulo(id ? tarjeta.titulo + " · K'áak'" : tarjeta.titulo))
         .on('meta[name="description"]', new Contenido(tarjeta.descripcion))
         .on('meta[property="og:title"]', new Contenido(tarjeta.titulo))
         .on('meta[property="og:description"]', new Contenido(tarjeta.descripcion))
         .on('meta[property="og:image:alt"]', new Contenido(tarjeta.titulo));
+    }
+    if (ingles) {
+      reescribir = reescribir
+        .on('html', new Atributo('lang', 'en'))
+        .on('meta[property="og:locale"]', new Contenido('en_US'));
     }
     return reescribir.transform(respuesta);
   } catch {

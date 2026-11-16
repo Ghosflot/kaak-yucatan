@@ -1,19 +1,20 @@
-# Tarea 18: baja los focos nuevos de FIRMS cuatro veces al día y sube el resultado a main.
-# Es el único que sube a main sin PR, y solo toca los archivos de datos generados.
-name: Actualización diaria
+# Task 18: downloads the new FIRMS hot spots four times a day and pushes the result to main.
+# It is the only workflow that pushes to main without a PR, and it only touches the generated
+# data files.
+name: Daily update
 
 on:
-  # Las horas siguen el paso de los satélites por la península (medido en los focos de 2025-2026,
-  # hora UTC): VIIRS pasa de 18:30 a 20:05 y de 6:50 a 8:30; MODIS, de 15:00 a 21:30 y de 2:10
-  # a 9:30. FIRMS publica cada foco menos de 3 horas después del paso.
-  #   23:23 UTC (17:23 en Mérida): ya está el paso de la tarde de VIIRS, que ve la mayoría de las quemas.
-  #    1:23 UTC (19:23 en Mérida): respaldo de la tarde y el paso de la tarde de MODIS.
-  #   11:23 UTC ( 5:23 en Mérida): ya están los pasos de la noche; el día anterior queda completo.
-  #   14:23 UTC ( 8:23 en Mérida): respaldo de la mañana.
-  # GitHub atrasa o se salta los trabajos programados a la hora en punto, cuando tiene más carga
-  # por eso el minuto 23 y cuatro corridas en lugar de una.
-  # Correr de más no hace daño: cada corrida pide desde el último día que ya tiene cada satélite,
-  # no repite focos y no sube nada si no hay cambios.
+  # The times follow the satellite passes over the peninsula (measured on the 2025-2026 hot spots,
+  # UTC): VIIRS passes from 18:30 to 20:05 and from 6:50 to 8:30; MODIS, from 15:00 to 21:30 and
+  # from 2:10 to 9:30. FIRMS publishes each hot spot less than 3 hours after the pass.
+  #   23:23 UTC (17:23 in Mérida): the afternoon VIIRS pass, which sees most burns, is in.
+  #    1:23 UTC (19:23 in Mérida): afternoon backup, and the afternoon MODIS pass.
+  #   11:23 UTC ( 5:23 in Mérida): the night passes are in; the previous day is complete.
+  #   14:23 UTC ( 8:23 in Mérida): morning backup.
+  # GitHub delays or skips scheduled jobs on the hour, when it is under the most load;
+  # hence minute 23, and four runs instead of one.
+  # Running too often does no harm: each run asks from the last day it already has for each
+  # satellite, does not repeat hot spots and pushes nothing if there are no changes.
   schedule:
     - cron: "23 1,11,14,23 * * *"
   workflow_dispatch:
@@ -27,6 +28,7 @@ concurrency:
 
 jobs:
   actualizar:
+    name: Update data
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -37,26 +39,26 @@ jobs:
           python-version: "3.11"
           cache: pip
 
-      - name: Instalar dependencias
+      - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Bajar focos nuevos
+      - name: Download new hot spots
         env:
           FIRMS_MAP_KEY: ${{ secrets.FIRMS_MAP_KEY }}
         run: python pipeline/actualizar_diario.py
 
-      - name: Recalcular
+      - name: Recompute
         run: python pipeline/correr_todo.py
 
-      - name: Subir a main
+      - name: Push to main
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add datos_peninsula/focos_recientes.parquet salidas web/datos
           if git diff --cached --quiet; then
-            echo "Sin cambios"
+            echo "No changes"
             exit 0
           fi
-          git commit -m "datos: actualización diaria $(date -u +%Y-%m-%d)"
+          git commit -m "data: daily update $(date -u +%Y-%m-%d)"
           git pull --rebase origin main
           git push origin HEAD:main

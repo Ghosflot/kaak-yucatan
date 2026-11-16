@@ -1,0 +1,516 @@
+{
+ "municipios": {
+  "calakmul": {
+   "titulo": "Calakmul: there was about as much fire as in a normal year",
+   "descripcion": "682 hot spots in 2026; in a normal year, 806. The week with the most fire in a normal year in Calakmul: April 23 to 29."
+  },
+  "calkini": {
+   "titulo": "Calkiní: there was less fire than in a normal year",
+   "descripcion": "253 hot spots in 2026; in a normal year, 341. The week with the most fire in a normal year in Calkiní: April 9 to 15."
+  },
+  "campeche": {
+   "titulo": "Campeche: there was less fire than in a normal year",
+   "descripcion": "507 hot spots in 2026; in a normal year, 796. The week with the most fire in a normal year in Campeche: April 16 to 22."
+  },
+  "candelaria": {
+   "titulo": "Candelaria: there was less fire than in a normal year",
+   "descripcion": "1,841 hot spots in 2026; in a normal year, 2,312. The week with the most fire in a normal year in Candelaria: April 30 to May 6."
+  },
+  "carmen": {
+   "titulo": "Carmen: there was about as much fire as in a normal year",
+   "descripcion": "1,484 hot spots in 2026; in a normal year, 1,667. The week with the most fire in a normal year in Carmen: April 30 to May 6."
+  },
+  "champoton": {
+   "titulo": "Champotón: there was about as much fire as in a normal year",
+   "descripcion": "2,198 hot spots in 2026; in a normal year, 2,279. The week with the most fire in a normal year in Champotón: April 30 to May 6."
+  },
+  "escarcega": {
+   "titulo": "Escárcega: there was less fire than in a normal year",
+   "descripcion": "703 hot spots in 2026; in a normal year, 1,267. The week with the most fire in a normal year in Escárcega: April 30 to May 6."
+  },
+  "hecelchakan": {
+   "titulo": "Hecelchakán: there was about as much fire as in a normal year",
+   "descripcion": "427 hot spots in 2026; in a normal year, 401. The week with the most fire in a normal year in Hecelchakán: April 16 to 22."
+  },
+  "hopelchen": {
+   "titulo": "Hopelchén: there was about as much fire as in a normal year",
+   "descripcion": "1,817 hot spots in 2026; in a normal year, 1,951. The week with the most fire in a normal year in Hopelchén: April 16 to 22."
+  },
+  "palizada": {
+   "titulo": "Palizada: there was half as much fire as in a normal year",
+   "descripcion": "144 hot spots in 2026; in a normal year, 306. The week with the most fire in a normal year in Palizada: May 7 to 13."
+  },
+  "tenabo": {
+   "titulo": "Tenabo: there was less fire than in a normal year",
+   "descripcion": "185 hot spots in 2026; in a normal year, 242. The week with the most fire in a normal year in Tenabo: April 9 to 15."
+  },
+  "bacalar": {
+   "titulo": "Bacalar: there was less than half as much fire as in a normal year",
+   "descripcion": "338 hot spots in 2026; in a normal year, 773. The week with the most fire in a normal year in Bacalar: May 7 to 13."
+  },
+  "benito-juarez": {
+   "titulo": "Benito Juárez: there was less than half as much fire as in a normal year",
+   "descripcion": "13 hot spots in 2026; in a normal year, 50. The week with the most fire in a normal year in Benito Juárez: May 7 to 13."
+  },
+  "cozumel": {
+   "titulo": "Cozumel: there is hardly ever any fire here, so there is nothing to compare",
+   "descripcion": "1 hot spot in 2026; in a normal year, 2. A normal year in Cozumel: 2 hot spots."
+  },
+  "felipe-carrillo-puerto": {
+   "titulo": "Felipe Carrillo Puerto: there was less than half as much fire as in a normal year",
+   "descripcion": "237 hot spots in 2026; in a normal year, 511. The week with the most fire in a normal year in Felipe Carrillo Puerto: May 7 to 13."
+  },
+  "isla-mujeres": {
+   "titulo": "Isla Mujeres: there was less than half as much fire as in a normal year",
+   "descripcion": "4 hot spots in 2026; in a normal year, 10. A normal year in Isla Mujeres: 10 hot spots."
+  },
+  "jose-maria-morelos": {
+   "titulo": "José María Morelos: there was about as much fire as in a normal year",
+   "descripcion": "350 hot spots in 2026; in a normal year, 416. The week with the most fire in a normal year in José María Morelos: April 16 to 22."
+  },
+  "lazaro-cardenas": {
+   "titulo": "Lázaro Cárdenas: there was half as much fire as in a normal year",
+   "descripcion": "71 hot spots in 2026; in a normal year, 144. The week with the most fire in a normal year in Lázaro Cárdenas: May 7 to 13."
+  },
+  "othon-p-blanco": {
+   "titulo": "Othón P. Blanco: there was less fire than in a normal year",
+   "descripcion": "495 hot spots in 2026; in a normal year, 929. The week with the most fire in a normal year in Othón P. Blanco: April 30 to May 6."
+  },
+  "solidaridad": {
+   "titulo": "Solidaridad: there was less fire than in a normal year",
+   "descripcion": "18 hot spots in 2026; in a normal year, 28. The week with the most fire in a normal year in Solidaridad: May 7 to 13."
+  },
+  "tulum": {
+   "titulo": "Tulum: there was less fire than in a normal year",
+   "descripcion": "58 hot spots in 2026; in a normal year, 74. The week with the most fire in a normal year in Tulum: May 7 to 13."
+  },
+  "abala": {
+   "titulo": "Abalá: there was less fire than in a normal year",
+   "descripcion": "19 hot spots in 2026; in a normal year, 35. SEDER’s burn window for Abalá (zone 2): April 20 to May 31."
+  },
+  "acanceh": {
+   "titulo": "Acanceh: there was less fire than in a normal year",
+   "descripcion": "10 hot spots in 2026; in a normal year, 15. SEDER’s burn window for Acanceh (zone 2): April 20 to May 31."
+  },
+  "akil": {
+   "titulo": "Akil: there was half as much fire as in a normal year",
+   "descripcion": "8 hot spots in 2026; in a normal year, 16. SEDER’s burn window for Akil (zone 3): March 10 to April 3."
+  },
+  "baca": {
+   "titulo": "Baca: there is hardly ever any fire here, so there is nothing to compare",
+   "descripcion": "1 hot spot in 2026; in a normal year, 4. Likely burn window for Baca (zone 2): April 20 to May 31."
+  },
+  "bokoba": {
+   "titulo": "Bokobá: there was less than half as much fire as in a normal year",
+   "descripcion": "0 hot spots in 2026; in a normal year, 7. SEDER’s burn window for Bokobá (zone 2): April 20 to May 31."
+  },
+  "buctzotz": {
+   "titulo": "Buctzotz: there was less fire than in a normal year",
+   "descripcion": "119 hot spots in 2026; in a normal year, 180. SEDER’s burn window for Buctzotz (zone 4): March 10 to April 3."
+  },
+  "cacalchen": {
+   "titulo": "Cacalchén: there was less than half as much fire as in a normal year",
+   "descripcion": "5 hot spots in 2026; in a normal year, 12. SEDER’s burn window for Cacalchén (zone 2): April 20 to May 31."
+  },
+  "calotmul": {
+   "titulo": "Calotmul: there was less fire than in a normal year",
+   "descripcion": "41 hot spots in 2026; in a normal year, 68. SEDER’s burn window for Calotmul (zone 4): March 10 to April 3."
+  },
+  "cansahcab": {
+   "titulo": "Cansahcab: there was less than half as much fire as in a normal year",
+   "descripcion": "5 hot spots in 2026; in a normal year, 11. SEDER’s burn window for Cansahcab (zone 2): April 20 to May 31."
+  },
+  "cantamayec": {
+   "titulo": "Cantamayec: there was less than half as much fire as in a normal year",
+   "descripcion": "18 hot spots in 2026; in a normal year, 57. SEDER’s burn window for Cantamayec (zone 1): March 1 to April 15."
+  },
+  "celestun": {
+   "titulo": "Celestún: there was less than half as much fire as in a normal year",
+   "descripcion": "10 hot spots in 2026; in a normal year, 27. SEDER’s burn window for Celestún (zone 2): April 20 to May 31."
+  },
+  "cenotillo": {
+   "titulo": "Cenotillo: there was less fire than in a normal year",
+   "descripcion": "84 hot spots in 2026; in a normal year, 158. SEDER’s burn window for Cenotillo (zone 4): March 10 to April 3."
+  },
+  "chacsinkin": {
+   "titulo": "Chacsinkín: there was less fire than in a normal year",
+   "descripcion": "26 hot spots in 2026; in a normal year, 43. SEDER’s burn window for Chacsinkín (zone 1): March 1 to April 15."
+  },
+  "chankom": {
+   "titulo": "Chankom: there was less than half as much fire as in a normal year",
+   "descripcion": "29 hot spots in 2026; in a normal year, 99. SEDER’s burn window for Chankom (zone 1): March 1 to April 15."
+  },
+  "chapab": {
+   "titulo": "Chapab: there was less than half as much fire as in a normal year",
+   "descripcion": "19 hot spots in 2026; in a normal year, 42. SEDER’s burn window for Chapab (zone 3): March 10 to April 3."
+  },
+  "chemax": {
+   "titulo": "Chemax: there was less fire than in a normal year",
+   "descripcion": "171 hot spots in 2026; in a normal year, 230. SEDER’s burn window for Chemax (zone 1): March 1 to April 15."
+  },
+  "chichimila": {
+   "titulo": "Chichimilá: there was less than half as much fire as in a normal year",
+   "descripcion": "30 hot spots in 2026; in a normal year, 65. SEDER’s burn window for Chichimilá (zone 1): March 1 to April 15."
+  },
+  "chicxulub-pueblo": {
+   "titulo": "Chicxulub Pueblo: there was less than half as much fire as in a normal year",
+   "descripcion": "0 hot spots in 2026; in a normal year, 5. SEDER’s burn window for Chicxulub Pueblo (zone 2): April 20 to May 31."
+  },
+  "chikindzonot": {
+   "titulo": "Chikindzonot: there was less than half as much fire as in a normal year",
+   "descripcion": "43 hot spots in 2026; in a normal year, 118. SEDER’s burn window for Chikindzonot (zone 1): March 1 to April 15."
+  },
+  "chochola": {
+   "titulo": "Chocholá: there was less than half as much fire as in a normal year",
+   "descripcion": "5 hot spots in 2026; in a normal year, 15. SEDER’s burn window for Chocholá (zone 2): April 20 to May 31."
+  },
+  "chumayel": {
+   "titulo": "Chumayel: there was less fire than in a normal year",
+   "descripcion": "16 hot spots in 2026; in a normal year, 26. SEDER’s burn window for Chumayel (zone 1): March 1 to April 15."
+  },
+  "conkal": {
+   "titulo": "Conkal: there was less than half as much fire as in a normal year",
+   "descripcion": "4 hot spots in 2026; in a normal year, 13. SEDER’s burn window for Conkal (zone 2): April 20 to May 31."
+  },
+  "cuncunul": {
+   "titulo": "Cuncunul: there was less than half as much fire as in a normal year",
+   "descripcion": "8 hot spots in 2026; in a normal year, 25. SEDER’s burn window for Cuncunul (zone 1): March 1 to April 15."
+  },
+  "cuzama": {
+   "titulo": "Cuzamá: there is hardly ever any fire here, so there is nothing to compare",
+   "descripcion": "5 hot spots in 2026; in a normal year, 3. SEDER’s burn window for Cuzamá (zone 2): April 20 to May 31."
+  },
+  "dzemul": {
+   "titulo": "Dzemul: there was less than half as much fire as in a normal year",
+   "descripcion": "4 hot spots in 2026; in a normal year, 10. SEDER’s burn window for Dzemul (zone 2): April 20 to May 31."
+  },
+  "dzidzantun": {
+   "titulo": "Dzidzantún: there was less than half as much fire as in a normal year",
+   "descripcion": "7 hot spots in 2026; in a normal year, 26. SEDER’s burn window for Dzidzantún (zone 2): April 20 to May 31."
+  },
+  "dzilam-gonzalez": {
+   "titulo": "Dzilam González: there was less than half as much fire as in a normal year",
+   "descripcion": "49 hot spots in 2026; in a normal year, 106. SEDER’s burn window for Dzilam González (zone 4): March 10 to April 3."
+  },
+  "dzilam-de-bravo": {
+   "titulo": "Dzilam de Bravo: there was less than half as much fire as in a normal year",
+   "descripcion": "8 hot spots in 2026; in a normal year, 43. SEDER’s burn window for Dzilam de Bravo (zone 4): March 10 to April 3."
+  },
+  "dzitas": {
+   "titulo": "Dzitás: there was less than half as much fire as in a normal year",
+   "descripcion": "30 hot spots in 2026; in a normal year, 111. SEDER’s burn window for Dzitás (zone 1): March 1 to April 15."
+  },
+  "dzoncauich": {
+   "titulo": "Dzoncauich: there was less fire than in a normal year",
+   "descripcion": "16 hot spots in 2026; in a normal year, 27. SEDER’s burn window for Dzoncauich (zone 2): April 20 to May 31."
+  },
+  "dzan": {
+   "titulo": "Dzán: there was less than half as much fire as in a normal year",
+   "descripcion": "10 hot spots in 2026; in a normal year, 26. Likely burn window for Dzán (zone 3): March 10 to April 3."
+  },
+  "espita": {
+   "titulo": "Espita: there was less than half as much fire as in a normal year",
+   "descripcion": "78 hot spots in 2026; in a normal year, 217. SEDER’s burn window for Espita (zone 4): March 10 to April 3."
+  },
+  "halacho": {
+   "titulo": "Halachó: there was less fire than in a normal year",
+   "descripcion": "33 hot spots in 2026; in a normal year, 52. SEDER’s burn window for Halachó (zone 2): April 20 to May 31."
+  },
+  "hocaba": {
+   "titulo": "Hocabá: there was less than half as much fire as in a normal year",
+   "descripcion": "5 hot spots in 2026; in a normal year, 15. SEDER’s burn window for Hocabá (zone 2): April 20 to May 31."
+  },
+  "hoctun": {
+   "titulo": "Hoctún: there was about as much fire as in a normal year",
+   "descripcion": "13 hot spots in 2026; in a normal year, 15. SEDER’s burn window for Hoctún (zone 2): April 20 to May 31."
+  },
+  "homun": {
+   "titulo": "Homún: there was less fire than in a normal year",
+   "descripcion": "14 hot spots in 2026; in a normal year, 23. SEDER’s burn window for Homún (zone 1): March 1 to April 15."
+  },
+  "huhi": {
+   "titulo": "Huhí: there was less fire than in a normal year",
+   "descripcion": "17 hot spots in 2026; in a normal year, 27. SEDER’s burn window for Huhí (zone 1): March 1 to April 15."
+  },
+  "hunucma": {
+   "titulo": "Hunucmá: there was less fire than in a normal year",
+   "descripcion": "15 hot spots in 2026; in a normal year, 26. SEDER’s burn window for Hunucmá (zone 2): April 20 to May 31."
+  },
+  "ixil": {
+   "titulo": "Ixil: there was about as much fire as in a normal year",
+   "descripcion": "8 hot spots in 2026; in a normal year, 10. SEDER’s burn window for Ixil (zone 2): April 20 to May 31."
+  },
+  "izamal": {
+   "titulo": "Izamal: there was less than half as much fire as in a normal year",
+   "descripcion": "46 hot spots in 2026; in a normal year, 99. SEDER’s burn window for Izamal (zone 2): April 20 to May 31."
+  },
+  "kanasin": {
+   "titulo": "Kanasín: there was less than half as much fire as in a normal year",
+   "descripcion": "0 hot spots in 2026; in a normal year, 18. SEDER’s burn window for Kanasín (zone 2): April 20 to May 31."
+  },
+  "kantunil": {
+   "titulo": "Kantunil: there was less fire than in a normal year",
+   "descripcion": "28 hot spots in 2026; in a normal year, 52. SEDER’s burn window for Kantunil (zone 1): March 1 to April 15."
+  },
+  "kaua": {
+   "titulo": "Kaua: there was less than half as much fire as in a normal year",
+   "descripcion": "17 hot spots in 2026; in a normal year, 43. SEDER’s burn window for Kaua (zone 1): March 1 to April 15."
+  },
+  "kinchil": {
+   "titulo": "Kinchil: there was about as much fire as in a normal year",
+   "descripcion": "21 hot spots in 2026; in a normal year, 20. SEDER’s burn window for Kinchil (zone 2): April 20 to May 31."
+  },
+  "kopoma": {
+   "titulo": "Kopomá: there was less than half as much fire as in a normal year",
+   "descripcion": "4 hot spots in 2026; in a normal year, 10. SEDER’s burn window for Kopomá (zone 2): April 20 to May 31."
+  },
+  "mama": {
+   "titulo": "Mama: there was less than half as much fire as in a normal year",
+   "descripcion": "12 hot spots in 2026; in a normal year, 31. SEDER’s burn window for Mama (zone 3): March 10 to April 3."
+  },
+  "mani": {
+   "titulo": "Maní: there was half as much fire as in a normal year",
+   "descripcion": "17 hot spots in 2026; in a normal year, 35. SEDER’s burn window for Maní (zone 1): March 1 to April 15."
+  },
+  "maxcanu": {
+   "titulo": "Maxcanú: there was less fire than in a normal year",
+   "descripcion": "61 hot spots in 2026; in a normal year, 115. SEDER’s burn window for Maxcanú (zone 2): April 20 to May 31."
+  },
+  "mayapan": {
+   "titulo": "Mayapán: there was less than half as much fire as in a normal year",
+   "descripcion": "18 hot spots in 2026; in a normal year, 48. SEDER’s burn window for Mayapán (zone 1): March 1 to April 15."
+  },
+  "mococha": {
+   "titulo": "Mocochá: there was half as much fire as in a normal year",
+   "descripcion": "3 hot spots in 2026; in a normal year, 6. SEDER’s burn window for Mocochá (zone 2): April 20 to May 31."
+  },
+  "motul": {
+   "titulo": "Motul: there was less than half as much fire as in a normal year",
+   "descripcion": "7 hot spots in 2026; in a normal year, 24. SEDER’s burn window for Motul (zone 2): April 20 to May 31."
+  },
+  "muna": {
+   "titulo": "Muna: there was less than half as much fire as in a normal year",
+   "descripcion": "24 hot spots in 2026; in a normal year, 56. SEDER’s burn window for Muna (zone 3): March 10 to April 3."
+  },
+  "muxupip": {
+   "titulo": "Muxupip: there is hardly ever any fire here, so there is nothing to compare",
+   "descripcion": "3 hot spots in 2026; in a normal year, 4. SEDER’s burn window for Muxupip (zone 2): April 20 to May 31."
+  },
+  "merida": {
+   "titulo": "Mérida: there was less than half as much fire as in a normal year",
+   "descripcion": "25 hot spots in 2026; in a normal year, 84. SEDER’s burn window for Mérida (zone 2): April 20 to May 31."
+  },
+  "opichen": {
+   "titulo": "Opichén: there was less fire than in a normal year",
+   "descripcion": "22 hot spots in 2026; in a normal year, 39. SEDER’s burn window for Opichén (zone 3): March 10 to April 3."
+  },
+  "oxkutzcab": {
+   "titulo": "Oxkutzcab: there was less than half as much fire as in a normal year",
+   "descripcion": "69 hot spots in 2026; in a normal year, 152. SEDER’s burn window for Oxkutzcab (zone 3): March 10 to April 3."
+  },
+  "panaba": {
+   "titulo": "Panabá: there was less fire than in a normal year",
+   "descripcion": "107 hot spots in 2026; in a normal year, 139. SEDER’s burn window for Panabá (zone 4): March 10 to April 3."
+  },
+  "peto": {
+   "titulo": "Peto: there was half as much fire as in a normal year",
+   "descripcion": "91 hot spots in 2026; in a normal year, 182. SEDER’s burn window for Peto (zone 1): March 1 to April 15."
+  },
+  "progreso": {
+   "titulo": "Progreso: there was less than half as much fire as in a normal year",
+   "descripcion": "5 hot spots in 2026; in a normal year, 11. SEDER’s burn window for Progreso (zone 2): April 20 to May 31."
+  },
+  "quintana-roo": {
+   "titulo": "Quintana Roo: there was less fire than in a normal year",
+   "descripcion": "19 hot spots in 2026; in a normal year, 31. SEDER’s burn window for Quintana Roo (zone 1): March 1 to April 15."
+  },
+  "rio-lagartos": {
+   "titulo": "Río Lagartos: there was about as much fire as in a normal year",
+   "descripcion": "14 hot spots in 2026; in a normal year, 16. SEDER’s burn window for Río Lagartos (zone 4): March 10 to April 3."
+  },
+  "sacalum": {
+   "titulo": "Sacalum: there was less than half as much fire as in a normal year",
+   "descripcion": "8 hot spots in 2026; in a normal year, 22. SEDER’s burn window for Sacalum (zone 3): March 10 to April 3."
+  },
+  "samahil": {
+   "titulo": "Samahil: there was less than half as much fire as in a normal year",
+   "descripcion": "1 hot spot in 2026; in a normal year, 17. SEDER’s burn window for Samahil (zone 2): April 20 to May 31."
+  },
+  "san-felipe": {
+   "titulo": "San Felipe: there was about as much fire as in a normal year",
+   "descripcion": "34 hot spots in 2026; in a normal year, 33. SEDER’s burn window for San Felipe (zone 4): March 10 to April 3."
+  },
+  "sanahcat": {
+   "titulo": "Sanahcat: there is hardly ever any fire here, so there is nothing to compare",
+   "descripcion": "2 hot spots in 2026; in a normal year, 3. SEDER’s burn window for Sanahcat (zone 1): March 1 to April 15."
+  },
+  "santa-elena": {
+   "titulo": "Santa Elena: there was half as much fire as in a normal year",
+   "descripcion": "19 hot spots in 2026; in a normal year, 39. SEDER’s burn window for Santa Elena (zone 3): March 10 to April 3."
+  },
+  "seye": {
+   "titulo": "Seyé: there was less than half as much fire as in a normal year",
+   "descripcion": "7 hot spots in 2026; in a normal year, 15. SEDER’s burn window for Seyé (zone 2): April 20 to May 31."
+  },
+  "sinanche": {
+   "titulo": "Sinanché: there was less than half as much fire as in a normal year",
+   "descripcion": "0 hot spots in 2026; in a normal year, 7. SEDER’s burn window for Sinanché (zone 2): April 20 to May 31."
+  },
+  "sotuta": {
+   "titulo": "Sotuta: there was less than half as much fire as in a normal year",
+   "descripcion": "57 hot spots in 2026; in a normal year, 168. SEDER’s burn window for Sotuta (zone 1): March 1 to April 15."
+  },
+  "sucila": {
+   "titulo": "Sucilá: there was less fire than in a normal year",
+   "descripcion": "41 hot spots in 2026; in a normal year, 63. SEDER’s burn window for Sucilá (zone 4): March 10 to April 3."
+  },
+  "sudzal": {
+   "titulo": "Sudzal: there was less fire than in a normal year",
+   "descripcion": "32 hot spots in 2026; in a normal year, 51. SEDER’s burn window for Sudzal (zone 1): March 1 to April 15."
+  },
+  "suma": {
+   "titulo": "Suma: there is hardly ever any fire here, so there is nothing to compare",
+   "descripcion": "2 hot spots in 2026; in a normal year, 4. SEDER’s burn window for Suma (zone 2): April 20 to May 31."
+  },
+  "tahdziu": {
+   "titulo": "Tahdziú: there was less than half as much fire as in a normal year",
+   "descripcion": "15 hot spots in 2026; in a normal year, 51. SEDER’s burn window for Tahdziú (zone 1): March 1 to April 15."
+  },
+  "tahmek": {
+   "titulo": "Tahmek: there was less than half as much fire as in a normal year",
+   "descripcion": "2 hot spots in 2026; in a normal year, 8. SEDER’s burn window for Tahmek (zone 2): April 20 to May 31."
+  },
+  "teabo": {
+   "titulo": "Teabo: there was less than half as much fire as in a normal year",
+   "descripcion": "15 hot spots in 2026; in a normal year, 45. SEDER’s burn window for Teabo (zone 1): March 1 to April 15."
+  },
+  "tecoh": {
+   "titulo": "Tecoh: there was less than half as much fire as in a normal year",
+   "descripcion": "6 hot spots in 2026; in a normal year, 33. SEDER’s burn window for Tecoh (zone 2): April 20 to May 31."
+  },
+  "tekal-de-venegas": {
+   "titulo": "Tekal de Venegas: there was half as much fire as in a normal year",
+   "descripcion": "27 hot spots in 2026; in a normal year, 53. SEDER’s burn window for Tekal de Venegas (zone 2): April 20 to May 31."
+  },
+  "tekanto": {
+   "titulo": "Tekantó: there was less than half as much fire as in a normal year",
+   "descripcion": "2 hot spots in 2026; in a normal year, 5. SEDER’s burn window for Tekantó (zone 2): April 20 to May 31."
+  },
+  "tekax": {
+   "titulo": "Tekax: there was less fire than in a normal year",
+   "descripcion": "213 hot spots in 2026; in a normal year, 390. SEDER’s burn window for Tekax (zone 3): March 10 to April 3."
+  },
+  "tekit": {
+   "titulo": "Tekit: there was half as much fire as in a normal year",
+   "descripcion": "32 hot spots in 2026; in a normal year, 63. Likely burn window for Tekit (zone 3): March 10 to April 3."
+  },
+  "tekom": {
+   "titulo": "Tekom: there was less than half as much fire as in a normal year",
+   "descripcion": "14 hot spots in 2026; in a normal year, 68. SEDER’s burn window for Tekom (zone 1): March 1 to April 15."
+  },
+  "telchac-pueblo": {
+   "titulo": "Telchac Pueblo: there was less fire than in a normal year",
+   "descripcion": "5 hot spots in 2026; in a normal year, 7. SEDER’s burn window for Telchac Pueblo (zone 2): April 20 to May 31."
+  },
+  "telchac-puerto": {
+   "titulo": "Telchac Puerto: there is hardly ever any fire here, so there is nothing to compare",
+   "descripcion": "2 hot spots in 2026; in a normal year, 4. SEDER’s burn window for Telchac Puerto (zone 2): April 20 to May 31."
+  },
+  "temax": {
+   "titulo": "Temax: there was less fire than in a normal year",
+   "descripcion": "48 hot spots in 2026; in a normal year, 74. SEDER’s burn window for Temax (zone 2): April 20 to May 31."
+  },
+  "temozon": {
+   "titulo": "Temozón: there was about as much fire as in a normal year",
+   "descripcion": "123 hot spots in 2026; in a normal year, 152. SEDER’s burn window for Temozón (zone 4): March 10 to April 3."
+  },
+  "tepakan": {
+   "titulo": "Tepakán: there was less fire than in a normal year",
+   "descripcion": "9 hot spots in 2026; in a normal year, 15. SEDER’s burn window for Tepakán (zone 2): April 20 to May 31."
+  },
+  "tetiz": {
+   "titulo": "Tetiz: there was half as much fire as in a normal year",
+   "descripcion": "7 hot spots in 2026; in a normal year, 14. SEDER’s burn window for Tetiz (zone 2): April 20 to May 31."
+  },
+  "teya": {
+   "titulo": "Teya: there was less fire than in a normal year",
+   "descripcion": "4 hot spots in 2026; in a normal year, 7. SEDER’s burn window for Teya (zone 2): April 20 to May 31."
+  },
+  "ticul": {
+   "titulo": "Ticul: there was less than half as much fire as in a normal year",
+   "descripcion": "23 hot spots in 2026; in a normal year, 55. SEDER’s burn window for Ticul (zone 3): March 10 to April 3."
+  },
+  "timucuy": {
+   "titulo": "Timucuy: there was less than half as much fire as in a normal year",
+   "descripcion": "4 hot spots in 2026; in a normal year, 17. SEDER’s burn window for Timucuy (zone 2): April 20 to May 31."
+  },
+  "tinum": {
+   "titulo": "Tinum: there was less than half as much fire as in a normal year",
+   "descripcion": "27 hot spots in 2026; in a normal year, 88. SEDER’s burn window for Tinum (zone 1): March 1 to April 15."
+  },
+  "tixcacalcupul": {
+   "titulo": "Tixcacalcupul: there was less than half as much fire as in a normal year",
+   "descripcion": "40 hot spots in 2026; in a normal year, 89. SEDER’s burn window for Tixcacalcupul (zone 1): March 1 to April 15."
+  },
+  "tixkokob": {
+   "titulo": "Tixkokob: there was less than half as much fire as in a normal year",
+   "descripcion": "7 hot spots in 2026; in a normal year, 23. SEDER’s burn window for Tixkokob (zone 2): April 20 to May 31."
+  },
+  "tixmehuac": {
+   "titulo": "Tixmehuac: there was less than half as much fire as in a normal year",
+   "descripcion": "27 hot spots in 2026; in a normal year, 62. SEDER’s burn window for Tixmehuac (zone 1): March 1 to April 15."
+  },
+  "tixpehual": {
+   "titulo": "Tixpéhual: there was less than half as much fire as in a normal year",
+   "descripcion": "0 hot spots in 2026; in a normal year, 5. SEDER’s burn window for Tixpéhual (zone 2): April 20 to May 31."
+  },
+  "tizimin": {
+   "titulo": "Tizimín: there was less fire than in a normal year",
+   "descripcion": "435 hot spots in 2026; in a normal year, 713. SEDER’s burn window for Tizimín (zone 4): March 10 to April 3."
+  },
+  "tunkas": {
+   "titulo": "Tunkás: there was half as much fire as in a normal year",
+   "descripcion": "51 hot spots in 2026; in a normal year, 104. SEDER’s burn window for Tunkás (zone 1): March 1 to April 15."
+  },
+  "tzucacab": {
+   "titulo": "Tzucacab: there was less fire than in a normal year",
+   "descripcion": "108 hot spots in 2026; in a normal year, 152. SEDER’s burn window for Tzucacab (zone 3): March 10 to April 3."
+  },
+  "uayma": {
+   "titulo": "Uayma: there was less than half as much fire as in a normal year",
+   "descripcion": "12 hot spots in 2026; in a normal year, 43. SEDER’s burn window for Uayma (zone 1): March 1 to April 15."
+  },
+  "ucu": {
+   "titulo": "Ucú: there was about as much fire as in a normal year",
+   "descripcion": "13 hot spots in 2026; in a normal year, 12. SEDER’s burn window for Ucú (zone 2): April 20 to May 31."
+  },
+  "uman": {
+   "titulo": "Umán: there was less than half as much fire as in a normal year",
+   "descripcion": "19 hot spots in 2026; in a normal year, 42. SEDER’s burn window for Umán (zone 2): April 20 to May 31."
+  },
+  "valladolid": {
+   "titulo": "Valladolid: there was less than half as much fire as in a normal year",
+   "descripcion": "96 hot spots in 2026; in a normal year, 251. SEDER’s burn window for Valladolid (zone 1): March 1 to April 15."
+  },
+  "xocchel": {
+   "titulo": "Xocchel: there was less than half as much fire as in a normal year",
+   "descripcion": "3 hot spots in 2026; in a normal year, 20. SEDER’s burn window for Xocchel (zone 2): April 20 to May 31."
+  },
+  "yaxcaba": {
+   "titulo": "Yaxcabá: there was less than half as much fire as in a normal year",
+   "descripcion": "141 hot spots in 2026; in a normal year, 398. SEDER’s burn window for Yaxcabá (zone 1): March 1 to April 15."
+  },
+  "yaxkukul": {
+   "titulo": "Yaxkukul: there was half as much fire as in a normal year",
+   "descripcion": "4 hot spots in 2026; in a normal year, 8. SEDER’s burn window for Yaxkukul (zone 2): April 20 to May 31."
+  },
+  "yobain": {
+   "titulo": "Yobaín: there was less fire than in a normal year",
+   "descripcion": "5 hot spots in 2026; in a normal year, 9. SEDER’s burn window for Yobaín (zone 2): April 20 to May 31."
+  }
+ },
+ "inicio": {
+  "titulo": "K'áak': is your municipality burning more than usual?",
+  "descripcion": "Satellite hot spots on the Yucatán Peninsula since 2001, to know what is normal in each municipality."
+ }
+}
