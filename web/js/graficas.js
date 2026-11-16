@@ -4,6 +4,7 @@ import { el, fmt } from './comun.js';
 
 const GRIS = '#8F877D'; // barras de los años: 3.6:1 contra el blanco (WCAG 1.4.11)
 const ROJO = '#D7261E';
+const ROJO_CLARO = '#E9837D'; // el rojo claro de la página: años por encima de lo normal
 const TINTA = '#121212';
 const TINTA_2 = '#4A4743';
 
@@ -206,9 +207,13 @@ export function tiraFuera(svg, { anios, normal = null, ancho = 520, destacado = 
   const paso = (W - izq - der) / anios.length, bw = Math.max(3, paso - Math.min(4, paso * 0.22));
   const Y = (v) => base - v * alto;
   const id = (svg.id || 'tira') + '-conv';
-  const pat = el('pattern', { id, width: 4, height: 4, patternUnits: 'userSpaceOnUse', patternTransform: 'rotate(45)' }, el('defs', {}, svg));
-  el('rect', { width: 4, height: 4, fill: GRIS }, pat);
-  el('rect', { width: 1.6, height: 4, fill: '#FFFFFF', 'fill-opacity': 0.55 }, pat);
+  // Rayado gris y rayado rojo claro (años convertidos por encima de lo normal), como en la página del municipio.
+  const defs = el('defs', {}, svg);
+  for (const [sufijo, color] of [['', GRIS], ['-sobre', ROJO_CLARO]]) {
+    const pat = el('pattern', { id: id + sufijo, width: 4, height: 4, patternUnits: 'userSpaceOnUse', patternTransform: 'rotate(45)' }, defs);
+    el('rect', { width: 4, height: 4, fill: color }, pat);
+    el('rect', { width: 1.6, height: 4, fill: '#FFFFFF', 'fill-opacity': 0.55 }, pat);
+  }
   // Rejilla: ninguno, la mitad y todos; la escala va en «de cada 10», como las frases de la página.
   for (const v of [0, 0.5, 1]) {
     el('line', { x1: izq, x2: W - der, y1: Y(v) + 0.5, y2: Y(v) + 0.5, stroke: v === 0 ? TINTA : '#D6D2CB', 'stroke-width': 1 }, svg);
@@ -216,7 +221,11 @@ export function tiraFuera(svg, { anios, normal = null, ancho = 520, destacado = 
   }
   const barras = anios.map((a, i) => {
     const x = izq + i * paso + (paso - bw) / 2;
-    const relleno = a.y === destacado ? ROJO : a.y <= convertidoHasta ? 'url(#' + id + ')' : GRIS;
+    // Lo que pasa la línea de lo normal va en rojo claro; 2026, en rojo; lo demás, gris.
+    const sobre = normal !== null && a.fuera > normal;
+    const relleno = a.y === destacado ? ROJO
+      : a.y <= convertidoHasta ? 'url(#' + id + (sobre ? '-sobre' : '') + ')'
+      : sobre ? ROJO_CLARO : GRIS;
     return el('rect', { x: x.toFixed(1), y: Y(a.fuera).toFixed(1), width: bw.toFixed(1), height: (a.fuera * alto).toFixed(1), fill: relleno, class: 'b-anio' + (a.y === destacado ? ' destacada' : '') }, svg);
   });
   if (normal !== null) {
