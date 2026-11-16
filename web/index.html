@@ -50,14 +50,14 @@
          y, con JavaScript, estilo.css lo oculta desde el principio. Mismo contenido que /llms.txt. -->
     <div class="sin-js" lang="en">
       <h1>K'áak': the fire calendar of the Yucatán Peninsula</h1>
-      <p>K'áak' (Yucatec Maya for "fire") is a free website, in English and Spanish, that gives each municipality of the Yucatán Peninsula a fire calendar built from 25 years of NASA MODIS and VIIRS fire detections. MODIS on Aqua, which carries most of the record before 2012, sees three to five times less fire than VIIRS, so we calibrate MODIS to the VIIRS scale with a factor for each burn zone and time of year. This site needs JavaScript; <a href="/llms.txt">/llms.txt</a> describes everything it shows.</p>
+      <p>K'áak' (Yucatec Maya for "fire") is a free website, in English and Spanish, that gives each municipality of the Yucatán Peninsula a fire calendar built from 25 years of NASA MODIS and VIIRS fire detections. MODIS on Aqua, which carries most of the record before 2012, sees three to five times less fire than VIIRS, so we calibrate MODIS to the VIIRS scale with a factor for each zone and time of year. This site needs JavaScript; <a href="/llms.txt">/llms.txt</a> describes everything it shows.</p>
       <ul>
         <li>Whether this season runs above or below normal (the median of 2001 to 2025) in each municipality.</li>
         <li>Where fire returns almost every year: the 1 km cells with fire in 5 or more of the 14 seasons from 2012 to 2025, each linked to Google Maps.</li>
         <li>When it burns against the official burning window of each zone of Yucatán.</li>
         <li>A card per municipality to forward by WhatsApp, and the data behind every chart as CSV.</li>
       </ul>
-      <p>Validation, with criteria fixed before running the tests: as a consistency check, the false jump of 2012 goes from ×3.26 before calibration to ×0.90 after; the factor holds on the Aqua years 2021 to 2025, which the calibration did not use; and against CONAFOR's ground records, Suomi NPP sees 53 % of 1,222 recorded forest fires, against 9 % by chance.</p>
+      <p>Validation, with pass/fail rules fixed in code before computing the results: as a consistency check, the false jump of 2012 goes from ×3.26 before calibration to ×0.90 after; the factor holds on the Aqua years 2021 to 2025, which the calibration did not use; and against CONAFOR's ground records, Suomi NPP sees 53 % of 1,222 recorded forest fires, against 9 % by chance.</p>
       <p>It does not predict fires or send alerts. Code and data: <a href="https://github.com/Ghosflot/kaak-yucatan">github.com/Ghosflot/kaak-yucatan</a>. Project for the NASA Space Apps Challenge 2026.</p>
     </div>
   </main>

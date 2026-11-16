@@ -48,7 +48,7 @@ Each municipality also has its card, ready to send on WhatsApp, and its tables i
 
 - **The 4 strongest weeks of each zone.** It is already measured: in the zones that burn every
   year, those 4 weeks capture 49 % of the next year's fire, and the official window, 23 %. That
-  is double. The calculation is in `analisis/campo_y_fuego.py` and still has to reach the site.
+  is double. The overall result is on the site (Burn window page); the 4 weeks of each place still have to reach it. The calculation is in `analisis/campo_y_fuego.py`.
 - **Where fire has already gotten out of control before** (fires lasting 5 days or more), to
   know where to put the heaviest surveillance.
 - **The season-close sheet for the report the law asks for**, built from the card.

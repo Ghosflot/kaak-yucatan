@@ -45,8 +45,8 @@ Cada municipio tiene además su ficha, lista para mandar por WhatsApp, y sus tab
 
 - **Las 4 semanas más fuertes de cada zona.** Ya está medido: en las zonas donde se quema cada
   año, esas 4 semanas atrapan el 49 % del fuego del año siguiente, y la ventana oficial, el
-  23 %. Es el doble. El cálculo está en `analisis/campo_y_fuego.py` y falta llevarlo a la
-  página.
+  23 %. Es el doble. El resultado general ya está en la página (Fechas de quema); falta llevar las 4
+  semanas de cada lugar. El cálculo está en `analisis/campo_y_fuego.py`.
 - **Dónde el fuego ya se ha salido de control antes** (fuegos de 5 días o más), para saber
   dónde poner la vigilancia fuerte.
 - **La hoja de cierre para el informe que pide la ley**, armada a partir de la ficha.
