@@ -103,7 +103,7 @@ const PLANTILLA = `
   </section>
   <p class="m-fin"><span data-t="mFinAntes"></span><a href="#/" data-t="mFinEnlace"></a><span data-t="mFinDespues"></span></p>
   <p class="pie" id="pie"></p>
-  <p class="pie"><span data-t="mIA"></span> <a href="https://github.com/Ghosflot/kaak-yucatan/blob/main/entrega/uso-de-ia.md" data-t="mIAEnlace"></a></p>
+  <p class="pie"><span data-t="mIA"></span> <a href="https://github.com/Ghosflot/kaak-yucatan/blob/main/entrega/use-of-ai.md" data-t="mIAEnlace"></a></p>
   <p class="pie" id="mEquipo" data-t="mEquipo"></p>
 </article>`;
 

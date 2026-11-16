@@ -60,7 +60,7 @@ SEDER sets the allowed burning windows by date, so the site shows the calendar d
 - [Verified facts](https://github.com/Ghosflot/kaak-yucatan/blob/main/docs/01-verified-facts.md): every figure with its source
 - [Method](https://github.com/Ghosflot/kaak-yucatan/blob/main/docs/02-method.md)
 - [The countryside and fire](https://github.com/Ghosflot/kaak-yucatan/blob/main/docs/04-countryside-and-fire.md): who burns and why it matters
-- [Use of AI](https://github.com/Ghosflot/kaak-yucatan/blob/main/entrega/uso-de-ia.md)
+- [Use of AI](https://github.com/Ghosflot/kaak-yucatan/blob/main/entrega/use-of-ai.md)
 - [Slides, in English (PDF)](https://github.com/Ghosflot/kaak-yucatan/blob/main/entrega/slides-en.pdf): the 12 slides of the pitch
 
 ## Data sources
