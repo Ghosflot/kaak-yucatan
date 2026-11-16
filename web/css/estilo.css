@@ -726,6 +726,9 @@ body.con-subtitulos { --subtitulos: 72px; padding-bottom: var(--subtitulos); }
 .alm-tabla td.mes { position: relative; height: 38px; padding: 0; }
 .alm-tabla .f { position: absolute; left: 0; right: 0; top: 0; bottom: 6px; }
 .alm-tabla .v { position: absolute; bottom: 0; height: 4px; background: var(--tinta); }
+/* 2026: el mes en curso lleva borde punteado; los meses que no han llegado quedan en blanco. */
+.f.parcial, .alm-ley i.parcial { outline: 2px dashed var(--tinta); outline-offset: -2px; }
+.f.a-c4.parcial, .f.a-c5.parcial { outline-color: var(--papel); }
 .alm-vacio { margin: 8px 0; font-size: 15px; color: var(--tinta-2); }
 .alm-mas { margin-top: 14px; }
 .alm-pie { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; margin-top: 6px; }

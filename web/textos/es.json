@@ -412,6 +412,10 @@
   "almZonaAria": "Ver el calendario de la zona {z}",
   "almCelda": "{m}, {mes}: {n} focos de calor en un año normal",
   "almCelda26": "{m}, {mes}: {n} focos de calor en 2026",
+  "almCelda26Parcial": "{m}, {mes}: {n} focos de calor en 2026 hasta el {d}; el mes no ha terminado",
+  "almCelda26Futuro": "{m}, {mes} de 2026: todavía no llega",
+  "almFuturo": "todavía no llega",
+  "almLeyParcial": "Mes en curso (hasta el {d})",
   "almCsvBase": "municipio,estado,zona,se_permite_desde,se_permite_hasta",
   "almCsvMeses": [
     "ene",

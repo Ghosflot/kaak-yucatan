@@ -264,3 +264,33 @@ test('sin zona en la dirección abre la de más fuego del año, o la del municip
   await expect(zonaElegida(page)).toHaveAttribute('data-zona', '3');
   await expect(page.locator('#zMiZona')).toHaveText('Muna está en la zona 3.');
 });
+
+test('«2026» deja en blanco los meses que no han llegado y marca el mes en curso', async ({ page }) => {
+  const corte = JSON.parse(fs.readFileSync('web/datos/zonas.json', 'utf8')).actualizado; // «2026-11-14»
+  const mes = Number(corte.slice(5, 7)), dia = Number(corte.slice(8, 10));
+  const ultimoDia = new Date(Date.UTC(2026, mes, 0)).getUTCDate();
+  await abrir(page, '#/fechas/2');
+  const celda = (m) => page.locator(`#almanaque tr[data-id="tekax"] td.mes:nth-of-type(${m})`);
+  // Con «Un año normal» se ven los 12 meses.
+  if (mes < 12) await expect(celda(12).locator('.f')).toHaveCount(1);
+  await expect(page.locator('#almLeyParcial')).toBeHidden();
+  await page.click('[data-anio="2026"]');
+  for (let m = mes + 1; m <= 12; m++) {
+    await expect(celda(m).locator('.f')).toHaveCount(0);
+    await expect(celda(m)).toHaveAttribute('title', /todavía no llega/);
+  }
+  if (dia < ultimoDia) {
+    await expect(celda(mes).locator('.f.parcial')).toHaveCount(1);
+    await expect(celda(mes)).toHaveAttribute('title', new RegExp(`hasta el ${dia} de`));
+    await expect(page.locator('#almLeyParcial')).toBeVisible();
+    await expect(page.locator('#almLeyParcial')).toContainText(`Mes en curso (hasta el ${dia} de`);
+  }
+  await expect(celda(mes - 1).locator('.f.parcial')).toHaveCount(0);
+  // En el CSV, los meses que no han llegado van vacíos, no en 0.
+  const descarga = page.waitForEvent('download');
+  await page.click('#almCsv');
+  const renglon = fs.readFileSync(await (await descarga).path(), 'utf8').split(/\r\n/).find((r) => r.startsWith('Tekax,'));
+  const de2026 = renglon.split(',').slice(-12);
+  expect(de2026.slice(mes)).toEqual(Array(12 - mes).fill(''));
+  expect(de2026[mes - 1]).not.toBe('');
+});
