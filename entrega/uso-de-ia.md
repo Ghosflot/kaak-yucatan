@@ -82,7 +82,7 @@ How it was checked:
   ministry, SEDER, and Civil Protection of Yucatán), the method (one satellite per period and
   a MODIS→VIIRS factor per burn zone and season) and the design of the site.
 - **It is not the source of any figure.** Our rule is one figure, one source: every number in
-  the pitch and on the site is listed with its source in `docs/01-hechos-verificados.md`, or
+  the pitch and on the site is listed with its source in `docs/01-verified-facts.md`, or
   comes from our own validation. We checked the figures that the AI found against the
   original data.
 - **It did not choose how to judge the method.** The pass criteria of the validation were

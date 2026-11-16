@@ -123,8 +123,11 @@ para la evidencia (21 fuegos largos en 8 de 15 años) y Muna para la historia de
 **Qué no hace:** no predice incendios, no avisa en tiempo real (llega horas después de la pasada
 del satélite) y no identifica parcelas ni personas: un cuadrito mide 1 km y abarca muchas.
 
-**Prototipo:** existe una vista de prueba con datos reales (mapa por municipio, zonas donde se
-repite el fuego, fuegos largos y lista diaria); todavía no está en el repo (tarea 7).
+**Lo que ya está en la página (15 nov):** de las cuatro capas, la página tiene las zonas de
+quema, en la sección «¿Dónde se quema en {municipio}?» de cada municipio. En lugar del
+calendario de 4 semanas, da la semana con más fuego de un año normal en cada municipio y, en
+cada zona, cuánto fuego cae fuera de la ventana oficial. Las zonas de escape y la hoja de
+cierre siguen pendientes (el estado de cada tarea está en la sección 6).
 
 ## 5. Bloque del campo para el pitch
 
@@ -173,6 +176,22 @@ momento correctos.
 | 7 | Pasar los cálculos de `analisis/campo_y_fuego.py` al pipeline | Medio | La página muestra las mismas cifras que el script |
 | 8 | Enseñárselo a una persona: el comisario ejidal de Muna o Protección Civil de Tekax | Variable | Una frase suya para el pitch |
 | 9 | Después del hackatón: localidades y uso de suelo de INEGI; repetir las pruebas con NOAA-20 | Medio | Cada mancha dice su localidad más cercana |
+
+**Estado de cada tarea al cierre del hackatón (15 nov):**
+
+1. Hecha.
+2. De otra forma: la página da la semana con más fuego de un año normal en cada municipio y, en
+   cada zona, cuánto fuego cayó fuera de la ventana cada año. Las 4 semanas de cada mancha
+   siguen pendientes.
+3. De otra forma: «¿Dónde se quema en {municipio}?» enseña los cuadritos con fuego en 5 o más de
+   las 14 temporadas, cada uno con su enlace a Google Maps, sin agruparlos en manchas.
+4. Pendiente.
+5. Hecha: los cuadritos que FIRMS marcó como fuente fija (type 2) salen del cálculo.
+6. Pendiente. Hoy la página da la ficha de cada municipio para WhatsApp.
+7. En parte: los cuadritos que se repiten y el fuego fuera de la ventana ya los calcula
+   `pipeline/exportar_web.py`; las 4 semanas y los fuegos largos, no.
+8. Pendiente.
+9. Pendiente.
 
 ## 7. Lo que no hay que decir
 
