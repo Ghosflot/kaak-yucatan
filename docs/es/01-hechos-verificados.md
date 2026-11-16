@@ -471,6 +471,20 @@ se bajaron por la API de FIRMS (`analisis/descargar_firms_api.py`).
 - **Pregunta abierta:** ¿qué cambió en 2025 y 2026? ¿Lluvias, el calendario de quemas por
   zonas, más vigilancia o menos milpa? Leo la lleva al campo (tarea 21).
 
+### Fuera de temporada, el mes en curso no tiene con qué compararse
+
+- Del 1 al 15 de noviembre, **119 de los 127 municipios** de la península tienen mediana cero de
+  focos de calor en 2001–2025; solo 5 tienen una mediana mayor que 1, y solo uno mayor que 5
+  (Othón P. Blanco, 5.2). Por eso la página compara la temporada de quemas (de marzo a mayo) y no
+  el mes en curso. Por estado, 2026 sale por arriba de la mediana en esa quincena (Yucatán 20.6
+  contra 6.0, Campeche 26.5 contra 17.0, Quintana Roo 23.6 contra 10.4), pero son cifras chicas y
+  coinciden con el cambio de satélite del 3 de noviembre (de Suomi NPP a NOAA-20), así que no se
+  presentan como hallazgo.
+- Método: la misma serie armonizada de la página (`pipeline/exportar_web.py`, el satélite de cada
+  periodo con su factor), contada por día; los municipios sin focos cuentan con cero. Se reproduce
+  con `.venv/bin/python analisis/mes_en_curso.py` (`--mes`, `--desde` y `--hasta` cambian el
+  tramo). Verificado el 16 nov 2026.
+
 ### Validación con CONAFOR: el satélite ve la mayoría de los incendios registrados
 Calculado con `analisis/cruce_conafor.py` (detalle por incendio en
 `analisis/salidas/cruce_conafor.csv`). Se tomaron los 1,222 incendios que CONAFOR registró

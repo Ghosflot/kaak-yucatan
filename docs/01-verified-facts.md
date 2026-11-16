@@ -457,6 +457,19 @@ downloaded through the FIRMS API (`analisis/descargar_firms_api.py`).
 - **Open question:** what changed in 2025 and 2026? Rains, the burning calendar by zone, more
   surveillance or less milpa? Leo takes it to the countryside (task 21).
 
+### Outside the season, the current month has nothing to compare against
+
+- From November 1 to 15, **119 of the 127 municipalities** of the peninsula have a median of zero
+  hot spots over 2001–2025; only 5 have a median above 1, and only one above 5 (Othón P. Blanco,
+  5.2). That is why the site compares the burning season (March to May) and not the current month.
+  By state, 2026 is above the median in that half-month (Yucatán 20.6 against 6.0, Campeche 26.5
+  against 17.0, Quintana Roo 23.6 against 10.4), but these are small numbers and coincide with the
+  change of satellite on November 3 (Suomi NPP to NOAA-20), so they are not presented as a finding.
+- Method: the same harmonized series as the site (`pipeline/exportar_web.py`, the satellite of
+  each period with its factor), counted by day; municipalities with no hot spots count as zero.
+  Reproduce with `.venv/bin/python analisis/mes_en_curso.py` (`--mes`, `--desde` and `--hasta`
+  change the period). Checked Nov 16, 2026.
+
 ### Validation with CONAFOR: the satellite sees most of the recorded wildfires
 Computed with `analisis/cruce_conafor.py` (per-wildfire detail in
 `analisis/salidas/cruce_conafor.csv`). We took the 1,222 wildfires CONAFOR recorded in the
