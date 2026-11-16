@@ -1,6 +1,7 @@
 // Tarjetas para la vista previa de los enlaces (WhatsApp, Facebook, X): web/og/<municipio>.png,
 // web/og/inicio.jpg y web/og/textos.json, con el título y la descripción de cada una.
 // functions/_middleware.js las pone en el <head> de cada dirección (kaak.pages.dev/tekax).
+// Las mismas, en inglés, van en web/og/en/ (para kaak.pages.dev/tekax?lang=en).
 //
 // Se dibujan con el mismo código de la ficha (web/js/ficha.js), en Chrome. Hay que volver a correrlo
 // cuando cambien las cifras de 2026 de los municipios: `node pipeline/tarjetas.mjs`.
@@ -13,9 +14,9 @@ import { chromium } from 'playwright';
 
 const RAIZ = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const WEB = path.join(RAIZ, 'web');
-const SALIDA = path.join(WEB, 'og');
 const PUERTO = 8794;
-mkdirSync(SALIDA, { recursive: true });
+// Carpeta de cada idioma: el español en web/og/, como siempre.
+const SALIDAS = { es: path.join(WEB, 'og'), en: path.join(WEB, 'og', 'en') };
 
 const servidor = spawn('python3', ['-m', 'http.server', String(PUERTO), '-d', WEB, '--bind', '127.0.0.1'], { stdio: 'ignore' });
 process.on('exit', () => servidor.kill());
@@ -25,9 +26,10 @@ const page = await navegador.newPage();
 await page.goto(`http://127.0.0.1:${PUERTO}/?lang=es#/metodo`);
 await page.waitForSelector('#vista > *');
 
-const resultado = await page.evaluate(async () => {
+const dibujar = (idioma) => page.evaluate(async (idioma) => {
   const ficha = await import('/js/ficha.js');
-  const { t } = await import('/js/textos.js');
+  const { t, cambiarIdioma } = await import('/js/textos.js');
+  cambiarIdioma(idioma);
   const { frase, cifras } = await import('/js/comun.js');
   const json = (r) => fetch(r).then((x) => x.json());
   // La de la portada lleva la foto de satélite: en JPEG pesa una sexta parte.
@@ -51,7 +53,8 @@ const resultado = await page.evaluate(async () => {
     const f = ficha.fechasDeLaFicha(m);
     salida.textos.municipios[id] = {
       titulo: m.nombre + ': ' + minuscula(sinPunto(frase(m))),
-      descripcion: cifras('fCifras', m) + ' ' + f.titulo + ': ' + minuscula(f.valor) + '.',
+      // En inglés los meses van con mayúscula («April 23 to 29»).
+      descripcion: cifras('fCifras', m) + ' ' + f.titulo + ': ' + (idioma === 'es' ? minuscula(f.valor) : f.valor) + '.',
     };
   }
 
@@ -71,11 +74,15 @@ const resultado = await page.evaluate(async () => {
   salida.imagenes['inicio.jpg'] = await png(canvas, 'image/jpeg');
   salida.textos.inicio = { titulo: t('tituloPagina'), descripcion: t('descripcionPagina') };
   return salida;
-});
+}, idioma);
 
-for (const [id, b64] of Object.entries(resultado.imagenes)) writeFileSync(path.join(SALIDA, id), Buffer.from(b64, 'base64'));
-writeFileSync(path.join(SALIDA, 'textos.json'), JSON.stringify(resultado.textos, null, 1) + '\n');
-console.log(`web/og: ${Object.keys(resultado.imagenes).length} tarjetas`);
+for (const [idioma, SALIDA] of Object.entries(SALIDAS)) {
+  const resultado = await dibujar(idioma);
+  mkdirSync(SALIDA, { recursive: true });
+  for (const [id, b64] of Object.entries(resultado.imagenes)) writeFileSync(path.join(SALIDA, id), Buffer.from(b64, 'base64'));
+  writeFileSync(path.join(SALIDA, 'textos.json'), JSON.stringify(resultado.textos, null, 1) + '\n');
+  console.log(`${path.relative(RAIZ, SALIDA)}: ${Object.keys(resultado.imagenes).length} tarjetas`);
+}
 await navegador.close();
 servidor.kill();
 process.exit(0);
