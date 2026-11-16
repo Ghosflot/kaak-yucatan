@@ -507,6 +507,20 @@ Short answers, with their source in docs/01.
   Decision of #40, made after the challenge author's answer in the official forum
   (https://github.com/nasa/spaceapps/discussions/1879).
 
+- **"How do you know a factor from 2013–2020 works for 2005?"**
+  "Because the fires Aqua saw didn't change size. The median power of its hot spots in the season
+  was 29.9 megawatts in 2003–2011 and 29.1 in 2013–2020. If the old fires had been bigger, MODIS
+  would have seen more of them and the factor would overcorrect; they weren't. The one exception
+  is zone Yucatán 2, where its old years may read about 5 % high."
+  Source: docs/01, "The MODIS–VIIRS gap depends on size".
+
+- **"Isn't your 'normal' biased by the trend?"**
+  "Partly, and we checked it. Fire in Yucatán has gone down since 2001, about 4 % a year, and it is
+  real: Aqua alone, the same satellite, sees 28 % less. So 'below normal' partly means 'below the
+  2000s'. But if normal is only the VIIRS years, 2012 to 2025, 2026 is still below normal in 86
+  municipalities instead of 93."
+  Source: docs/01, "Robustness: 'below normal' with a trend in the normal".
+
 ## What is not said
 
 - That fire is increasing: 2025 and 2026 were the lowest seasons on record.

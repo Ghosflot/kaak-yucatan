@@ -26,7 +26,11 @@ where it recurs year after year.
 
 - **One series, four satellites.** MODIS (Terra, Aqua) and VIIRS (S-NPP, NOAA-20) are put on
   the VIIRS scale with a MODIS→VIIRS factor per burn zone and time of year, and validated with
-  three tests and a comparison with CONAFOR's ground records. NOAA-21 also observes the peninsula, but it is not part of the series.
+  three tests and a comparison with CONAFOR's ground records. Not all four are independent of the
+  calibration (the NOAA-20 check uses the same years as its factor, and CONAFOR measures detection,
+  not the factor), but the 2012 jump test holds even with the factors calibrated only on
+  2016–2020, without 2013–2015: harmonized ratio ≈ 0.908, against 0.904 with the current factors.
+  NOAA-21 also observes the peninsula, but it is not part of the series.
 - **A calendar per municipality.** Year against year and day by day, how today's season
   compares with the 25-year normal.
 - **Official burn windows.** Fire detections are crossed with the state's official burning
