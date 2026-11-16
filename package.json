@@ -1,7 +1,7 @@
 {
   "name": "kaak-web",
   "private": true,
-  "description": "Pruebas y video de la página de K'áak' (la página no usa bibliotecas).",
+  "description": "Tests and walkthrough videos for the K'áak' site (the site uses no libraries).",
   "scripts": {
     "servir": "python3 -m http.server 8790 -d web",
     "pruebas": "playwright test",

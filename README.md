@@ -6,7 +6,8 @@ Project for the **NASA Space Apps Challenge 2026** (Mérida host site, November 
 [Harmonization of MODIS and VIIRS Hot Spots](https://www.spaceappschallenge.org/2026/challenges/modis-and-viirs-hot-spots/).
 *K'áak'* means "fire" in Yucatec Maya.
 
-Live site: <https://kaak.pages.dev> (in English: <https://kaak.pages.dev/?lang=en>)
+Live site: <https://kaak.pages.dev>. It opens in your browser's language; add `?lang=en` or
+`?lang=es` to the address to choose.
 
 ![The home page of K'áak': each municipality of Yucatán colored by how its 2026 burning season compares with its normal year, over a cloud-free satellite image, with the yearly hot spot chart of the state](assets/readme-portada.png)
 
@@ -56,7 +57,7 @@ all fire, and no detections does not mean no fire. "Normal" is a reference, not 
 | `tests/` | Automated tests, run on every pull request (ruff, pytest, and Playwright with axe-core for the site in `tests/web/`) |
 | `salidas/` *(outputs)* | Computed results: the harmonized series, the MODIS→VIIRS factors, the daily and monthly calendars, the days without data, and the validation with its charts (`salidas/graficas/`) |
 | `functions/` | Cloudflare Pages function: link previews for each municipality page and the visit counter |
-| `entrega/` *(submission)* | The AI-use disclosure for Space Apps |
+| `entrega/` *(submission)* | The [AI-use disclosure](entrega/use-of-ai.md) for Space Apps and the [tools that turn the pitch deck into a video](entrega/video-presentacion/README.md) |
 | `assets/` | Logos, the team image and the images in this README |
 | `docs/` | Project documentation in English. The Spanish originals are in `docs/es/` |
 
@@ -131,7 +132,7 @@ in `docs/`. The team chose the challenge, the users, the method and the design, 
 was verified against the cited sources. The site says so at the foot of "How we measure it".
 
 The full disclosure, with what the AI did and did not do and each member's use, is in
-[entrega/uso-de-ia.md](entrega/uso-de-ia.md). No image on the site was generated with AI.
+[entrega/use-of-ai.md](entrega/use-of-ai.md). No image on the site was generated with AI.
 
 ## Team
 
