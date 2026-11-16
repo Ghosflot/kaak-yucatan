@@ -7,7 +7,7 @@ Melany.
 **El pitch dura 5 minutos:** se presenta la «Versión final de 5 minutos: El 3 de abril»
 (15 nov). La «Versión de 5 minutos» anterior y la de 3 minutos quedan de respaldo.
 
-**Las diapositivas están en Canva:** <https://www.canva.com/design/DAHa_7xCM_k/edit>.
+**Las diapositivas se hicieron en Canva.**
 
 **El ejemplo del demo es Muna**, el pueblo del abuelo, y es también el botón «Por ejemplo» de la
 página. En las diapositivas, el clip del demo busca «Muna» y el QR abre `kaak.pages.dev`, la
