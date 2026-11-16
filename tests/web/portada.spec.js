@@ -409,6 +409,22 @@ test('las barras dicen quién vio cada periodo, y el panel lleva al método y a 
   await expect(page).toHaveURL(/#\/fechas$/);
 });
 
+// Como en las demás gráficas de barras con lo normal: 2026 en rojo, lo que pasa lo normal en rojo claro
+// (rayado si es de 2001 a 2011) y lo demás en gris.
+test('las barras del estado y las de la tarjeta usan el rojo claro para lo que pasa lo normal', async ({ page }) => {
+  await abrir(page, '#/', { query: '?modo=final&sel=merida' });
+  const estado = await page.locator('#barras rect.b-anio').evaluateAll((rs) => rs.map((r) => r.getAttribute('fill')));
+  expect(estado.at(-1)).toBe('#D7261E');
+  expect(estado).toContain('#E9837D');
+  expect(estado).toContain('url(#barras-conv-sobre)');
+  expect(estado.every((f) => ['#D7261E', '#E9837D', '#8F877D', 'url(#barras-conv)', 'url(#barras-conv-sobre)'].includes(f))).toBe(true);
+  const tarjeta = await page.locator('.tarjeta.fija .historia > rect').evaluateAll((rs) => rs.map((r) => getComputedStyle(r).fill));
+  expect(tarjeta.at(-1)).toBe('rgb(215, 38, 30)');
+  expect(tarjeta).toContain('rgb(233, 131, 125)');
+  expect(tarjeta).toContain('url("#tj-conv")'); // el rayado se ve: el CSS ya no lo tapa con gris liso
+  expect(tarjeta).toContain('url("#tj-conv-sobre")');
+});
+
 test('el año normal de la línea de tiempo no es gris sólido como «casi nunca hay quemas»', async ({ page }) => {
   await abrir(page, '#/', { reducir: true });
   const normal = await page.$eval('#bNormal', (e) => getComputedStyle(e).backgroundColor);

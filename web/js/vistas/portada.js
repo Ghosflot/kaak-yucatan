@@ -936,14 +936,19 @@ export function montar(raiz) {
     const paso = W / anios.length;
     const svg = el('svg', { viewBox: `0 0 ${W} ${H}`, class: 'historia', role: 'img' });
     svg.setAttribute('aria-label', t('historiaAria', { m: munPorId.get(id).n, n: fmt(normal), a: anio, v: fmt(valoresDe(id)[0]) }));
-    const pat = el('pattern', { id: 'tj-conv', width: 4, height: 4, patternUnits: 'userSpaceOnUse', patternTransform: 'rotate(45)' }, el('defs', {}, svg));
-    el('rect', { width: 4, height: 4, class: 'fondo-raya' }, pat);
-    el('rect', { width: 1.6, height: 4, fill: '#FFFFFF', 'fill-opacity': 0.55 }, pat);
+    // Rayado gris y rayado rojo claro; los colores van en el CSS (.historia).
+    const defs = el('defs', {}, svg);
+    for (const [sufijo, clase] of [['', 'fondo-raya'], ['-sobre', 'fondo-raya sobre']]) {
+      const pat = el('pattern', { id: 'tj-conv' + sufijo, width: 4, height: 4, patternUnits: 'userSpaceOnUse', patternTransform: 'rotate(45)' }, defs);
+      el('rect', { width: 4, height: 4, class: clase }, pat);
+      el('rect', { width: 1.6, height: 4, class: 'raya' }, pat);
+    }
     const hasta = Number(t('periodos')[1][1]);
+    // Como en las demás gráficas: el año elegido en rojo; los que pasan lo normal, en rojo claro; lo demás, gris.
     anios.forEach((a, k) => {
       const h = Math.max(a.v > 0 ? 1 : 0, (a.v / max) * (base - 4));
-      const rect = el('rect', { x: (k * paso + 0.5).toFixed(1), y: (base - h).toFixed(1), width: (paso - 1.5).toFixed(1), height: h.toFixed(1), class: a.y === anio ? 'este' : '' }, svg);
-      if (a.y <= hasta && a.y !== anio) rect.setAttribute('fill', 'url(#tj-conv)');
+      const clase = a.y === anio ? 'este' : [a.y <= hasta ? 'conv' : '', a.v > normal ? 'sobre' : ''].join(' ').trim();
+      el('rect', { x: (k * paso + 0.5).toFixed(1), y: (base - h).toFixed(1), width: (paso - 1.5).toFixed(1), height: h.toFixed(1), class: clase }, svg);
     });
     const yn = (base - (normal / max) * (base - 4)).toFixed(1);
     el('line', { x1: 0, x2: W, y1: yn, y2: yn, class: 'normal' }, svg);
@@ -1210,7 +1215,7 @@ export function montar(raiz) {
     const anios = Object.keys(y.anios).map(Number).sort((a, b) => a - b).map((a) => ({ y: a, total: y.anios[a] }));
     const dibujar = () => barrasAnios(svg, {
       anios, normal: y.normal, alTocar: elegirAnio, alBarrer: barrerAnio, seleccionado: anio === ANIO ? null : anio,
-      ancho: Math.max(220, anchoBarras - 58), alto: altoBarras, rango: y.rango || null,
+      ancho: Math.max(220, anchoBarras - 58), alto: altoBarras, rango: y.rango || null, sobreNormal: '#E9837D',
       periodos: t('periodos'), sigue: t('satSigue'), leyenda: t('leyendaConv'),
       aria: t('barrasAria', { n: fmt(y.normal), a: fmt(y.anios[ANIO]) }),
     });
