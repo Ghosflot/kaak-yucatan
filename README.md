@@ -8,6 +8,15 @@ Project for the **NASA Space Apps Challenge 2026** (Mérida host site, November 
 
 Live site: <https://kaak.pages.dev>
 
+![The home page of K'áak': each municipality of Yucatán colored by how its 2026 burning season compares with its normal year, over a cloud-free satellite image, with the yearly hot spot chart of the state](assets/readme-portada.png)
+
+<img src="assets/readme-ficha-muna.png" width="392" align="right" alt="Muna's card, ready to share on WhatsApp: 24 hot spots in 2026 against 56 in a normal year, one bar per year since 2001, and SEDER's burn window for Muna, March 10 to April 3">
+
+Each municipality gets a page and a card like Muna's, on the right, that a local authority can
+forward by WhatsApp. The site is in Spanish and English.
+
+<br clear="right">
+
 ## What it does
 
 K'áak' joins 25 years of satellite fire detections (MODIS and VIIRS) into a single comparable
@@ -18,8 +27,8 @@ where it recurs year after year.
 - **One series, four satellites.** MODIS (Terra, Aqua) and VIIRS (S-NPP, NOAA-20) are put on
   the VIIRS scale with a MODIS→VIIRS factor per burn zone and time of year, and validated with
   four independent checks. NOAA-21 also observes the peninsula, but it is not part of the series.
-- **A calendar per municipality.** For each week, how today's season compares with the
-  25-year normal.
+- **A calendar per municipality.** Year against year and day by day, how today's season
+  compares with the 25-year normal.
 - **Official burn windows.** Fire detections are crossed with the state's official burning
   calendar by zone.
 - **Where it burns.** Each municipality page maps the 1 km squares where fire has recurred in
@@ -50,7 +59,7 @@ presented in Spanish). Terms are fixed in the [glossary](docs/GLOSSARY.md).
 
 1. [Verified facts](docs/01-verified-facts.md): fire figures and their sources.
 2. [Method](docs/02-method.md): what the site does, the method and each task.
-3. [Pitch script](docs/03-script.md). The slides are in [Canva](https://www.canva.com/design/DAHa_7xCM_k/edit).
+3. [Pitch script](docs/03-script.md). The slides were made in Canva.
 4. [The countryside and fire](docs/04-countryside-and-fire.md): who burns, why it matters and the fire calendar of each municipality.
 5. [Explained simply](docs/05-explained-simply.md): the problem and the solution in plain words, and the four lines for the jury.
 

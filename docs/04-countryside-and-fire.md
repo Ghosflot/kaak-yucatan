@@ -1,7 +1,7 @@
 # Yucatán's countryside and fire: problem and solution
 
-*Nov 14, 2026. Grounding of the problem for the pitch and for implementation. PDF version:
-`docs/04-countryside-and-fire.pdf`. Our own figures are reproduced with
+*Nov 14, 2026. Grounding of the problem for the pitch and for implementation. PDF version (in
+Spanish): `docs/es/04-campo-y-fuego.pdf`. Our own figures are reproduced with
 `analisis/campo_y_fuego.py`; the rest are in docs/01, "Yucatán's countryside".*
 
 Spanish original: [docs/es/04-campo-y-fuego.md](es/04-campo-y-fuego.md).
@@ -125,8 +125,11 @@ for the evidence (21 long fires in 8 of 15 years) and Muna for the grandfather's
 hours after the satellite pass) and it does not identify plots or people: a grid cell is 1 km wide
 and covers many.
 
-**Prototype:** a test view exists with real data (map by municipality, zones where fire repeats,
-long fires and a daily list); it is not in the repo yet (task 7).
+**What is already on the site (Nov 15):** of the four layers, the site has the burning zones, in
+each municipality's "Where does {municipality} burn?" section. Instead of the 4-week calendar, it
+gives the week with the most fire in a normal year in each municipality and, in each zone, how
+much fire falls outside the official window. The escape zones and the closing sheet are still
+pending (the status of each task is in section 6).
 
 ## 5. Countryside block for the pitch
 
@@ -174,6 +177,22 @@ time.
 | 7 | Move the calculations of `analisis/campo_y_fuego.py` into the pipeline | Medium | The page shows the same figures as the script |
 | 8 | Show it to one person: the ejido commissioner of Muna or Tekax Civil Protection | Variable | A sentence from them for the pitch |
 | 9 | After the hackathon: INEGI localities and land use; repeat the tests with NOAA-20 | Medium | Each patch names its nearest locality |
+
+**Status of each task at the end of the hackathon (Nov 15):**
+
+1. Done.
+2. Done differently: the site gives the week with the most fire in a normal year in each
+   municipality and, in each zone, how much fire fell outside the window each year. The 4 weeks
+   of each patch are still pending.
+3. Done differently: "Where does {municipality} burn?" shows the grid cells with fire in 5 or
+   more of the 14 seasons, each with its link to Google Maps, without grouping them into patches.
+4. Pending.
+5. Done: the cells FIRMS marked as a fixed source (type 2) are left out of the calculation.
+6. Pending. Today the site gives each municipality's card for WhatsApp.
+7. In part: `pipeline/exportar_web.py` already calculates the cells where fire repeats and the
+   fire outside the window; the 4 weeks and the long fires, not yet.
+8. Pending.
+9. Pending.
 
 ## 7. What not to say
 

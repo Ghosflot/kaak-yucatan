@@ -166,7 +166,8 @@ al actualizar tu rama chocan, no se resuelve a mano: se corre `pipeline/correr_t
 sube lo que salga.
 
 ```
-pipeline/   rejilla.py, armonizar.py, validar.py, recurrencia.py, exportar_web.py
+pipeline/   cargar.py, rejilla.py, armonizar.py, serie.py, validar.py, datos_web.py, exportar_web.py,
+            actualizar_diario.py, correr_todo.py
 salidas/    resultados del cálculo (parquet, csv, json)
 web/        la página: index.html, js/, css/, textos/, datos/ (lo genera exportar_web.py)
 tests/      pruebas automáticas
@@ -186,8 +187,8 @@ calendario provisional y, cuando llega el armonizado, solo se reemplaza el archi
 | `salidas/calendario.parquet` | municipio × año × semana | `estado`, `municipio`, `zona`, `anio`, `semana`, `cuadritos_viirs_eq` (armonizado), `cuadritos_modis_crudo`, `cuadritos_viirs_crudo`, `p10`, `p50`, `p90` (de la semana), `acum`, `acum_p10`, `acum_p50`, `acum_p90` (del acumulado del año), `en_ventana` |
 | `salidas/calendario_mensual.parquet` | municipio × año × mes | `estado`, `municipio`, `anio`, `mes`, `cuadritos_viirs_eq` |
 | `salidas/factores.csv` | zona × época × satélite | `zona`, `epoca`, `satelite`, `factor`, `factor_min`, `factor_max`, `cuadritos_dia_usados`, `debil` |
-| `salidas/recurrencia.parquet` | municipio | `estado`, `municipio`, `cuadritos_recurrentes`, `pct_recurrente`, `semana_pico`, `pct_fuera_ventana` |
-| `salidas/cuadritos_recurrencia.parquet` | cuadrito de 1 km | `lat`, `lon`, `temporadas_con_fuego` (de 14) |
+| `web/datos/municipio/{id}.json` | municipio | entre otros, `repetidos`: `[lon, lat, temporadas]` de cada cuadrito con fuego en 5 o más de las 14 temporadas (tarea 6) |
+| `web/datos/zonas.json` | zona de quema de Yucatán | su ventana, el fuego de cada día de enero a junio y qué parte cayó fuera de la ventana cada año |
 | `salidas/validacion.json` | prueba | nombre, número, frase en lenguaje simple y ruta de su gráfica |
 | `salidas/serie_armonizada.csv` | municipio × año × semana | lo mismo que el calendario, para descargar |
 | `datos_peninsula/ganaderia_municipios.csv` | municipio de Yucatán | `municipio`, `estado`, `bovinos_2022` (total del Censo Agropecuario 2022), `bovinos_up_2022` (solo unidades de producción), `km2`, `km2_pastizal` (cultivado e inducido, INEGI Serie VII), `pct_pastizal`, `bovinos_km2`, `focos` y `focos_pastizal` (S-NPP 2013–2025). Lo arma `analisis/preparar_ganaderia.py` (#60) |
@@ -200,7 +201,8 @@ calendario provisional y, cuando llega el armonizado, solo se reemplaza el archi
 ## Tareas
 
 Cada tarea dice qué hay que hacer, qué se entrega, cuándo está terminada, de qué depende y
-cuántas horas lleva (cálculo aproximado para quien ya conoce la herramienta).
+cuántas horas lleva (cálculo aproximado para quien ya conoce la herramienta). Es el plan con el
+que se repartió el trabajo; donde la página quedó distinta, la referencia es el código.
 
 ### Armonización
 
@@ -272,6 +274,15 @@ cuántas horas lleva (cálculo aproximado para quien ya conoce la herramienta).
   recurrentes, o el PR explica por qué no. Son los dos municipios más grandes de Yucatán, así
   que el PR dice también dónde quedan por `pct_recurrente`.
 - **Depende de:** 2 · **Horas:** 3.
+- **Cómo quedó (15 nov):** se hizo de otra forma y sin archivo propio en `salidas/`.
+  `cuadritos_repetidos` de `pipeline/exportar_web.py` calcula los cuadritos con fuego en 5 o más
+  de las 14 temporadas (de marzo a mayo y sin fuentes fijas) y los escribe en el JSON de cada
+  municipio; la página los pinta en «¿Dónde se quema en {municipio}?». La semana con más fuego
+  sale de `semana_pico` en `pipeline/datos_web.py`, y el fuego fuera de la ventana se muestra
+  por municipio («{k} de cada 10 focos aparecen después del…») y por zona (`web/datos/zonas.json`).
+  `pipeline/recurrencia.py`, `salidas/recurrencia.parquet` y
+  `salidas/cuadritos_recurrencia.parquet` no existen, y el porcentaje del municipio
+  (`pct_recurrente`) queda para después.
 
 #### 7. Las cuatro pruebas de que funciona
 Cada prueba lleva un número, una gráfica y una frase que se pueda decir en el pitch:

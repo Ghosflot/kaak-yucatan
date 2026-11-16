@@ -26,25 +26,32 @@ hectares depend on rain, and only 2 in 100 production units got credit.
 
 ## How do we solve it?
 
-We use the fire detections from two NASA satellites, MODIS and VIIRS, and put them on a single map
-by municipality. You pick your municipality and see:
+We use the fire detections of the MODIS and VIIRS sensors, which fly on NASA and NOAA satellites,
+and put them on a single map by municipality. You pick your municipality and see:
 
-1. **Whether your season is going worse or better than normal**, week by week. To do this we
-   joined 25 years of MODIS and VIIRS into a single comparable series (the two satellites see
-   between 3 and 5 times a different amount of fire, and without calibrating them there is no
-   long history).
-2. **Where it burns almost every year.** That is where you go before the season to talk to the
-   owners, check firebreaks and grant permits.
-3. **In which weeks each zone burns.** In the zones that burn every year, their 4 strongest weeks
-   capture 49 % of the next year's fire; the official window captures 23 %. That is double. This
-   tells you when to watch each zone.
-4. **Where fire has already gotten out of control before** (fires lasting 5 days or more). That is
-   where you put the heaviest surveillance.
+1. **Whether your season is going worse or better than normal**, day by day and year against
+   year. To do this we joined 25 years of MODIS and VIIRS into a single comparable series (the
+   two sensors see between 3 and 5 times a different amount of fire, and without calibrating
+   them there is no long history).
+2. **Where it burns almost every year:** the 1 km grid cells that had fire in 5 or more of the
+   14 seasons from 2012 to 2025, each with its link to Google Maps. That is where you go before
+   the season to talk to the owners, check firebreaks and grant permits.
+3. **When it burns, against the official dates:** the week with the most fire in a normal year
+   in your municipality and, in each burning zone of Yucatán, how many of every 10 hot spots fell
+   outside SEDER's window each year. This tells you when to watch.
 
-Points 2, 3 and 4 use 14 years of VIIRS (2012–2025), because MODIS doesn't see small fires.
+Point 2 uses only the 14 years of VIIRS (2012–2025), because MODIS doesn't see small fires.
 
-At the end of the season, the same page gives you the summary ready for the report the law asks
-for.
+Each municipality also has its card, ready to send on WhatsApp, and its tables in CSV.
+
+**What comes next (not on the site yet):**
+
+- **The 4 strongest weeks of each zone.** It is already measured: in the zones that burn every
+  year, those 4 weeks capture 49 % of the next year's fire, and the official window, 23 %. That
+  is double. The calculation is in `analisis/campo_y_fuego.py` and still has to reach the site.
+- **Where fire has already gotten out of control before** (fires lasting 5 days or more), to
+  know where to put the heaviest surveillance.
+- **The season-close sheet for the report the law asks for**, built from the card.
 
 **What it does not do:** it does not predict wildfires, it does not warn in real time (it arrives
 hours after the satellite passes) and it does not identify plots or people.
@@ -64,8 +71,7 @@ satellite data, so it can prevent wildfires in the right place and at the right 
 > In Yucatán, each municipality authorizes agricultural burns and must evaluate its season, but it
 > does so without data: in 2023 there was one permit for every 47 hot spots seen by satellite.
 > K'áak' joins 25 years of NASA MODIS and VIIRS detections into a single comparable series, so
-> each municipality knows whether its season is going worse or better than normal, and with 14
-> years of VIIRS it shows where burning happens year after year, in which weeks, and where fire
-> has already escaped. In the zones that burn every year, those weeks capture half of the next
-> year's fire, double the official window. It does not predict wildfires: it turns each
-> municipality's past into a prevention plan.
+> each municipality knows whether its season is going worse or better than normal. With 14 years
+> of VIIRS it shows where burning happens year after year and, in each zone, how much fire falls
+> outside the official window. It does not predict wildfires: it turns each municipality's past
+> into a prevention plan.
