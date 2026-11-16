@@ -663,13 +663,17 @@ async function demo() {
       // Con la cámara en la península, al entrar los colores el mapa se queda ahí (no vuela a Yucatán).
       document.getElementById('verTodo').click();
     });
-    // El cursor se desliza con aceleración suave y llega a tiempo: cada paso se calcula con el reloj.
+    // El cursor se mueve como una mano y con el mismo ritmo en todo el video: la duración crece poco con la
+    // distancia (ley de Fitts) y nunca pasa de la que pide cada paso; frena al llegar (jerk mínimo) y, si
+    // llega antes de la acción, espera quieto. Cada paso se calcula con el reloj.
     let cx = 760, cy = 104;
     await page.mouse.move(cx, cy);
-    const deslizar = async (x, y, ms) => {
-      const x0 = cx, y0 = cy, inicio = Date.now();
+    const deslizar = async (x, y, tope) => {
+      const x0 = cx, y0 = cy, inicio = Date.now(), d = Math.hypot(x - x0, y - y0);
+      const ms = Math.min(tope, Math.round(180 + 110 * Math.log2(1 + d / 30)));
+      if (process.env.KAAK_DEMO_TIEMPOS) console.log('   cursor', Math.round(d), 'px en', ms, 'ms');
       for (;;) {
-        const e = Math.min(1, (Date.now() - inicio) / ms), s = e < 0.5 ? 4 * e * e * e : 1 - (-2 * e + 2) ** 3 / 2;
+        const e = Math.min(1, (Date.now() - inicio) / ms), s = 10 * e ** 3 - 15 * e ** 4 + 6 * e ** 5;
         const arco = Math.sin(Math.PI * s) * Math.min(40, Math.hypot(x - x0, y - y0) * 0.08);
         cx = x0 + (x - x0) * s - arco * Math.sign(y - y0 || 1) * 0.6; cy = y0 + (y - y0) * s + arco * 0.4;
         await page.mouse.move(cx, cy);
