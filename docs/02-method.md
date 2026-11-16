@@ -248,6 +248,18 @@ the work was split with; where the site ended up different, the code is the refe
   each time, and the lowest and highest are kept (`factor_min`, `factor_max`). It is a **range**,
   not a confidence interval: in docs and in the pitch we say "range". A number without its range
   is easier to attack in the judges' questions.
+- **What the range does not measure:** the range is the min–max of 8 recalculations, each leaving
+  out one year. It shows how stable the average factor is, not how far off one reconstructed year
+  can be. Statistically it covers only about ±0.5 jackknife standard errors (jackknife SE ≈
+  √(n−1) × SD of the leave-one-out values, n = 8). The error of one year was measured the same
+  way, leaving out one year of 2013–2020 (March–May, municipality-years with at least 20 S-NPP
+  grid cell-days). With Aqua, one year is typically about 8 % off for a whole zone and about 20 %
+  for a single municipality; per municipality the 90th percentile is about 62 %, and about 1
+  municipality-year in 6 is more than 50 % off. With Terra it is about 14 % per zone and about
+  45 % per municipality. Per-municipality factors (also shrunk toward the zone factor) and a
+  power-law curve were tested and did not reduce it: it is year-to-year noise, so we state it
+  instead of changing the method. A better interval would be a block bootstrap by year (Künsch
+  1989, *Ann. Stat.* 17:1217); it is future work.
 - **Depends on:** 2 · **Hours:** 6 · **Skills:** pandas, ratios.
 
 #### 4. NOAA-20→S-NPP factor

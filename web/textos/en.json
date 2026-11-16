@@ -489,7 +489,7 @@
   "mValGrafica": "See the chart",
   "mValVer": "See the limitations",
   "mDetSalto2012": "The target was to remove at least half of the jump and land between {m0} and {m1}. Between S-NPP periods, with no satellite change, the ratio ranges from {naturalMin} to {naturalMax}: that is normal year-to-year variation. For the state of Yucatán alone, the same calculation gives {razonCrudaYucatan} uncorrected and {razonArmonizadaYucatan} after correction.",
-  "mDetAqua": "With a single factor for the whole peninsula, the error was {wapeUnicoPct}%; with one per zone and season, {wapeZonaEpocaPct}%. That is roughly how far off the years the series takes from Aqua may be.",
+  "mDetAqua": "With a single factor for the whole peninsula, the error was {wapeUnicoPct}%; with one per zone and season, {wapeZonaEpocaPct}%. That is how far off an Aqua year can be for a whole zone. In a single municipality, a year from 2002 to 2011 is usually about 20% off, and 1 year in 6 more than 50%; the Terra years (2001 and part of 2002), about 45%. So the long series is solid for zones and for the state. For a single municipality in an old year, it is a reference.",
   "mDetConafor": "These are {incendios} wildfires recorded from {desde} to {hasta}. The target was at least three times as many fires with hot spots nearby as chance would give, and {meta} in 100 of the large ones.",
   "mDetConaforDuracion": "Longer fires are easier to catch: counting any satellite, not just S-NPP, {d1} in 100 one-day fires had hot spots nearby, against {d4} in 100 of those that lasted more than a week.",
   "mGvTituloSalto": "Test 1 · 2012 jump · Yucatán Peninsula",
