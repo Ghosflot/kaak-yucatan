@@ -68,14 +68,32 @@ def test_serie_completa_para_descargar(salida):
     assert _json(salida, "metodo.json")["serieMB"] == round(copia.stat().st_size / 1e6)
 
 
+def test_vaciar_conserva_la_hora_de_revision(tmp_path):
+    """La actualización diaria escribe revision.json y después regenera web/datos: no se borra."""
+    (tmp_path / "municipio").mkdir()
+    (tmp_path / "municipio" / "viejo.json").write_text("{}")
+    (tmp_path / "portada.json").write_text("{}")
+    (tmp_path / "revision.json").write_text('{"revisado":"2026-11-16T02:49:00Z"}')
+    ew.vaciar(tmp_path)
+    assert sorted(p.name for p in tmp_path.iterdir()) == ["revision.json"]
+    assert json.loads((tmp_path / "revision.json").read_text()) == {"revisado": "2026-11-16T02:49:00Z"}
+
+
+def test_vaciar_sin_revision_deja_la_carpeta_vacia(tmp_path):
+    destino = tmp_path / "datos"
+    ew.vaciar(destino)
+    assert destino.is_dir() and not list(destino.iterdir())
+
+
 def test_web_datos_al_dia():
-    """web/datos/ en el repo debe ser lo que genera el exportador (se regenera, no se edita)."""
+    """web/datos/ en el repo debe ser lo que genera el exportador (se regenera, no se edita).
+    Los archivos de ew.CONSERVAR los escribe otro paso y no cuentan."""
     import filecmp
     import tempfile
 
     with tempfile.TemporaryDirectory() as tmp:
         ew.exportar(Path(tmp))
-        comparacion = filecmp.dircmp(tmp, ew.SALIDA)
+        comparacion = filecmp.dircmp(tmp, ew.SALIDA, ignore=filecmp.DEFAULT_IGNORES + list(ew.CONSERVAR))
         pendientes = [comparacion]
         while pendientes:
             c = pendientes.pop()

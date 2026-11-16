@@ -71,6 +71,9 @@ GANADERIA_PERIODO = [2013, 2025]  # los focos de ganaderia_municipios.csv (anali
 # cerca de los quintiles de los 106 municipios: la mitad tiene menos de 5 % de pastizal y unos pocos pasan de 60 %.
 GANADERIA_CORTES = {"pastizal": [5, 15, 30, 50], "bovinos": [2, 5, 10, 25], "focos": [5, 15, 30, 50]}
 SALIDA = RAIZ / "web" / "datos"
+# Archivos de web/datos que escribe otro paso y que por eso no se borran al regenerar la carpeta:
+# revision.json lo escribe pipeline/actualizar_diario.py con la hora de cada revisión de FIRMS.
+CONSERVAR = ("revision.json",)
 
 ANIOS_BASE = range(2001, 2026)
 ANIO = 2026
@@ -764,13 +767,22 @@ def cargar_elegidos() -> pd.DataFrame:
     return dw.elegidos_con_factor(cargar_cuadritos(), serie.leer_factores())
 
 
+def vaciar(salida: Path) -> None:
+    """Borra lo que el exportador escribió antes en `salida`, pero deja los archivos de CONSERVAR."""
+    guardados = {n: (salida / n).read_bytes() for n in CONSERVAR if (salida / n).is_file()}
+    if salida.exists():
+        shutil.rmtree(salida)
+    salida.mkdir(parents=True)
+    for nombre, contenido in guardados.items():
+        (salida / nombre).write_bytes(contenido)
+
+
 def exportar(salida: Path = SALIDA, elegidos: pd.DataFrame | None = None) -> dict:
     mun = tabla_municipios()
     registros = [registro(f) for _, f in mun.iterrows()]
     if elegidos is None:
         elegidos = cargar_elegidos()
-    if salida.exists():
-        shutil.rmtree(salida)
+    vaciar(salida)
     escribir(salida / "municipios.json", registros)
     escribir(salida / "municipios.geojson", limites_con_id(mun))
 
