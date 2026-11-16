@@ -372,3 +372,17 @@ test('territorio ganadero en inglés', async ({ page }) => {
   await expect(page.locator('#ganLeyenda li').first()).toHaveText('under 5 %');
   await expect(page.locator('#ganLectura')).toHaveText('Hover over a municipality to see its figures, or tap it to open its page.');
 });
+
+test('dónde se quema: si el encabezado ajusta los días de NOAA-20, una nota dice por qué no cuadra con los puntos', async ({ page }) => {
+  const m = dato('hopelchen'), focos = deTemporada(m);
+  const num = (n) => Math.round(n).toLocaleString('es-MX');
+  // Hopelchén: 200 de sus focos de 2026 son de NOAA-20 y el encabezado los lleva a la escala de S-NPP.
+  expect(num(m.v26)).not.toBe(num(focos.length));
+  await abrir(page, '#/municipio/hopelchen');
+  await expect(page.locator('#cifras')).toContainText(`${num(m.v26)} focos de calor`);
+  await expect(page.locator('#dondeAjuste')).toBeVisible();
+  await expect(page.locator('#dondeAjuste')).toContainText(`(${num(m.v26)})`);
+  await expect(page.locator('#dondeAjuste')).toContainText(`(${num(focos.length)})`);
+  await abrir(page, '#/municipio/muna');
+  await expect(page.locator('#dondeAjuste')).toBeHidden();
+});
