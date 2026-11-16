@@ -1,8 +1,20 @@
 # K'áak' — kaak.pages.dev
 # Summary for language models: https://kaak.pages.dev/llms.txt
 
+# Content Signals (https://contentsignals.org): search and AI answers, yes; AI training, no.
 User-agent: *
-Content-Signal: search=yes, ai-input=yes
+Content-Signal: search=yes, ai-input=yes, ai-train=no
 Allow: /
+
+# Crawlers that only collect content to train AI models. Assistants that read a page when
+# someone asks them (ChatGPT-User, Claude-User, Perplexity-User…) are still allowed.
+User-agent: GPTBot
+User-agent: ClaudeBot
+User-agent: CCBot
+User-agent: Google-Extended
+User-agent: Applebot-Extended
+User-agent: meta-externalagent
+User-agent: Bytespider
+Disallow: /
 
 Sitemap: https://kaak.pages.dev/sitemap.xml

@@ -12,6 +12,11 @@ The site is a single-page app: a reader that does not run JavaScript sees only i
 - When it burns against the official dates: the week with the most fire in a normal year, and, for each burn zone of Yucatán, how many of every 10 hot spots fell outside the burning window set by the state agriculture ministry (SEDER), each year since 2001.
 - A one-page card per municipality to forward by WhatsApp, and CSV downloads of the data behind every chart.
 - How we measure it: the four validation tests, in plain language, with their charts.
+- An almanac of every municipality, month by month, for a normal year or for 2026.
+
+### Why day by day, and why March to May
+
+SEDER sets the allowed burning windows by date, so the site shows the calendar day by day; the almanac shows each month and the downloadable harmonized series each week. The comparison with normal covers the burning season, March to May. Outside it, 119 of the 127 municipalities have a median of zero hot spots in the first half of November, so comparing the current month would say nothing.
 
 ## How the harmonization works
 
@@ -22,9 +27,9 @@ The site is a single-page app: a reader that does not run JavaScript sees only i
 
 ## Validation (criteria fixed before running the tests)
 
-- The false jump of 2012 disappears: the ratio of 2013–2015 to 2009–2011 goes from ×3.26 before calibration to ×0.90 after, inside the natural range of 0.87 to 1.16.
+- The false jump of 2012 disappears: for the whole peninsula over the full year, the ratio of 2013–2015 to 2009–2011 goes from ×3.26 before calibration to ×0.90 after, inside the natural range of 0.87 to 1.16.
 - The factor holds on the Aqua years 2021 to 2025, which the calibration did not use: 11 % error with a factor per zone and time of year, against 13 % with a single factor (limit: 25 %).
-- The two VIIRS satellites agree: 0.99 NOAA-20 detections per Suomi NPP detection.
+- NOAA-20 can carry the series on: from 2019 to 2025, NOAA-20 with its factor counted between 0.99 and 1.03 hot spots per Suomi NPP hot spot each year, inside the 0.90 to 1.10 target.
 - Against CONAFOR's ground records of forest fires, Suomi NPP sees 53 % of 1,222 recorded fires, against 9 % expected by chance, and 84 % of those larger than 100 ha.
 - One assumption cannot be tested: before 2012 only MODIS flew, so the factor measured from 2013 to 2020 is assumed to hold for 2001 to 2011. The site draws those years as striped bars.
 
