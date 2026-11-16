@@ -21,7 +21,7 @@ const RECORRIDO = process.argv[3] || 'temporada';
 const WEB = process.env.KAAK_WEB || path.join(RAIZ, 'web');
 const FFMPEG = process.env.KAAK_FFMPEG || 'ffmpeg';
 const CRF = process.env.KAAK_CRF || '20';
-const PUERTO = 8793;
+const PUERTO = Number(process.env.KAAK_PUERTO) || 8793;
 const BASE = `http://127.0.0.1:${PUERTO}`;
 const VIDEOS = path.join(RAIZ, 'videos');
 mkdirSync(VIDEOS, { recursive: true });
@@ -736,7 +736,7 @@ async function demo() {
     await hacia('.tarjeta.fija a', 800);
     // 5, el cierre: la ficha del municipio, que se manda por WhatsApp, y con el nombre la tarjeta final.
     await hasta(f5);
-    await sub('For Civil Protection, SEDER and every town: K’áak’, Yucatán’s fire calendar.', 0);
+    await sub('For Civil Protection, SEDER and every town: K’áak’, Yucatán’s peninsula fire calendar.', 0);
     marca('frase 5');
     await pulso();
     await page.evaluate(() => { location.hash = '#/municipio/candelaria'; });
