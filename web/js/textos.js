@@ -1,5 +1,6 @@
 // Textos de la página en español e inglés (web/textos/*.json).
-// El idioma sale de ?lang=, después de lo que eligió la persona la última vez y, si no, español.
+// El idioma sale de ?lang=, después de lo que eligió la persona la última vez y, si no, del
+// navegador: español si es su primer idioma y, si no, inglés.
 // Al cambiarlo se avisa con el evento «idioma» en window; cada vista vuelve a pintar sus textos.
 
 const IDIOMAS = ['es', 'en'];
@@ -10,12 +11,17 @@ function guardado() {
   try { return localStorage.getItem('kaak-idioma'); } catch { return null; }
 }
 
+function delNavegador() {
+  const primero = (navigator.languages && navigator.languages[0]) || navigator.language || '';
+  return /^es\b/i.test(primero) ? 'es' : 'en';
+}
+
 export async function cargarTextos() {
   const [es, en] = await Promise.all(IDIOMAS.map((l) => fetch('/textos/' + l + '.json').then((r) => r.json())));
   TEXTOS.es = es;
   TEXTOS.en = en;
   const pedido = new URLSearchParams(location.search).get('lang') || guardado();
-  actual = IDIOMAS.includes(pedido) ? pedido : 'es';
+  actual = IDIOMAS.includes(pedido) ? pedido : delNavegador();
   document.documentElement.lang = actual;
 }
 

@@ -68,3 +68,29 @@ test('el idioma elegido se queda al cambiar de página', async ({ page }) => {
   await page.reload();
   await expect(page.locator('h2#almTitulo')).toHaveText(EN.fechasPagina);
 });
+
+test.describe('con el navegador en inglés', () => {
+  test.use({ locale: 'en-US' });
+
+  test('la página abre en inglés si nadie eligió idioma', async ({ page }) => {
+    await abrir(page, '#/');
+    expect(await page.getAttribute('html', 'lang')).toBe('en');
+    expect([EN.titulo, EN.tituloPasado]).toContain(await page.locator('#titulo').textContent());
+    expect(await page.title()).toBe(EN.tituloPagina);
+  });
+
+  test('?lang=es y la elección guardada mandan sobre el navegador', async ({ page }) => {
+    await abrir(page, '#/', { query: '?lang=es' });
+    expect(await page.getAttribute('html', 'lang')).toBe('es');
+    await page.evaluate(() => localStorage.setItem('kaak-idioma', 'es'));
+    await abrir(page, '#/fechas');
+    expect(await page.getAttribute('html', 'lang')).toBe('es');
+    await expect(page.locator('h2#almTitulo')).toHaveText(ES.fechasPagina);
+  });
+});
+
+test('con el navegador en español, la página abre en español', async ({ page }) => {
+  await abrir(page, '#/');
+  expect(await page.getAttribute('html', 'lang')).toBe('es');
+  expect([ES.titulo, ES.tituloPasado]).toContain(await page.locator('#titulo').textContent());
+});
