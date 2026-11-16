@@ -174,13 +174,17 @@ for (const [z, [afirma, patron]] of Object.entries(ZONAS)) {
   });
 }
 
-test('la tira de 26 años: 2026 en rojo, 2001–2011 rayados y cada año se lee con las flechas', async ({ page }) => {
+test('la tira de 26 años: 2026 en rojo, los años sobre lo normal en rojo claro, 2001–2011 rayados y cada año se lee con las flechas', async ({ page }) => {
   await abrir(page, '#/fechas/4');
   const tira = page.locator('#zTira');
   await expect(tira.locator('rect.b-anio')).toHaveCount(26);
   await expect(tira.locator('rect.b-anio.destacada')).toHaveAttribute('fill', '#D7261E');
   const rayados = await tira.locator('rect.b-anio').evaluateAll((rs) => rs.filter((r) => r.getAttribute('fill').startsWith('url(')).length);
   expect(rayados).toBe(11);
+  // Como en las demás gráficas: lo que pasa la línea de lo normal va en rojo claro; lo demás, gris.
+  const colores = await tira.locator('rect.b-anio:not(.destacada)').evaluateAll((rs) => rs.map((r) => r.getAttribute('fill')));
+  expect(colores.some((f) => f === '#E9837D' || f.endsWith('-sobre)'))).toBe(true);
+  expect(colores.every((f) => ['#E9837D', '#8F877D', 'url(#zTira-conv)', 'url(#zTira-conv-sobre)'].includes(f))).toBe(true);
   // Ninguna letra de la tira mide menos de 11 px en la pantalla.
   const chica = await tira.locator('text').evaluateAll((ts) => Math.min(...ts.map((x) => x.getBoundingClientRect().height)));
   expect(chica).toBeGreaterThanOrEqual(11);

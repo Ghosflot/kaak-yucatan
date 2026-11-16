@@ -11,7 +11,7 @@ so both learn the whole pitch and practice it. If both are missing, Gadiel and M
 **The pitch lasts 5 minutes:** the "Final 5-minute version: April 3" (Nov 15) is presented. The
 earlier "5-minute version" and the 3-minute one stay as backups.
 
-**The slides are in Canva:** <https://www.canva.com/design/DAHa_7xCM_k/edit>.
+**The slides were made in Canva.**
 
 **The demo's example is Muna**, the grandfather's town, and it is also the "For example" button of
 the page. In the slides, the demo clip searches "Muna" and the QR opens `kaak.pages.dev`, the front

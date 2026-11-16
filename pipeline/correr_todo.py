@@ -18,9 +18,8 @@ PIPELINE = Path(__file__).resolve().parent
 ETAPAS = [
     "armonizar.py",               # tareas 3 y 4: factores
     "serie.py",                   # tarea 5: serie de 25 años y lo normal
-    "recurrencia.py",             # tarea 6
     "validar.py",                 # tarea 7
-    "exportar_web.py",            # tarea 10
+    "exportar_web.py",            # tareas 6 y 10: los cuadritos que se repiten y los datos de la página
 ]
 
 
