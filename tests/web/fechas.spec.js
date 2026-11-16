@@ -294,3 +294,13 @@ test('«2026» deja en blanco los meses que no han llegado y marca el mes en cur
   expect(de2026.slice(mes)).toEqual(Array(12 - mes).fill(''));
   expect(de2026[mes - 1]).not.toBe('');
 });
+
+test('el hallazgo de las cuatro semanas contra la ventana está en la página, en los dos idiomas', async ({ page }) => {
+  await abrir(page, '#/fechas', { query: '?lang=en' });
+  const sec = page.locator('section.fz-semanas');
+  await expect(sec.locator('#zSemT')).toContainText('twice as much');
+  await expect(sec.locator('.fz-sem-fila b')).toHaveText(['49 %', '23 %']);
+  await expect(sec.locator('.fz-sem-barras')).toHaveAttribute('aria-label', /49 %.*23 %/);
+  await page.click('[data-idioma="es"]');
+  await expect(sec.locator('#zSemT')).toContainText('el doble');
+});

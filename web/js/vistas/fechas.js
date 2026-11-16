@@ -78,6 +78,15 @@ const PLANTILLA = `
       <p class="fz-lectura" id="zLectura" aria-live="polite"></p>
     </div>
   </section>
+  <section class="fz-semanas" aria-labelledby="zSemT">
+    <p class="fz-sec-t" id="zSemT" data-t="zSemT"></p>
+    <p class="fz-sem-texto" data-t="zSemTexto"></p>
+    <div class="fz-sem-barras" role="img" data-t-aria="zSemAria">
+      <div class="fz-sem-fila"><span class="fz-sem-et" data-t="zSemHist"></span><span class="fz-sem-barra"><i class="hist" style="width:49%"></i></span><b>49&nbsp;%</b></div>
+      <div class="fz-sem-fila"><span class="fz-sem-et" data-t="zSemVentana"></span><span class="fz-sem-barra"><i style="width:23%"></i></span><b>23&nbsp;%</b></div>
+    </div>
+    <p class="fz-nota" data-t="zSemNota"></p>
+  </section>
   <section class="alm" aria-labelledby="almTitulo">
     <h2 id="almTitulo" data-t="fechasPagina"></h2>
     <p class="alm-sub" data-t="almSub"></p>
