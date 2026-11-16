@@ -1,7 +1,7 @@
 // Portada: la temporada en tres momentos (foto, repaso y cierre) y el panel con la respuesta.
 import { t, traducir } from '../textos.js';
 import { $, fmt, fechaDia, fechaDiaAnio, fechaCorta, COLOR, ESCALA, veredicto, el, reducirMovimiento, datos, anunciar, visita, pieDatos } from '../comun.js';
-import { barrasAnios, subirBarras } from '../graficas.js';
+import { barrasAnios, subirBarras, patronTerra, marcarTerra } from '../graficas.js';
 import { armarBuscador, EJEMPLO } from '../buscador.js';
 import { ruta } from '../app.js';
 
@@ -133,6 +133,7 @@ const PLANTILLA = `
     <button type="button" class="ley-normal cifra" id="leyNormal" aria-expanded="false" aria-controls="explicaNormal"><i aria-hidden="true"></i><span id="leyNormalTexto"></span></button>
     <p class="explica" id="explicaNormal" hidden></p>
     <svg id="barras"></svg>
+    <p class="nota-terra" data-t="terraNota"></p>
   </div>
   <p class="tira-pista" id="pistaAnio"></p>
   <p class="escala-hoy"><span data-t="escalaHoy"></span> <a class="ir" href="#/metodo" data-t="verComprobamos"></a></p>
@@ -935,7 +936,7 @@ export function montar(raiz) {
     const max = Math.max(...anios.map((a) => a.v), normal, 1);
     const paso = W / anios.length;
     const svg = el('svg', { viewBox: `0 0 ${W} ${H}`, class: 'historia', role: 'img' });
-    svg.setAttribute('aria-label', t('historiaAria', { m: munPorId.get(id).n, n: fmt(normal), a: anio, v: fmt(valoresDe(id)[0]) }));
+    svg.setAttribute('aria-label', t('historiaAria', { m: munPorId.get(id).n, n: fmt(normal), a: anio, v: fmt(valoresDe(id)[0]) }) + ' ' + t('terraNota'));
     // Rayado gris y rayado rojo claro; los colores van en el CSS (.historia).
     const defs = el('defs', {}, svg);
     for (const [sufijo, clase] of [['', 'fondo-raya'], ['-sobre', 'fondo-raya sobre']]) {
@@ -945,11 +946,13 @@ export function montar(raiz) {
     }
     const hasta = Number(t('periodos')[1][1]);
     // Como en las demás gráficas: el año elegido en rojo; los que pasan lo normal, en rojo claro; lo demás, gris.
-    anios.forEach((a, k) => {
+    const barras = anios.map((a, k) => {
       const h = Math.max(a.v > 0 ? 1 : 0, (a.v / max) * (base - 4));
       const clase = a.y === anio ? 'este' : [a.y <= hasta ? 'conv' : '', a.v > normal ? 'sobre' : ''].join(' ').trim();
-      el('rect', { x: (k * paso + 0.5).toFixed(1), y: (base - h).toFixed(1), width: (paso - 1.5).toFixed(1), height: h.toFixed(1), class: clase }, svg);
+      return el('rect', { x: (k * paso + 0.5).toFixed(1), y: (base - h).toFixed(1), width: (paso - 1.5).toFixed(1), height: h.toFixed(1), class: clase }, svg);
     });
+    // 2001 y 2002, de Terra: rayado cruzado encima, como en las demás gráficas.
+    marcarTerra(svg, barras, anios, patronTerra(defs, 'tj-terra'));
     const yn = (base - (normal / max) * (base - 4)).toFixed(1);
     el('line', { x1: 0, x2: W, y1: yn, y2: yn, class: 'normal' }, svg);
     el('line', { x1: 0, x2: W, y1: base + 0.5, y2: base + 0.5, class: 'eje' }, svg);
@@ -1007,6 +1010,7 @@ export function montar(raiz) {
     ley.append(raya, t('loNormalCorto'));
     h.append(t('historiaTitulo'), ley);
     tj.appendChild(graficaHistoria(id));
+    span('nota-terra', t('terraNota'));
     const dato = hecho(id);
     if (dato) span('hecho', dato);
     if (fija) {
@@ -1217,7 +1221,7 @@ export function montar(raiz) {
       anios, normal: y.normal, alTocar: elegirAnio, alBarrer: barrerAnio, seleccionado: anio === ANIO ? null : anio,
       ancho: Math.max(220, anchoBarras - 58), alto: altoBarras, rango: y.rango || null, sobreNormal: '#E9837D',
       periodos: t('periodos'), sigue: t('satSigue'), leyenda: t('leyendaConv'),
-      aria: t('barrasAria', { n: fmt(y.normal), a: fmt(y.anios[ANIO]) }),
+      aria: t('barrasAria', { n: fmt(y.normal), a: fmt(y.anios[ANIO]) }) + ' ' + t('terraNota'),
     });
     dibujar();
     altoPanel = panel.clientHeight;

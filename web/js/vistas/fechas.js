@@ -53,6 +53,7 @@ const PLANTILLA = `
       <div class="fz-tira" id="zTiraCaja"><svg id="zTira"></svg></div>
       <p class="fz-tira-lee" id="zTiraLee" aria-hidden="true"></p>
       <p class="fz-nota" data-t="zTiraNota"></p>
+      <p class="fz-nota nota-terra" data-t="terraNota"></p>
       <p class="fz-aviso" data-t="zNota"></p>
     </div>
     <div class="fz-lado-mapa">
@@ -147,7 +148,7 @@ export function montar(raiz, params) {
     const anios = Object.keys(z.porAnio).map(Number).sort((a, b) => a - b).map((y) => ({ y, fuera: fueraDe(z.porAnio[y]) }));
     tiraFuera($('zTira'), {
       anios, normal: fueraDe(z.tipico), ancho: $('zTiraCaja').clientWidth,
-      leer: (y) => leerAnio(z, y), lectura: $('zTiraLee'), aria: t('zTiraT'),
+      leer: (y) => leerAnio(z, y), lectura: $('zTiraLee'), aria: t('zTiraT') + '. ' + t('terraNota'),
     });
   }
 

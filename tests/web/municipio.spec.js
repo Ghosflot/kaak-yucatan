@@ -386,3 +386,28 @@ test('dónde se quema: si el encabezado ajusta los días de NOAA-20, una nota di
   await abrir(page, '#/municipio/muna');
   await expect(page.locator('#dondeAjuste')).toBeHidden();
 });
+
+// 2001 y 2002 los vio Terra, que pasa de mañana y ve poco del fuego de la tarde: su cifra es la menos precisa.
+// Llevan un rayado cruzado encima (la barra conserva su color) y una nota, en los dos idiomas.
+test('Muna: 2001 y 2002 llevan la marca de Terra, 2003 no, y la nota se lee en los dos idiomas', async ({ page }) => {
+  await abrir(page, '#/municipio/muna');
+  const marcas = page.locator('#barrasMun .marca-terra rect.b-terra');
+  await expect(marcas).toHaveCount(2);
+  expect(await marcas.evaluateAll((rs) => rs.map((r) => r.dataset.y))).toEqual(['2001', '2002']);
+  await expect(marcas.first()).toHaveAttribute('fill', 'url(#barrasMun-conv-terra)');
+  await expect(page.locator('#barrasMun rect.b-terra[data-y="2003"]')).toHaveCount(0);
+  // La marca cubre su barra justo y no le cambia el color: 2001 sigue en rojo claro rayado (pasa lo normal).
+  const barra = (y) => page.locator('#barrasMun rect.b-anio').nth(y - 2001);
+  await expect(barra(2001)).toHaveAttribute('fill', 'url(#barrasMun-conv-sobre)');
+  for (const a of ['x', 'y', 'width', 'height']) expect(await marcas.first().getAttribute(a)).toBe(await barra(2001).getAttribute(a));
+  await expect(page.locator('#barrasMun .toque[data-y="2001"]')).toHaveAttribute('aria-label', /^2001: 182\. Estimado con Terra, menos preciso\.$/);
+  await expect(page.locator('#barrasMun .toque[data-y="2003"]')).toHaveAttribute('aria-label', '2003: 68');
+  await expect(page.locator('#notaTerra')).toBeVisible();
+  await expect(page.locator('#notaTerra')).toHaveText('2001 y 2002: estimados con Terra, menos precisos.');
+  await expect(page.locator('#barrasMun')).toHaveAttribute('aria-label', /Lo normal: 56; .*2001 y 2002: estimados con Terra, menos precisos\.$/);
+  await abrir(page, '#/municipio/muna', { query: '?lang=en' });
+  await expect(page.locator('#barrasMun .marca-terra rect.b-terra')).toHaveCount(2);
+  await expect(page.locator('#notaTerra')).toBeVisible();
+  await expect(page.locator('#notaTerra')).toHaveText('2001 and 2002: estimated with Terra, less precise.');
+  await expect(page.locator('#barrasMun')).toHaveAttribute('aria-label', /Normal: 56; .*2001 and 2002: estimated with Terra, less precise\.$/);
+});
