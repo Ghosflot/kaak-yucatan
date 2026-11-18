@@ -3,11 +3,11 @@
   "por_sensor": {
     "MODIS": "2026-11-16",
     "NOAA-20": "2026-11-18",
-    "NOAA-21": "2026-11-17",
+    "NOAA-21": "2026-11-18",
     "S-NPP": "2026-11-02"
   },
-  "focos_recientes": 138,
-  "focos_agregados_hoy": 2,
-  "actualizado": "2026-11-18T19:26:26Z",
+  "focos_recientes": 148,
+  "focos_agregados_hoy": 10,
+  "actualizado": "2026-11-18T23:23:58Z",
   "sin_respuesta": []
 }
