@@ -1,13 +1,13 @@
 {
-  "datos_hasta": "2026-11-25",
+  "datos_hasta": "2026-11-26",
   "por_sensor": {
     "MODIS": "2026-11-23",
-    "NOAA-20": "2026-11-25",
-    "NOAA-21": "2026-11-25",
+    "NOAA-20": "2026-11-26",
+    "NOAA-21": "2026-11-26",
     "S-NPP": "2026-11-02"
   },
-  "focos_recientes": 264,
-  "focos_agregados_hoy": 0,
-  "actualizado": "2026-11-26T05:09:59Z",
+  "focos_recientes": 267,
+  "focos_agregados_hoy": 3,
+  "actualizado": "2026-11-26T11:23:51Z",
   "sin_respuesta": []
 }
